@@ -42,6 +42,19 @@ class opensimViewmaps extends JViewLegacy {
 		$model = $this->getModel('maps');
 		$asseturl = JUri::base(true)."/components/com_opensim/assets/";
 		$this->settingsdata = $model->getSettingsData();
+//		if(!$this->settingsdata['jopensim_maps_water']) $this->settingsdata['jopensim_maps_water'] = $asseturl."water.jpg";
+		if($this->settingsdata['jopensim_maps_displaytype'] == "fill") {
+			$this->backgroundsize	= "100% 100%";
+		} else {
+			$this->backgroundsize	= $this->settingsdata['jopensim_maps_displaytype'];
+		}
+
+		if($this->settingsdata['jopensim_maps_displayrepeat'] == 1) {
+			$this->backgroundrepeat = "repeat";
+		} else {
+			$this->backgroundrepeat = "no-repeat";
+		}
+
 
 		$usecustomcenter = $active->params->get('jopensim_usecustomcenter',0);
 		if($usecustomcenter == 1) {
@@ -58,8 +71,9 @@ class opensimViewmaps extends JViewLegacy {
 
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet($asseturl.'opensim.css');
-		$doc->addScript("http://maps.google.com/maps/api/js?sensor=false&v=3&key=AIzaSyBACCLjQjfliUdoyI90ZS5HNf7M22TYORI");
-		$doc->addScript("http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js");
+		$doc->addScript("http://maps.google.com/maps/api/js?v=3&key=AIzaSyBACCLjQjfliUdoyI90ZS5HNf7M22TYORI");
+		$doc->addScript($asseturl."infobubble-min.js");
+//		$doc->addScript("http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js");
 		$doc->addScript($asseturl."opensimmaps.js");
 		$doc->addScript($asseturl."copyright.js");
 

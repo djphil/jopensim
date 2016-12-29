@@ -36,6 +36,14 @@ defined('_JEXEC') or die('Restricted access');
 	a.jopensim_tplink:visited {
 		color:<?php echo $this->settingsdata['jopensim_maps_bubble_linkcolor']; ?>;
 	}
+	div#map-canvas {
+		background-image:url("<?php echo $this->settingsdata['jopensim_maps_water']; ?>");
+		/*background-size:cover;*/
+		/*background-size:contain;*/
+		background-size:<?php echo $this->backgroundsize; ?>;
+		background-repeat:<?php echo $this->backgroundrepeat; ?>;
+		background-position: center; 
+	}
 </style>
 <?php if ($this->showpageheading === TRUE) : ?>
 <div class="page-header<?php echo $this->pageclass_sfx; ?>">
