@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="jopensimregister">
+		<fieldset name="jopensimregister" label="PLG_JOPENSIMREGISTER_OPENSIM_DETAILS">
+			<field
+				name="firstname"
+				type="text"
+				id="jopensim_firstname"
+				description="PLG_JOPENSIMREGISTER_FIELD_FIRSTNAME_DESC"
+				filter="string"
+				label="PLG_JOPENSIMREGISTER_OPENSIM_FIRSTNAME"
+				message="PLG_JOPENSIMREGISTER_FIELD_FIRSTNAME_MESSAGE"
+				size="30"
+			/>
+			<field
+				name="lastname"
+				type="text"
+				id="jopensim_lastname"
+				description="PLG_JOPENSIMREGISTER_FIELD_LASTNAME_DESC"
+				filter="string"
+				label="PLG_JOPENSIMREGISTER_OPENSIM_LASTNAME"
+				message="PLG_JOPENSIMREGISTER_FIELD_LASTNAME_MESSAGE"
+				multiple="false"
+			/>
+			<field
+				name="jopensimavatar"
+				type="avatar"
+				class="jblabla"
+				id="jopensimavatar"
+				label="PLG_JOPENSIMREGISTER_OPENSIM_AVATAR_LABEL"
+				description="PLG_JOPENSIMREGISTER_OPENSIM_AVATAR_DESC">
+				<option value="1" class="jblabla2">PLG_JOPENSIMREGISTER_OPENSIM_AVATAR_DEFAULT</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

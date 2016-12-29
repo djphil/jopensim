@@ -103,8 +103,15 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['jopensim_maps_showcoords']		= $params->get('jopensim_maps_showcoords',0);
 			$settings['jopensim_maps_link2article']		= $params->get('jopensim_maps_link2article',1);
 			$settings['jopensim_maps_water']			= $params->get('jopensim_maps_water');
-			if(!$settings['jopensim_maps_water']) $settings['jopensim_maps_water'] = JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
-			else $settings['jopensim_maps_water'] = JUri::base(true)."/".$settings['jopensim_maps_water'];
+			if(!$settings['jopensim_maps_water']) {
+				$settings['jopensim_maps_water']		= JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
+				$settings['jopensim_maps_displaytype']	= "auto";
+				$settings['jopensim_maps_displayrepeat']= 1;
+			} else {
+				$settings['jopensim_maps_water']		= JUri::base(true)."/".$settings['jopensim_maps_water'];
+				$settings['jopensim_maps_displaytype']	= $params->get('jopensim_maps_displaytype');
+				$settings['jopensim_maps_displayrepeat']= $params->get('jopensim_maps_displayrepeat');
+			}
 
 			$settings['profile_display']				= $params->get('profile_display');
 			$settings['profile_images']					= $params->get('profile_images');

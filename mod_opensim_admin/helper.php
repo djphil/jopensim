@@ -12,10 +12,13 @@ class modOpenSimAdminHelper {
 	public $opensim;
 	public $osdb;
 	public $addons;
+	public $connected;
 
 	public function __construct($opensim) {
 		$this->opensim	= $opensim;
 		$this->osdb		= $this->opensim->_osgrid_db;
+		if(!is_object($this->osdb)) $this->connected = FALSE;
+		else $this->connected = TRUE;
 		$cparams		= JComponentHelper::getParams('com_opensim');
 		$this->addons	= 
 			 $cparams->get('addons_messages') + 
@@ -27,7 +30,8 @@ class modOpenSimAdminHelper {
 	}
 
 	public function getButtons() {
-		$button['quickicon']	= $this->renderPlainButton('quickicon_jopensim.php',JText::_('JOPENSIM_GRIDSTATUS'));
+//		$button['quickicon']	= $this->renderPlainButton('quickicon_jopensim.php',JText::_('JOPENSIM_GRIDSTATUS'));
+		$button['quickicon']	= $this->renderButton('index.php?option=com_opensim','../quickicon_jopensim.php',JText::_('JOPENSIM_GRIDSTATUS'));
 		$button['maps']			= $this->renderButton('index.php?option=com_opensim&view=maps','icon-48-os-maps.png',JText::_('JOPENSIM_MAPS'));
 		$button['user']			= $this->renderButton('index.php?option=com_opensim&view=user','icon-48-os-user.png',JText::_('JOPENSIM_USER'));
 
