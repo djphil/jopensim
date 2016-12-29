@@ -63,6 +63,13 @@ class opensimViewopensim extends JViewLegacy {
 				$this->zeroUUID				= $model->opensim->zerouid;
 				$this->fileinfo				= @getimagesize($this->opensimhost.":".$this->settings['robust_port']."/CAPS/GetTexture/?texture_id=".$this->textureID."&format=".$this->textureFormat);
 			break;
+			case"importsettings":
+				$this->sidebar	= JHtmlSidebar::render();
+				$this->pagetitle	= JText::_('JOPENSIM_IMPORTSETTINGSTITLE');
+				$this->pagenote		= JText::_('JOPENSIM_IMPORTSETTINGSNOTE');
+				$tpl = "importsettings";
+				$this->setToolbar($tpl);
+			break;
 			default:
 				$this->sidebar	= JHtmlSidebar::render();
 				$document		= JFactory::getDocument();
@@ -71,7 +78,7 @@ class opensimViewopensim extends JViewLegacy {
 				$recentversion	= $model->opensim->checkversion();
 				$settings		= $model->_settingsData;
 				$this->assignRef('addons',$settings['addons']);
-				JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
+				$document->addStyleSheet(JURI::root(true).'/media/jui/css/icomoon.css');
 				$params 		= JComponentHelper::getParams('com_opensim');
 				$message		= JText::_('JOPENSIM_PLS_CHOOSE_OPTION');
 				$this->assignRef('version',$version);

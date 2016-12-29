@@ -1,6 +1,6 @@
 /**
  * @module      OpenSim Friends (mod_opensim_friends)
- * @copyright   Copyright (C) djphil 2016, Inc. All rights reserved.
+ * @copyright   Copyright (C) djphil/FoTo50 2016, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later.
  * @creative    CC-BY-NC-SA 4.0
 **/
@@ -12,3 +12,32 @@
 .jOpenSim_friends tr {;}
 .jOpenSim_friends td {;}
 
+#jOpenSimFriendsTogglerOuter {
+	text-align:right;
+}
+
+#jOpenSimFriendsTogglerInner {
+	position:relative;
+	top:-45px;
+	right:15px;
+}
+
+#jOpenSimFriendsToggler {
+	position:absolute;
+	background:none;
+	border:none;
+}
+
+#jOpenSimFriendsShowMore {
+	width:100%;
+	text-align:center;
+	border:1px #000 solid;
+	background:#ccc;
+	cursor:pointer;
+	margin-top:5px;
+	border-radius:5px;
+}
+
+#jOpenSimFriendsShowMore:hover {
+	color:#000;
+}

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -63,7 +63,7 @@ class OpenSimControlleruser extends OpenSimController {
 			$message = JText::_('ERROR_NOEMAIL');
 			$redirect = "index.php?option=com_opensim&view=user&task=edituser&checkUser[0]=".$data['PrincipalID']."&firstname=".$data['FirstName']."&lastname=".$data['LastName']."&email=".$data['Email']."&UserLevel=".$data['UserLevel'];
 		} else {
-			$pregmail = "/^.{1,}@.{2,}\..{2,4}\$/";
+			$pregmail = "/^.{1,}@.{2,}\..{2,63}\$/";
 			preg_match($pregmail, $data['Email'], $treffer); // Emailadresse auf Gültigkeit prüfen
 			if($treffer[0] != $data['Email'] || !isset($treffer[0])) { // validate Email format
 				$type = "error";
@@ -91,7 +91,7 @@ class OpenSimControlleruser extends OpenSimController {
 
 		$firstname	= trim(JFactory::getApplication()->input->get('firstname'));
 		$lastname	= trim(JFactory::getApplication()->input->get('lastname'));
-		$email		= trim(JFactory::getApplication()->input->get('email'));
+		$email		= trim(JFactory::getApplication()->input->get('email','','STRING'));
 		$pwd1		= trim(JFactory::getApplication()->input->get('pwd1'));
 		$pwd2		= trim(JFactory::getApplication()->input->get('pwd2'));
 
@@ -120,7 +120,7 @@ class OpenSimControlleruser extends OpenSimController {
 			$message = JText::_('ERROR_NOEMAIL');
 			$redirect = "index.php?option=com_opensim&view=user&task=newuser&firstname=".$firstname."&lastname=".$lastname."&email=".$email;
 		} else {
-			$pregmail = "/^.{1,}@.{2,}\..{2,4}\$/";
+			$pregmail = "/^.{1,}@.{2,}\..{2,63}\$/";
 			preg_match($pregmail, $email, $treffer); // Emailadresse auf Gültigkeit prüfen
 			if($treffer[0] != $email || !isset($treffer[0])) { // validate Email format
 				$type = "error";

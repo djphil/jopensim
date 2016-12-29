@@ -22,7 +22,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 		$firstname	= trim(JFactory::getApplication()->input->get('firstname'));
 		$lastname	= trim(JFactory::getApplication()->input->get('lastname'));
-		$email		= trim(JFactory::getApplication()->input->get('email'));
+		$email		= trim(JFactory::getApplication()->input->get('email','','STRING'));
 		$pwd1		= trim(JFactory::getApplication()->input->get('pwd1'));
 		$pwd2		= trim(JFactory::getApplication()->input->get('pwd2'));
 
@@ -55,7 +55,7 @@ class OpenSimControllerinworld extends OpenSimController {
 			$message = JText::_('ERROR_NOEMAIL');
 			$redirect = "index.php?option=com_opensim&view=inworld&firstname=".$firstname."&lastname=".$lastname."&email=".$email;
 		} else {
-			$pregmail = "/^.{1,}@.{2,}\..{2,4}\$/";
+			$pregmail = "/^.{1,}@.{2,}\..{2,63}\$/";
 			preg_match($pregmail, $email, $treffer); // Emailadresse auf Gültigkeit prüfen
 			if($treffer[0] != $email || !isset($treffer[0])) { // validate Email format
 				$type = "error";
@@ -180,7 +180,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 	public function divorcesure() {
 		$model		= $this->getModel('inworld');
-		$data		= JFactory::getApplication()->input->get('request');
+		$data		= JFactory::getApplication()->input->request->getArray(array());
 		$divorce	= $model->divorcefrom($data['partneruuid']);
 		if($divorce === TRUE) {
 			$partnername	= $model->getOpenSimName($data['partneruuid']);
@@ -196,7 +196,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 	public function sendpartnerrequest() {
 		$model		= $this->getModel('inworld');
-		$data		= JFactory::getApplication()->input->get('request');
+		$data		= JFactory::getApplication()->input->request->getArray(array());
 
 		$sendrequest= $model->sendpartnerrequest($data['frienduuid']);
 		if($sendrequest === TRUE) {
@@ -204,7 +204,6 @@ class OpenSimControllerinworld extends OpenSimController {
 			$type			= "Message";
 			$message		= JText::sprintf('JOPENSIM_PROFILE_PARTNER_REQUEST_OK',$partnername);
 		} else {
-			$partnername	= $model->getOpenSimName($data['frienduuid']);
 			$message		= JText::_('JOPENSIM_PROFILE_PARTNER_REQUEST_ERROR');
 			$type			= "Error";
 		}
@@ -215,7 +214,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 	public function parnercancelsure() {
 		$model	= $this->getModel('inworld');
-		$data	= JFactory::getApplication()->input->get('request');
+		$data	= JFactory::getApplication()->input->request->getArray(array());
 
 		$cancelrequest= $model->deletepartnerrequest($data['partneruuid']);
 		if($cancelrequest === TRUE) {
@@ -232,7 +231,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 	public function partnerrequesthandler() {
 		$model		= $this->getModel('inworld');
-		$data		= JFactory::getApplication()->input->get('request');
+		$data		= JFactory::getApplication()->input->request->getArray(array());
 
 		if(!array_key_exists("accept",$data) || !array_key_exists("partneruuid",$data)) {
 			$message		= JText::_('JOPENSIM_PROFILE_PARTNER_REQUEST_HANDLE_ERROR');
@@ -278,7 +277,7 @@ class OpenSimControllerinworld extends OpenSimController {
 
 	public function cancelpartnerignore() {
 		$model		= $this->getModel('inworld');
-		$data		= JFactory::getApplication()->input->get('request');
+		$data		= JFactory::getApplication()->input->request->getArray(array());
 		$model->denypartnerrequest($data['frienduuid']);
 		$redirect	= "index.php?option=com_opensim&view=inworld&task=profile&Itemid=".$data['Itemid'];
 		$this->setRedirect($redirect);

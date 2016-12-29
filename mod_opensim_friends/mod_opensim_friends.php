@@ -32,6 +32,12 @@ $onlinecolor	= $params->get('onlineColor');
 $linkprofile	= $params->get('linkprofile');
 $nofollow		= $params->get('nofollow',1);
 $namelength		= $params->get('namelength');
+$accordion		= $params->get('accordionstyle');
+$accordioninit	= $params->get('accordionstyle_initheight');
+$accordiontime	= $params->get('accordionstyle_duration');
+if($accordion == 1) {
+	JHtml::_('jquery.framework');
+}
 // get the values to display from the helper
 // $values = ModOpenSimFriendsHelper::getStatus($offlinecolor,$onlinecolor);
     
@@ -45,6 +51,8 @@ $pageclass = $params->get('moduleclass_sfx');
 
 $friendlist = $os_friends->getFriendList();
 $user =& JFactory::getUser();
+if($user->guest) return; // Dont display for guests
+if(count($friendlist[0]) == 0 && count($friendlist[1]) == 0) return; // Dont display empty lists
 $userid = $user->id;
 
 $onlineText = "<font color='".$onlinecolor."'>".JText::_('MOD_OPENSIM_FRIENDS_ONLINE')."</font>";

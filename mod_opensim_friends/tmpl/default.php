@@ -1,7 +1,7 @@
 <?php
 /*
  * @module OpenSim Friends
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -9,12 +9,86 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 $nofollowattr = ($nofollow == 1) ? " rel='nofollow'":"";
-if ($params->get('stylebold')) $stylebold = "text-bold";
+$stylebold = ($params->get('stylebold')) ? "text-bold":"";
 ?>
 
 <?php if(count($friendlist) > 0): ?>
-<div class='jOpenSim_friends'>
-    <table class="table table-striped table-condensed table-hover">
+<?php if($accordion == 1): ?>
+<style type="text/css">
+	#jOpenSim_friends_container {
+		max-height:<?php echo $accordioninit; ?>px;
+	}
+
+	#jOpenSimFriendsToggler.jOSFactive {
+		color:red;
+	}
+
+</style>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var tableHeight = jQuery("#jOpenSimFriendsTable").height();
+	if(tableHeight < <?php echo $accordioninit; ?>) {
+		jQuery("#jOpenSimFriendsToggler").hide();
+		jQuery("#jOpenSimFriendsShowMore").hide();
+		jQuery("#jOpenSim_friends_container").attr('height',tableHeight);
+	} else {
+//		jQuery("#jOpenSim_friends_container").hide();
+		jQuery("#jOpenSimFriendsToggler").click(function(){
+//			alert(tableHeight);
+			var currentAttrValue = jQuery("#jOpenSim_friends_container").attr('mystatus');
+//			alert(currentAttrValue);
+			if(currentAttrValue == "collapsed") {
+				document.getElementById("jOpenSimFriendsToggler").innerHTML = "<span class='icon-arrow-up-4'> </span>";
+				document.getElementById("jOpenSimFriendsShowMore").innerHTML = "<?php echo JText::_('MOD_OPENSIM_FRIENDS_SHOWLESS'); ?>";
+				jQuery("#jOpenSim_friends_container").attr('mystatus','ellapsed');
+				jQuery("#jOpenSim_friends_container").animate({minHeight:tableHeight+'px',maxHeight:tableHeight+'px'},<?php echo $accordiontime; ?>,"swing");
+			} else {
+				document.getElementById("jOpenSimFriendsToggler").innerHTML = "<span class='icon-arrow-down-4'> </span>";
+				document.getElementById("jOpenSimFriendsShowMore").innerHTML = "<?php echo JText::_('MOD_OPENSIM_FRIENDS_SHOWMORE'); ?>";
+				jQuery("#jOpenSim_friends_container").attr('mystatus','collapsed');
+				jQuery("#jOpenSim_friends_container").animate({minHeight:'<?php echo $accordioninit; ?>px',maxHeight:'<?php echo $accordioninit; ?>px'},<?php echo $accordiontime; ?>,"swing");
+			}
+//			jQuery("#jOpenSim_friends_container").slideDown(1000,"linear");
+//			jQuery("#jOpenSim_friends_container").slideToggle("slow");
+//			jQuery("#jOpenSim_friends_container").toggleClass("jOSF_collapsed jOSF_ellapsed");
+			jQuery("#jOpenSimFriendsToggler").toggleClass("jOSFactive");
+			return false;
+		});
+		jQuery("#jOpenSimFriendsShowMore").click(function(){
+			var currentAttrValue = jQuery("#jOpenSim_friends_container").attr('mystatus');
+			if(currentAttrValue == "collapsed") {
+				document.getElementById("jOpenSimFriendsToggler").innerHTML = "<span class='icon-arrow-up-4'> </span>";
+				document.getElementById("jOpenSimFriendsShowMore").innerHTML = "<?php echo JText::_('MOD_OPENSIM_FRIENDS_SHOWLESS'); ?>";
+				jQuery("#jOpenSim_friends_container").attr('mystatus','ellapsed');
+				jQuery("#jOpenSim_friends_container").animate({minHeight:tableHeight+'px',maxHeight:tableHeight+'px'},<?php echo $accordiontime; ?>,"swing");
+			} else {
+				document.getElementById("jOpenSimFriendsToggler").innerHTML = "<span class='icon-arrow-down-4'> </span>";
+				document.getElementById("jOpenSimFriendsShowMore").innerHTML = "<?php echo JText::_('MOD_OPENSIM_FRIENDS_SHOWMORE'); ?>";
+				jQuery("#jOpenSim_friends_container").attr('mystatus','collapsed');
+				jQuery("#jOpenSim_friends_container").animate({minHeight:'<?php echo $accordioninit; ?>px',maxHeight:'<?php echo $accordioninit; ?>px'},<?php echo $accordiontime; ?>,"swing");
+			}
+			jQuery("#jOpenSimFriendsToggler").toggleClass("jOSFactive");
+			return false;
+		});
+	}
+});
+
+</script>
+<?php endif; ?>
+
+<div id='jOpenSim_friends' class='jOpenSim_friends'>
+<?php if($accordion == 1): ?>
+	<div id='jOpenSimFriendsTogglerOuter'>
+		<div id='jOpenSimFriendsTogglerInner'>
+			<button id="jOpenSimFriendsToggler" class="accordion"><span class='icon-arrow-down-4'> </span></button>
+		</div>
+	</div>
+	<div id='jOpenSim_friends_container' class='jOSF_collapsed' style='overflow:hidden;' mystatus="collapsed">
+<?php else: ?>
+	<div id='jOpenSim_friends_container'>
+<?php endif; ?>
+    <table id="jOpenSimFriendsTable" class="table table-striped table-condensed table-hover">
     <tbody>
         <?php if(is_array($friendlist[1])): ?>
         <?php foreach($friendlist[1] AS $friend): ?>
@@ -22,7 +96,7 @@ if ($params->get('stylebold')) $stylebold = "text-bold";
         <?php
         if ($linkprofile == 1)
         {
-            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."' class='".$nofollowattr."'>";
+            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."'".$nofollowattr.">";
             $link2 = "</a>";
         }
         else
@@ -41,7 +115,7 @@ if ($params->get('stylebold')) $stylebold = "text-bold";
         <tr>
         <?php
         if($linkprofile == 1) {
-            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."' class='".$nofollowattr."'>";
+            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."'".$nofollowattr.">";
             $link2 = "</a>";
         } else {
             $link1 = "";
@@ -55,5 +129,11 @@ if ($params->get('stylebold')) $stylebold = "text-bold";
         <?php endif; ?>
     </tbody>
     </table>
+	</div>
+<?php if($accordion == 1): ?>
+	<div id='jOpenSimFriendsShowMore'><?php echo JText::_('MOD_OPENSIM_FRIENDS_SHOWMORE'); ?></div>
+<?php endif; ?>
 </div>
+
+
 <?php endif; ?>

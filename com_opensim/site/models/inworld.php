@@ -128,9 +128,9 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 		if(!$this->_osgrid_db) return FALSE;
 		$osuid = $this->opensimIsCreated();
 		if(!$osuid) return FALSE; // not logged in or no opensim account attached?
-		$pregmail = "/^.{1,}@.{2,}\..{2,4}\$/";
+		$pregmail = "/^.{1,}@.{2,}\..{2,63}\$/";
 		$retval = array();
-		preg_match($pregmail, $data['email'], $treffer); // Emailadresse auf Gültigkeit prüfen
+		preg_match($pregmail, $data['email'], $treffer); // Emailadresse auf GÃ¼ltigkeit prÃ¼fen
 		if(empty($this->_settingsData)) $this->getSettingsData();
 		if(!$data['firstname'] && $this->_settingsData['userchange'] & 1) $retval[] = JText::_('FIRST_NAME')." ".JText::_('ISREQUIRED');
 		if(!$data['lastname'] && $this->_settingsData['userchange'] & 2) $retval[] = JText::_('LAST_NAME')." ".JText::_('ISREQUIRED');

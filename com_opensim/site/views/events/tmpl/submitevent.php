@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -130,8 +130,8 @@ if (is_array($this->landoption) && count($this->landoption) > 0) {
         <select name='eventflags' id='eventflags'>
             <option value='0'><?php echo JText::_('JOPENSIM_EVENTTYPE_PG'); ?></option>
             <?php if($this->listmatureevents > 0): ?>
-            <option value='1'><?php echo JText::_('JOPENSIM_EVENTTYPE_MATURE'); ?></option>
-            <option value='2'><?php echo JText::_('JOPENSIM_EVENTTYPE_ADULT'); ?></option>
+            <option value='1'<?php if($this->eventdata['eventflags'] == 1) echo " selected='selected'"; ?>><?php echo JText::_('JOPENSIM_EVENTTYPE_MATURE'); ?></option>
+            <option value='2'<?php if($this->eventdata['eventflags'] == 2) echo " selected='selected'"; ?>><?php echo JText::_('JOPENSIM_EVENTTYPE_ADULT'); ?></option>
             <?php endif; ?>
         </select>
     </td>
@@ -149,13 +149,10 @@ if (is_array($this->landoption) && count($this->landoption) > 0) {
 </tr>
 </table>
 </form>
-
 <!-- NEED ONE ALERT FIRST IF THE USER IS NOT CONNECTED TO THE WEBSITE -->
-<?php }
- 
-else
-{
-    // no valid land for events found :( hive out some error message
+<?php
+} else {
+    // no valid land for events found :( give out some error message
 	// Temporary removed, need to be fixed in next release
 	// <span class='icon-notification'></span>
 

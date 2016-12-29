@@ -902,8 +902,14 @@
 			</field>
 			<field name="jopensimdebugnote2" type="jopensimdebugnote2" class="alert alert-warn" close="true" />
 		</fieldset>
-		<fieldset name="permissions_LABEL" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
-			<field name="rules" type="rules" component="com_opensim" filter="rules" label="COM_OPENSIM_FIELD_JCONFIG_PERMISSIONS_LABEL" section="component" description="COM_OPENSIM_FIELD_DESC"/>
+		<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+			<field name="rules" type="rules"
+				component="com_opensim" 
+				filter="rules" 
+				label="JCONFIG_PERMISSIONS_LABEL" 
+				section="component" 
+				description="JCONFIG_PERMISSIONS_DESC"
+			/>
 		</fieldset>
 	</fields>
 </config>

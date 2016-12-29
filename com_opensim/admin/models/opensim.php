@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -106,6 +106,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			if(!$settings['jopensim_maps_water']) $settings['jopensim_maps_water'] = JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
 			else $settings['jopensim_maps_water'] = JUri::base(true)."/".$settings['jopensim_maps_water'];
 
+			$settings['profile_display']				= $params->get('profile_display');
 			$settings['profile_images']					= $params->get('profile_images');
 			$settings['profile_images_maxwidth']		= $params->get('profile_images_maxwidth',512);
 			$settings['profile_images_maxheight']		= $params->get('profile_images_maxheight',512);
@@ -164,7 +165,49 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		return $this->_settingsData;
 	}
 
-	
+	public function settings2json() {
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select($db->quoteName('#__extensions.params'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('#__extensions.type').' = '.$db->quote("component"));
+		$query->where($db->quoteName('#__extensions.element').' = '.$db->quote("com_opensim"));
+
+		$db->setQuery($query);
+		$db->execute();
+		$foundparams = $db->getNumRows();
+		if($foundparams == 1) {
+			$exportjson = $db->loadResult();
+			return $exportjson;
+		} else {
+			return null;
+		}
+	}
+
+	public function importsettingsfile() {
+//		echo "<pre>\n";
+//		var_export($_FILES);
+//		echo "</pre>\n";
+//		exit;
+		$filename		= $_FILES['settingsimport']['tmp_name'];
+		$paramstring	= file_get_contents($filename);
+//		echo $filename;
+//		exit;
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$fields = array(
+		    $db->quoteName('params') . ' = ' . $db->quote($paramstring)
+		);
+		$conditions = array(
+			$db->quoteName('type') . ' = '.$db->quote('component'),
+			$db->quoteName('element').' = '.$db->quote('com_opensim')
+		);
+		$query->update($db->quoteName('#__extensions'))->set($fields)->where($conditions);
+		$db->setQuery($query);
+		$result = $db->execute();
+	}
 
 	public function convert2rgba($color,$alpha) {
 		$default = 'rgb(0,0,0)';
@@ -250,7 +293,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function getContentTitleFromId($id) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT title FROM #__content WHERE id = '%d'",$id);
 		$db->setQuery($query);
 		$contentTitle = $db->loadResult();
@@ -355,7 +398,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function getUserDataList() {
-		$app =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 		if(!$this->_osgrid_db) return FALSE;
 		$opensim = $this->opensim;
 

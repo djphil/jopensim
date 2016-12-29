@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.0.10"; // current version
+	public static $version	= "0.3.0.11"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;

@@ -17,24 +17,26 @@ class opensimViewevents extends JViewLegacy {
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet($this->assetpath.'opensim.css');
 		$doc->addStyleSheet($this->assetpath.'opensim.override.css');
-		$params		= &JComponentHelper::getParams('com_opensim');
+		$params		= JComponentHelper::getParams('com_opensim');
+		$app		= JFactory::getApplication();
 
-		$layout		= JFactory::getApplication()->input->get('layout');
+		$layout		= $app->input->get('layout');
 		$this->assignRef('layout',$layout);
 
 		$model		= $this->getModel('events');
 		$setting	= $model->getSettingsData();
 		$opensim	= $model->opensim;
 
-		$itemid		= JFactory::getApplication()->input->get('Itemid');
-		$this->assignRef('Itemid',$itemid);
+		$this->Itemid		= $app->input->get('Itemid');
+		$task				= $app->input->get('task');
+
+		$eventparams	= &JComponentHelper::getParams('com_opensim');
 
 //		$menu		= JSite::getMenu();
-		$menu		= JFactory::getApplication()->getMenu();
-		$active		= $menu->getActive($itemid);
+		$menu		= $app->getMenu();
+		$active		= $menu->getActive($this->Itemid);
 
 		if (is_object($active)) {
-			$eventparams	= &JComponentHelper::getParams('com_opensim');
 			$access_level	= $eventparams->get('events_post_access');
 			$this->listmatureevents = $eventparams->get('listmatureevents');
 			$group_access	= $eventparams->get('events_grouppower');
@@ -78,7 +80,7 @@ class opensimViewevents extends JViewLegacy {
 		
 				$landoptions = array();
 				$landselected = 0;
-				$preselectedLand = JFactory::getApplication()->input->get('eventlocation');
+				$preselectedLand = $app->input->get('eventlocation');
 		
 				if($access_level <= 1) {
 					if(is_array($publicLand) && count($publicLand) > 0) {
@@ -123,6 +125,20 @@ class opensimViewevents extends JViewLegacy {
 				$this->assignRef('eventcategories',$model->getEventCategory());
 		
 				switch($task) {
+					case "inserterror":
+						$eventdata['name']			= $app->input->get('eventname');
+						$eventdata['eventdate']		= $app->input->get('eventdate','','RAW');
+						$eventdata['eventtime']		= $app->input->get('eventtime','','RAW');
+						$osdata['timezone']			= $app->input->get('eventtimezone','','RAW');
+						$eventdata['duration']		= $app->input->get('eventduration');
+						$eventdata['category']		= $app->input->get('eventcategory');
+						$eventdata['covercharge']	= $app->input->get('covercharge');
+						$eventdata['description']	= $app->input->get('description');
+						$eventdata['eventflags']	= $app->input->get('eventflags');
+						$eventdata['mature']		= FALSE;
+						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
+						$formaction					= "insertevent";
+					break;
 					default:
 						// calculate the next full hour for the users timezone
 						$timestamp				= time();
@@ -145,8 +161,9 @@ class opensimViewevents extends JViewLegacy {
 						$eventdata['category']		= '29';
 						$eventdata['covercharge']	= 0;
 						$eventdata['description']	= "";
+						$eventdata['eventflags']	= 0;
 						$eventdata['mature']		= FALSE;
-						$this->assignRef('formtitle',JText::_('JOPENSIM_EVENT_CREATE'));
+						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
 						$formaction					= "insertevent";
 					break;
 				}

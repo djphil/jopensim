@@ -11,7 +11,7 @@
 	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.10</version>
+	<version>0.3.0.11</version>
 	<description>MOD_OPENSIM_FRIENDS_DESC</description>
 
 	<files>
@@ -53,6 +53,7 @@
 				<field
 					name="nofollow"
 					type="radio"
+					showon="linkprofile:1"
 					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_OPENSIM_FRIENDS_NOFOLLOWLINK"
@@ -64,7 +65,7 @@
 				</field>
 				<field
 					name="namelength"
-					type="text"
+					type="number"
 					default="0"
 					size="7"
 					label="MOD_OPENSIM_FRIENDS_NAMELENGTH"
@@ -102,6 +103,37 @@
 					<option
 						value="0">JNO</option>
 				</field>
+
+                <field
+					name="accordionstyle"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE"
+					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="accordionstyle_initheight"
+					type="number"
+					showon="accordionstyle:1"
+					value=""
+					default="300"
+					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT"
+					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT_DESC" />
+
+				<field
+					name="accordionstyle_duration"
+					type="number"
+					showon="accordionstyle:1"
+					value=""
+					default="500"
+					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION"
+					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION_DESC" />
 
 			</fieldset>
 

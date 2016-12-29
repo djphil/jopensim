@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -17,17 +17,24 @@ class OpenSimControllerevents extends OpenSimController {
 		$model = $this->getModel('events');
 		$opensim = $model->opensim;
 
-		$data['eventname']		= trim(JFactory::getApplication()->input->get('eventname'));
-		$data['eventdate']		= trim(JFactory::getApplication()->input->get('eventdate'));
-		$data['eventtime']		= trim(JFactory::getApplication()->input->get('eventtime'));
-		$data['eventtimezone']	= trim(JFactory::getApplication()->input->get('eventtimezone'));
-		$data['eventduration']	= trim(JFactory::getApplication()->input->get('eventduration'));
-		$data['eventlocation']	= trim(JFactory::getApplication()->input->get('eventlocation'));
-		$data['eventcategory']	= trim(JFactory::getApplication()->input->get('eventcategory'));
-		$data['covercharge']	= trim(JFactory::getApplication()->input->get('covercharge'));
-		$data['description']	= trim(JFactory::getApplication()->input->get('description'));
-		$data['eventflags']		= trim(JFactory::getApplication()->input->get('eventflags'));
-		$data['parceluuid']		= trim(JFactory::getApplication()->input->get('eventlocation'));
+		$app		= JFactory::getApplication();
+		$Itemid		= $app->input->get('Itemid');
+
+		$data['eventname']		= trim($app->input->get('eventname'));
+		$data['eventdate']		= trim($app->input->get('eventdate','','RAW'));
+		$data['eventtime']		= trim($app->input->get('eventtime','','RAW'));
+		$data['eventtimezone']	= trim($app->input->get('eventtimezone','','RAW'));
+		$data['eventduration']	= trim($app->input->get('eventduration'));
+		$data['eventlocation']	= trim($app->input->get('eventlocation'));
+		$data['eventcategory']	= trim($app->input->get('eventcategory'));
+		$data['covercharge']	= trim($app->input->get('covercharge'));
+		$data['description']	= trim($app->input->get('description'));
+		$data['eventflags']		= trim($app->input->get('eventflags'));
+		$data['parceluuid']		= trim($app->input->get('eventlocation'));
+//		echo "<pre>\n";
+//		print_r($data);
+//		echo "</pre>\n";
+//		exit;
 		$retval = $model->insertEvent($data);
 		if($retval['error'] > 0) {
 			$message	= "";
@@ -36,7 +43,18 @@ class OpenSimControllerevents extends OpenSimController {
 			if($retval['error'] & 4) $message .= JText::_(ERROR_NOEVENTUSER);
 			$layout		= "submitevent";
 			$type		= "Error";
-			$addvalues	= "&eventname=".$data['eventname']."&eventdate=".$data['eventdate']."&eventtime=".$data['eventtime']."&eventtimezone=".$data['eventtimezone']."&eventduration=".$data['eventduration']."&eventlocation=".$data['eventlocation']."&eventcategory=".$data['eventcategory']."&covercharge=".$data['covercharge']."&description=".$data['description']."&eventflags=".$data['eventflags'];
+			$addvalues	=	"&task=inserterror".
+							"&eventname=".$data['eventname'].
+							"&eventdate=".$data['eventdate'].
+							"&eventtime=".$data['eventtime'].
+							"&eventtimezone=".$data['eventtimezone'].
+							"&eventduration=".$data['eventduration'].
+							"&eventlocation=".$data['eventlocation'].
+							"&eventcategory=".$data['eventcategory'].
+							"&covercharge=".$data['covercharge'].
+							"&description=".$data['description'].
+							"&eventflags=".$data['eventflags'].
+							"&Itemid=".$Itemid;
 		} else {
 			$type		= "message";
 			$message	= JText::_(OK_EVENTCREATED);

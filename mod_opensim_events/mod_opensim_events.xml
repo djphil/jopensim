@@ -155,6 +155,7 @@
 					type="number"
 					default="1000"
 					min="1"
+					showon="showdesc:1"
 					label="MOD_OPENSIM_EVENTS_TRUNCATEDESC"
 					description="MOD_OPENSIM_EVENTS_TRUNCATEDESC_DESC" />
 

@@ -33,6 +33,22 @@ class OpenSimControllerOpenSim extends OpenSimController {
 		$this->setRedirect($redirect,$message,$type);
 	}
 
+	public function exportsettings() {
+		$xmlexport = $this->model->settings2json();
+		$filename = "jOpenSimSettings_".date("Ymd_His").".json";
+		header('Content-Type: application/xml');
+		header('Content-Disposition: attachment; filename='.$filename);
+		header('Pragma: no-cache');
+		print $xmlexport;
+		exit;
+	}
+
+	public function saveimport() {
+		$this->model->importsettingsfile();
+		$redirect	= "index.php?option=com_opensim&view=opensim";
+		$this->setRedirect($redirect);
+	}
+
 	public function cancel() {
 		$redirect	= "index.php?option=com_opensim&view=opensim";
 		$this->setRedirect($redirect);

@@ -81,9 +81,8 @@ class opensimViewinworld extends JViewLegacy {
 				switch($task) {
 					case "welcome":
 						$tpl = "welcome";
-						$welcometitle = JText::_('WELCOME_DEFAULTTITLE');
-						$welcometext = JText::_('WELCOME_DEFAULTTEXT');
-						$this->assignRef('welcomedefault',$welcomedefault);
+						$this->welcometitle = JText::_('WELCOME_DEFAULTTITLE');
+						$this->welcometext = JText::_('WELCOME_DEFAULTTEXT');
 					break;
 					case "messages":
 						$this->messages = $model->messagelist($this->osdata['uuid']);
