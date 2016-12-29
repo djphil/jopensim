@@ -49,13 +49,9 @@ class JFormFieldjopensimmoneynobankernote extends JFormFieldNote
 		$this->bankerquery = $this->opensim->getUserQuery($filter,null,null,1);
 		try {
 			$db = $this->opensim->_osgrid_db;
-			if(is_object($db)) {
-				$db->setQuery($this->bankerquery);
-				$this->banker = $db->loadAssocList();
-				return $this->banker;
-			} else {
-				return array();
-			}
+			$db->setQuery($this->bankerquery);
+			$this->banker = $db->loadAssocList();
+			return $this->banker;
 		} catch (Exception $e) {
 			return array();
 		}

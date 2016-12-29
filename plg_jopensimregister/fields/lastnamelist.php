@@ -19,7 +19,7 @@ class JFormFieldLastnamelist extends JFormFieldList {
 
 	protected function getOptions() {
 		$params			= &JComponentHelper::getParams('com_opensim');
-		$nameliststring	= $params->get('lastnamelist',"error_no_lastname");
+		$nameliststring	= $params->get('lastnamelist','error1\nerror2\nerror3');
 		$namelist = explode("\n",$nameliststring);
 		foreach($namelist AS $key => $val) {
 			if(!trim($val)) unset($namelist[$key]);

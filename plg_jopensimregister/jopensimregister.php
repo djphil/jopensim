@@ -109,6 +109,7 @@ class plgUserjOpensimRegister extends JPlugin {
 
 		// Add the registration fields to the form.
 		JForm::addFormPath(dirname(__FILE__) . '/profiles');
+		$form->loadFile('profile', false);
 
 		$settings		= $this->admin_model->getSettingsData();
 
@@ -122,13 +123,9 @@ class plgUserjOpensimRegister extends JPlugin {
 		// if allowed names only, we change from text field to select field for lastnames
 //		JError::raiseWarning("666","lastnametype: ".$lastnametype);
 		if($lastnametype != 1) {
-			$form->loadFile('profile_text', false);
-//			JError::raiseWarning("666","lastnametype2: ".$lastnametype);
-//			$form->setFieldAttribute('lastname', 'type', 'text', 'jopensimregister');
-//			$form->setFieldAttribute('lastname', 'size', '30', 'jopensimregister');
+			$form->setFieldAttribute('lastname', 'type', 'text', 'jopensimregister');
+			$form->setFieldAttribute('lastname', 'size', '30', 'jopensimregister');
 //			$form->setFieldAttribute('lastname', 'multiple', 'false', 'jopensimregister');
-		} else {
-			$form->loadFile('profile', false);
 		}
 
 		$avatararticle = $this->params->get('plgJopensimRegisterAvatarArticle');

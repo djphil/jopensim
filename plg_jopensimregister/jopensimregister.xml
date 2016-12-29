@@ -7,13 +7,11 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com/</authorUrl>
-	<version>0.3.0.12</version>
+	<version>0.3.0.10</version>
 	<description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
     <scriptfile>script.jopensimregister.php</scriptfile>
 	<languages folder="language">
 		<language tag="en-GB" >en-GB.plg_user_jopensimregister.ini</language>
-		<language tag="fr-FR" >fr-FR.plg_user_jopensimregister.ini</language>
-		<language tag="it-IT" >it-IT.plg_user_jopensimregister.ini</language>
 	</languages>
 	<files>
 		<filename plugin="jopensimregister">jopensimregister.php</filename>

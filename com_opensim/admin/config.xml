@@ -421,28 +421,6 @@
 				<option value="0">JNO</option>
 			</field>
 			<field name="jopensim_maps_water" type="media" directory="" label="JOPENSIM_MAPS_WATER" description="JOPENSIM_MAPS_WATER_DESC" />
-			<field
-				name="jopensim_maps_displaytype"
-				type="list"
-				default="auto"
-				label="JOPENSIM_MAPS_DISPLAYTYPE"
-				description="JOPENSIM_MAPS_DISPLAYTYPE_DESC">
-				<option value="auto">JOPENSIM_MAPS_DISPLAYTYPE_AUTO</option>
-				<option value="cover">JOPENSIM_MAPS_DISPLAYTYPE_COVER</option>
-				<option value="contain">JOPENSIM_MAPS_DISPLAYTYPE_CONTAIN</option>
-				<option value="fill">JOPENSIM_MAPS_DISPLAYTYPE_FILL</option>
-			</field>				
-			<field
-				name="jopensim_maps_displayrepeat"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				showon="jopensim_maps_displaytype:auto,contain"
-				label="JOPENSIM_MAPS_DISPLAYREPEAT"
-				description="JOPENSIM_MAPS_DISPLAYREPEAT_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
 		</fieldset>
         
         

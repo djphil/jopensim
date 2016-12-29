@@ -165,7 +165,7 @@ function load() {
     div.style.width  = jgridmapwidth;
     div.style.height = jgridmapheight;
 //    div.style.min-height = "300px";
-//    div.style.backgroundImage = 'url(' + jMapWater + ')';
+    div.style.backgroundImage = 'url(' + jMapWater + ')';
 
   // ## This is legacy v2 code left here for development information only: consider ##
   // ## removing when image method complete (see previous comment). ##
@@ -196,9 +196,6 @@ function load() {
   // ## Initialise map ##
   map = new google.maps.Map(document.getElementById('map-canvas'), 
       mapOptions);
-//	keep the next div transparent in order to can see the custom background image
-	var nextdiv = div.firstChild;
-	nextdiv.style.backgroundColor = "transparent";
 
 //	alert("xoffset: "+-mapxoffset*184+"\nmapyoffset: "+mapyoffset*184);
     map.panBy(-mapxoffset*184,mapyoffset*184); // Not sure why 184 pixels is right but it is!

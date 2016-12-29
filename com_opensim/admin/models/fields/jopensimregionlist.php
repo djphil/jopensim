@@ -65,7 +65,7 @@ class JFormFieldjopensimregionlist extends JFormFieldList {
 
 	public function getRegions() {
 		$db = $this->opensim->_osgrid_db;
-		if(is_object($db)) {
+		try {
 			$query = $db->getQuery(true);
 			$query->select("regions.*");
 			$query->from("regions");
@@ -73,7 +73,7 @@ class JFormFieldjopensimregionlist extends JFormFieldList {
 			$db->setQuery((string)$query);
 			$this->regions = $db->loadAssocList();
 			return $this->regions;
-		} else {
+		} catch (Exception $e) {
 			return array();
 		}
 	}
