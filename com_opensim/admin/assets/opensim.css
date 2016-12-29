@@ -1,0 +1,344 @@
+/**
+ * @component jOpenSim
+ * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+@CHARSET "UTF-8";
+
+*{margin: 0px; padding: 0px;}
+img {border: 0px;}
+dd, dt {text-align: left;}
+.text-alert {color: #AA0000;}
+.img-thumbnail  {border: 1px solid #ccc; padding: 5px; border-radius: 5px;}
+.inline {display: inline-block;}
+
+#jOtabContent .control-label {
+	width:200px;
+}
+
+.jOpenSimLNnone,
+.jOpenSimLNallow,
+.jOpenSimLNdeny {
+	padding:10px;
+}
+
+.jOpenSimLNnone {
+	background:#EAB539;
+}
+
+.jOpenSimLNallow {
+	background:#009900;
+	color:#ffffff;
+}
+
+.jOpenSimLNdeny {
+	background:#990000;
+	color:#ffffff;
+}
+
+.jopensim_addonwarning {
+	color:#ff0000;
+	font-weight:bold;
+}
+
+.com_opensim_title {
+	color:#0b55c4;
+	font-size:25px;
+	font-weight:bold;
+}
+
+.com_opensim_okmsg {
+	/*border:1px solid #ff0000;*/
+	float:right;
+	font-size:18px;
+	color:#009900;
+	font-weight:bold;
+	text-align:right;
+}
+
+a.os_mainscreen:hover {
+	text-decoration:none;
+}
+
+.regionLocationSelector {
+	cursor:crosshair;
+}
+
+.mapcontainer {
+	background:#18384B;
+	text-align:center;
+	/*width:90%;*/
+	/*padding:25px;*/
+}
+
+.maptable {
+	border-collapse:collapse;
+	padding:0px;
+	margin:0px;
+	background:#18384B;
+	border:#2F6F95 1px solid;
+}
+
+.maptable td img {
+	padding:0px !important;
+}
+
+.tooltip {
+	/* border-bottom: 1px dotted black; */
+}
+
+.terminaltable, .grouptable {
+	border:#000000 1px solid;
+}
+
+.terminaltable th, .terminaltable td, .grouptable th, .grouptable td {
+	padding:10px;
+}
+
+.terminaltable th, .grouptable th {
+	background:#cccccc;
+}
+
+.location_field, .minute_field, .channel_field, .number_field {
+	text-align:right;
+}
+
+.location_field, .minute_field, .channel_field {
+	width:3em;
+}
+
+.location_field {
+	margin-right:10px;
+}
+
+.imagebrowsertable {
+	border-collapse:collapse;
+	border:1px solid #cccccc;
+}
+
+.imagebrowsertable td {
+	text-align:center;
+	padding:3px;
+	border:1px solid #cccccc;
+}
+
+.imagebrowsertable td a:link{
+	text-decoration:none;
+}
+
+.jopensim_useredittable {
+	display:table;
+	background:#ffffff;
+	min-width:400px;
+}
+
+.jopensim_useredittable_caption, .jopensim_addon_caption {
+	display:table-caption;
+	font-weight:bold;
+	font-size:120%;
+	margin:15px 0px 5px 5px;
+}
+
+.jopensim_useredittable_tr, .jopensim_addon_tr {
+	display:table-row;
+}
+
+.jopensim_useredittable_td1, .jopensim_addon_td1 {
+	display:table-cell;
+	width:150px;
+	/* padding:5px; */
+	border-bottom:4px solid #f4f4f4;
+}
+
+.jopensim_useredittable_td2 {
+	display:table-cell;
+	min-width:200px;
+	/* padding:5px; */
+	border-bottom:4px solid #f4f4f4;
+}
+
+/* Addon's */
+.jopensim_addon_table {
+	display: table;
+	min-width: 100%;
+}
+
+.jopensim_addon_table ul ,
+.jopensim_misc_table ul,
+.well  ul {
+    list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* .jopensim_addon_table li {;} */
+
+.jopensim_addon_td1 {
+	vertical-align: top;
+	/*border:1px #ff0000 dotted;*/
+}
+
+.jopensim_addon_td2 {
+	display: table-cell;
+	/*
+	min-width:600px;
+	min-height:400px;
+	padding:5px;
+	*/
+	vertical-align: top;
+	background: #ffffff;
+}
+
+
+.jopensim_infotitle {
+	font-size: 1.4em;
+	color:#FF0000;
+	font-weight:bold;
+}
+
+.addonsubtitle {
+	font-size: 1.0em;
+	font-weight:bold;
+}
+
+.jopensim_addoninfo  {
+	font-size: 1.0em;
+}
+
+
+.jopensim_search_settings {
+	background:#f4f4f4;
+}
+
+.jopensim_search_settings td {
+	padding:5px;
+	background:#fff;
+}
+
+.jopensim_search_settings_td2 {
+	border-left:20px #f4f4f4;
+}
+
+.jopensim_disabledoption {
+	color:#cccccc;
+	font-style:italic;
+}
+
+.jopensim-icon-view {
+	display:block;
+	width:20px;
+	height:20px;
+	background: url('images/icon-20-view.png') no-repeat;
+}
+
+a#registeredhostswindow.modal {
+	display:block;
+	width:20px;
+	height:20px;
+}
+
+.jopensim-icon-refresh {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 0.25em;
+	line-height: 14px;
+	background: url('images/icon-14-maprefresh.png') no-repeat;
+}
+
+.jopensim-icon-purge2 {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 0.25em;
+	line-height: 14px;
+	background: url('images/icon-14-purge.png') no-repeat;
+}
+
+.jopensim_debugtable {
+	border:1px solid #666;
+}
+
+.jopensim_debugcol1 {
+	vertical-align:top;
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+
+.jopensim_debugcol2 {
+	background:#ddd;
+	border-top:1px solid #fff;
+	border-bottom:1px solid #fff;
+	white-space:pre;
+	font-family:monospace;
+}
+
+/* jOpenSim 48x48 icons set */
+.icon-48-opensim, .icon-48-jopensim, .icon-48-gridmap, .icon-48-osuser, .icon-48-osgroup,
+.icon-48-ossearch, .icon-48-jopensimconfig, .icon-48-oslogin, .icon-48-osmisc, .icon-48-osmoney,
+.icon-48-maps {float: left !important; min-width : 48px !important; min-height : 48px !important;}
+
+.icon-48-opensim {background: url('images/icon-48-opensim.png') no-repeat left;}
+.icon-48-jopensim {background: url('images/icon-48-jopensim.png') no-repeat left;}
+.icon-48-gridmap {background: url('images/icon-48-gridmap.png') no-repeat left;}
+.icon-48-jopensimconfig {background: url('images/icon-48-jopensimconfig.png') no-repeat left;}
+.icon-48-maps {background: url('images/icon-48-os-maps.png') no-repeat left;}
+.icon-48-osuser {background: url('images/icon-48-os-user.png') no-repeat left;}
+.icon-48-osgroup {background: url('images/icon-48-os-group.png') no-repeat left;}
+.icon-48-ossearch {background: url('images/icon-48-os-search.png') no-repeat left;}
+.icon-48-oslogin {background: url('images/icon-48-os-login.png') no-repeat left;}
+.icon-48-osmisc {background: url('images/icon-48-os-misc.png') no-repeat left;}
+.icon-48-osmoney {background: url('images/icon-48-money.png') no-repeat left;}
+
+/* jOpenSim 32x32 icons set */
+.icon-32-opensim, .icon-32-jopensim, .icon-32-gridmap, .icon-32-user, .icon-32-groups, .icon-32-search,
+.icon-32-money, .icon-32-misc, .icon-32-addonhelp, .icon-32-mapconfig, .icon-32-maprefresh, .icon-32-osmisc,
+.icon-32-joomla2opensim, .icon-32-userrepair, .icon-32-usermoney, .icon-32-moneyconfig
+{float: left !important; width: 32px !important; height: 32px !important;}
+
+.icon-32-opensim {background: url('images/icon-32-opensim.png') no-repeat left;}
+.icon-32-jopensim {background: url('images/icon-32-jopensim.png') no-repeat left;}
+.icon-32-osmisc {background: url('images/icon-32-os-misc.png') no-repeat left;}
+.icon-32-joomla2opensim {background: url('images/icon-32-joomla2opensim.png') no-repeat left;}
+.icon-32-userrepair {background: url('images/icon-32-userrepair.png') no-repeat left;}
+.icon-32-usermoney {	background: url('images/icon-32-money.png') no-repeat left;}
+.icon-32-gridmap {background: url('images/icon-32-maps.png') no-repeat left;}
+.icon-32-user {background: url('images/icon-32-user.png') no-repeat left;}
+.icon-32-groups {background: url('images/icon-32-groups.png') no-repeat left;}
+.icon-32-search {background: url('images/icon-32-search.png') no-repeat left;}
+.icon-32-money {background: url('images/icon-32-money.png') no-repeat left;}
+.icon-32-misc {background: url('images/icon-32-misc.png') no-repeat left;}
+.icon-32-addonhelp {background: url('images/icon-32-addonhelp.png') no-repeat left;}
+.icon-32-mapconfig {background: url('images/icon-32-config.png') no-repeat left top;}
+.icon-32-maprefresh {background: url('images/icon-32-maprefresh.png') no-repeat left top;}
+.icon-32-moneyconfig {background: url('images/icon-32-config.png') no-repeat left top;}
+
+/* jOpenSim 18x18 icons set */
+#toolbar-maprefresh button.btn-small {background: url('images/icon-18-maprefresh.png') no-repeat 4px 2px;}
+#toolbar-joomla2opensim button.btn-small {background: url('images/icon-18-joomla2opensim.png') no-repeat 4px 2px;}
+#toolbar-userrepair button.btn-small {background: url('images/icon-18-userrepair.png') no-repeat 4px 2px;}
+#toolbar-usermoney button.btn-small {background: url('images/icon-18-usermoney.png') no-repeat 4px 2px;}
+/* background: url('images/icon-18-maprefresh2.png')*/
+#toolbar-joomla2opensim button.btn-small:hover, #toolbar-maprefresh button.btn-small:hover,
+#toolbar-userrepair button.btn-small:hover, #toolbar-usermoney button.btn-small:hover  {background-color:#e6e6e6;}
+
+/* jOpenSom 16x16 icons set */
+.menu-icon-16-opensim, .menu-icon-16-os-control-panel, .menu-icon-16-os-config, 
+.menu-icon-16-os-login, .menu-icon-16-os-maps, .menu-icon-16-os-user, .menu-icon-16-os-group,
+.menu-icon-16-os-search, .menu-icon-16-os-money , .menu-icon-16-os-misc, .menu-icon-16-addonhelp 
+{background-position: center left !important; min-width : 16px !important; min-height : 16px !important;}
+
+a.menu-icon-16-opensim:hover, a.menu-icon-16-os-control-panel:hover, a.menu-icon-16-os-config:hover, 
+a.menu-icon-16-os-login:hover, a.menu-icon-16-os-maps:hover, a.menu-icon-16-os-user:hover,
+a.menu-icon-16-os-group:hover, a.menu-icon-16-os-search:hover, a.menu-icon-16-os-money:hover,
+a.menu-icon-16-os-misc:hover , a.menu-icon-16-addonhelp:hover {background-color: #2a4d42 !important;}
+
+a.menu-component[href="index.php?option=com_opensim"] {background-image: url("images/icon-16-opensim.png") !important; background-repeat: no-repeat !important; background-position: center left !important;}
+a.menu-component[href="index.php?option=com_opensim&view=maps"] {background-image: url("images/icon-16-os-maps.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=user"] {background-image: url("images/icon-16-os-user.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=groups"] {background-image: url("images/icon-16-os-group.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=search"] {background-image: url("images/icon-16-os-search.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=money"] {background-image: url("images/icon-16-os-money.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=misc"] {background-image: url("images/icon-16-os-misc.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}
+a.menu-component[href="index.php?option=com_opensim&view=addons"] {background-image: url("images/icon-16-addonhelp.png") !important; background-position: center left !important; background-repeat: no-repeat !important;}

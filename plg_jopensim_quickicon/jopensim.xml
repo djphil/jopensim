@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension>
+<extension version="3.1" type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_jopensim</name>
+	<version>0.3.0.10</version>
+	<creationDate>2016-04-25</creationDate>
+	<author>FoTo50</author>
+	<authorEmail>foto50@jopensim.com</authorEmail>
+	<authorUrl>http://www.jopensim.com</authorUrl>
+	<copyright>www.jopensim.com</copyright>
+	<license>GNU/GPLv3 or later</license>
+	<description>PLG_QUICKICON_JOPENSIM_DESC</description>
+    <scriptfile>script.jopensimquickicon.php</scriptfile>
+	<files>
+		<filename plugin="jopensim">jopensim.php</filename>
+		<filename>index.html</filename>
+		<folder>assets</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_jopensim.sys.ini</language>
+	</languages>
+	<media destination='jopensim'>
+		<folder>assets</folder>
+	</media>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="context"
+					type="text"
+					default="mod_quickicon"
+					description="PLG_QUICKICON_JOPENSIM_DESC"
+					label="COM_JOPENSIM"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+ <updateservers>
+		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+ </updateservers>
+</extension>

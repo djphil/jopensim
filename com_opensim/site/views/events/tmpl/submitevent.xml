@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Submit new event">
+		<help url="JOPENSIM_HELP_EVENTCREATE" key="JOPENSIM_HELP_EVENTCREATE" />
+		<message>Form to submit a new event</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="EVENTACCESS" description="JOPENSIM_EVENTACCESS_DESC">
+			<field type="list" name="access_level" value="1" label="JOPENSIM_EVENTPOSTACCESS" description="JOPENSIM_EVENTPOSTACCESS_DESC">
+				<option value="1">JOPENSIM_EVENTPOSTACCESS_LEVEL1</option>
+				<option value="2">JOPENSIM_EVENTPOSTACCESS_LEVEL2</option>
+				<option value="3">JOPENSIM_EVENTPOSTACCESS_LEVEL3</option>
+			</field>
+			<field name="group_access" type="list" default="OPT5" multiple="multiple" label="JOPENSIM_EVENT_GROUPROLEPOWER" description="JOPENSIM_EVENT_GROUPROLEPOWER_DESC">
+				<option value="OPT1">JOPENSIM_EVENT_GROUPROLEPOWER1</option>
+				<option value="OPT2">JOPENSIM_EVENT_GROUPROLEPOWER2</option>
+				<option value="OPT3">JOPENSIM_EVENT_GROUPROLEPOWER3</option>
+				<option value="OPT4">JOPENSIM_EVENT_GROUPROLEPOWER4</option>
+				<option value="OPT5">JOPENSIM_EVENT_GROUPROLEPOWER5</option>
+			</field>
+		</fieldset>
+	</fields>
+	<help url="JOPENSIM_HELP_EVENTCREATE" key="JOPENSIM_HELP_EVENTCREATE" />
+</metadata>

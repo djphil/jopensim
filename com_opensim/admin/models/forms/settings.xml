@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="user_permissions" label="USERPERMS">
+		<field
+				name="userchange_firstname"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="USERPERMFIRSTNAME">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="userchange_lastname"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="USERPERMLASTNAME">
+				<option value="2">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="userchange_email"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="USERPERMEMAIL">
+				<option value="4">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="userchange_password"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="USERPERMPASSWORD">
+				<option value="8">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	<fieldset name="addons" label="ADDONS">
+		<field
+				name="addons_messages"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="ADDONS_MESSAGES">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="addons_profile"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="ADDONS_PROFILE">
+				<option value="2">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="addons_groups"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="ADDONS_GROUPS">
+				<option value="4">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="addons_search"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="ADDONS_SEARCH">
+				<option value="16">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+		<field
+				name="addons_currency"
+				type="radio"
+				default="0"
+				class="btn-group btn-group-yesno"
+				label="JOPENSIM_ADDONS_MONEY">
+				<option value="32">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+	</fieldset>
+	<fieldset name="lastnames" label="LASTNAMES">
+		<field
+				name="lastnametype"
+				type="radio"
+				default="0"
+				class="btn"
+				label="LASTNAMELIST"
+				description="LASTNAMETYPE_NONE_TT">
+				<option value="0" class="jOpenSimLNnone">LASTNAMETYPE_NONE</option>
+				<option value="1" class="jOpenSimLNallow">LASTNAMETYPE_ALLOW</option>
+				<option value="-1" class="jOpenSimLNdeny">LASTNAMETYPE_DENY</option>
+		</field>
+		<field
+			name="lastnamelist"
+			type="textarea"
+			label="LASTNAMES"
+			description="LASTNAMES_TT"
+			filter="string"
+			cols="20"
+			rows="5" />
+	</fieldset>
+	<fieldset name="events" label="JOPENSIM_EVENTS">
+		<field
+			name="eventtimedefault"
+			type="timezone"
+			default="UTC"
+			label="JOPENSIM_EVENTTIME_DEFAULT"
+			required="true">
+			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
+		</field>
+		<field
+				name="listmatureevents"
+				type="radio"
+				default="false"
+				class="btn-group btn-group-yesno"
+				label="JOPENSIM_LISTMATUREEVENTS">
+				<option value="true">JYES</option>
+				<option value="false">JNO</option>
+		</field>
+	</fieldset>
+</form>

@@ -1,0 +1,465 @@
+.messagetable, .grouptable {
+	border-collapse:collapse;
+	/*border:1px solid #ffffff;*/
+}
+
+.userdetailtable {
+	padding:5px;
+}
+
+.messagetable td, .grouptable td, .membertable td {
+	padding:5px;
+}
+
+.messagetable tr, .grouptable tr, .membertable tr {
+	border:1px solid #cccccc;
+}
+
+.messagetable_row_odd, .grouptable_row_odd {
+	background:#333333;
+}
+
+.messagetable_cell_odd, .grouptable_cell_odd {
+	color:#CCCCCC;
+}
+
+.profiletable {
+	border-collapse:collapse;
+	border:#ffffff 0px solid;
+}
+
+.profiletable_cell {
+	padding:5px;
+	border:#ffffff 0px solid;
+}
+
+.wanttotable {
+	width:100%;
+	/*border:1px dashed #ffffff;*/
+	margin:0px;
+}
+
+.noticetable_cell {
+	background:#333333;
+	color:#ffffff;
+	margin:5px;
+	padding:3px;
+}
+
+.membertable tr {
+	background:#333333;
+}
+
+.membertable_head_cell {
+	font-weight:bold;
+}
+
+.membertable_head_cell, .membertable_cell {
+	color:#ffffff;
+}
+
+div.contentsubheading {
+	float:left;
+	padding:5px;
+	margin:2px;
+}
+
+div.contentsubheading_table {
+	float:none;
+	padding:3px;
+}
+
+.identifybutton {
+	margin:10px;
+	background:#000000 !important;
+	color: #ff0000;
+}
+
+.identifybutton a, .identifybutton a:visited {
+	color:#ff0000 !important;
+	text-decoration:none;
+	display:block;
+	padding:5px 10px 5px 10px;
+	border:#cccccc solid 1px;
+}
+
+.identifybutton:hover {
+	background:#333333 !important;
+	top:1px;
+	left:1px;
+}
+
+.identifybutton a:hover {
+	color:#ffffff !important;
+	text-decoration:none;
+}
+
+.identcommand {
+	padding:10px;
+	font-family:'Courier New', Courier, monospace;
+	color:#ffffff;
+	background:#333333;
+}
+
+.terminaltable {
+	border-collapse:collapse;
+	border:1px solid #000000;
+}
+
+.terminaltable th {
+	background:#333333;
+	color:#ffffff;
+}
+
+.terminaltable td,th {
+	padding:10px;
+}
+
+.mapcontainer {
+	/*border:1px #ff0000 dashed;*/
+	background:#18384B;
+	text-align:center;
+	/*width:800px;*/
+	/*height:600px;*/
+	overflow:hidden;
+}
+
+#mapzoom {
+	cursor:hand;
+	/*border:1px #ffff00 dashed;*/
+}
+
+.maptable td img {
+	padding:0px !important;
+}
+
+#debugdiv {
+	visibility:hidden;
+}
+
+.jOpenSim_gridstatustable tr, jOpenSim_gridstatustable td, .jOpenSim_gridstatusrow, .jOpenSim_gridstatuscell, .jOpenSim_regionrow, .jOpenSim_regioncell {
+	border:0px;
+}
+
+.jOpenSim_gridstatustable {
+	background: rgba(255,255,255,0.7);
+	color:#000;
+}
+
+.jOpenSim_regioncell {
+	padding:2px;
+}
+
+.jopensimsplash {
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position:center center;
+	background-size: cover;
+}
+
+.welcomebox_gridstatus {
+	position:fixed;
+	/*padding:7px;*/
+	right:10px;
+	top:10px;
+	width:180px;
+}
+
+.jopensim_gridstatus {
+	font-weight:bold;
+}
+
+.welcomebox_regions {
+	text-align:left;
+	position:fixed;
+	left:10px;
+	top:10px;
+	max-height:220px;
+	min-width:150px;
+	/*overflow:auto;*/
+	/*padding:7px;*/
+}
+
+.welcomebox_messages {
+	position:fixed;
+	bottom:10px;
+	left:20px;
+	overflow:auto;
+	padding:0px;
+	width:500px;
+	height:200px;
+	text-align:left;
+}
+
+.welcomebox_gridstatus,
+.welcomebox_regions,
+.welcomebox_messages {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.welcomebox_gridstatus_title, .welcomebox_regions_title, .welcomebox_messages_title {
+	max-height:36px;
+	overflow:hidden;
+	font-weight:bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:18px;
+	/*margin-bottom:0.5em;*/
+	-webkit-border-top-left-radius: 7px;
+	-webkit-border-top-right-radius: 7px;
+	-moz-border-radius-topleft: 7px;
+	-moz-border-radius-topright: 7px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+}
+
+.welcomebox_gridstatus_title, .welcomebox_gridstatus_content,
+.welcomebox_regions_title, .welcomebox_regions_content,
+.welcomebox_messages_title, .welcomebox_messages_content {
+	padding:7px;
+}
+
+.welcomebox_regions_content {
+	max-height:164px;
+	overflow:auto;
+}
+
+.welcomebox_gridstatus_content,
+.welcomebox_regions_content,
+.welcomebox_messages_content {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+.jopensim_eventtable {
+	border-collapse:collapse;
+}
+.jopensim_eventlist_even {
+	background:#ffffff;
+	color:#000000;
+	padding:5px;
+}
+
+.jopensim_eventlist_odd {
+	background:#cccccc;
+	color:#000000;
+	padding:5px;
+}
+
+.jopensim_eventlist_even a:link, .jopensim_eventlist_odd a:link {
+	color:#333333;
+	font-weight:bold;
+}
+
+div.tip-wrap div.tip {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:13px;
+	padding:0em;
+}
+
+span.hasTip {
+	cursor:context-menu;
+}
+
+.tip-title {
+	padding:5px;
+	font-weight:bold;
+	color:#000;
+	background:#ccc;
+}
+
+.tip-text {
+	padding:5px;
+	color:#333;
+}
+
+.jopensim_profiletable td {
+	padding:5px;
+}
+
+.jopensim_wanttotable {
+	/*border:1px #ff0000 dotted;*/
+}
+
+.jopensim_wanttotable td {
+	padding:3px;
+}
+
+.jopensim_wanttotable .jopensim_col1 {
+	width:20%;
+}
+
+.jopensim_wanttotable .jopensim_col2 {
+	width:5%;
+}
+
+.jopensim_profile_state {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	/*border:1px #ff0000 dotted;*/
+}
+
+.jopensim_profile_yes {
+	background-image: url("images/jyes.png");
+}
+
+.jopensim_profile_no {
+	background-image: url("images/jno.png");
+}
+
+.jopensim_transactiontable td {
+	padding:5px;
+}
+
+.numbercell {
+	text-align:right;
+}
+
+.jopensim_transactiontable_title {
+	margin:20px 0px 20px 0px;
+	font-weight:bold;
+}
+
+.jopensim_searchresult_table {
+	display:table;
+}
+
+.jopensim_searchresult_caption {
+	display:table-cell;
+	font-weight:bold;
+	padding:3px 10px 3px 10px;
+}
+
+.jopensim_searchresult_tr {
+	display:table-row;
+}
+
+.jopensim_searchresult_td {
+	display:table-cell;
+	padding:3px 10px 3px 10px;
+}
+
+div.jopensim_regiontt_outer {
+  position: absolute;
+  width:12px;
+  height:12px;
+  text-decoration: none;
+  z-index:20;
+}
+
+div.jopensim_regiontt_inner {
+	position:relative;
+	width:128px;
+	top:0px;
+	display:none;
+	visibility:hidden;
+	background: rgba(0,0,0,.8);
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;    
+	color: #fff;
+	font-size: .86em;
+	text-align: center;
+	min-width: 100px;
+	width: auto;
+	height: auto;
+	white-space: nowrap;
+	padding: .5em;
+	cursor:pointer;
+}
+
+div.jopensim_regiontt_inner:after {
+	position: absolute;
+	display: block;
+	content: "";  
+	border-color: rgba(0,0,0,.8) transparent transparent transparent;
+	border-style: solid;
+	border-width: 10px;
+	height:0;
+	width:0;
+	position:absolute;
+	bottom: -16px;
+	left:1em;
+}
+
+div.jopensim_regiontt_inner:hover {
+	display:inline;
+}
+
+.maptable {
+	display:table;
+	border-collapse:collapse;
+	height:1px;
+	padding:0px;
+	margin:0px;
+	background:#18384B;
+}
+
+.maprow {
+	display:table-row;
+	height:1px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	/*float:none;*/
+}
+
+.mapcell {
+	/*padding:0px;*/
+	margin:0px;
+	height:1px;
+	display:table-cell;
+	z-index:10;
+	/*border:1px dashed #ff0000;*/
+	border:#2F6F95 1px solid;
+	/*margin-bottom:13px;*/
+	/*float:left;*/
+}
+
+.mapimage {
+/*	padding:0px !important;*/
+	/*margin:0px !important;*/
+	/*border:0px !important;*/
+	border-bottom:0px;
+	display:inline;
+	float:right;
+}
+
+.regionimagecontainer, .mapcell img, .mapcell a, .mapimage, .maptable img, .maprow img {
+	padding:0px !important;
+	margin:0px !important;
+	border:0px !important;
+}
+
+.jopensim_button {
+	display:inline;
+}
+
+.jopensim_button a {
+	margin:3px;
+	display:block;
+	font-weight:bold;
+	border: 1px solid #000;
+	background: #999;
+	padding:5px;
+	float:left;
+}
+
+.jopensim_button a:hover {
+	background:#ccc;
+}
+
+.jopensim_table {
+	display:table;
+}
+
+.jopensim_tr {
+	display:table-row;
+}
+
+.jopensim_td {
+	display:table-cell;
+	padding:3px;
+}

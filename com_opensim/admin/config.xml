@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+	<fields addfieldpath="/administrator/components/com_opensim/models/fields">
+		<fieldset name="globalconfig" label="JOPENSIM_CONFIGURATION" description="JOPENSIM_CONFIGURATION_DESC">
+			<field type="text" name="opensim_host" size="30" label="JOPENSIM_HOST" description="JOPENSIM_HOST_DESC" />
+			<field type="hidden" name="helpURL" value="http://wiki.jopensim.com" />
+			<field type="text" name="robust_port" size="4" label="JOPENSIM_ROBUST_PPORT" description="JOPENSIM_ROBUST_PPORT_DESC" />
+			<field
+				name="getTextureEnabled"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_GETTEXTURE"
+				description="JOPENSIM_GETTEXTURE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="getTextureFormat"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="jpeg"
+				label="JOPENSIM_GETTEXTUREFORMAT"
+				description="JOPENSIM_GETTEXTUREFORMAT_DESC">
+				<option value="png">png</option>
+				<option value="jpeg">jpg</option>
+			</field>
+			<field type="spacer" name="addonspacer1" hr="true" />
+			<field type="note" name="globalnote1" label="ADDONS" />
+			<field
+				name="addons_messages"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_MESSAGES"
+				description="JOPENSIM_ADDONS_MESSAGES_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="addons_profile"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_PROFILE"
+				description="JOPENSIM_ADDONS_PROFILE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="addons_groups"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_GROUPS"
+				description="JOPENSIM_ADDONS_GROUPS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="addons_search"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_SEARCH"
+				description="JOPENSIM_ADDONS_SEARCH_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="addons_currency"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_MONEY"
+				description="JOPENSIM_ADDONS_MONEY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="addons_inworldauth"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_ADDONS_INWORLD_IDENT"
+				description="JOPENSIM_ADDONS_INWORLD_IDENT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="number" name="addons_terminalchannel" size="6" default = "555" label="JOPENSIM_TERMINALCHANNEL" description="JOPENSIM_TERMINALCHANNEL_DESC" />
+			<field type="number" name="addons_identminutes" size="4" default = "30" label="JOPENSIM_IDENTMINUTES" description="JOPENSIM_IDENTMINUTES_DESC" />
+		</fieldset>
+		<fieldset name="opensimdb" label="JOPENSIM_DBS" description="JOPENSIM_DBS_DESC">
+			<field type="jopensimdatabasenote" name="dbnote1" label="JOPENSIM_GRIDDB" />
+			<field type="text" name="opensimgrid_dbhost" size="30" label="JOPENSIM_DBHOST" description="JOPENSIM_DBHOST_DESC" />
+			<field type="text" name="opensimgrid_dbport" size="4" label="JOPENSIM_DBPORT" description="JOPENSIM_DBPORT_DESC" />
+			<field type="text" name="opensimgrid_dbuser" label="JOPENSIM_DBUSER" description="JOPENSIM_DBUSER_DESC" />
+			<field type="password" name="opensimgrid_dbpasswd" label="JOPENSIM_DBPASS" description="JOPENSIM_DBPASS_DESC" />
+			<field type="text" name="opensimgrid_dbname" size="30" label="JOPENSIM_DBNAME" description="JOPENSIM_DBNAME_DESC" />
+		</fieldset>
+        
+        <!-- PARAMÈTRES JOPENSIM > ECRANS D'ACCUEIL -->
+		<fieldset 
+            name="loginscreen" 
+            label="JOPENSIM_LOGINSCREEN" 
+            description="JOPENSIM_LOGINSCREEN_DESC">
+
+            <field 
+                name="loginscreennote1" 
+                type="jopensimloginscreennote" 
+                class="alert alert-info" 
+                close="true" />
+
+            <field 
+                name="loginscreenbackground" 
+                type="media" 
+                directory="" 
+                label="JOPENSIM_LOGINSCREEN_BACKGROUND" 
+                description="JOPENSIM_LOGINSCREEN_BACKGROUND_DESC" />
+
+            <field 
+                name="loginscreennote2" 
+                type="note" 
+                label="JOPENSIM_LOGINSCREEN_BOXES" 
+                description="JOPENSIM_LOGINSCREEN_BOXES_DESC" />
+
+            <field
+				name="loginscreen_box_gridstatus"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_LOGINSCREEN_GRIDSTATUSBOX"
+				description="JOPENSIM_LOGINSCREEN_GRIDSTATUSBOX_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="loginscreen_box_message"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_LOGINSCREEN_MESSAGEBOX"
+				description="JOPENSIM_LOGINSCREEN_MESSAGEBOX_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="loginscreen_box_regions"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_LOGINSCREEN_REGIONBOX"
+				description="JOPENSIM_LOGINSCREEN_REGIONBOX_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="loginscreennote3" type="note" label="JOPENSIM_LOGINSCREEN_GRIDSTATUSBOX" description="JOPENSIM_GRIDSTATUS_DESC" showon="loginscreen_box_gridstatus:1" />
+
+            <field 
+                type="list" 
+                name="loginscreen_gridstatus" 
+                value="0" 
+                default="0" 
+                label="JOPENSIM_GRIDSTATUS" 
+                description="JOPENSIM_GRIDSTATUS_DESC2" 
+                showon="loginscreen_box_gridstatus:1">
+				<option value="-1">JOPENSIM_GRIDSTATUS_OFFLINE</option>
+				<option value="0">JOPENSIM_GRIDSTATUS_AUTO</option>
+				<option value="1">JOPENSIM_GRIDSTATUS_ONLINE</option>
+			</field>
+			<field
+				name="loginscreen_show_status"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW1">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="loginscreen_show_regions"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW2">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="loginscreen_show_counthidden"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW3">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="loginscreen_show_uniquevisitors"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW4"
+				description="JOPENSIM_GRIDSTATUS_SHOW4_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field 
+                type="number" 
+                name="loginscreen_show_uniquevisitors_days" 
+                value="" 
+                default="30" 
+                label="JOPENSIM_GRIDSTATUS_SHOWXDAYS" 
+                description="JOPENSIM_GRIDSTATUS_SHOWXDAYS_DESC" 
+                showon="loginscreen_box_gridstatus:1" />
+
+            <field
+				name="loginscreen_show_totalusers"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW5">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="loginscreen_show_onlinenow"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				showon="loginscreen_box_gridstatus:1"
+				label="JOPENSIM_GRIDSTATUS_SHOW6">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field 
+                name="loginscreennote4" 
+                type="note" 
+                label="JOPENSIM_LOGINSCREEN_MESSAGEBOX" 
+                showon="loginscreen_box_message:1" />
+            
+			<field 
+                type="text" 
+                name="loginscreen_messagebox_title" 
+                value="" 
+                label="JOPENSIM_LOGINSCREEN_MESSAGEBOX_TITLE" 
+                showon="loginscreen_box_message:1" />
+                
+			<field name="loginscreen_messagebox_content" type="textarea" label="JOPENSIM_LOGINSCREEN_MESSAGEBOX_CONTENT" rows="10" cols="30" showon="loginscreen_box_message:1" />
+			
+            
+            <field name="loginscreennote5" type="note" label="JOPENSIM_LOGINSCREEN_COLORS" />
+			<field name="jopensim_loginscreen_color_background_screen" type="color" label="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_SCREEN" description="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_SCREEN_DESC" />
+			
+            <!-- New (desc) -->
+            <field 
+                name="jopensim_loginscreen_color_background_box" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_BOX"
+                description="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_BOX_DESC" />
+			
+            <field 
+                name="jopensim_loginscreen_color_text" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_TEXT"
+                description="JOPENSIM_LOGINSCREEN_COLOR_TEXT_DESC" />
+                
+			<field 
+                name="jopensim_loginscreen_color_online" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_ONLINE"
+                description="JOPENSIM_LOGINSCREEN_COLOR_ONLINE_DESC" />
+                
+			<field 
+                name="jopensim_loginscreen_color_offline" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_OFFLINE"
+                description="JOPENSIM_LOGINSCREEN_COLOR_OFFLINE_DESC" />
+
+			<field 
+                name="jopensim_loginscreen_color_background_title" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_TITLE"
+                description="JOPENSIM_LOGINSCREEN_COLOR_BACKGROUND_TITLE_DESC" />
+                
+			<field 
+                name="jopensim_loginscreen_color_text_title" 
+                type="color" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_TEXT_TITLE" 
+                description="JOPENSIM_LOGINSCREEN_COLOR_TEXT_TITLE_DESC" />
+
+            <!-- Added by djphil -->
+            <field 
+                name="jopensim_loginscreen_color_links" 
+                type="color" 
+                value="" 
+                label="JOPENSIM_LOGINSCREEN_COLOR_LINKS" 
+                description="JOPENSIM_LOGINSCREEN_COLOR_LINKS_DESC"
+                showon="loginscreen_box_gridstatus:1" />
+
+            <field 
+                name="loginscreennote6" 
+                type="note" 
+                label="JOPENSIM_LOGINSCREEN_STYLES" />
+
+            <field 
+                type="text" 
+                name="loginscreen_boxborder_inline" 
+                value="" 
+                label="LOGINSCREEN_BOXBORDER_INLINE" 
+                description="LOGINSCREEN_BOXBORDER_INLINE_DESC" />
+
+            <field 
+                type="text" 
+                name="jopensim_loginscreen_boxborder_title" 
+                value="" 
+                label="JOPENSIM_LOGINSCREEN_BOXBORDER_TITLE" 
+                description="JOPENSIM_LOGINSCREEN_BOXBORDER_TITLE_DESC"
+                showon="loginscreen_box_gridstatus:1" />
+
+			<field
+				name="jopensim_loginscreen_stylebold"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_LOGINSCREEN_STYLEBOLD"
+                description="JOPENSIM_LOGINSCREEN_STYLEBOLD_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="jopensim_loginscreen_styleicon"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_LOGINSCREEN_STYLEICON"
+                description="JOPENSIM_LOGINSCREEN_STYLEICON_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+            <!-- End -->
+
+        </fieldset>
+        
+        
+		<fieldset name="maps" label="JOPENSIM_MAPS" description="JOPENSIM_MAPS_DESC">
+            <field type="number" name="jopensim_maps_cacheage" default="0" label="JOPENSIM_MAPS_CACHEAGE" description="JOPENSIM_MAPS_CACHEAGE_DESC" />
+			<field type="number" name="jopensim_maps_width" value="" default="600" label="JOPENSIM_MAPS_WIDTH" description="JOPENSIM_MAPS_WIDTH_DESC" />
+			
+            <field
+				name="jopensim_maps_width_style"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="px"
+				label="JOPENSIM_MAPS_WIDTH_STYLE"
+				description="JOPENSIM_MAPS_WIDTH_STYLE_DESC">
+				<option value="%">JOPENSIM_MAPS_DIMENSION_STYLE_PERCENT</option>
+				<option value="px">JOPENSIM_MAPS_DIMENSION_STYLE_PIXEL</option>
+			</field>
+			<field type="number" name="jopensim_maps_height" value="" default="400" label="JOPENSIM_MAPS_HEIGHT" description="JOPENSIM_MAPS_HEIGHT_DESC" />
+			<field
+				name="jopensim_maps_height_style"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="px"
+				label="JOPENSIM_MAPS_WIDTH_STYLE"
+				description="JOPENSIM_MAPS_WIDTH_STYLE_DESC">
+				<option value="%">JOPENSIM_MAPS_DIMENSION_STYLE_PERCENT</option>
+				<option value="px">JOPENSIM_MAPS_DIMENSION_STYLE_PIXEL</option>
+			</field>
+			<field type="text" name="jopensim_maps_homename" value="" label="JOPENSIM_MAPS_HOMENAME" description="JOPENSIM_MAPS_HOMENAME_DESC" />
+			<field type="text" name="jopensim_maps_copyright" value="" label="JOPENSIM_MAPS_COPYRIGHT" description="JOPENSIM_MAPS_COPYRIGHT_DESC" />
+			<field type="number" name="jopensim_maps_homex" value="" default="1000" label="JOPENSIM_MAPS_HOMEX" description="JOPENSIM_MAPS_HOMEX_DESC" />
+			<field type="number" name="jopensim_maps_homey" value="" default="1000" label="JOPENSIM_MAPS_HOMEY" description="JOPENSIM_MAPS_HOMEY_DESC" />
+			<field name="jopensim_maps_offsetx" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETX" description="JOPENSIM_MAPS_OFFSETX_DESC" min="-1" max="1" step="0.1" />
+			<field name="jopensim_maps_offsety" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETY" description="JOPENSIM_MAPS_OFFSETY_DESC" min="-1" max="1"  step="0.1" />
+			<field name="jopensim_maps_zoomstart" type="JopensimSlider" default="8" label="JOPENSIM_MAPS_ZOOMSTART" description="JOPENSIM_MAPS_ZOOMSTART_DESC" min="5" max="9"  step="0.1" />
+			<field name="jopensim_maps_bubble_bgcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_BGCOLOR" description="JOPENSIM_MAPS_BUBBLE_BGCOLOR_DESC" />
+			<field name="jopensim_maps_bubble_alpha" type="JopensimSlider" default="50" label="JOPENSIM_MAPS_BUBBLE_ALPHA" description="JOPENSIM_MAPS_BUBBLE_ALPHA_DESC" first="0" last="100" />
+			<field name="jopensim_maps_bubble_textcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_TEXTCOLOR" description="JOPENSIM_MAPS_BUBBLE_TEXTCOLOR_DESC" />
+			<field name="jopensim_maps_bubble_linkcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_LINKCOLOR" description="JOPENSIM_MAPS_BUBBLE_LINKCOLOR_DESC" />
+			<field
+				name="jopensim_maps_showteleport"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_MAPS_SHOWTELEPORT"
+				description="JOPENSIM_MAPS_SHOWTELEPORT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_maps_showcoords"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_MAPS_SHOWCOORDS"
+				description="JOPENSIM_MAPS_SHOWCOORDS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_maps_link2article"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_MAPS_LINK2ARTICLE"
+				description="JOPENSIM_MAPS_LINK2ARTICLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="jopensim_maps_water" type="media" directory="" label="JOPENSIM_MAPS_WATER" description="JOPENSIM_MAPS_WATER_DESC" />
+		</fieldset>
+        
+        
+		<fieldset name="user" label="JOPENSIM_USER">
+			<field name="usernote1" type="note" label="JOPENSIM_USERPERMS" description="JOPENSIM_USERPERMS_DESC" />
+			<field
+				name="userchange_firstname"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_USERPERM_FIRSTNAME">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="userchange_lastname"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_USERPERM_LASTNAME">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="userchange_email"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_USERPERM_EMAIL"
+				description="JOPENSIM_USERPERM_EMAIL_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="userchange_password"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_USERPERM_PASSWORD">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="usernote2" type="note" label="JOPENSIM_USER_LASTNAMES" description="JOPENSIM_USER_LASTNAMES_DESC" />
+			<field
+				name="lastnametype"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USER_LASTNAMES_TYPES"
+				description="JOPENSIM_USER_LASTNAMES_TYPES_DESC">
+				<option value="0">LASTNAMETYPE_NONE</option>
+				<option value="1">LASTNAMETYPE_ALLOW</option>
+				<option value="-1">LASTNAMETYPE_DENY</option>
+			</field>
+			<field name="lastnamelist" type="textarea" label="JOPENSIM_USER_LASTNAMELIST" description="JOPENSIM_USER_LASTNAMELIST_DESC" rows="6" cols="70" showon="lastnametype:1,-1" />
+			<field name="usernote3" type="note" label="JOPENSIM_USERDEFAULTS" description="" />
+			<field name="jopensim_userhome_region" type="jopensimregionlist" label="JOPENSIM_USERHOME_REGION" description="JOPENSIM_USERHOME_REGION_DESC" />
+			<field name="jopensim_userhome_x" type="JopensimSlider" default="128" label="JOPENSIM_USERHOME_X" description="JOPENSIM_USERHOME_X_DESC" min="1" max="255" />
+			<field name="jopensim_userhome_y" type="JopensimSlider" default="128" label="JOPENSIM_USERHOME_Y" description="JOPENSIM_USERHOME_Y_DESC" min="1" max="255" />
+			<field name="jopensim_userhome_z" type="hidden" default="0" />
+			<field name="usernote4" type="note" label="" description="JOPENSIM_USERDEFAULTS_DESC" />
+			<field type="list" name="jopensim_defaultuserlevel" value="0" label="JOPENSIM_USER_DEFAULTLEVEL" description="JOPENSIM_USERDEFAULTS_DESC">
+				<option value="0">JOPENSIM_USERLEVEL_REGULAR</option>
+				<option value="100">JOPENSIM_USERLEVEL_MAINTENANCE</option>
+				<option value="200">JOPENSIM_USERLEVEL_GOD</option>
+				<option value="-1">JOPENSIM_USERLEVEL_DISABLED</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag3"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_PIOF">
+				<option value="4">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag4"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_PIU">
+				<option value="8">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag5"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_CO">
+				<option value="16">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag9"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_TRIAL">
+				<option value="256">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag10"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_CHARTERMEMBER">
+				<option value="512">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag11"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_EMPLOYEE1">
+				<option value="1024">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_usersetting_flag12"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_USERSETTING_FLAG_EMPLOYEE2">
+				<option value="2048">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="text" name="jopensim_usersetting_title" value="" label="JOPENSIM_USERSETTING_TITLE" description="JOPENSIM_USERSETTING_TITLE_DESC" />
+		</fieldset>
+        
+        
+		<fieldset name="groupsecurity" label="JOPENSIM_GROUPS" showon="addons_groups:1">
+			<field type="text" name="grp_readkey" size="8" label="JOPENSIM_GRP_READKEY" description="JOPENSIM_GRP_READKEY_DESC" showon="addons_groups:1" />
+			<field type="text" name="grp_writekey" size="8" label="JOPENSIM_GRP_WRITEKEY" description="JOPENSIM_GRP_WRITEKEY_DESC" showon="addons_groups:1" />
+			<field name="groupnote1" type="note" class="alert" label="JOPENSIM_GROUPADDONDISABLED" description="JOPENSIM_GROUPADDONDISABLED_DESC" showon="addons_groups:0" />
+		</fieldset>
+        
+        
+		<fieldset name="modules" label="JOPENSIM_MODULES" description="JOPENSIM_MODULES_DESC">
+			<field name="modulenote1" type="note" label="JOPENSIM_SEARCH" description="JOPENSIM_SEARCH_DESC" />
+			<field name="modulenote1_2" type="note" class="alert" label="JOPENSIM_SEARCHADDONDISABLED" description="JOPENSIM_SEARCHADDONDISABLED_DESC" showon="addons_search:0" />
+			<field
+				name="search_objects"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHOBJECTS"
+				description="JOPENSIM_SEARCHOBJECTS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="search_parcels"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHPARCELS"
+				description="JOPENSIM_SEARCHPARCELS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="search_parcelsales"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHPARCELSALES"
+				description="JOPENSIM_SEARCHPARCELSALES_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="search_events"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHEVENTS"
+				description="JOPENSIM_SEARCHEVENTS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="search_classified"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHCLASSIFIED"
+				description="JOPENSIM_SEARCHCLASSIFIED_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="search_regions"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SEARCHREGIONS"
+				description="JOPENSIM_SEARCHREGIONS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="modulenote2" type="note" label="JOPENSIM_EVENTS" description="JOPENSIM_EVENTS_DESC" />
+			<field name="eventtimedefault" type="timezone" default="UTC" label="JOPENSIM_EVENTTIME_DEFAULT" description="JOPENSIM_EVENTTIME_DEFAULT_DESC">
+				<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
+			</field>
+			<field
+				name="listmatureevents"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_LISTMATUREEVENTS"
+				description="JOPENSIM_LISTMATUREEVENTS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				type="list"
+				name="events_post_access"
+				default="3"
+				label="JOPENSIM_EVENTPOSTACCESS"
+				description="JOPENSIM_EVENTPOSTACCESS_DESC">
+				<option value="1">JOPENSIM_EVENTPOSTACCESS_LEVEL1</option>
+				<option value="2">JOPENSIM_EVENTPOSTACCESS_LEVEL2</option>
+				<option value="3">JOPENSIM_EVENTPOSTACCESS_LEVEL3</option>
+			</field>
+			<field
+				type="list"
+				name="events_grouppower"
+				multiple="true"
+				size="4"
+				default="OPT5"
+				showon="events_post_access:1,2"
+				label="JOPENSIM_EVENT_GROUPROLEPOWER"
+				description="JOPENSIM_EVENT_GROUPROLEPOWER_DESC">
+				<option value="OPT1">JOPENSIM_EVENT_GROUPROLEPOWER1</option>
+				<option value="OPT2">JOPENSIM_EVENT_GROUPROLEPOWER2</option>
+				<option value="OPT3">JOPENSIM_EVENT_GROUPROLEPOWER3</option>
+				<option value="OPT4">JOPENSIM_EVENT_GROUPROLEPOWER4</option>
+				<option value="OPT5">JOPENSIM_EVENT_GROUPROLEPOWER5</option>
+			</field>
+			<field name="modulenote3" type="note" label="JOPENSIM_PROFILE" description="" />
+			<field name="modulenote2_2" type="note" class="alert" label="JOPENSIM_PROFILEADDONDISABLED" description="JOPENSIM_PROFILEADDONDISABLED_DESC" showon="addons_profile:0" />
+			<field
+				name="profile_images"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_PROFILEIMAGES"
+				description="JOPENSIM_PROFILEIMAGES_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="text" name="profile_images_maxwidth" size="8" default="512" label="JOPENSIM_PROFILEIMAGES_MAXWIDTH" description="JOPENSIM_PROFILEIMAGES_MAXWIDTH_DESC" showon="profile_images:1" />
+			<field type="text" name="profile_images_maxheight" size="8" default="512" label="JOPENSIM_PROFILEIMAGES_MAXHEIGHT" description="JOPENSIM_PROFILEIMAGES_MAXHEIGHT_DESC" showon="profile_images:1" />
+			<field name="modulenote4" type="note" label="JOPENSIM_CLASSIFIED" description="JOPENSIM_CLASSIFIED_DESC" />
+			<field
+				name="classified_images"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_CLASSIFIED_IMAGES"
+				description="JOPENSIM_CLASSIFIED_IMAGES_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				type="list"
+				name="classified_hide"
+				default="604800"
+				label="JOPENSIM_CLASSIFIED_HIDE"
+				description="JOPENSIM_CLASSIFIED_HIDE_DESC">
+				<option value="604800">JOPENSIM_CLASSIFIED_HIDE_1WEEK</option>
+				<option value="2592000">JOPENSIM_CLASSIFIED_HIDE_1MONTH</option>
+				<option value="31536000">JOPENSIM_CLASSIFIED_HIDE_1YEAR</option>
+			</field>
+			<field
+				type="list"
+				name="classified_sort"
+				default="creationdate"
+				label="JOPENSIM_CLASSIFIED_SORT"
+				description="JOPENSIM_CLASSIFIED_SORT_DESC">
+				<option value="creationdate">JOPENSIM_CLASSIFIED_SORT1</option>
+				<option value="name">JOPENSIM_CLASSIFIED_SORT2</option>
+				<option value="simname">JOPENSIM_CLASSIFIED_SORT3</option>
+				<option value="priceforlisting">JOPENSIM_CLASSIFIED_SORT4</option>
+			</field>
+			<field
+				name="classified_order"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="DESC"
+				label="JOPENSIM_CLASSIFIED_ORDER"
+				description="JOPENSIM_CLASSIFIED_ORDER_DESC">
+				<option value="ASC">JOPENSIM_CLASSIFIED_ORDER_ASCENDING</option>
+				<option value="DESC">JOPENSIM_CLASSIFIED_ORDER_DESCENDING</option>
+			</field>
+		</fieldset>
+        
+        
+		<fieldset name="jopensimmoney" label="JOPENSIM_MONEY">
+			<field name="jopensimmoneynote1" type="jopensimmoneynote" class="" />
+			<field name="jopensimmoneynote2" type="note" class="alert" label="JOPENSIM_MONEY_ADDON_DISABLED" description="JOPENSIM_MONEY_ADDON_DISABLED_DESC" showon="addons_currency:0" />
+			<field type="text" name="jopensimmoney_currencyname" size="8" label="JOPENSIM_MONEY_CURRENCY" description="JOPENSIM_MONEY_CURRENCY_DESC" />
+			<field name="jopensimmoneynote3" type="jopensimmoneynobankernote" class="alert alert-error" showon="addons_currency:1" />
+			<field name="jopensimmoneybanker" type="jopensimmoneybanker" label="JOPENSIM_MONEY_BANKER" description="JOPENSIM_MONEY_BANKER_DESC" />
+			<field type="text" name="jopensimmoney_bankername" size="8" default="" label="JOPENSIM_MONEY_BANKERNAME" description="JOPENSIM_MONEY_BANKERNAME_DESC" />
+			<field type="text" name="jopensimmoney_startbalance" size="8" default="0" label="JOPENSIM_MONEY_STARTBALANCE" description="JOPENSIM_MONEY_STARTBALANCE_DESC" />
+			<field type="text" name="jopensimmoney_upload" size="8" default="0" label="JOPENSIM_MONEY_UPLOADFEE" description="JOPENSIM_MONEY_UPLOADFEE_DESC" />
+			<field type="text" name="jopensimmoney_groupcreation" size="8" default="0" label="JOPENSIM_MONEY_GROUPCREATIONFEE" description="JOPENSIM_MONEY_GROUPCREATIONFEE_DESC" />
+			<field type="text" name="jopensimmoney_groupdividend" size="8" default="0" label="JOPENSIM_MONEY_GROUPDIVIDEND" description="JOPENSIM_MONEY_GROUPDIVIDEND_DESC" />
+			<field
+				name="jopensimmoney_zerolines"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="3"
+				label="JOPENSIM_MONEY_ZEROLINES"
+				description="JOPENSIM_MONEY_ZEROLINES_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JOPENSIM_MONEY_ZEROLINES_FRONTEND</option>
+				<option value="2">JOPENSIM_MONEY_ZEROLINES_BACKEND</option>
+				<option value="3">JOPENSIM_MONEY_ZEROLINES_BOTH</option>
+			</field>
+			<field
+				name="jopensimmoney_sendgridbalancewarning"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_MONEY_SENDGRIDBALANCEWARNING"
+				description="JOPENSIM_MONEY_SENDGRIDBALANCEWARNING_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensimmoney_warningrecipient"
+				type="email"
+				label="JOPENSIM_MONEY_WARNINGRECIPIENT"
+				showon="jopensimmoney_sendgridbalancewarning:1"
+				description="JOPENSIM_MONEY_WARNINGRECIPIENT_DESC"
+				filter="string"
+				size="30"
+				validate="email" />
+			<field type="text" name="jopensimmoney_warningsubject" size="20" default="Grid Balance Warning" label="JOPENSIM_MONEY_WARNINGSUBJECT" description="JOPENSIM_MONEY_WARNINGSUBJECT_DESC" showon="jopensimmoney_sendgridbalancewarning:1" />
+		</fieldset>
+        
+        
+		<fieldset name="remoteadmin" label="JOPENSIM_REMOTEADMIN">
+			<field
+				name="enableremoteadmin"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_REMOTEADMINENABLE"
+				description="JOPENSIM_REMOTEADMINENABLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="text" name="remotehost" size="30" label="JOPENSIM_REMOTEHOST" showon="enableremoteadmin:1" />
+			<field type="text" name="remoteport" size="4" label="JOPENSIM_REMOTEPORT" showon="enableremoteadmin:1" />
+			<field type="password" name="remotepasswd" label="JOPENSIM_REMOTEPASSWD" showon="enableremoteadmin:1" />
+		</fieldset>
+        
+        
+		<fieldset name="jopensimdebug" label="JOPENSIM_DEBUGGING" description="">
+			<field name="jopensimdebugnote1" type="jopensimdebugnote1" class="alert alert-info" close="true" />
+			<field
+				name="jopensim_debug_reminder"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_DEBUG_REMINDER"
+				description="JOPENSIM_DEBUG_REMINDER_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_access"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_ACCESS"
+				description="JOPENSIM_DEBUG_ACCESS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_input"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_INPUT"
+				description="JOPENSIM_DEBUG_INPUT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_profile"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_PROFILE"
+				description="JOPENSIM_DEBUG_PROFILE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_groups"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_GROUPS"
+				description="JOPENSIM_DEBUG_GROUPS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_search"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_SEARCH"
+				description="JOPENSIM_DEBUG_SEARCH_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+<!--
+			<field
+				name="jopensim_debug_terminal"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_TERMINAL"
+				description="JOPENSIM_DEBUG_TERMINAL_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+-->
+			<field
+				name="jopensim_debug_messages"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_MESSAGES"
+				description="JOPENSIM_DEBUG_MESSAGES_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_currency"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_MONEY"
+				description="JOPENSIM_DEBUG_MONEY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_other"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_OTHER"
+				description="JOPENSIM_DEBUG_OTHER_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_debug_settings"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_DEBUG_SETTINGS"
+				description="JOPENSIM_DEBUG_SETTINGS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="jopensimdebugnote2" type="jopensimdebugnote2" class="alert alert-warn" close="true" />
+		</fieldset>
+		<fieldset name="permissions_LABEL" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+			<field name="rules" type="rules" component="com_opensim" filter="rules" label="COM_OPENSIM_FIELD_JCONFIG_PERMISSIONS_LABEL" section="component" description="COM_OPENSIM_FIELD_DESC"/>
+		</fieldset>
+	</fields>
+</config>

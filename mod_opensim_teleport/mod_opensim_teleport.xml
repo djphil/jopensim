@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+	<name>jOpenSim Teleport Module</name>
+    <title>jOpenSim Teleport Module</title>
+	<author>djphil</author>
+	<creationDate>Avril 2016</creationDate>
+	<copyright>Copyright (C) djphil 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later.</license>
+	<authorEmail>mail@email.com</authorEmail>
+	<authorUrl>www.domain.com</authorUrl>
+	<version>0.3.0.0</version>
+	<description>MOD_OPENSIM_TELEPORT_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_opensim_teleport">mod_opensim_teleport.php</filename>
+		<folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+		<filename>helper.php</filename>
+        <filename>functions.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_opensim_teleport.ini</language>
+		<language tag="en-GB">language/en-GB.mod_opensim_teleport.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_teleport.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_teleport.sys.ini</language>
+	</languages>
+
+	<help url="MOD_OPENSIM_TELEPORT_HELP_URL" key="" />
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="tplocal"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPLOCAL_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPLOCAL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphg"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPHG_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPHG_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphgv3"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPHGV3_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPHGV3_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphop"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPHOP_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPHOP_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tpbuttonsize"
+					type="list"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPBUTTONSIZE_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPBUTTONSIZE_TEXT_DESC">
+					<option value="0">Default</option>
+                    <option value="1">Mini</option>
+                    <option value="2">Maxi</option>
+				</field>
+
+				<field
+					name="tpicon"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPICON_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPICON_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="tpicontext"
+					type="textarea"
+					filter="safehtml"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_TPICONTEXT_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_TPICONTEXT_TEXT_DESC"
+                    showon="tpicon:1" />
+
+			</fieldset>
+
+			<fieldset
+				name="MOD_OPENSIM_TELEPORT_CONFIGURATION">
+				<field 
+                    name="spacer" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_TELEPORT_CONFIGURATION_DESC" />
+
+				<field
+					name="domainname"
+					type="textarea"
+					filter="safehtml"
+                    default="domain.com"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_DOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_DOMAINNAME_TEXT_DESC" />
+				<field
+					name="domainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_DOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_DOMAINPORT_TEXT_DESC" />
+				<field
+					name="regionname"
+					type="textarea"
+					filter="safehtml"
+                    default="Region Name"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_REGIONNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_REGIONNAME_TEXT_DESC" />
+				<field
+					name="regionlocation"
+					type="textarea"
+					filter="safehtml"
+                    default="128/128/128"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_DOMAINLOCATION_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_DOMAINLOCATION_TEXT_DESC" />
+				<field
+					name="hgdomainname"
+					type="textarea"
+					filter="safehtml"
+                    default="hg.domain.com"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINNAME_TEXT_DESC" />
+				<field
+					name="hgdomainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINPORT_TEXT_DESC" />
+				<field
+					name="hgregionname"
+					type="textarea"
+					filter="safehtml"
+                    default="Region Name"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_HGREGIONNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_HGREGIONNAME_TEXT_DESC" />
+				<field
+					name="hgregionlocation"
+					type="textarea"
+					filter="safehtml"
+                    default="128/128/128"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINLOCATION_TEXT_LABEL"
+					description="MOD_OPENSIM_TELEPORT_FIELD_HGDOMAINLOCATION_TEXT_DESC" />
+			</fieldset>
+
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">
+            http://update.jopensim.com/jopensim_list.xml
+        </server>
+    </updateservers>
+</extension>

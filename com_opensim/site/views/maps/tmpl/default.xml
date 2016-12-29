@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="GridMap">
+		<message>Display a map of the entire grid</message>
+	</layout>
+	<fields name="params" addfieldpath="/administrator/components/com_opensim/models/fields">
+		<fieldset name="JOPENSIM_MAPCENTER">
+			<field
+				name="jopensim_usecustomcenter"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_CUSTOMMAPCENTER"
+				description="JOPENSIM_CUSTOMMAPCENTER_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="number" name="jopensim_maps_homex" value="" default="1000" label="JOPENSIM_MAPS_HOMEX" description="JOPENSIM_MAPS_HOMEX_DESC" />
+			<field type="number" name="jopensim_maps_homey" value="" default="1000" label="JOPENSIM_MAPS_HOMEY" description="JOPENSIM_MAPS_HOMEY_DESC" />
+			<field name="jopensim_maps_offsetx" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETX" description="JOPENSIM_MAPS_OFFSETX_DESC" min="-1" max="1" step="0.1" />
+			<field name="jopensim_maps_offsety" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETY" description="JOPENSIM_MAPS_OFFSETY_DESC" min="-1" max="1"  step="0.1" />
+		</fieldset>
+	</fields>
+</metadata>

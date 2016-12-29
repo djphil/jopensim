@@ -1,0 +1,235 @@
+/* jOpenSim CSS v0.0.0.1 */
+
+/* jOpenSim Reset */
+* {margin: 0px; padding: 0px;}
+image {border: 0px;}
+table {width: 100%;}
+.clearfix {clear: both;}
+
+
+
+/* jOpenSim Menu */
+div.contentsubheading {
+	float: left;
+	display: inline-block;
+	padding: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	background: rgba(0, 0, 0, 0.05);
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+div.contentsubheading:hover {
+	background: rgba(0, 0, 0, 0.075);
+	border: 1px solid rgba(0, 0, 0, 0.05);	
+}
+
+div.contentsubheading a:hover {
+	text-decoration: none;	
+}
+
+div.contentsubheading_table {
+	float: none;
+	padding: 3px;
+    text-align: left;
+}
+
+/* jOpenSim Profils */
+img.jopensim_partner  {
+    width: 16px;
+	height: 16px;
+	text-align: absmiddle;
+} 
+
+/* jOpenSim Settings */
+
+/* jOpenSim Messages */
+
+/* jOpenSim Groups */
+
+/* jOpenSim Money */
+
+/* jOpenSim Terminal */
+.terminaltable {
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+.terminaltable th {
+	background: #333333;
+	color: #ffffff;
+}
+
+.terminaltable td,th {
+	padding: 10px;
+}
+
+/* jOpenSim Login Screen */
+/* overflow:auto; */
+/* padding: 7px; */
+
+.jopensim_loginscreen {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	z-index: 20;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center center;
+	background-size: cover;
+}
+
+/*.jopensim_loginscreen table td {border-color: #333 !important;}*/
+/* #4c8b76 */
+.welcomebox_gridstatus {
+	position: fixed;
+	right: 20px;
+	top: 40px;
+	width: 300px;
+}
+
+.welcomebox_regions {
+	position: fixed;
+	left: 20px;
+	top: 40px;
+	width: 300px;
+    text-align: left;
+}
+
+.welcomebox_messages {
+	position: fixed;
+	bottom: 30px;
+	left: 20px;
+	width: 300px;
+}
+
+.welcomebox_gridstatus_title,
+.welcomebox_regions_title,
+.welcomebox_messages_title {
+    overflow: hidden;
+    font-size: 18px;
+    padding: 7px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.welcomebox_gridstatus_title,
+.welcomebox_regions_title,
+.welcomebox_messages_title,
+.welcomebox_gridstatus_content,
+.welcomebox_regions_content,
+.welcomebox_messages_content {
+    margin: 10px;
+}
+
+.welcomebox_gridstatus_content,
+.welcomebox_regions_content,
+.welcomebox_messages_content {;}
+
+.welcomebox_regions_content {
+    max-height: 164px;
+    overflow: auto;
+}
+.welcomebox_regions_content th {
+    text-align: left;
+    padding: 0px;
+}
+
+
+/* jOpenSim Map */
+/* .jopensim_articlelink */
+/* #copyright-control {;} */
+img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"] {
+    content: url("images/exit.png");
+	margin: 5px;
+}
+
+.regioninfo {
+    text-align: center;
+	min-height: 100px;
+	min-width: 150px;
+}
+
+/* table.regioninfo {;} */
+table.regioninfo thead,
+table.regioninfo thead a {
+    font-size: 20px;
+}
+
+/* jOpenSim Debug */
+#debugdiv {visibility: hidden;}
+
+/* UNDER CONSTRUCTION */
+h2 span {color: red;}
+
+/* jOpenSim Forms */
+input[type="radio"] {text-align: left;}
+
+/* FIX NON BOOTSTRAP TEMPLATES */
+.pull-right {float: right;}
+.text-left {text-align: left;}
+.text-right {text-align: right !important;}
+.text-bold {font-weight: bold;}
+
+.text-danger {
+	color: #b94a48;
+}
+a.text-danger:hover,
+a.text-danger:focus {
+	color: #953b39;
+}
+span.label-danger  {
+    background-color: #D32C46;
+    color: #FFFFFF;
+    background-image: -webkit-linear-gradient(top, #ee465a, #c11a39);
+    background-image: linear-gradient(to bottom, #ee465a, #c11a39);
+    border-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.4);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+/*
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #d59392;
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #d59392;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #d59392;
+*/
+}
+
+/*
+table a.btn-primary,
+table a.btn-info,
+table a.btn-success,
+table a.btn-warning,
+table a.btn-danger,
+table a.btn-inverse,
+table a.btn-link {;}
+*/
+
+/* even {color: #f1f1f1;} odd {color; #f5f5f5;} */
+/* FIX t_applex_free Tempplate */
+/* .modal {display: inline-block!important;} */
+/* .modal-content {color: #222222!important;} */
+/* .contentpane {color: #222222!important;} */
+/* button[type="submit"] {vertical-align: top; padding: 3px;} */
+/* input[type="text"] {vertical-align: inherit;} */
+/* input[type="submit"] {padding: 3px;} */
+/* .jOpenSim_gridstatuscell {;} */
+/* .jopensimregister_clear */
+/* @import url("bootstrap.css"); */
+
+.jopensim_profile_state {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	/*border:1px #ff0000 dotted;*/
+}
+
+.jopensim_profile_yes {
+	background-image: url("images/jyes.png");
+}
+
+.jopensim_profile_no {
+	background-image: url("images/jno.png");
+}
+
+.jopensim-searchfield{;}

@@ -1,0 +1,510 @@
+#jOtabContent .control-label {
+	width:200px;
+}
+
+.jOpenSimLNnone,
+.jOpenSimLNallow,
+.jOpenSimLNdeny {
+	padding:10px;
+}
+
+.jOpenSimLNnone {
+	background:#EAB539;
+}
+
+.jOpenSimLNallow {
+	background:#009900;
+	color:#ffffff;
+}
+
+.jOpenSimLNdeny {
+	background:#990000;
+	color:#ffffff;
+}
+
+.jopensim_addonwarning {
+	color:#ff0000;
+	font-weight:bold;
+}
+
+.icon-32-opensim {
+	background: url('images/icon-48-opensim.png') no-repeat left;
+}
+
+.icon-48-opensim {
+	background: url('images/icon-48-opensim.png') no-repeat left;
+}
+
+.icon-48-jopensimconfig {
+	background: url('images/icon-48-jopensimconfig.png') no-repeat left;
+}
+
+.icon-48-maps {
+	background: url('images/icon-48-os-maps.png') no-repeat left;
+}
+
+.icon-48-osuser {
+	background: url('images/icon-48-os-user.png') no-repeat left;
+}
+
+.icon-48-osgroup {
+	background: url('images/icon-48-os-group.png') no-repeat left;
+}
+
+.icon-48-ossearch {
+	background: url('images/icon-48-os-search.png') no-repeat left;
+}
+
+.icon-48-oslogin {
+	background: url('images/icon-48-os-login.png') no-repeat left;
+}
+
+.icon-48-osmisc {
+	background: url('images/icon-48-os-misc.png') no-repeat left;
+}
+
+.icon-48-osmoney {
+	background: url('images/icon-48-money.png') no-repeat left;
+}
+
+.icon-48-gridmap {
+	min-width:48px;
+	min-height:48px;
+	background: url('images/icon-48-gridmap.png') no-repeat left;
+}
+
+.icon-32-osmisc {
+	background: url('images/icon-32-os-misc.png') no-repeat left;
+}
+
+.icon-32-joomla2opensim {
+	background: url('images/icon-32-joomla2opensim.png') no-repeat left;
+}
+
+.icon-32-userrepair {
+	background: url('images/icon-32-userrepair.png') no-repeat left;
+}
+
+.icon-32-usermoney {
+	background: url('images/icon-32-money.png') no-repeat left;
+}
+
+.icon-32-jopensim {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-jopensim.png') no-repeat left;
+}
+.icon-32-gridmap {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-maps.png') no-repeat left;
+}
+
+.icon-32-user {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-user.png') no-repeat left;
+}
+
+.icon-32-groups {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-groups.png') no-repeat left;
+}
+
+.icon-32-search {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-search.png') no-repeat left;
+}
+
+.icon-32-money {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-money.png') no-repeat left;
+}
+
+.icon-32-misc {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-misc.png') no-repeat left;
+}
+
+.icon-32-addonhelp {
+	min-width:32px;
+	min-height:32px;
+	float:left;
+	background: url('images/icon-32-addonhelp.png') no-repeat left;
+}
+
+.icon-32-mapconfig {
+	background: url('images/icon-32-config.png') no-repeat left top;
+}
+
+.icon-32-maprefresh {
+	background: url('images/icon-32-maprefresh.png') no-repeat left top;
+}
+
+#toolbar-maprefresh button.btn-small {
+	background: url('images/icon-18-maprefresh.png') no-repeat 4px 2px;
+	/*border:1px solid #f00;*/
+}
+
+#toolbar-maprefresh button.btn-small:hover {
+	background: url('images/icon-18-maprefresh2.png') #e6e6e6 no-repeat 4px 2px;
+	/*border:1px solid #f00;*/
+}
+
+#toolbar-joomla2opensim button.btn-small {
+	background: url('images/icon-18-joomla2opensim.png') no-repeat 4px 2px;
+	/*border:1px solid #f00;*/
+}
+
+#toolbar-joomla2opensim button.btn-small:hover {
+	background-color:#e6e6e6;
+}
+
+#toolbar-userrepair button.btn-small {
+	background: url('images/icon-18-userrepair.png') no-repeat 4px 2px;
+	/*border:1px solid #f00;*/
+}
+
+#toolbar-userrepair button.btn-small:hover {
+	background-color:#e6e6e6;
+}
+
+#toolbar-usermoney button.btn-small {
+	background: url('images/icon-18-usermoney.png') no-repeat 4px 2px;
+	/*border:1px solid #f00;*/
+}
+
+#toolbar-usermoney button.btn-small:hover {
+	background-color:#e6e6e6;
+}
+
+.icon-32-moneyconfig {
+	background: url('images/icon-32-config.png') no-repeat left top;
+}
+
+.com_opensim_title {
+	color:#0b55c4;
+	font-size:25px;
+	font-weight:bold;
+}
+
+.com_opensim_okmsg {
+	/*border:1px solid #ff0000;*/
+	float:right;
+	font-size:18px;
+	color:#009900;
+	font-weight:bold;
+	text-align:right;
+}
+
+a.os_mainscreen:hover {
+	text-decoration:none;
+}
+
+.regionLocationSelector {
+	cursor:crosshair;
+}
+
+.mapcontainer {
+	background:#18384B;
+	text-align:center;
+	/*width:90%;*/
+	/*padding:25px;*/
+}
+
+.maptable {
+	border-collapse:collapse;
+	padding:0px;
+	margin:0px;
+	background:#18384B;
+	border:#2F6F95 1px solid;
+}
+
+.maptable td img {
+	padding:0px !important;
+}
+
+.tooltip {
+	border-bottom: 1px dotted black;
+}
+
+.terminaltable, .grouptable {
+	border:#000000 1px solid;
+}
+
+.terminaltable th, .terminaltable td, .grouptable th, .grouptable td {
+	padding:10px;
+}
+
+.terminaltable th, .grouptable th {
+	background:#cccccc;
+}
+
+.location_field, .minute_field, .channel_field, .number_field {
+	text-align:right;
+}
+
+.location_field, .minute_field, .channel_field {
+	width:3em;
+}
+
+.location_field {
+	margin-right:10px;
+}
+
+.imagebrowsertable {
+	border-collapse:collapse;
+	border:1px solid #cccccc;
+}
+
+.imagebrowsertable td {
+	text-align:center;
+	padding:3px;
+	border:1px solid #cccccc;
+}
+
+.imagebrowsertable td a:link{
+	text-decoration:none;
+}
+
+.jopensim_useredittable {
+	display:table;
+	background:#ffffff;
+	min-width:400px;
+}
+
+.jopensim_useredittable_caption, .jopensim_addon_caption {
+	display:table-caption;
+	font-weight:bold;
+	font-size:120%;
+	margin:15px 0px 5px 5px;
+}
+
+.jopensim_useredittable_tr, .jopensim_addon_tr {
+	display:table-row;
+}
+
+.jopensim_useredittable_td1, .jopensim_addon_td1 {
+	display:table-cell;
+	min-width:200px;
+	padding:5px;
+	border-bottom:4px solid #f4f4f4;
+}
+
+.jopensim_useredittable_td2 {
+	display:table-cell;
+	min-width:200px;
+	padding:5px;
+	border-bottom:4px solid #f4f4f4;
+}
+
+.jopensim_addon_table {
+	display:table;
+	min-width:400px;
+}
+
+.jopensim_addon_td1 {
+	vertical-align:top;
+	/*border:1px #ff0000 dotted;*/
+}
+
+.jopensim_addon_td2 {
+	display:table-cell;
+	min-width:600px;
+	min-height:400px;
+	padding:5px;
+	vertical-align:top;
+	background:#ffffff;
+}
+
+.jopensim_infotitle {
+	font-size:30px;
+	color:#2D5FAA;
+	font-weight:bold;
+}
+
+.addonsubtitle {
+	font-size: 1.182em;
+	font-weight:bold;
+}
+
+.jopensim_addoninfo {
+	font-size:12px;
+}
+
+.jopensim_search_settings {
+	background:#f4f4f4;
+}
+
+.jopensim_search_settings td {
+	padding:5px;
+	background:#fff;
+}
+
+.jopensim_search_settings_td2 {
+	border-left:20px #f4f4f4;
+}
+
+.jopensim_disabledoption {
+	color:#cccccc;
+	font-style:italic;
+}
+
+.jopensim-icon-view {
+	display:block;
+	width:20px;
+	height:20px;
+	background: url('images/icon-20-view.gif') no-repeat;
+}
+
+a#registeredhostswindow.modal {
+	display:block;
+	width:20px;
+	height:20px;
+}
+
+.jopensim-icon-refresh {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 0.25em;
+	line-height: 14px;
+	background: url('images/icon-14-maprefresh.png') no-repeat;
+}
+.jopensim-icon-purge2 {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 0.25em;
+	line-height: 14px;
+	background: url('images/icon-14-purge.png') no-repeat;
+}
+
+.jopensim_debugtable {
+	border:1px solid #666;
+}
+
+.jopensim_debugcol1 {
+	vertical-align:top;
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+}
+
+.jopensim_debugcol2 {
+	background:#ddd;
+	border-top:1px solid #fff;
+	border-bottom:1px solid #fff;
+	white-space:pre;
+	font-family:monospace;
+}
+
+.menu-icon-16-opensim {
+	background: url("images/icon-16-opensim.png") no-repeat scroll 0 0 transparent !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-opensim:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-control-panel {
+	background: url("images/icon-16-os-control-panel.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-control-panel:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-config {
+	background: url("images/icon-16-os-config.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-config:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-login {
+	background: url("images/icon-16-os-login.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-login:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-maps {
+	background: url("images/icon-16-os-maps.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-maps:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-user {
+	background: url("images/icon-16-os-user.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-user:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-group {
+	background: url("images/icon-16-os-group.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-group:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-search {
+	background: url("images/icon-16-os-search.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-search:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-money {
+	background: url("images/icon-16-os-money.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-money:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-os-misc {
+	background: url("images/icon-16-os-misc.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-os-misc:hover {
+	background-color: #13294a !important;
+}
+
+.menu-icon-16-addonhelp {
+	background: url("images/icon-16-addonhelp.png") no-repeat !important;
+	background-position: left !important;
+}
+
+a.menu-icon-16-addonhelp:hover {
+	background-color: #13294a !important;
+}
+

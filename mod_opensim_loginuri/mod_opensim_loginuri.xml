@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+	<name>jOpenSim LoginURI Module</name>
+    <title>jOpenSim LoginURI Module</title>
+	<author>djphil</author>
+	<creationDate>Avril 2016</creationDate>
+	<copyright>Copyright (C) djphil 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later.</license>
+	<authorEmail>mail@mail.com</authorEmail>
+	<authorUrl>www.domain.com</authorUrl>
+	<version>0.3.0.0</version>
+	<description>MOD_OPENSIM_LOGINURI_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_opensim_loginuri">mod_opensim_loginuri.php</filename>
+		<folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+		<filename>helper.php</filename>
+        <filename>functions.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_opensim_loginuri.ini</language>
+		<language tag="en-GB">language/en-GB.mod_opensim_loginuri.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_loginuri.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_loginuri.sys.ini</language>
+	</languages>
+
+	<help url="MOD_OPENSIM_LOGINURI_HELP_URL" key="" />
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="loginuri"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_URI_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_URI_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+                    name="spacer" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_NO_DESC" 
+                    showon="loginuri:0" />
+
+				<field 
+                    name="spacerno" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_DESC" 
+                    showon="loginuri:1" />
+
+                <field
+					name="domainname"
+					type="textarea"
+					filter="safehtml"
+                    default="domain.com"
+                    showon="loginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_DOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_DOMAINNAME_TEXT_DESC" />
+
+				<field
+					name="domainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+                    showon="loginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_DOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_DOMAINPORT_TEXT_DESC" />
+
+				<field
+					name="loginuriclick"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="loginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_LOGINURICLICK_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_LOGINURICLICK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="loginurisubtitle"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="loginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_URISUB_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_URISUB_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="loginurissl"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="loginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_URISSL_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_URISSL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="hgloginuri"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGURI_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGURI_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+                    name="spacerhg" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_NO_DESC" 
+                    showon="hgloginuri:0" />
+
+                <field 
+                    name="spacerhgno" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_DESC" 
+                    showon="hgloginuri:1" />
+
+                <field
+					name="hgdomainname"
+					type="textarea"
+					filter="safehtml"
+                    default="hg.domain.com"
+                    showon="hgloginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINNAME_TEXT_DESC" />
+				<field
+					name="hgdomainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+                    showon="hgloginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINPORT_TEXT_DESC" />
+
+				<field
+					name="hgloginuriclick"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="hgloginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGLOGINURICLICK_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGLOGINURICLICK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hgloginurisubtitle"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="hgloginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGURISUB_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGURISUB_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hgloginurissl"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="hgloginuri:1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGURISSL_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGURISSL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+
+            <!--
+			<fieldset
+				name="MOD_OPENSIM_LOGINURI_CONFIGURATION">
+
+				<field 
+                    name="spacer" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_NO_DESC" 
+                    showon="loginuri:0" />
+				<field 
+                    name="spacerno" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_DESC" 
+                    showon="loginuri:1" />
+
+				<field
+					name="domainname"
+					type="textarea"
+					filter="safehtml"
+                    default="domain.com"
+                    showon="loginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_DOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_DOMAINNAME_TEXT_DESC" />
+				<field
+					name="domainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+                    showon="loginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_DOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_DOMAINPORT_TEXT_DESC" />
+
+				<field 
+                    name="spacerhg" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_NO_DESC" 
+                    showon="hgloginuri:0" />
+				<field 
+                    name="spacerhgno" 
+                    type="spacer" 
+                    class="text"
+					label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_DESC" 
+                    showon="hgloginuri:1" />
+
+                <field
+					name="hgdomainname"
+					type="textarea"
+					filter="safehtml"
+                    default="hg.domain.com"
+                    showon="hgloginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINNAME_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINNAME_TEXT_DESC" />
+				<field
+					name="hgdomainport"
+					type="textarea"
+					filter="safehtml"
+                    default="8002"
+                    showon="hgloginuri:1"
+					cols="30"
+					rows="1"
+					label="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINPORT_TEXT_LABEL"
+					description="MOD_OPENSIM_LOGINURI_FIELD_HGDOMAINPORT_TEXT_DESC" />
+			</fieldset>
+            -->
+
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">
+            http://update.jopensim.com/jopensim_list.xml
+        </server>
+    </updateservers>
+</extension>

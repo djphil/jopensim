@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+	<name>jOpenSim Gridinfos Module</name>
+    <title>jOpenSim Gridinfos Module</title>
+	<author>djphil</author>
+	<creationDate>Avril 2016</creationDate>
+	<copyright>Copyright (C) djphil 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later.</license>
+	<authorEmail>mail@mail.com</authorEmail>
+	<authorUrl>www.domain.com</authorUrl>
+    <version>0.3.0.0</version>
+	<description>MOD_OPENSIM_GRIDINFOS_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_opensim_gridinfos">mod_opensim_gridinfos.php</filename>
+		<folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+		<filename>helper.php</filename>
+        <filename>functions.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_opensim_gridinfos.ini</language>
+		<language tag="en-GB">language/en-GB.mod_opensim_gridinfos.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_gridinfos.ini</language>
+		<language tag="fr-FR">language/fr-FR.mod_opensim_gridinfos.sys.ini</language>
+	</languages>
+
+	<help url="MOD_OPENSIM_GRIDINFOS_HELP_URL" key="" />
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="simulator"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="simulatortext"
+					type="list"
+					default="0"
+                    showon="simulator:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_TEXT_DESC">
+					<option value="0">OpenSim</option>
+                    <option value="1">Diva</option>
+                    <option value="3">Moze</option>
+					<option value="4">Aurora-Sim</option>
+					<option value="5">WhiteCore-Sim</option>
+				</field>
+
+				<field
+					name="version"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_VERSION_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_VERSION_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="versiontext"
+					type="text"
+                    filter="safehtml"
+					default="0.8.2.1"
+                    showon="version:1"
+					size="20"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_VERSION_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_VERSION_TEXT_DESC" />
+
+				<field
+					name="mode"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_MODE_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_MODE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="modetext"
+					type="list"
+					default="0"
+                    showon="mode:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_MODE_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_MODE_TEXT_DESC">
+					<option value="0">MOD_OPENSIM_GRIDINFOS_FIELD_STANDALONE</option>
+					<option value="1">MOD_OPENSIM_GRIDINFOS_FIELD_GRID</option>
+				</field>
+
+				<field
+					name="access"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="accesstext"
+					type="list"
+					default="0"
+                    showon="access:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_TEXT_DESC">
+					<option value="0">MOD_OPENSIM_GRIDINFOS_FIELD_PUBLIC</option>
+					<option value="1">MOD_OPENSIM_GRIDINFOS_FIELD_PRIVATE</option>
+				</field>
+
+				<field
+					name="rating"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_RATING_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_RATING_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="ratingtext"
+					type="list"
+					default="0"
+                    showon="rating:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_ACCESS_TEXT_DESC">
+					<option value="0">MOD_OPENSIM_GRIDINFOS_FIELD_GENERAL</option>
+					<option value="1">MOD_OPENSIM_GRIDINFOS_FIELD_MATURE</option>
+                    <option value="2">MOD_OPENSIM_GRIDINFOS_FIELD_ADULT</option>
+				</field>
+
+				<field
+					name="hypergrid"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_HYPERGRID_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_HYPERGRID_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hypergridtext"
+					type="list"
+					default="0"
+                    showon="hypergrid:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_HYPERGRID_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_HYPERGRID_TEXT_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="voice"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_VOICE_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_VOICE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="voicetext"
+					type="list"
+					default="0"
+                    showon="voice:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_VOICE_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_VOICE_TEXT_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="money"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_MONEY_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_MONEY_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="moneytext"
+					type="list"
+					default="0"
+                    showon="money:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_MONEY_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_MONEY_TEXT_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="physics"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="physicstext"
+					type="list"
+					default="2"
+                    showon="physics:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_TEXT_DESC">
+					<option value="0">Ode</option>
+                    <option value="1">ubOde</option>
+                    <option value="2">Bulletsim</option>
+                    <option value="3">PhysX</option>
+                    <option value="4">Ninja</option>
+                    <option value="5">Custom</option>
+				</field>
+
+				<field
+					name="scripts"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="scriptstext"
+					type="list"
+					default="0"
+                    showon="scripts:1"
+					label="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_LABEL"
+					description="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_DESC">
+					<option value="0">XEngine</option>
+					<option value="1">Custom</option>
+				</field>
+
+			</fieldset>
+
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">
+            http://update.jopensim.com/jopensim_list.xml
+        </server>
+    </updateservers>
+</extension>

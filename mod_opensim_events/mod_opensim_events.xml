@@ -1,0 +1,196 @@
+<?xml version="1.0"	encoding="utf-8"?>
+<extension
+	type="module"
+	version="3.1"
+	client="site"
+	method="upgrade">
+	<name>jOpenSim Events Module</name>
+	<author>FoTo50</author>
+	<creationDate>2016-04-25</creationDate>
+	<copyright>All rights reserved by FoTo50 2016</copyright>
+	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<authorEmail>foto50@jopensim.com</authorEmail>
+	<authorUrl>http://www.jopensim.com</authorUrl>
+	<version>0.3.0.10</version>
+	<description>MOD_OPENSIM_EVENTS_DESC</description>
+
+	<files>
+		<filename module="mod_opensim_events">mod_opensim_events.php</filename>
+		<folder>assets</folder>
+        <folder>language</folder>
+		<folder>tmpl</folder>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_opensim_events.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_events.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_events.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_events.sys.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_events.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_events.sys.ini</language>
+	</languages>
+
+    <help url="MOD_OPENSIM_EVENTS_HELP_URL" key="" />
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="numberevents"
+					type="number"
+					default="3"
+					min="1"
+					label="MOD_OPENSIM_EVENTS_NUMBER"
+					description="MOD_OPENSIM_EVENTS_NUMBER_DESC" />
+
+				<field
+					name="eventsinadvance"
+					type="list"
+					default="24hours"
+					label="MOD_OPENSIM_EVENTS_INADVANCE"
+					description="MOD_OPENSIM_EVENTS_INADVANCE_DESC">
+					<option value="24hours">MOD_OPENSIM_EVENTS_INADVANCE_24HOURS</option>
+					<option value="7days">MOD_OPENSIM_EVENTS_INADVANCE_7DAYS</option>
+					<option value="30days">MOD_OPENSIM_EVENTS_INADVANCE_30DAYS</option>
+					<option value="3months">MOD_OPENSIM_EVENTS_INADVANCE_3MONTHS</option>
+					<option value="6months">MOD_OPENSIM_EVENTS_INADVANCE_6MONTHS</option>
+					<option value="12months">MOD_OPENSIM_EVENTS_INADVANCE_12MONTHS</option>
+					<option value="all">MOD_OPENSIM_EVENTS_INADVANCE_ALL</option>
+				</field>
+				<field
+					name="showeventinprogress"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_INPROGRESS"
+					description="MOD_OPENSIM_EVENTS_INPROGRESS_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="guesttimezone"
+					type="timezone"
+					default="UTC"
+					label="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTS"
+					description="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTS_DESC">
+					<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
+				</field>
+
+				<field
+					name="eventdateformat"
+					type="text"
+					default="Y/m/d"
+					size="10"
+					label="MOD_OPENSIM_EVENTS_DATEFORMAT"
+					description="MOD_OPENSIM_EVENTS_DATEFORMAT_DESC" />
+
+				<field
+					name="eventtimeformat"
+					type="text"
+					default="H:i"
+					size="10"
+					label="MOD_OPENSIM_EVENTS_TIMEFORMAT"
+					description="MOD_OPENSIM_EVENTS_TIMEFORMAT_DESC" />
+
+				<field
+					name="showmature"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_MATURE"
+					description="MOD_OPENSIM_EVENTS_MATURE_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="showeventicon"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_ICON"
+					description="MOD_OPENSIM_EVENTS_ICON_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="showextratitle"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_SHOWTITLE"
+					description="MOD_OPENSIM_EVENTS_SHOWTITLE_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="showdesc"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_SHOWDESC"
+					description="MOD_OPENSIM_EVENTS_SHOWDESC_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+
+				<field
+					name="truncatedesc"
+					type="number"
+					default="1000"
+					min="1"
+					label="MOD_OPENSIM_EVENTS_TRUNCATEDESC"
+					description="MOD_OPENSIM_EVENTS_TRUNCATEDESC_DESC" />
+
+			</fieldset>
+            
+			<fieldset
+				name="EVENTS_CUSTOMIZED">
+				<field
+					name="progressColor"
+					type="color"
+					default="#00ff00"
+					size="7"
+					label="MOD_OPENSIM_EVENTS_INPROGRESS_COLOR"
+					description="MOD_OPENSIM_EVENTS_INPROGRESS_COLOR_DESC" />
+			</fieldset>
+
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+			</fieldset>
+		</fields>
+	</config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+    </updateservers>
+</extension>

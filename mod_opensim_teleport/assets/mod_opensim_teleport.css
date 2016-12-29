@@ -1,0 +1,17 @@
+/**
+ * @module      OpenSim Teleport (mod_opensim_teleport)
+ * @copyright   Copyright (C) djphil 2016, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later.
+ * @creative    CC-BY-NC-SA 4.0
+**/
+
+.jOpenSim_teleport {;}
+.jOpenSim_teleport .text-right {font-weight: normal; text-align: right;}
+.jOpenSim_teleport table {width: 100%;}
+.jOpenSim_teleport tr {;}
+.jOpenSim_teleport td {;}
+
+.jOpenSim_teleport .tplocal,
+.jOpenSim_teleport .tphg,
+.jOpenSim_teleport .tphgv3,
+.jOpenSim_teleport .tphop {display: inline-block;  margin-bottom: 4px;}
