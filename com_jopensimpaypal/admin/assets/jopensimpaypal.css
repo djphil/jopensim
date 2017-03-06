@@ -1,0 +1,75 @@
+ /* jOpenSim Paypal CSS v0.1  by djphil */
+
+@CHARSET "UTF-8";
+
+/* Overview */
+.well  ul {
+    list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* Todo ... */
+.icon-48-jopensimpaypal {
+	background: url('icons/icon-48-jopensimpaypal.png') no-repeat left;
+}
+
+.jopensimpaypalstatus_none {
+	background-color: #FF9933 !important;
+}
+
+.jopensimpaypalstatus_other {
+	background-color: #FFFF97 !important;
+}
+
+.jopensimpaypalstatus_ok {
+}
+
+.jopensimpayoutstatus_error {
+	background-color: #FF0000 !important;
+}
+
+.jopensimpayoutstatus_warning {
+	background-color: #FF9933 !important;
+}
+
+.jopensimpayoutstatus_ok {
+}
+
+.jopensimpaypal_overviewlistitem, .jopensimpaypal_overviewlistitem2 {
+	font-size:130%;
+	/*font-weight:bold;*/
+}
+
+.jopensimpaypal_overviewlistitem {
+	padding-top:15px;
+}
+
+.jopensimpaypal_overviewlistitem2 {
+	padding: 5px 0px 10px 0px;
+}
+
+.jopensimpaypal_overview_transactionnumber {
+	color:#DB7A0F;
+	font-weight:bold;
+}
+
+.jopensimpaypal_overview_payoutnumber {
+	color:#F05B1C;
+	font-weight:bold;
+}
+
+.jopensimpaypal_overview_unsolvednumber {
+	color:#F50F03;
+	font-weight:bold;
+}
+
+.jopensimpaypal_numbercell {
+	text-align:right !important;
+	padding-right:25px !important;
+}
+
+a.os_mainscreen:hover {
+	text-decoration:none;
+}
+

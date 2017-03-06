@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" type="component" version="3.1">
+    <name>COM_JOPENSIMPAYPAL</name>
+    <creationDate>2016-03-06</creationDate>
+    <author>FoTo50</author>
+    <authorEmail>info@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <copyright>All rights reserved by FoTo50 2016</copyright>
+    <license>GPL 2.0</license>
+    <version>0.3.0.10</version>
+    <description>COM_JOPENSIMPAYPAL_DESC</description>
+    <scriptfile>script.jopensimpaypal.php</scriptfile>
+    <install>
+	<!-- Install Database Section -->
+    <sql>
+        <file driver="mysql" charset="utf8">sql/install.jopensimpaypal.sql</file>
+    </sql>
+    <!-- Global component parameters -->
+    <params>
+        <param name="currency" default="EUR" />
+        <param name="rate" default="100" />
+    </params>
+    </install>
+    <uninstall>
+    <sql>
+        <file driver="mysql" charset="utf8">sql/uninstall.jopensimpaypal.sql</file>
+    </sql>
+    </uninstall>
+    <update>
+    <schemas>
+        <schemapath type="mysql">sql/updates</schemapath>
+    </schemas>
+    </update>
+    <!-- Custom Install Script to execute -->
+    <!-- <installfile>opensim.install.php</installfile> -->
+    <!-- <uninstallfile>opensim.uninstall.php</uninstallfile> -->
+
+    <files folder="site">
+        <filename>controller.php</filename>
+        <filename>index.html</filename>
+        <filename>jnotify.php</filename>
+        <filename>jopensimpaypal.log</filename>
+        <filename>jopensimpaypal.php</filename>
+        <folder>assets</folder>
+        <folder>controllers</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+    </files>
+
+    <languages folder="language">
+        <language tag="en-GB">site/en-GB.com_jopensimpaypal.ini</language>
+    </languages>
+
+    <administration>
+    <!-- Administration Menu Section -->
+    <menu link="option=com_jopensimpaypal">JOPENSIMPAYPAL_MENU_NAME</menu>
+    <!-- Administration Main File Copy Section -->
+    <files folder="admin">
+        <filename>access.xml</filename>
+        <filename>config.xml</filename>
+        <filename>controller.php</filename>
+        <filename>index.html</filename>
+        <filename>jopensimpaypal.php</filename>
+        <filename>licence.php</filename>
+        <folder>assets</folder>
+        <folder>controllers</folder>
+        <folder>fields</folder>
+        <folder>help</folder>
+        <folder>models</folder>
+        <folder>sql</folder>
+        <folder>views</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">admin/en-GB.com_jopensimpaypal.ini</language>
+        <language tag="en-GB">admin/en-GB.com_jopensimpaypal.sys.ini</language>
+    </languages>
+    </administration>
+    <updateservers>
+		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+    </updateservers>
+</extension>

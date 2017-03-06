@@ -1,0 +1,67 @@
+/* jOpenSimPaypal CSS v0.2 */
+
+.jOpenSimPayPalPayPalTable {
+	display:table;
+	/*border:1px dotted #00ff00;*/
+	width: 100%;
+}
+
+.jOpenSimPayPalPayPalTableRow {
+	/*border:1px dotted #0000ff;*/
+	display:table-row;
+	width: 100%;
+	height:30px;
+}
+
+.jOpenSimPayPalPayPalTableCell {
+	vertical-align:middle;
+	width:150px;
+	/*border:1px dotted #ff0000;*/
+	display:table-cell;
+	height:30px;
+}
+
+.jOpenSimPayPalCurrencyCell {
+	text-align:right;
+}
+
+input.jOpenSimPayPalRLcurrency {
+	text-align:right;
+}
+
+.jopensimpaypal_transactiontable {
+	width:100%;
+	/* border: 1px solid rgba(255, 255, 255, 0.1); */
+	border-collapse: collapse;
+}
+
+.jopensimpaypal_transactiontablehead {
+	/* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
+	/* padding: 5px 10px; */
+	text-align: left;
+}
+
+.jopensimpaypal_transactiontablecell {
+    background: rgba(255, 255, 255, 0.1);
+/*
+	border-bottom:1px solid rgba(255, 255, 255, 0.1);
+	border-left:1px solid rgba(255, 255, 255, 0.1);
+	border-right:1px solid rgba(255, 255, 255, 0.1);
+	padding: 5px 10px;
+*/
+}
+
+.jopensimpaypal_numbercell {
+	text-align:right;
+}
+
+.jopensimpaypal_centercell {
+	text-align:left;
+}
+
+.jopensimpaypal_cell_first,
+.jopensimpaypal_cell_last,
+.jopensimpaypal_cell_all
+{
+    /* border-left:1px solid rgba(255, 255, 255, 0.1); */
+}

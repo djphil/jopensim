@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Paypal Form">
+		<message>Provide a form with exchange calculator for paypal</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field
+				name="defaultvalue"
+				type="text"
+				label="COM_JOPENSIMPAYPAL_PAYPAL_DEFAULTVALUE_LABEL"
+				description="COM_JOPENSIMPAYPAL_PAYPAL_DEFAULTVALUE_DESC"
+				default="10"
+				/>
+		</fieldset>
+	</fields>
+</metadata>

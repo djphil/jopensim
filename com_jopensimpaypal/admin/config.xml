@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+	<fields addfieldpath="/administrator/components/com_jopensimpaypal/fields">
+		<fieldset name="paypalsettings" label="COM_JOPENSIMPAYPAL_PAYPAL_SETTINGS" description="COM_JOPENSIMPAYPAL_PAYPAL_SETTINGS_DESC">
+			<field type="text" name="paypal_account" size="30" label="COM_JOPENSIMPAYPAL_PAYPAL_ACCOUNT" description="COM_JOPENSIMPAYPAL_PAYPAL_ACCOUNT_DESC" />
+			<field type="text" name="paypal_sandbox" size="30" label="COM_JOPENSIMPAYPAL_PAYPAL_SANDBOX" description="COM_JOPENSIMPAYPAL_PAYPAL_SANDBOX_DESC" />
+			<field type="list" name="sandboxmode" default="1" label="COM_JOPENSIMPAYPAL_ISSANDBOX" description="COM_JOPENSIMPAYPAL_ISSANDBOX_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="list" name="paypal_nossl" default="0" label="COM_JOPENSIMPAYPAL_NOSSL" description="COM_JOPENSIMPAYPAL_NOSSL_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+		<fieldset name="currencysettings" label="COM_JOPENSIMPAYPAL_CURRENCY_SETTINGS" description="COM_JOPENSIMPAYPAL_CURRENCY_SETTINGS_DESC">
+			<field
+                name="currency"
+                type="currencyselector"
+                label="COM_JOPENSIMPAYPAL_CURRENCY_LABEL"
+                description="COM_JOPENSIMPAYPAL_CURRENCY_DESC"
+            />
+			<field type="text" name="currencyratebuy" size="4" label="COM_JOPENSIMPAYPAL_RATE_BUY" description="COM_JOPENSIMPAYPAL_RATE_BUY_DESC" />
+			<field type="text" name="currencyratesell" size="4" label="COM_JOPENSIMPAYPAL_RATE_SELL" description="COM_JOPENSIMPAYPAL_RATE_SELL_DESC" />
+			<field name="spacer1" type="spacer" hr="true" />
+			<field type="text" name="transactionfee" size="4" label="COM_JOPENSIMPAYPAL_FEE" description="COM_JOPENSIMPAYPAL_FEE_DESC" />
+			<field type="list" name="transactionfeetype" label="COM_JOPENSIMPAYPAL_FEE_TYPE" description="COM_JOPENSIMPAYPAL_FEE_TYPE_DESC">
+				<option value="amount">COM_JOPENSIMPAYPAL_FEE_TYPE_AMOUNT</option>
+				<option value="percent">COM_JOPENSIMPAYPAL_FEE_TYPE_PERCENT</option>
+			</field>
+			<field name="spacer2" type="spacer" hr="true" />
+			<field type="text" name="minbuy" size="4" label="COM_JOPENSIMPAYPAL_MIN_BUY" description="COM_JOPENSIMPAYPAL_MIN_BUY_DESC" />
+			<field type="text" name="maxbuy" size="4" label="COM_JOPENSIMPAYPAL_MAX_BUY" description="COM_JOPENSIMPAYPAL_MAX_BUY_DESC" />
+			<field name="spacer3" type="spacer" hr="true" />
+			<field type="text" name="minsell" size="4" label="COM_JOPENSIMPAYPAL_MIN_SELL" description="COM_JOPENSIMPAYPAL_MIN_SELL_DESC" />
+			<field type="text" name="maxsell" size="4" label="COM_JOPENSIMPAYPAL_MAX_SELL" description="COM_JOPENSIMPAYPAL_MAX_SELL_DESC" />
+			<field name="spacer4" type="spacer" hr="true" />
+			<field type="text" name="transactiontext" size="20" label="COM_JOPENSIMPAYPAL_TRANSACTIONTEXT" description="COM_JOPENSIMPAYPAL_TRANSACTIONTEXT_DESC" />
+		</fieldset>
+		<fieldset name="textsettings_buy" label="COM_JOPENSIMPAYPAL_TEXT_SETTINGS_BUY" description="COM_JOPENSIMPAYPAL_TEXT_SETTINGS_BUY_DESC">
+			<field name="pre_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_PREMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_PREMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+			<field name="spacer5" type="spacer" hr="true" />
+			<field name="post_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_POSTMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_POSTMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+			<field name="spacer6" type="spacer" hr="true" />
+			<field name="success_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_SUCCESSMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_SUCCESSMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+			<field name="spacer7" type="spacer" hr="true" />
+			<field name="cancel_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_CANCELMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_CANCELMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+		</fieldset>
+		<fieldset name="textsettings_sell" label="COM_JOPENSIMPAYPAL_TEXT_SETTINGS_SELL" description="COM_JOPENSIMPAYPAL_TEXT_SETTINGS_SELL_DESC">
+			<field name="sell_pre_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_PREMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_PREMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+			<field name="spacer5" type="spacer" hr="true" />
+			<field name="sell_post_message" label ="COM_JOPENSIMPAYPAL_PAYPAL_POSTMESSAGE" description="COM_JOPENSIMPAYPAL_PAYPAL_POSTMESSAGE_DESC" type="editor" width="300" filter="safehtml" />
+		</fieldset>
+		<fieldset name="notification" label="COM_JOPENSIMPAYPAL_NOTIFICATION_SETTINGS" description="COM_JOPENSIMPAYPAL_NOTIFICATION_SETTINGS_DESC">
+			<field type="list" name="notifytransaction" default="0" label="COM_JOPENSIMPAYPAL_NOTIFYTRANSACTION" description="COM_JOPENSIMPAYPAL_NOTIFYTRANSACTION_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="list" name="notifyerror" default="0" label="COM_JOPENSIMPAYPAL_NOTIFYERROR" description="COM_JOPENSIMPAYPAL_NOTIFYERROR_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="list" name="notifywarning" default="0" label="COM_JOPENSIMPAYPAL_NOTIFYWARNING" description="COM_JOPENSIMPAYPAL_NOTIFYWARNING_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="list" name="notifypayout" default="0" label="COM_JOPENSIMPAYPAL_NOTIFYPAYOUT" description="COM_JOPENSIMPAYPAL_NOTIFYPAYOUT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field type="text" name="notifyemail" size="30" label="COM_JOPENSIMPAYPAL_NOTIFYEMAIL" description="COM_JOPENSIMPAYPAL_NOTIFYEMAIL_DESC" />
+			<field name="spacer8" type="spacer" hr="true" />
+			<field type="list" name="log2file" default="0" label="COM_JOPENSIMPAYPAL_LOG" description="COM_JOPENSIMPAYPAL_LOG_DESC">
+				<option value="0">JNO</option>
+				<option value="1">COM_JOPENSIMPAYPAL_LOGERROR</option>
+				<option value="3">COM_JOPENSIMPAYPAL_LOGALL</option>
+			</field>
+			<field type="text" name="logpath" size="30" label="COM_JOPENSIMPAYPAL_LOGPATH" description="COM_JOPENSIMPAYPAL_LOGPATH_DESC" showon="log2file:1,3" />
+			<field name="jopensimpaypallogfilenote" type="jopensimpaypallogfilenote" class="alert alert-warn" close="true" showon="log2file:1,3" />
+		</fieldset>
+		<fieldset name="userlimit" label="COM_JOPENSIMPAYPAL_USERLIMIT_SETTINGS" description="COM_JOPENSIMPAYPAL_USERLIMIT_SETTINGS_DESC">
+			<field type="text" name="userlimit_day" size="4" label="COM_JOPENSIMPAYPAL_USERLIMIT_DAY" description="COM_JOPENSIMPAYPAL_USERLIMIT_DAY_DEFAULT_DESC" />
+			<field type="text" name="userlimit_week" size="4" label="COM_JOPENSIMPAYPAL_USERLIMIT_WEEK" description="COM_JOPENSIMPAYPAL_USERLIMIT_WEEK_DEFAULT_DESC" />
+			<field type="text" name="userlimit_month" size="4" label="COM_JOPENSIMPAYPAL_USERLIMIT_MONTH" description="COM_JOPENSIMPAYPAL_USERLIMIT_MONTH_DEFAULT_DESC" />
+		</fieldset>
+		<fieldset name="permissions"
+			description="JCONFIG_PERMISSIONS_DESC"
+			label="JCONFIG_PERMISSIONS_LABEL"
+		>
+			<field name="rules" type="rules"
+				component="com_jopensimpaypal"
+				filter="rules"
+				validate="rules"
+				label="JCONFIG_PERMISSIONS_LABEL"
+				section="component"
+				description="JCONFIG_PERMISSIONS_DESC"
+			/>
+		</fieldset>
+	</fields>
+</config>
