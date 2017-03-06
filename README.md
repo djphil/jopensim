@@ -1,2 +1,2 @@
 # jopensim
-jOpenSim Full Pack
+jOpenSim Full Pack fr-FR
