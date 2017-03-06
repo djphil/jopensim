@@ -131,7 +131,7 @@ Joomla.orderTable = function()
 </tfoot>
 <?php else: ?>
 <tr>
-	<td colspan='5'><?php echo JText::_('JOPENSIM_NOGROUPSFOUND'); ?></th>
+	<td colspan='9'><?php echo JText::_('JOPENSIM_NOGROUPSFOUND'); ?></th>
 </tr>
 <?php endif; ?>
 </tbody>

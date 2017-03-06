@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -27,9 +27,9 @@ class opensimViewsearch extends JViewLegacy {
 
 		$assetinfo = pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
 		$assetpath = "components".DIRECTORY_SEPARATOR.$assetinfo['basename'].DIRECTORY_SEPARATOR."assets".DS;
-		$this->assignRef('assetpath',$assetpath);
-		$this->assignRef('searchoptions',$searchoptions);
-		$this->assignRef('searchsort',$searchsort);
+		$this->assetpath		= $assetpath;
+		$this->searchoptions	= $searchoptions;
+		$this->searchsort		= $searchsort;
 
 		switch($task) {
 			case "viewregisteredhosts":

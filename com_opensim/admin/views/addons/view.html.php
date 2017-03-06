@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -87,9 +87,9 @@ class opensimViewaddons extends JViewLegacy {
 			break;
 		}
 
-		$settings	= $model->_settingsData;
-		$this->assignRef('infotext',$infotext);
-		$this->assignRef('addons',$settings['addons']);
+		$settings		= $model->_settingsData;
+		$this->infotext	= $infotext;
+		$this->addons	= $settings['addons'];
 
 		$this->_setToolbar($tpl);
 		parent::display($tpl);

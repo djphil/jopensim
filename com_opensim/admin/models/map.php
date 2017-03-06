@@ -52,7 +52,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		$this->setState('limitstart', $limitstart);
 
 		$this->_osgrid_db = $this->getOpenSimGridDB();
-		if(JError::isError($this->_osgrid_db) || !$this->_osgrid_db) {
+		if(!$this->_osgrid_db) {
 			return FALSE;
 		}
 		$this->getMapData($filter,"regions.regionName","asc");
@@ -93,7 +93,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		global $mainframe,$option;
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_settingsData )) $this->getSettingsData();
-		if (!$this->_osgrid_db || JError::isError($this->_osgrid_db) || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
 			return FALSE;
 		}
 
@@ -170,7 +170,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 	}
 
 	public function getLocationRange() {
-		if (!$this->_osgrid_db || JError::isError($this->_osgrid_db) || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
 			return FALSE;
 		}
 		$opensim = $this->opensim;

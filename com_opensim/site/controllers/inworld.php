@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -83,7 +83,8 @@ class OpenSimControllerinworld extends OpenSimController {
 	}
 
 	public function update() {
-		$data	= JFactory::getApplication()->input->get('post');
+		$data	= JFactory::getApplication()->input->request->getArray();
+//		$data	= JFactory::getApplication()->input->get('post');
 		$task	= $task = JFactory::getApplication()->input->get('task','','method','string');
 		$itemid	= JFactory::getApplication()->input->get('Itemid');
 		$model = $this->getModel('inworld');
@@ -110,7 +111,8 @@ class OpenSimControllerinworld extends OpenSimController {
 	}
 
 	public function updateprofile() {
-		$data	= JFactory::getApplication()->input->get('post');
+		$data	= JFactory::getApplication()->input->request->getArray();
+//		$data	= JFactory::getApplication()->input->get('post');
 		$task	= JFactory::getApplication()->input->get('task','','method','string');
 		$itemid	= JFactory::getApplication()->input->get('Itemid');
 		$model = $this->getModel('inworld');

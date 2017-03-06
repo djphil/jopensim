@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -22,11 +22,11 @@ class opensimViewmaps extends JViewLegacy {
 		$this->sidebar		= JHtmlSidebar::render();
 
 		$model				    	= $this->getModel('map');
-		if (JError::isError($model->_osgrid_db) || !$model->_osgrid_db) {
-			if(!$model->_osgrid_db) JFactory::getApplication()->enqueueMessage(JText::sprintf('ERROR_NOSIMDB',JText::_('OPENSIMGRIDDB')),"error");
-			$errormsg = "<br />\n".JText::_('ERROR_NOREGION')."<br />\n".JText::_('ERRORQUESTION1')."<br />\n".JText::_('ERRORQUESTION2')."<br />\n";
-			$this->assignRef('errormsg',$errormsg);
-			$tpl = "nodb";
+		if(!$model->_osgrid_db) {
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('ERROR_NOSIMDB',JText::_('OPENSIMGRIDDB')),"error");
+			$errormsg		= "<br />\n".JText::_('ERROR_NOREGION')."<br />\n".JText::_('ERRORQUESTION1')."<br />\n".JText::_('ERRORQUESTION2')."<br />\n";
+			$this->errormsg	= $errormsg;
+			$tpl			= "nodb";
 		} else {
 			$regionmodel			= $this->getModel('regions');
 			$this->regionmodel		= $regionmodel;
@@ -45,7 +45,7 @@ class opensimViewmaps extends JViewLegacy {
 			$this->cacheimages		= $model->getCacheImages();
 	
 			$mapfolder = $model->checkCacheFolder();
-			$this->assignRef('mapfolder',$mapfolder);
+			$this->mapfolder	= $mapfolder;
 	
 			if($mapfolder['existing'] == FALSE) {
 				$foldercreated = $model->createImageFolder();
@@ -63,29 +63,29 @@ class opensimViewmaps extends JViewLegacy {
 					$ismapcache = TRUE;
 				}
 			}
-			$this->assignRef('ismapcache',$ismapcache);
+			$this->ismapcache	= $ismapcache;
 	
 			$settingsdata = $model->getSettingsData();
 			$this->defaultregion	= $settingsdata['jopensim_userhome_region'];
-			$this->assignRef('settings',$settingsdata);
+			$this->settings			= $settingsdata;
 			if(!$model->_osgrid_db) {
 				$queueMessage['error'][] = JText::sprintf('ERROR_NOSIMDB',JText::_('OPENSIMGRIDDB'));
 			}
 	
-			$assetinfo	= pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
-			$assetpath	= "components/".$assetinfo['basename']."/assets/";
-			$asseturl	= "components/".$assetinfo['basename']."/assets/regionimage.php?uuid=";
-			$this->assignRef('assetpath',$assetpath);
-			$cachepath	= JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'regions'.DIRECTORY_SEPARATOR;
-			$cacheurl	= JURI::root()."images/jopensim/regions/";
+			$assetinfo			= pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
+			$assetpath			= "components/".$assetinfo['basename']."/assets/";
+			$asseturl			= "components/".$assetinfo['basename']."/assets/regionimage.php?uuid=";
+			$this->assetpath	= $assetpath;
+			$cachepath			= JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'regions'.DIRECTORY_SEPARATOR;
+			$cacheurl			= JURI::root()."images/jopensim/regions/";
 	
-			$this->assignRef('cachepath',$cachepath);
-			$this->assignRef('mapserver',$settingsdata['oshost']);
-			$this->assignRef('mapport',$settingsdata['osport']);
-			$this->assignRef('settingsdata',$settingsdata);
+			$this->cachepath	= $cachepath;
+			$this->mapserver	= $settingsdata['oshost'];
+			$this->mapport		= $settingsdata['osport'];
+			$this->settingsdata	= $settingsdata;
 	
-			$task = JRequest::getVar( 'task', '', 'method', 'string');
-			$this->assignRef('task',$task);
+			$task				= JFactory::getApplication()->input->get('task','','method','string');
+			$this->task			= $task;
 	
 			if(count($queueMessage) > 0) {
 				foreach($queueMessage AS $type => $messages) {
@@ -113,10 +113,10 @@ class opensimViewmaps extends JViewLegacy {
 						$this->imgAddLink = "";
 					}
 					$region = $data['region'];
-					$this->assignRef('region',$region);
-					$regiondata = $model->getRegionDetails($region);
-					$this->assignRef('regiondata',$regiondata);
-					$tpl = "selectregion";
+					$this->region		= $region;
+					$regiondata			= $model->getRegionDetails($region);
+					$this->regiondata	= $regiondata;
+					$tpl				= "selectregion";
 				break;
 				case "editinfo":
 					$articles = $model->getArticles();
@@ -127,17 +127,17 @@ class opensimViewmaps extends JViewLegacy {
 					$mapinfo = $model->getMapInfo($selectedRegion);
 					$mapdetails = $model->getRegionDetails($selectedRegion);
 					$contentTitle = $model->getContentTitleFromId($mapinfo['articleId']);
-					$this->assignRef('data',$data);
-					$this->assignRef('contentTitle',$contentTitle);
-					$this->assignRef('mapinfo',$mapinfo);
-					$this->assignRef('articles',$articles);
+					$this->data			= $data;
+					$this->contentTitle	= $contentTitle;
+					$this->mapinfo		= $mapinfo;
+					$this->articles		= $articles;
 					if($ismapcache == TRUE && is_file($cachepath.$mapdetails['uuid'].".jpg")) {
 						$mapdetails['image'] = sprintf($regionimage,$cacheurl.$mapdetails['uuid'].".jpg","",$mapdetails['regionName'],256);
 					} else {
 						$params = sprintf("%1\$s&mapserver=%2\$s&mapport=%3\$s&scale=128",$mapdetails['maplink'],$mapdetails['serverIP'],$mapdetails['serverHttpPort']);
 						$mapdetails['image'] = sprintf($regionimage,$asseturl,$params,$mapdetails['regionName'],256);
 					}
-					$this->assignRef('mapdetails',$mapdetails);
+					$this->mapdetails	= $mapdetails;
 	
 					//Get button
 					$linkg = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jOpenSimSelectArticle';
@@ -150,21 +150,19 @@ class opensimViewmaps extends JViewLegacy {
 					$selectArticle->set('modalname', 'modal-button');
 					$selectArticle->set('options', "{handler: 'iframe', size: {x: 640, y: 360}}");
 					// - - - - - - - - - - - - - - - - 
-					$this->assignRef('selectArticle', $selectArticle);
-	
-					$tpl = "mapedit";
+					$this->selectArticle	= $selectArticle;
+					$tpl					= "mapedit";
 				break;
 				case "mapconfig":
-					$tpl = "mapconfig";
+					$tpl					= "mapconfig";
 				break;
 				default:
-					$ueberschrift = JText::_('JOPENSIM_MAPSMANAGEMENT');
-					$filter = JRequest::getVar('search');
-					$this->debugquery = $regionmodel->debugquery;
-					$regions = $regionmodel->getRegions();
-	
-					$mapquery = $model->mapquery;
-					$this->assignRef('mapquery',$mapquery);
+					$ueberschrift		= JText::_('JOPENSIM_MAPSMANAGEMENT');
+					$filter				= JFactory::getApplication()->input->get('search','','method','string');
+					$this->debugquery	= $regionmodel->debugquery;
+					$regions			= $regionmodel->getRegions();
+					$mapquery			= $model->mapquery;
+					$this->mapquery		= $mapquery;
 					$this->unusedImages = $regionmodel->unused;
 	
 					if(is_array($regions) && count($regions) > 0) {
@@ -199,10 +197,7 @@ class opensimViewmaps extends JViewLegacy {
 					$this->filter = JFactory::getApplication()->input->get('search');
 				break;
 			}
-			$this->viewmethods = get_class_methods($this);
-			$this->regionmethods = get_class_methods($regionmodel);
-			$this->mapsmethods = get_class_methods($model);
-			$this->assignRef( 'ueberschrift', $ueberschrift );
+			$this->ueberschrift		= $ueberschrift;
 		}
 		$this->_setToolbar($tpl);
 
@@ -212,7 +207,7 @@ class opensimViewmaps extends JViewLegacy {
 	public function _setToolbar($tpl) {
 		JToolBarHelper::title(JText::_('JOPENSIM_NAME')." ".JText::_('JOPENSIM_MAPS'),'32-gridmap');
 
-		$task = JRequest::getVar( 'task', '', 'method', 'string');
+		$task	= JFactory::getApplication()->input->get('task','','method','string');
 		switch($task) {
 			case "selectdefault":
 				JToolBarHelper::cancel('cancel','JCANCEL');

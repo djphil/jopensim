@@ -99,9 +99,6 @@ if ($host != "" && $port != "" && $service == "online") {
 	$objDOM = new DOMDocument();
 	$objDOM->resolveExternals = false;
 	$objDOM->loadXML(GetURL($host, $port, "?method=collector"));
-	$debug = var_export($objDOM,TRUE);
-//	debugzeile($debug,"objDOM in registersearch.php");
-
 } elseif ($host != "" && $port != "" && $service == "offline") {
 	if($debugsearch == "1") {
 		$zeile = "Deregistering host ".$host." with port ".$port." at timestamp ".$timestamp;

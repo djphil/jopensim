@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -14,46 +14,46 @@ jimport( 'joomla.html.parameter' );
 
 class opensimViewinworld extends JViewLegacy {
 	public function display($tpl = null) {
-		$this->assetpath = JUri::base(true)."/components/com_opensim/assets/";
-		$doc = JFactory::getDocument();
+		$this->assetpath				= JUri::base(true)."/components/com_opensim/assets/";
+		$doc							= JFactory::getDocument();
 		$doc->addStyleSheet($this->assetpath.'opensim.css');
 		$doc->addStyleSheet($this->assetpath.'opensim.override.css');
 
-		$this->Itemid = JFactory::getApplication()->input->get('Itemid');
-		$menu	= JFactory::getApplication()->getMenu();
-		$active	= $menu->getActive($this->Itemid);
+		$this->Itemid					= JFactory::getApplication()->input->get('Itemid');
+		$menu							= JFactory::getApplication()->getMenu();
+		$active							= $menu->getActive($this->Itemid);
 		if (is_object($active)) {
-			$params					= &JComponentHelper::getParams('com_opensim');
-			$this->pageclass_sfx	= $params->get('pageclass_sfx');
+			$params						= &JComponentHelper::getParams('com_opensim');
+			$this->pageclass_sfx		= $params->get('pageclass_sfx');
 		} else {
-			$this->pageclass_sfx	= "";
+			$this->pageclass_sfx		= "";
 		}
 
-		$model = $this->getModel('inworld');
-		$this->settings = $model->getSettingsData();
-		$task = JFactory::getApplication()->input->get('task','','method','string');
-		$user = JFactory::getUser();
+		$model							= $this->getModel('inworld');
+		$this->settings					= $model->getSettingsData();
+		$task							= JFactory::getApplication()->input->get('task','','method','string');
+		$user							= JFactory::getUser();
 		if($user->guest) {
-			$tpl = "needlogin";
+			$tpl						= "needlogin";
 		} elseif(!$model->_osgrid_db) {
-			$tpl = "error";
+			$tpl						= "error";
 		} else {
-			$created = $model->opensimIsCreated();
+			$created					= $model->opensimIsCreated();
 			if(!$created) {
 				$model->cleanIdents(); // delete Idents
-				$inworldIdent = $model->opensimGetInworldIdent();
+				$inworldIdent			= $model->opensimGetInworldIdent();
 				if($inworldIdent) {
 					$tpl = "identdisplay";
-					$this->assignRef('identstring',$inworldIdent);
+					$this->identstring	= $inworldIdent;
 					$command = JText::_('TERMINALCOMMANDTEXT');
 					if($this->settings['addons_terminalchannel'] > 0) $typechannel = "/".$this->settings['addons_terminalchannel']." ";
-					else $typechannel = "";
-					$identcommand = $typechannel."identify ".$inworldIdent;
-					$this->identcommand = $identcommand;
-					$terminalList = $model->getTerminalList();
-					$this->terminalList = $terminalList;
+					else $typechannel	= "";
+					$identcommand		= $typechannel."identify ".$inworldIdent;
+					$this->identcommand	= $identcommand;
+					$terminalList		= $model->getTerminalList();
+					$this->terminalList	= $terminalList;
 				} else {
-					$tpl = "create";
+					$tpl				= "create";
 
 					// how is the last name controled?
 					switch($this->settings['lastnametype']) {
@@ -72,37 +72,37 @@ class opensimViewinworld extends JViewLegacy {
 							$lastnamefield = "<input type='text' name='lastname' id='lastname' />";
 						break;
 					}
-					$this->assignRef('lastnamefield',$lastnamefield);
+					$this->lastnamefield		= $lastnamefield;
 				}
 			} else {
-				$this->topbar = $this->generateTopbar($task);
-				$this->osdata = $model->getUserData($created);
+				$this->topbar					= $this->generateTopbar($task);
+				$this->osdata					= $model->getUserData($created);
 				if(!$this->osdata['im2email']) $this->osdata['im2email'] = 0;
 				switch($task) {
 					case "welcome":
-						$tpl = "welcome";
-						$this->welcometitle = JText::_('WELCOME_DEFAULTTITLE');
-						$this->welcometext = JText::_('WELCOME_DEFAULTTEXT');
+						$tpl					= "welcome";
+						$this->welcometitle		= JText::_('WELCOME_DEFAULTTITLE');
+						$this->welcometext		= JText::_('WELCOME_DEFAULTTEXT');
 					break;
 					case "messages":
-						$this->messages = $model->messagelist($this->osdata['uuid']);
-						$tpl = "messages";
+						$this->messages			= $model->messagelist($this->osdata['uuid']);
+						$tpl					= "messages";
 					break;
 					case "messagedetail":
-						$imSessionID	= JFactory::getApplication()->input->get('imSessionID','','','string');
-						$fromAgentID	= JFactory::getApplication()->input->get('fromAgentID','','','string');
-						$messagedetails	= $model->messagedetail($imSessionID,$fromAgentID);
-						$fromAgentName	= $messagedetails['fromAgentName'];
+						$imSessionID			= JFactory::getApplication()->input->get('imSessionID','','','string');
+						$fromAgentID			= JFactory::getApplication()->input->get('fromAgentID','','','string');
+						$messagedetails			= $model->messagedetail($imSessionID,$fromAgentID);
+						$fromAgentName			= $messagedetails['fromAgentName'];
 						unset($messagedetails['fromAgentName']);
-						$this->assignRef('messagedetails',$messagedetails);
-						$this->assignRef('fromAgentName',$fromAgentName);
-						$tpl = "messagedetail";
+						$this->messagedetails	= $messagedetails;
+						$this->fromAgentName	= $fromAgentName;
+						$tpl					= "messagedetail";
 					break;
 					case "profile":
-						$this->wantmask		= $model->profile_wantmask();
-						$this->skillsmask	= $model->profile_skillsmask();
-						$this->profiledata	= $model->getprofile($this->osdata['uuid']);
-						$this->friendlist	= $model->getUserFriends($this->osdata['uuid']);
+						$this->wantmask			= $model->profile_wantmask();
+						$this->skillsmask		= $model->profile_skillsmask();
+						$this->profiledata		= $model->getprofile($this->osdata['uuid']);
+						$this->friendlist		= $model->getUserFriends($this->osdata['uuid']);
 
 						$this->profiledata['image2nd']	= "&nbsp;";
 						$this->profiledata['image1st']	= "&nbsp;";
@@ -162,8 +162,8 @@ class opensimViewinworld extends JViewLegacy {
 						$tpl = "profile";
 					break;
 					case "partner":
-						$profiledata	= $model->getprofile($this->osdata['uuid']);
-						$friendlist		= $model->getUserFriends($this->osdata['uuid']);
+						$profiledata				= $model->getprofile($this->osdata['uuid']);
+						$friendlist					= $model->getUserFriends($this->osdata['uuid']);
 						if(is_array($friendlist) && count($friendlist) > 0) {
 							$friends = array();
 							foreach($friendlist AS $key => $friend) {
@@ -175,117 +175,115 @@ class opensimViewinworld extends JViewLegacy {
 							}
 							sort($friends);
 						}
-						$this->assignRef('friends',$friends);
-						$this->assignRef('osdata',$osdata);
-						$tpl = "partner";
+						$this->friends				= $friends;
+						$tpl						= "partner";
 					break;
 					case "divorce":
-						$profiledata	= $model->getprofile($this->osdata['uuid']);
-						$partnername	= $profiledata['partnername'];
-						$partneruuid	= $profiledata['partner'];
-						$divorcetext	= JText::sprintf('JOPENSIM_PROFILE_PARTNER_DIVORCE_SURE',$partnername);
-						$this->assignRef('divorcetext',$divorcetext);
-						$this->assignRef('partneruuid',$partneruuid);
-						$tpl			= "partnerdivorce";
+						$profiledata				= $model->getprofile($this->osdata['uuid']);
+						$partnername				= $profiledata['partnername'];
+						$partneruuid				= $profiledata['partner'];
+						$divorcetext				= JText::sprintf('JOPENSIM_PROFILE_PARTNER_DIVORCE_SURE',$partnername);
+						$this->divorcetext			= $divorcetext;
+						$this->partneruuid			= $partneruuid;
+						$tpl						= "partnerdivorce";
 					break;
 					case "partnercancel":
-						$partnerrequest	= $model->partnerrequeststatus();
+						$partnerrequest				= $model->partnerrequeststatus();
 						if(!is_array($partnerrequest) || !array_key_exists("partneruuid",$partnerrequest)) $partnername = "error";
-						else $partnername = $model->getOpenSimName($partnerrequest['partneruuid']);
-						$parntercancel	= JText::sprintf('JOPENSIM_PROFILE_PARTNER_REQUEST_CANCEL',$partnername);
-						$this->assignRef('partneruuid',$partnerrequest['partneruuid']);
-						$this->assignRef('parntercanceltext',$parntercancel);
-						$tpl			= "partnercancel";
+						else $partnername			= $model->getOpenSimName($partnerrequest['partneruuid']);
+						$parntercancel				= JText::sprintf('JOPENSIM_PROFILE_PARTNER_REQUEST_CANCEL',$partnername);
+						$this->partneruuid			= $partnerrequest['partneruuid'];
+						$this->parntercanceltext	= $parntercancel;
+						$tpl						= "partnercancel";
 					break;
 					case "partnerrequest":
-						$partnerrequest	= $model->partnerrequeststatus();
+						$partnerrequest				= $model->partnerrequeststatus();
 						if(!is_array($partnerrequest) || !array_key_exists("partneruuid",$partnerrequest)) $partnername = "error";
-						else $partnername = $model->getOpenSimName($partnerrequest['partneruuid']);
-						$partneraccept	= JText::sprintf('JOPENSIM_PROFILE_PARTNER_REQUEST_ACCEPT',$partnername);
-						$this->assignRef('partneruuid',$partnerrequest['partneruuid']);
-						$this->assignRef('partneraccepttext',$partneraccept);
-						$tpl			= "partnerrequest";
+						else $partnername			= $model->getOpenSimName($partnerrequest['partneruuid']);
+						$partneraccept				= JText::sprintf('JOPENSIM_PROFILE_PARTNER_REQUEST_ACCEPT',$partnername);
+						$this->partneruuid			= $partnerrequest['partneruuid'];
+						$this->partneraccepttext	= $partneraccept;
+						$tpl						= "partnerrequest";
 					break;
 					case "groups":
-						$grouplist = $model->groupmemberships($this->osdata['uuid']);
-						$this->assignRef('grouplist',$grouplist);
-						$tpl = "groups";
+						$grouplist					= $model->groupmemberships($this->osdata['uuid']);
+						$this->grouplist			= $grouplist;
+						$tpl						= "groups";
 					break;
 					case "groupdetail":
 						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
-						$groupid = JFactory::getApplication()->input->get('groupid','','','string');
-						$grouplist = $model->groupmemberships($this->osdata['uuid'],$groupid);
-						$this->assignRef('grouplist',$grouplist[0]);
-						$this->assignRef('grouplist1',$grouplist);
-						$tpl = "groupdetail";
+						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
+						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);
+						$this->grouplist			= $grouplist[0];
+						$this->grouplist1			= $grouplist;
+						$tpl						= "groupdetail";
 					break;
 					case "groupnotices":
 						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
-						$groupid = JFactory::getApplication()->input->get('groupid','','','string');
-						$grouplist = $model->groupmemberships($this->osdata['uuid'],$groupid);
+						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
+						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);
 						if($grouplist[0]['acceptnotices'] == 1 && $grouplist[0]['power']['power_receivenotice'] == 1 && $grouplist[0]['hasnotices'] > 0) $noticelist = $model->getnotices($groupid);
-						else $noticelist = array();
-						$this->assignRef('grouplist',$grouplist[0]);
-						$this->assignRef('noticelist',$noticelist);
-						$tpl = "groupnotices";
+						else $noticelist			= array();
+						$this->grouplist			= $grouplist[0];
+						$this->noticelist			= $noticelist;
+						$tpl						= "groupnotices";
 					break;
 					case "groupmembers":
 						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
-						$groupid = JFactory::getApplication()->input->get('groupid','','','string');
-						$memberlist = $model->memberlist($groupid);
-						$grouplist = $model->groupmemberships($this->osdata['uuid'],$groupid);
-						$power = $model->group_power($this->osdata['uuid'],$groupid);
-						$this->assignRef('memberlist',$memberlist);
-						$this->assignRef('power',$power);
-						$this->assignRef('grouplist',$grouplist[0]);
-						$tpl = "groupmembers";
+						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
+						$memberlist					= $model->memberlist($groupid);
+						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);
+						$power						= $model->group_power($this->osdata['uuid'],$groupid);
+						$this->memberlist			= $memberlist;
+						$this->power				= $power;
+						$this->grouplist			= $grouplist[0];
+						$tpl						= "groupmembers";
 					break;
 					case "money":
-						$balance		= $model->getBalance($this->osdata['uuid']);
-						$currencyname	= $model->getCurrencyName();
-						$jinput			= JFactory::getApplication()->input;
-						$range			= $jinput->get('range', '30', 'INTEGER');
-						$transactions	= $model->transactionlist($this->osdata['uuid'],$range);
-						$this->assignRef('balance',$balance);
-						$this->assignRef('currencyname',$currencyname);
-						$this->assignRef('range',$range);
-						$this->assignRef('transactions',$transactions);
-						// check if jOpenSimMoney is installed
-						$jopensimpaypalfolder = JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_jopensimpaypal";
+						$balance					= $model->getBalance($this->osdata['uuid']);
+						$currencyname				= $model->getCurrencyName();
+						$jinput						= JFactory::getApplication()->input;
+						$range						= $jinput->get('range', '30', 'INTEGER');
+						$transactions				= $model->transactionlist($this->osdata['uuid'],$range);
+						$this->balance				= $balance;
+						$this->currencyname			= $currencyname;
+						$this->range				= $range;
+						$this->transactions			= $transactions;
+						// check if jOpenSimPaypal is installed
+						$jopensimpaypalfolder		= JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_jopensimpaypal";
 						if(is_dir($jopensimpaypalfolder)) {
-							$paypallink = "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
-							$params = &JComponentHelper::getParams('com_jopensimpaypal');
-							$payout = $params->get('currencyratesell');
-							$minbuy = $params->get('minbuy');
+							$paypallink				= "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
+							$params					= &JComponentHelper::getParams('com_jopensimpaypal');
+							$payout					= $params->get('currencyratesell');
+							$minbuy					= $params->get('minbuy');
 							if($minbuy > 0) $minbalance = $payout * $minbuy;
-							else $minbalance = $payout;
-							$jopensimpaypal = TRUE;
+							else $minbalance		= $payout;
+							$jopensimpaypal			= TRUE;
 						} else {
-							$paypallink = "";
-							$payout = 0;
-							$minbalance = -1;
-							$jopensimpaypal = FALSE;
+							$paypallink				= "";
+							$payout					= 0;
+							$minbalance				= -1;
+							$jopensimpaypal			= FALSE;
 						}
 						if($jopensimpaypal === TRUE && $payout > 0 && $balance >= $minbalance) {
-							$payoutlink = "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
+							$payoutlink				= "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
 						} else {
-							$payoutlink = "";
+							$payoutlink				= "";
 						}
-						$this->assignRef('paypallink',$paypallink);
-						$this->assignRef('jopensimmoney',$jopensimmoney);
-						$this->assignRef('payout',$payout);
-						$this->assignRef('payoutlink',$payoutlink);
-						$tpl = "money";
+						$this->paypallink			= $paypallink;
+						$this->payout				= $payout;
+						$this->payoutlink			= $payoutlink;
+						$tpl						= "money";
 					break;
 					default:
 						// how is the last name controled?
 						switch($this->settings['lastnametype']) {
 							case 1: // only allow from the list
-								$lastnamefield = "<select name='lastname' id='lastname' class='".$this->pageclass_sfx."'>\n";
-								$lastnames = explode("\n",trim($this->settings['lastnamelist']));
-								$lastnames[] = $this->osdata['lastname']; // ensure that the own lastname is also in the list
+								$lastnamefield		= "<select name='lastname' id='lastname' class='".$this->pageclass_sfx."'>\n";
+								$lastnames			= explode("\n",trim($this->settings['lastnamelist']));
+								$lastnames[]		= $this->osdata['lastname']; // ensure that the own lastname is also in the list
 								foreach($lastnames AS $key => $lastname) $lastnames[$key] = trim($lastname); // just to ensure different linebreaks between Win and Linux
-								$lastnames = array_unique($lastnames); // no duplicate values ( ... own lastname ... )
+								$lastnames			= array_unique($lastnames); // no duplicate values ( ... own lastname ... )
 								if(count($lastnames) > 0) {
 									foreach($lastnames AS $lastname) {
 										$lastnamefield .= "\t<option value='".$lastname."'";
@@ -297,24 +295,24 @@ class opensimViewinworld extends JViewLegacy {
 							break;
 							case 0: // no control at all
 							case -1: // allow everything but not from the list (the check has to be done later)
-								$lastnamefield = "<input type='text' name='lastname' id='lastname' value='".$this->osdata['lastname']."' class='".$this->pageclass_sfx."' />";
+								$lastnamefield		= "<input type='text' name='lastname' id='lastname' value='".$this->osdata['lastname']."' class='".$this->pageclass_sfx."' />";
 							break;
 						}
 
-						$timezone_identifiers = DateTimeZone::listIdentifiers();
-						$this->assignRef('timezones',$timezone_identifiers);
+						$timezone_identifiers		= DateTimeZone::listIdentifiers();
+						$this->timezones			= $timezone_identifiers;
 						if(!array_key_exists('eventtimedefault',$this->settings) || !$this->settings['eventtimedefault']) $this->settings['eventtimedefault'] = "UTC";
 						if(!array_key_exists('timezone',$this->osdata) || !$this->osdata['timezone']) $this->osdata['timezone'] = $this->settings['eventtimedefault'];
 
 
-						$this->assignRef('lastnamefield',$lastnamefield);
-						$tpl = "display";
+						$this->lastnamefield		= $lastnamefield;
+						$tpl						= "display";
 					break;
 				}
 			}
 		}
-		$this->assignRef('userid',$created);
-		$this->assignRef('user',$user);
+		$this->userid	= $created;
+		$this->user		= $user;
 
 		parent::display($tpl);
 	}

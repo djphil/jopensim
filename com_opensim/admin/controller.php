@@ -12,12 +12,6 @@ jimport('joomla.application.component.controller');
 jimport('joomla.application.component.controllerform');
 jimport('joomla.application.component.helper');
 
-//print_r($_REQUEST);
-//exit;
-
-JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
-
-// class OpenSimCPController extends JControllerLegacy {
 class OpenSimController extends JControllerForm {
 	public $model;
 	public $opensim;
@@ -152,8 +146,9 @@ class OpenSimController extends JControllerForm {
 		$jopensim_debug_messages	= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_messages');
 		$jopensim_debug_currency	= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_currency');
 		$jopensim_debug_other		= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_other');
+		$jopensim_debug_settings	= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_settings');
 
-		if(($jopensim_debug_access + $jopensim_debug_input + $jopensim_debug_profile + $jopensim_debug_groups + $jopensim_debug_search + $jopensim_debug_messages + $jopensim_debug_currency + $jopensim_debug_other) > 0) {
+		if(($jopensim_debug_access + $jopensim_debug_input + $jopensim_debug_profile + $jopensim_debug_groups + $jopensim_debug_search + $jopensim_debug_messages + $jopensim_debug_currency + $jopensim_debug_other + $jopensim_debug_settings) > 0) {
 			JFactory::getApplication()->enqueueMessage(JText::_('JOPENSIM_DEBUG_WARNING'), 'warning');
 		}
 	}

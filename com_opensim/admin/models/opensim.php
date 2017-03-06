@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -193,18 +193,14 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function importsettingsfile() {
-//		echo "<pre>\n";
-//		var_export($_FILES);
-//		echo "</pre>\n";
-//		exit;
-		$filename		= $_FILES['settingsimport']['tmp_name'];
+		$input			= JFactory::getApplication()->input;
+		$file			= $input->files->get('settingsimport');
+		$filename		= $file['tmp_name'];
 		$paramstring	= file_get_contents($filename);
-//		echo $filename;
-//		exit;
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$fields = array(
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+		$fields	= array(
 		    $db->quoteName('params') . ' = ' . $db->quote($paramstring)
 		);
 		$conditions = array(

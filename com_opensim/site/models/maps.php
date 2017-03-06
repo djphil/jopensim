@@ -37,7 +37,7 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 	public function getData() {
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_settingsData )) $this->getSettingsData();
-		if (!$this->_osgrid_db || JError::isError($this->_osgrid_db) || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
 			return FALSE;
 		}
 
@@ -113,7 +113,7 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 	}
 
 	public function getLocationRange() {
-		if (!$this->_osgrid_db || JError::isError($this->_osgrid_db) || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
 			return FALSE;
 		}
 		$opensim = $this->opensim;

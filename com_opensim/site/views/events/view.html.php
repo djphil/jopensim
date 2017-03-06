@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -13,54 +13,56 @@ jimport( 'joomla.html.parameter' );
 class opensimViewevents extends JViewLegacy {
 
 	public function display($tpl = null) {
-		$this->assetpath = JUri::base(true)."/components/com_opensim/assets/";
-		$doc = JFactory::getDocument();
+		$this->assetpath		= JUri::base(true)."/components/com_opensim/assets/";
+		$doc					= JFactory::getDocument();
 		$doc->addStyleSheet($this->assetpath.'opensim.css');
 		$doc->addStyleSheet($this->assetpath.'opensim.override.css');
-		$params		= JComponentHelper::getParams('com_opensim');
-		$app		= JFactory::getApplication();
+		$params					= JComponentHelper::getParams('com_opensim');
+		$app					= JFactory::getApplication();
 
-		$layout		= $app->input->get('layout');
-		$this->assignRef('layout',$layout);
+		$layout					= $app->input->get('layout');
+		$this->layout			= $layout;
 
-		$model		= $this->getModel('events');
-		$setting	= $model->getSettingsData();
-		$opensim	= $model->opensim;
+		$model					= $this->getModel('events');
+		$setting				= $model->getSettingsData();
+		$opensim				= $model->opensim;
 
-		$this->Itemid		= $app->input->get('Itemid');
-		$task				= $app->input->get('task');
+		$this->Itemid			= $app->input->get('Itemid');
+		$task					= $app->input->get('task');
 
-		$eventparams	= &JComponentHelper::getParams('com_opensim');
+		$eventparams			= &JComponentHelper::getParams('com_opensim');
 
 //		$menu		= JSite::getMenu();
-		$menu		= $app->getMenu();
-		$active		= $menu->getActive($this->Itemid);
+		$menu					= $app->getMenu();
+		$active					= $menu->getActive($this->Itemid);
 
 		if (is_object($active)) {
-			$access_level	= $eventparams->get('events_post_access');
+			$access_level		= $eventparams->get('events_post_access');
 			$this->listmatureevents = $eventparams->get('listmatureevents');
-			$group_access	= $eventparams->get('events_grouppower');
-			$pageclass_sfx	= $eventparams->get('pageclass_sfx');
+			$group_access		= $eventparams->get('events_grouppower');
+			$pageclass_sfx		= $eventparams->get('pageclass_sfx');
 			if($access_level < 3 && is_array($group_access) && count($group_access) > 0) {
-				$groupflag = $model->getGroupAccessFlag($group_access);
+				$groupflag		= $model->getGroupAccessFlag($group_access);
 			} else {
-				$groupflag = null;
+				$groupflag		= null;
 			}
 		} else {
-			$access_level	= null;
-			$group_access	= null;
-			$pageclass_sfx	= "";
+			$access_level		= null;
+			$group_access		= null;
+			$pageclass_sfx		= "";
 		}
-		$this->assignRef('pageclass_sfx',$pageclass_sfx);
+		$this->pageclass_sfx	= $pageclass_sfx;
 
 
-		$duration = $model->getDurations();
-		$this->assignRef('duration',$duration);
+		$duration				= $model->getDurations();
+		$this->duration			= $duration;
 
-		$user		=& JFactory::getUser();
-		$created	= $model->opensimIsCreated(); // check if this user has already a related OpenSim account
-		$osdata		= $model->getUserData($created);
+		$user					=& JFactory::getUser();
+		$created				= $model->opensimIsCreated(); // check if this user has already a related OpenSim account
+		$osdata					= $model->getUserData($created);
 		$osdata['access_level']	= $access_level;
+		$formaction				= "";
+		$eventdata				= array();
 
 		if(!array_key_exists("timezone",$osdata) || !$osdata['timezone']) $osdata['timezone'] = $setting['eventtimedefault'];
 
@@ -78,9 +80,9 @@ class opensimViewevents extends JViewLegacy {
 				$publicLand					= $model->getPublicLand(); // Public regions do have '1' in the column `public` of the table #__opensim_mapinfo
 				$osdata['publicLand']		= $publicLand;
 		
-				$landoptions = array();
-				$landselected = 0;
-				$preselectedLand = $app->input->get('eventlocation');
+				$landoptions				= array();
+				$landselected				= 0;
+				$preselectedLand			= $app->input->get('eventlocation');
 		
 				if($access_level <= 1) {
 					if(is_array($publicLand) && count($publicLand) > 0) {
@@ -115,14 +117,12 @@ class opensimViewevents extends JViewLegacy {
 					}
 				}
 		
-				$this->assignRef('landoption',$landoption);
+				$this->landoption		= $landoption;
 		
-				$this->timezones = DateTimeZone::listIdentifiers();
+				$this->timezones		= DateTimeZone::listIdentifiers();
 				if(!array_key_exists('eventtimedefault',$setting) || !$setting['eventtimedefault']) $setting['eventtimedefault'] = "UTC";
-
-				$this->currencyenabled = $setting['addons_currency'];
-		
-				$this->assignRef('eventcategories',$model->getEventCategory());
+				$this->currencyenabled	= $setting['addons_currency'];
+				$this->eventcategories	= $model->getEventCategory();
 		
 				switch($task) {
 					case "inserterror":
@@ -177,10 +177,10 @@ class opensimViewevents extends JViewLegacy {
 				
 			break;
 		}
-		$this->assignRef('created',$created);
-		$this->assignRef('osdata',$osdata);
-		$this->assignRef('formaction',$formaction);
-		$this->assignRef('eventdata',$eventdata);
+		$this->created		= $created;
+		$this->osdata		= $osdata;
+		$this->formaction	= $formaction;
+		$this->eventdata	= $eventdata;
 		parent::display($tpl);
 	}
 }

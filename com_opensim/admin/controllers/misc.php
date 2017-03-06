@@ -22,7 +22,6 @@ class OpenSimControllermisc extends OpenSimController {
 		$command = "admin_broadcast";
 		$params = array('message' => $message);
 		$returnvalue = $opensim->SendCommand($command,$params);
-		$debug = var_export($returnvalue,TRUE);
 		if(!is_array($returnvalue)) {
 			JFactory::getApplication()->enqueueMessage(JText::_('REMOTEADMIN_NORESPONSE'),"error");
 		} elseif(array_key_exists("error",$returnvalue) && $returnvalue['error']) {

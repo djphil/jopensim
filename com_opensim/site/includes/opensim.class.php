@@ -6,7 +6,7 @@ Class for OpenSimulator Joomla-Component
 started 2010-08-30 by FoTo50 (Powerdesign) foto50@jopensim.com
 
  * @component jOpenSim Component
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
 
 
@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.0.12"; // current version
+	public static $version	= "0.3.0.13"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -1226,11 +1226,19 @@ class opensim {
 	}
 
 	public function checkversion() {
-		$versionfile = "http://www.jopensim.com/opensim/version3.txt";
-		$recentversion = @file_get_contents($versionfile);
+		$versionfile	= "http://www.jopensim.com/opensim/version3.txt";
+		$recentversion	= @file_get_contents($versionfile);
 		if(!$recentversion) return JText::_('UPDATEINFONOTAVAILABLE');
-		elseif(trim($recentversion) == self::$version) return JText::_('UP2DATE');
-		else return JText::sprintf('UPDATEVERSION',$recentversion);
+		$versioncheck	= version_compare(self::$version,trim($recentversion));
+		if($versioncheck < 0) {
+			return JText::sprintf('UPDATEVERSION',$recentversion);
+		} elseif($versioncheck > 0) {
+			return "<i class='icon-warning-circle' style='color:orange;'></i>PreRelease?";
+		} else {
+			return JText::_('UP2DATE');
+		}
+//		elseif(trim($recentversion) == self::$version) return JText::_('UP2DATE');
+//		else return JText::sprintf('UPDATEVERSION',$recentversion);
 	}
 
 	public function checkRegionIP($ip) {

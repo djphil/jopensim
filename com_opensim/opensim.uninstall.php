@@ -10,13 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $db =& JFactory::getDBO();
-
 $droptable = array();
-
-
-
-
-
 
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_clientinfo`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_group`;";

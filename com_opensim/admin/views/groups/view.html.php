@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -29,7 +29,7 @@ class opensimViewgroups extends JViewLegacy {
 
 		$assetinfo = pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
 		$assetpath = "components".DIRECTORY_SEPARATOR.$assetinfo['basename'].DIRECTORY_SEPARATOR."assets".DS;
-		$this->assignRef('assetpath',$assetpath);
+		$this->assetpath	= $assetpath;
 		$settingsdata['groupaddon'] = $settingsdata['addons'] & 4;
 		if(!$settingsdata['groupaddon']) {
 			JFactory::getApplication()->enqueueMessage(JText::_('JOPENSIM_GROUPADDONDISABLED'),'warning');
@@ -45,7 +45,6 @@ class opensimViewgroups extends JViewLegacy {
 			default:
 				$this->sidebar		= JHtmlSidebar::render();
 				$this->groupList	= $model->getGroupDetails();
-				$this->assignRef( 'groupquery',$groupquery);
 				$this->zerouuid		= $model->opensim->zerouid;
 				$this->settings		= $settingsdata;
 			break;
