@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" client="administrator" version="3.1" method="upgrade" position="cpanel">
-	<name>jOpenSim admin module</name>
-	<author>FoTo50</author>
-	<creationDate>2016-12-26</creationDate>
+    <name>jOpenSim admin module</name>
+    <author>FoTo50</author>
+    <creationDate>2016-12-26</creationDate>
 	<copyright>All rights reserved by FoTo50 2016</copyright>
     <license>GPL 2.0</license>
     <authorEmail>foto50@jopensim.com</authorEmail>
