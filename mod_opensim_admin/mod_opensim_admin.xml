@@ -4,116 +4,118 @@
 	<author>FoTo50</author>
 	<creationDate>2016-12-26</creationDate>
 	<copyright>All rights reserved by FoTo50 2016</copyright>
-	<license>GPL 2.0</license>
-	<authorEmail>foto50@jopensim.com</authorEmail>
-	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.12</version>
-	<description>MOD_JOPENSIM_ADMIN_DESC</description>
-	<files>
-		<filename module="mod_opensim_admin">mod_opensim_admin.php</filename>
-		<filename>index.html</filename>
-		<filename>mod_opensim_admin.xml</filename>
-		<file>helper.php</file>
-		<folder>tmpl</folder>
-		<folder>language</folder>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="view_quicklinks"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="MOD_JOPENSIM_ADMIN_VIEW_QUICKLINKS_TAB"
-					description="MOD_JOPENSIM_ADMIN_VIEW_QUICKLINKS_TAB_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+    <license>GPL 2.0</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <version>0.3.0.12</version>
+    <description>MOD_JOPENSIM_ADMIN_DESC</description>
+    <files>
+        <filename module="mod_opensim_admin">mod_opensim_admin.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_opensim_admin.xml</filename>
+        <file>helper.php</file>
+        <folder>tmpl</folder>
+        <folder>language</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.mod_opensim_admin.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.mod_opensim_admin.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="view_quicklinks"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_QUICKLINKS_TAB"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_QUICKLINKS_TAB_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-				<field
-					name="view_helplinks"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="MOD_JOPENSIM_ADMIN_VIEW_HELPLINKS_TAB"
-					description="MOD_JOPENSIM_ADMIN_VIEW_HELPLINKS_TAB_DESC"
-					showon="view_quicklinks:1">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+                <field
+                    name="view_helplinks"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_HELPLINKS_TAB"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_HELPLINKS_TAB_DESC"
+                    showon="view_quicklinks:1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-				<field
-					name="view_recentonline"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_TAB"
-					description="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_TAB_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+                <field
+                    name="view_recentonline"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_TAB"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_TAB_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-				<field
-					type="number"
-					name="view_recentonline_number"
-					size="3"
-					min="1"
-					default="5"
-					label="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_NUMBER"
-					description="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_NUMBER_DESC"
-					showon="view_recentonline:1" />
+                <field
+                    type="number"
+                    name="view_recentonline_number"
+                    size="3"
+                    min="1"
+                    default="5"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_NUMBER"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_RECENTONLINE_NUMBER_DESC"
+                    showon="view_recentonline:1" />
 
-				<field
-					name="view_recentregistered"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_TAB"
-					description="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_TAB_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+                <field
+                    name="view_recentregistered"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_TAB"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_TAB_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-				<field
-					type="number"
-					name="view_recentregistered_number"
-					size="3"
-					min="1"
-					default="5"
-					label="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_NUMBER"
-					description="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_NUMBER_DESC"
-					showon="view_recentregistered:1" />
+                <field
+                    type="number"
+                    name="view_recentregistered_number"
+                    size="3"
+                    min="1"
+                    default="5"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_NUMBER"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_RECENTREGISTERED_NUMBER_DESC"
+                    showon="view_recentregistered:1" />
 
-				<field
-					name="view_topgroups"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_TAB"
-					description="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_TAB_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+                <field
+                    name="view_topgroups"
+                    type="radio"
+                    class="btn-group"
+                    default="1"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_TAB"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_TAB_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-				<field
-					type="number"
-					name="view_topgroups_number"
-					size="3"
-					min="1"
-					default="5"
-					label="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_NUMBER"
-					description="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_NUMBER_DESC"
-					showon="view_recentregistered:1" />
+                <field
+                    type="number"
+                    name="view_topgroups_number"
+                    size="3"
+                    min="1"
+                    default="5"
+                    label="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_NUMBER"
+                    description="MOD_JOPENSIM_ADMIN_VIEW_TOPGROUPS_NUMBER_DESC"
+                    showon="view_recentregistered:1" />
 
-			</fieldset>
-		</fields>
-	</config>
+            </fieldset>
+        </fields>
+    </config>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+        <server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
