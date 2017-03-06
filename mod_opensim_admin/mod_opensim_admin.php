@@ -29,14 +29,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 	$opensim			= new opensim($os_host,$os_user,$os_pwd,$os_db,$os_port);
 	$opensim->connect2osgrid();
-	if(!is_object($opensim->_osgrid_db)) {
-		error_log("no object!");
-	} else {
-		error_log("JA object!");
-		$debug = var_export($opensim->connected,TRUE);
-		error_log($debug);
-	}
-//return null;
+
 	if(!is_object($opensim->_osgrid_db)) {
 		$layout = "noconnection";
 	} else {
