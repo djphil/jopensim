@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -25,9 +25,6 @@ class JFormFieldAvatar extends JFormFieldRadio {
 	 */
 	protected $type = 'Avatar';
 
-//	protected $renderLabelLayout = "joomla.form.renderlabel2";
-
-
 	/**
 	 * Method to get the field label markup.
 	 *
@@ -45,9 +42,7 @@ class JFormFieldAvatar extends JFormFieldRadio {
 
 		$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
-//		error_log(var_export($this->params,TRUE));
 		$avatarlist = $this->params->get('plgJopensimRegisterAvatar');
-//		$label .= "(".var_export($avatarlist,TRUE).") ";
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
@@ -85,8 +80,6 @@ class JFormFieldAvatar extends JFormFieldRadio {
 
 		// Add the label text and closing tag.
 		$label .= '>' . $link . '</label>';
-
-//		$label .= "<div class='jopensimregister_clear'></div>";
 		return $label;
 	}
 
@@ -104,14 +97,14 @@ class JFormFieldAvatar extends JFormFieldRadio {
 				$zaehler = count($avatars);
 				$temp = explode(":",$avatar);
 				$avatars[$zaehler]['value'] = $temp[0];
-				if(is_file(JPATH_SITE.DS.'images'.DS.'jopensim'.DS.'avatars'.DS.$temp[0].'.jpg')) {
+				if(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$temp[0].'.jpg')) {
 					$attr['title'] = $temp[1];
 					$attr['align'] = "absmiddle";
 					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".jpg",$temp[1],$attr);
 					$avatars[$zaehler]['text'] = $img;
 					$avatars[$zaehler]['class'] = "required jopensimavatar";
 					$avatars[$zaehler]['required'] = TRUE;
-				} elseif(is_file(JPATH_SITE.DS.'images'.DS.'jopensim'.DS.'avatars'.DS.$temp[0].'.png')) {
+				} elseif(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$temp[0].'.png')) {
 					$attr['title'] = $temp[1];
 					$attr['align'] = "absmiddle";
 					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".png",$temp[1],$attr);
@@ -127,21 +120,9 @@ class JFormFieldAvatar extends JFormFieldRadio {
 			$avatars[0]['text'] = JText::_('PLG_JOPENSIMREGISTER_ERROR_NOAVATARS');
 		}
 
-/*
-		$test[0]['value'] = "0";
-		$test[0]['text'] = "test0";
-		$test[1]['value'] = "1";
-		$test[1]['text'] = "test1";
-		$test[2]['value'] = "2";
-		$test[2]['text'] = "test2";
-*/
-
 		foreach ($avatars as $option) {
 
 			// Create a new option object based on the <option /> element.
-			if(substr($option['text'],0,4) == "<img") {
-//				$option['text'] .= "<div class='jopensimregister_clear'></div>";
-			}
 			$tmp = JHtml::_(
 				'select.option', (string) $option['value'], trim((string) $option['text']), 'value', 'text'
 			);

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -17,8 +17,8 @@ class JFormFieldAvatarlist extends JFormFieldList {
 
 	protected function getOptions() {
 		$avatars = array();
-		if(is_file(JPATH_SITE.DS.'components'.DS.'com_opensim'.DS.'includes'.DS.'opensim.class.php')) {
-			require_once(JPATH_SITE.DS.'components'.DS.'com_opensim'.DS.'includes'.DS.'opensim.class.php');
+		if(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'opensim.class.php')) {
+			require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'opensim.class.php');
 			$this->initOpenSim();
 			if(is_object($this->opensim)) {
 				$filter['usertable_field_UserLevel'] = "-3";
@@ -37,15 +37,6 @@ class JFormFieldAvatarlist extends JFormFieldList {
 					$avatars[0]['value'] = "0";
 					$avatars[0]['text'] = JText::_('PLG_JOPENSIMREGISTER_ERROR_NOAVATARS');;
 				}
-/*
-				$debug = var_export($userlist,TRUE);
-				$avatars[0]['value'] = "0";
-				$avatars[0]['text'] = $debug;
-				$test[1]['value'] = "1";
-				$test[1]['text'] = "test1";
-				$test[2]['value'] = "2";
-				$test[2]['text'] = "test2";
-*/
 			} else {
 				$avatars[0]['value'] = "-1";
 				$avatars[0]['text'] = JText::_('PLG_JOPENSIMREGISTER_ERRORINIT');
