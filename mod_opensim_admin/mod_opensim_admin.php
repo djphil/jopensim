@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'opensim.class.php');
 	}
 	$cparams	= JComponentHelper::getParams('com_opensim');
-	$os_host	= $cparams->get('osdbhost', null);
+	$os_host	= $cparams->get('opensimgrid_dbhost', null);
 	$os_db		= $cparams->get('opensimgrid_dbname', null);
 	$os_user	= $cparams->get('opensimgrid_dbuser', null);
 	$os_pwd		= $cparams->get('opensimgrid_dbpasswd', null);
