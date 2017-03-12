@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+    <name>jOpenSim jSonStats Module</name>
+    <author>djphil</author>
+    <creationDate>Mars 2017</creationDate>
+    <copyright>Copyright (C) djphil 2017 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later.</license>
+    <authorEmail>mail@mail.com</authorEmail>
+    <authorUrl>www.domain.com</authorUrl>
+    <version>0.3.0.0</version>
+    <description>MOD_OPENSIM_JSONSTATS_XML_DESCRIPTION</description>
+
+    <files>
+        <filename module="mod_opensim_jsonstats">mod_opensim_jsonstats.php</filename>
+        <folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>functions.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_opensim_jsonstats.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_jsonstats.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_jsonstats.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_jsonstats.sys.ini</language>
+    </languages>
+
+    <help url="MOD_OPENSIM_JSONSTATS_HELP_URL" key="blabla" />
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+
+                <field
+                    name="domainname"
+                    type="textarea"
+                    filter="safehtml"
+                    default="domain.com"
+                    cols="30"
+                    rows="1"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_DOMAINNAME_TEXT_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_DOMAINNAME_TEXT_DESC" />
+
+                <field
+                    name="domainport"
+                    type="textarea"
+                    filter="safehtml"
+                    default="9000"
+                    cols="30"
+                    rows="1"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_DOMAINPORT_TEXT_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_DOMAINPORT_TEXT_DESC" />
+
+                <field
+                    name="jsonstatsuri"
+                    type="textarea"
+                    filter="safehtml"
+                    default="jsonSimStats"
+                    cols="30"
+                    rows="1"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_JSONSTATSURI_TEXT_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_JSONSTATSURI_TEXT_LABEL_DESC" />
+
+                <field
+                    name="jsonstatsssl"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_URISSL_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_URISSL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="jsonstatsrefreshrate"
+                    type="textarea"
+                    filter="safehtml"
+                    default="3000"
+                    cols="30"
+                    rows="1"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_JSONSTATSREFRESHRATE_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_JSONSTATSREFRESHRATE_DESC" />
+
+                <field
+                    name="jsonstatsversion"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_JSONSTATS_FIELD_VERSION_LABEL"
+                    description="MOD_OPENSIM_JSONSTATS_FIELD_VERSION_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+
+            <fieldset
+                name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea" rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                    name="cache"
+                    type="list"
+                    default="0"
+                    label="COM_MODULES_FIELD_CACHING_LABEL"
+                    description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Modules Update Site">
+            https://raw.githubusercontent.com/djphil/osmodules/master/updates/mod_opensim_jsonstats.xml
+        </server>
+    </updateservers>
+</extension>
