@@ -77,10 +77,26 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['addons_currency']		= $params->get('addons_currency');
 			$settings['addons']					= $settings['addons_messages'] + ($settings['addons_profile']*2) + ($settings['addons_groups']*4) + ($settings['addons_inworldauth']*8) + ($settings['addons_search']*16) + ($settings['addons_currency']*32);
 
-			$settings['jopensim_userhome_region']	= $params->get('jopensim_userhome_region');
-			$settings['jopensim_userhome_x']		= $params->get('jopensim_userhome_x');
-			$settings['jopensim_userhome_y']		= $params->get('jopensim_userhome_y');
-			$settings['jopensim_userhome_z']		= $params->get('jopensim_userhome_z');
+			$settings['jopensim_userhome_region']		= $params->get('jopensim_userhome_region');
+			$settings['jopensim_userhome_x']			= $params->get('jopensim_userhome_x');
+			$settings['jopensim_userhome_y']			= $params->get('jopensim_userhome_y');
+			$settings['jopensim_userhome_z']			= $params->get('jopensim_userhome_z');
+			$settings['jopensim_defaultuserlevel']		= $params->get('jopensim_defaultuserlevel');
+			$settings['jopensim_usersetting_flag3']		= $params->get('jopensim_usersetting_flag3');
+			$settings['jopensim_usersetting_flag4']		= $params->get('jopensim_usersetting_flag4');
+			$settings['jopensim_usersetting_flag5']		= $params->get('jopensim_usersetting_flag5');
+			$settings['jopensim_usersetting_flag9']		= $params->get('jopensim_usersetting_flag9');
+			$settings['jopensim_usersetting_flag10']	= $params->get('jopensim_usersetting_flag10');
+			$settings['jopensim_usersetting_flag11']	= $params->get('jopensim_usersetting_flag11');
+			$settings['jopensim_usersetting_flag12']	= $params->get('jopensim_usersetting_flag12');
+			$settings['jopensim_usersetting_flags']		= $settings['jopensim_usersetting_flag3'] +
+														  $settings['jopensim_usersetting_flag4'] +
+														  $settings['jopensim_usersetting_flag5'] +
+														  $settings['jopensim_usersetting_flag9'] +
+														  $settings['jopensim_usersetting_flag10'] +
+														  $settings['jopensim_usersetting_flag11'] +
+														  $settings['jopensim_usersetting_flag12'];
+			$settings['jopensim_usersetting_title']		= $params->get('jopensim_usersetting_title');
 
 			$settings['jopensim_maps_cacheage']			= $params->get('jopensim_maps_cacheage',0);
 			$settings['jopensim_maps_width']			= $params->get('jopensim_maps_width',600);

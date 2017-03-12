@@ -606,7 +606,12 @@ function getCurrencyQuote($parameter) {
 
 	$retval['success'] = FALSE;
 	$retval['errorMessage'] = JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG');
-	$retval['errorURI'] = "http:/"."/".$_SERVER['HTTP_HOST'];
+	if(strlen(JPATH_BASE) > strlen($_SERVER['DOCUMENT_ROOT'])) {
+		$joomlauri	= $_SERVER['HTTP_HOST'].substr(JPATH_BASE,strlen($_SERVER['DOCUMENT_ROOT']));
+	} else {
+		$joomlauri	= $_SERVER['HTTP_HOST'];
+	}
+	$retval['errorURI'] = $_SERVER['REQUEST_SCHEME']."/"."/".$joomlauri;
 	return $retval;
 }
 
@@ -660,13 +665,12 @@ function checkGridBalance($functionname = "n/a") {
 }
 
 function clientInfo($parameter) {
-	if(_JOPENSIMMONEYDEBUG === TRUE) {
-		$debug = varexport($parameter,TRUE);
-		debugzeile($debug,"Parameter clientInfo");
-	}
-	$agent	= $parameter['agentName'];
-	$userip	= $parameter['agentIP'];
-	$uuid	= $parameter['agentID'];
+	global $debug;
+	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
+	if(!array_key_exists("agentName",$parameter) && !array_key_exists("agentIP",$parameter) && !array_key_exists("agentID",$parameter)) return; // no params, what should we save?
+	$agent	= (array_key_exists("agentName",$parameter)) ? $parameter['agentName']:"unknown";
+	$userip	= (array_key_exists("agentIP",$parameter)) ? $parameter['agentIP']:"127.0.0.3";
+	$uuid	= (array_key_exists("agentID",$parameter)) ? $parameter['agentID']:"00000000-0000-0000-0000-000000000000";
 	if(strstr($agent,"@") !== FALSE) {
 		$lastpos	= strlen($agent) - strlen(strrchr($agent,"@"));
 		$hoststring	= "http://".substr(strrchr($agent,"@"),1);
@@ -692,16 +696,17 @@ function clientInfo($parameter) {
 		$username	= $agent;
 		$host		= "local";
 	}
-	$query = sprintf("INSERT INTO #__opensim_clientinfo (PrincipalID,userName,grid,remoteip,lastseen,`from`) VALUES ('%1\$s','%2\$s','%3\$s','%4\$s',NOW(),'M')
-						ON DUPLICATE KEY UPDATE userName = '%2\$s', grid = '%3\$s', remoteip = '%4\$s', lastseen = NOW(), `from` = 'M'",
+	$query = sprintf("INSERT INTO #__opensim_clientinfo (PrincipalID,userName,grid,remoteip,lastseen,`from`) VALUES ('%1\$s','%2\$s','%3\$s','%4\$s',NOW(),'P')
+						ON DUPLICATE KEY UPDATE userName = '%2\$s', grid = '%3\$s', remoteip = '%4\$s', lastseen = NOW(), `from`= 'P'",
 		$uuid,
-		mysql_real_escape_string(trim($username)),
+		mysqlsafestring(trim($username)),
 		$host,
 		$userip);
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->execute();
+	$db->query();
 }
+
 
 function lockSession($sessionid) {
 	if(_JOPENSIMMONEYDEBUG === TRUE) {

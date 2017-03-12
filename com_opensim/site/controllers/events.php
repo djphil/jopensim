@@ -28,7 +28,7 @@ class OpenSimControllerevents extends OpenSimController {
 		$data['eventlocation']	= trim($app->input->get('eventlocation'));
 		$data['eventcategory']	= trim($app->input->get('eventcategory'));
 		$data['covercharge']	= trim($app->input->get('covercharge'));
-		$data['description']	= trim($app->input->get('description'));
+		$data['description']	= trim($app->input->get('description','','RAW'));
 		$data['eventflags']		= trim($app->input->get('eventflags'));
 		$data['parceluuid']		= trim($app->input->get('eventlocation'));
 //		echo "<pre>\n";

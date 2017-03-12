@@ -6,9 +6,8 @@
  */
 /* Initialize Joomla framework */
 if(!defined('_JEXEC')) define( '_JEXEC', 1 );
-if(!defined('JPATH_BASE')) define('JPATH_BASE', dirname("../../index.php") );
+if(!defined('JPATH_BASE')) define('JPATH_BASE', realpath(dirname("../../index.php")));
 if(!defined('DS')) define( 'DS', DIRECTORY_SEPARATOR );
-
 // For JED
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
@@ -102,7 +101,9 @@ if(!function_exists("varexport")) {
 }
 
 function mysqlsafestring($string) {
-	return mysql_real_escape_string(stripslashes($string));
+	$db = JFactory::getDBO();
+	return $db->escape($string);
+//	return mysql_real_escape_string(stripslashes($string));
 }
 
 function jOpenSimSettings() {
@@ -197,7 +198,7 @@ if(isset($_REQUEST['test'])) {
 				}
 				if($retval) debugprint($retval,"retval");
 				else echo "no response for ".$test." :(<br />";
-				debugprint(jOpenSimSettings());
+				if(isset($_REQUEST['debugsettings'])) debugprint(jOpenSimSettings());
 				exit;
 			break;
 		}

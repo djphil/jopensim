@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.0.13"; // current version
+	public static $version	= "0.3.0.14"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -215,12 +215,24 @@ class opensim {
 	}
 
 	public function loaddefaultvalues() {
+		$params			= JComponentHelper::getParams('com_opensim');
+		$UserLevel		= $params->get('jopensim_defaultuserlevel',0);
+		$UserFlag3		= $params->get('jopensim_usersetting_flag3',0);
+		$UserFlag4		= $params->get('jopensim_usersetting_flag4',0);
+		$UserFlag5		= $params->get('jopensim_usersetting_flag5',0);
+		$UserFlag9		= $params->get('jopensim_usersetting_flag9',0);
+		$UserFlag10		= $params->get('jopensim_usersetting_flag10',0);
+		$UserFlag11		= $params->get('jopensim_usersetting_flag11',0);
+		$UserFlag12		= $params->get('jopensim_usersetting_flag12',0);
+		$UserFlags		= $UserFlag3 + $UserFlag4 + $UserFlag5 + $UserFlag9 + $UserFlag10 + $UserFlag11 + $UserFlag12;
+		$UserTitle		= $params->get('jopensim_usersetting_title','');
+
 		// default values for usertable (needed for new user)
 		$this->defaultval['usertable']['ScopeID']		= $this->zerouid;
 		$this->defaultval['usertable']['ServiceURLs']	= "HomeURI= GatekeeperURI= InventoryServerURI= AssetServerURI=";
-		$this->defaultval['usertable']['UserLevel']	= 0;
-		$this->defaultval['usertable']['UserFlags']	= 0;
-		$this->defaultval['usertable']['UserTitle']	= "";
+		$this->defaultval['usertable']['UserLevel']	= $UserLevel;
+		$this->defaultval['usertable']['UserFlags']	= $UserFlags;
+		$this->defaultval['usertable']['UserTitle']	= $UserTitle;
 		// default values for authtable (needed for new user)
 		$this->defaultval['authtable']['webLoginKey']	= $this->zerouid;
 		$this->defaultval['authtable']['accountType']	= "UserAccount";
@@ -932,8 +944,8 @@ class opensim {
 				$this->usertable_field_UserTitle,
 				$data['uuid'],
 				$this->defaultval['usertable']['ScopeID'],
-				mysql_real_escape_string($data['firstname']),
-				mysql_real_escape_string($data['lastname']),
+				$this->mysqlsafestring($data['firstname']),
+				$this->mysqlsafestring($data['lastname']),
 				$data['email'],
 				$this->defaultval['usertable']['ServiceURLs'],
 				$created,
@@ -1267,6 +1279,14 @@ class opensim {
 
 	public function getversion() {
 		return self::$version;
+	}
+
+	public function mysqlsafestring($string) {
+		if(is_object($this->_osgrid_db)) {
+			return $this->_osgrid_db->escape($string);
+		} else { //
+			return addslashes(stripslashes($string));
+		}
 	}
 
 	public function __destruct() {

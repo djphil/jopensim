@@ -80,7 +80,7 @@ class opensimViewevents extends JViewLegacy {
 				$publicLand					= $model->getPublicLand(); // Public regions do have '1' in the column `public` of the table #__opensim_mapinfo
 				$osdata['publicLand']		= $publicLand;
 		
-				$landoptions				= array();
+				$landoption					= array();
 				$landselected				= 0;
 				$preselectedLand			= $app->input->get('eventlocation');
 		

@@ -63,7 +63,7 @@ class opensimModelEvents extends OpenSimModelOpenSim {
 			else $flagwhere = " AND eventflags = '0'";
 			$query = sprintf("SELECT * FROM #__opensim_search_events WHERE (dateUTC + (duration * 60))>= '%d'%s ORDER BY dateUTC",$timeconverted,$flagwhere);
 		}
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->execute();
 		$num_rows = $db->getNumRows();

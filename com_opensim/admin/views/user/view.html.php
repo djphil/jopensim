@@ -45,6 +45,7 @@ class opensimViewuser extends JViewLegacy {
 					$this->email			= $email;
 				break;
 				case "edituser":
+					$ueberschrift			= JText::_('JOPENSIM_EDITUSER');
 					$data					= JFactory::getApplication()->input->request->getArray();
 					$userid					= $data['checkUser'];
 					$userparams				= $model->getUserParams();

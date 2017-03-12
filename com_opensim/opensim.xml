@@ -2,14 +2,14 @@
 <extension type="component" version="3.4.8" method="upgrade">
 	<name>COM_OPENSIM</name>
 	<alias>jOpenSim</alias>
-	<creationDate>2017-02-05</creationDate>
+	<creationDate>2017-03-11</creationDate>
 	<bornDate>2010-09-05</bornDate>
 	<author>FoTo50</author>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
 	<copyright>All rights reserved by FoTo50 2017</copyright>
 	<license>GPL 2.0</license>
-	<version>0.3.0.13</version>
+	<version>0.3.0.14</version>
 	<description>Webinterface for OpenSim Servers (developed and tested with version 0.8.2.1 in Grid Mode)</description>
 	<!-- Install Database Section -->
 	<install>
@@ -48,7 +48,7 @@
 	</languages>
 
 	<administration>
-        <!-- Administration Menu Section -->
+	<!-- Administration Menu Section -->
 		<menu link="option=com_opensim">JOPENSIM_MENU_NAME</menu>
 		<submenu>
 			<menu view="opensim" link="option=com_opensim">JOPENSIM_OVERVIEW</menu>

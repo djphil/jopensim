@@ -65,7 +65,9 @@ function debugzeile($zeile,$function = "") {
 }
 
 function mysqlsafestring($string) {
-	return mysql_real_escape_string(stripslashes($string));
+	$db = JFactory::getDBO();
+	return $db->escape($string);
+//	return mysql_real_escape_string(stripslashes($string));
 }
 
 function jOpenSimSettings() {

@@ -211,7 +211,7 @@ class com_opensimInstallerScript {
 		  `updated` datetime DEFAULT NULL,
 		  `status` tinyint(2) NOT NULL DEFAULT '0',
 		  PRIMARY KEY (`from`,`to`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='jOpenSim Rev. 0.3.0.0';";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.0';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_search_allparcels` (
 		  `regionUUID` varchar(255) NOT NULL,

@@ -22,7 +22,7 @@ class OpenSimController extends JControllerLegacy {
 		parent::__construct();
 	}
 
-	public function display() {
+	public function display($cachable = false, $urlparams = false) {
 		$view	= JFactory::getApplication()->input->get('view');
 		parent::display($view);
 	}
