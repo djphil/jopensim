@@ -11,7 +11,7 @@
     <description>COM_JOPENSIMPAYPAL_DESC</description>
     <scriptfile>script.jopensimpaypal.php</scriptfile>
     <install>
-	<!-- Install Database Section -->
+    <!-- Install Database Section -->
     <sql>
         <file driver="mysql" charset="utf8">sql/install.jopensimpaypal.sql</file>
     </sql>
@@ -49,6 +49,7 @@
 
     <languages folder="language">
         <language tag="en-GB">site/en-GB.com_jopensimpaypal.ini</language>
+        <language tag="fr-FR">site/fr-FR.com_jopensimpaypal.ini</language>
     </languages>
 
     <administration>
@@ -73,9 +74,11 @@
     <languages folder="language">
         <language tag="en-GB">admin/en-GB.com_jopensimpaypal.ini</language>
         <language tag="en-GB">admin/en-GB.com_jopensimpaypal.sys.ini</language>
+        <language tag="en-GB">admin/fr-FR.com_jopensimpaypal.ini</language>
+        <language tag="en-GB">admin/fr-FR.com_jopensimpaypal.sys.ini</language>
     </languages>
     </administration>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+        <server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
