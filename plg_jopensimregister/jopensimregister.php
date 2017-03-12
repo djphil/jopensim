@@ -137,14 +137,14 @@ class plgUserjOpensimRegister extends JPlugin {
 		}
 
 
-
 		if ($formname == 'com_users.profile' || $formname == 'com_users.registration' || $formname == 'com_users.user') {
 			// Toggle whether the something field is required.
 			if ($this->params->get('plgJopensimRegisterUser', 'required') == 'required') {
-				$form->setFieldAttribute('firstname', 'required', TRUE, 'jopensimregister');
-				$form->setFieldAttribute('lastname', 'required', TRUE, 'jopensimregister');
+				$form->setFieldAttribute('firstname', 'required', 'true', 'jopensimregister');
+				$form->setFieldAttribute('lastname', 'required', 'true', 'jopensimregister');
 			}
-		}                       
+		}
+		return true;
 	}
 
 

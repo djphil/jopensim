@@ -4,22 +4,20 @@
 		<fieldset name="jopensimregister" label="PLG_JOPENSIMREGISTER_OPENSIM_DETAILS">
 			<field
 				name="firstname"
-				type="text"
+				type="jopensimnames"
 				id="jopensim_firstname"
 				description="PLG_JOPENSIMREGISTER_FIELD_FIRSTNAME_DESC"
 				filter="string"
 				label="PLG_JOPENSIMREGISTER_OPENSIM_FIRSTNAME"
-				message="PLG_JOPENSIMREGISTER_FIELD_FIRSTNAME_MESSAGE"
 				size="30"
 			/>
 			<field
 				name="lastname"
-				type="text"
+				type="jopensimnames"
 				id="jopensim_lastname"
 				description="PLG_JOPENSIMREGISTER_FIELD_LASTNAME_DESC"
 				filter="string"
 				label="PLG_JOPENSIMREGISTER_OPENSIM_LASTNAME"
-				message="PLG_JOPENSIMREGISTER_FIELD_LASTNAME_MESSAGE"
 				multiple="false"
 			/>
 			<field

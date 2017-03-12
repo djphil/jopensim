@@ -2,12 +2,12 @@
 <extension method="upgrade" version="3.1" type="plugin" group="user">
 	<name>User - jOpenSimRegister</name>
 	<author>FoTo50</author>
-	<creationDate>2017-02-05</creationDate>
+	<creationDate>2017-03-07</creationDate>
 	<copyright>(C) 2017 - FoTo50</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com/</authorUrl>
-	<version>0.3.0.13</version>
+	<version>0.3.0.14</version>
 	<description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
     <scriptfile>script.jopensimregister.php</scriptfile>
 	<languages folder="language">

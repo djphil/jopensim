@@ -40,22 +40,24 @@ class JFormFieldAvatar extends JFormFieldRadio {
 			return $label;
 		}
 
-		$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
-		$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
-		$avatarlist = $this->params->get('plgJopensimRegisterAvatar');
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
+		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
+		$avatarlist				= $this->params->get('plgJopensimRegisterAvatar');
+		$requiredField			= $this->params->get('plgJopensimRegisterUser');
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$text = $this->translateLabel ? JText::_($text) : $text;
 
-		// Set required to true as this field is not displayed at all if not required.
-		$this->required = true;
-
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
-		$class =$class . ' required';
+		if($requiredField == "required") {
+			$this->required = true;
+			$class =$class . ' required';
+		}
+
 		$class = !empty($this->labelClass) ? $class . ' jopensimavatar ' . $this->labelClass : $class.' jopensimavatar';
 
 		// Add the opening label tag and main attributes attributes.
