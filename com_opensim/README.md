@@ -1,2 +1,2 @@
 # jopensim
-com_opensim v0.3.0.13
+com_opensim v0.3.0.14
