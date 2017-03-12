@@ -7,7 +7,7 @@
     <license>GPL 2.0</license>
     <authorEmail>foto50@jopensim.com</authorEmail>
     <authorUrl>http://www.jopensim.com</authorUrl>
-    <version>0.3.0.12</version>
+    <version>0.3.0.14</version>
     <description>MOD_JOPENSIM_ADMIN_DESC</description>
     <files>
         <filename module="mod_opensim_admin">mod_opensim_admin.php</filename>
