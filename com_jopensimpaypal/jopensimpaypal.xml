@@ -74,8 +74,8 @@
     <languages folder="language">
         <language tag="en-GB">admin/en-GB.com_jopensimpaypal.ini</language>
         <language tag="en-GB">admin/en-GB.com_jopensimpaypal.sys.ini</language>
-        <language tag="en-GB">admin/fr-FR.com_jopensimpaypal.ini</language>
-        <language tag="en-GB">admin/fr-FR.com_jopensimpaypal.sys.ini</language>
+        <language tag="fr-FR">admin/fr-FR.com_jopensimpaypal.ini</language>
+        <language tag="fr-FR">admin/fr-FR.com_jopensimpaypal.sys.ini</language>
     </languages>
     </administration>
     <updateservers>
