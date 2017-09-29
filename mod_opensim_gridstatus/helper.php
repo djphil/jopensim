@@ -44,7 +44,7 @@ class ModOpenSimHelper {
 	}
 
 	public function setParameter($parameter) {
-		if(!is_array($parameter)) return FALSE;
+		if (!is_array($parameter)) return FALSE;
 		$this->parameter['lastDays']		= $parameter['lastDays'];
 		$this->parameter['offlinecolor']	= $parameter['offlinecolor'];
 		$this->parameter['onlinecolor']		= $parameter['onlinecolor'];
@@ -58,6 +58,7 @@ class ModOpenSimHelper {
 		if ($parameter['showlastvisitors']) $gridlines += 4;
 		if ($parameter['showonline']) $gridlines += 8;
 		if ($parameter['showtotalusers']) $gridlines += 16;
+        if ($parameter['showonlinehg']) $gridlines += 32;
 		$this->parameter['gridlines'] = $gridlines;
 	}
 
@@ -110,6 +111,9 @@ class ModOpenSimHelper {
 
 			$this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID != '%s'",$zeroUID));
 			$returnvalue['online'] = $this->_osgrid_db->loadResult();
+            // Hypergrid users
+			$this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID = '%s'", $zeroUID));
+			$returnvalue['hgonline'] = $this->_osgrid_db->loadResult();
 
 			$tage = sprintf("%d",$lastDays);
 			$jetzt = time();

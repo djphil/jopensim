@@ -53,6 +53,7 @@ if (is_file(_OPENSIMCLASS_GS)) {
 	$parameter['showlastvisitors']	= $params->get('showlastvisitors',$component['showlastvisitors']);
 	$parameter['showtotalusers']	= $params->get('showtotalusers',$component['showtotalusers']);
 	$parameter['showonline']		= $params->get('showonline',$component['showonline']);
+    $parameter['showonlinehg']		= $params->get('showonlinehg', $component['showonlinehg']);
 	$parameter['hiddenregions']		= $params->get('hiddenregions',$component['hiddenregions']);
 
 	// $assetpath = JUri::base(true)."/components/com_opensim/assets/";
@@ -90,6 +91,8 @@ if (is_file(_OPENSIMCLASS_GS)) {
 	$parameter['showlastvisitors']	= $params->get('showlastvisitors');
 	$parameter['showtotalusers']	= $params->get('showtotalusers');
 	$parameter['showonline']		= $params->get('showonline');
+    $parameter['showonlinehg']		= $params->get('showonlinehg');
+	// $parameter['hiddenregions']  = $params->get('hiddenregions');
 	$parameter['hiddenregions']		= 1; // in standalone, the database table most probably will not exist
 }
 
@@ -139,6 +142,13 @@ if($parameter['showonline'] == "0") {
 } else {
 	$test['showonline'] = 1;
 	$values['gridboxlines'] |= 8;
+}
+if($parameter['showonlinehg'] == "0") {
+	$test['showonlinehg'] = 0;
+	if(($values['gridboxlines'] & 32) == 32) $values['gridboxlines'] -= 32;
+} else {
+	$test['showonlinehg'] = 1;
+	$values['gridboxlines'] |= 32;
 }
 $values['test'] = $test;
 $values['parameter'] = $parameter;

@@ -75,7 +75,9 @@ class opensim {
 	public $regiontable_serverPort			= "serverPort";
 	public $regiontable_locationX			= "locX";
 	public $regiontable_locationY			= "locY";
-
+    // presence table
+    public $presencetable                   = "presence";
+    public $presencetable_regionid          = "RegionID";                                          
 
 	public function __construct($osdbhost,$osdbuser,$osdbpasswd,$osdbname,$osdbport = '3306', $silent = FALSE) {
 		$this->osgriddbhost		= $osdbhost;
@@ -83,7 +85,7 @@ class opensim {
 		$this->osgriddbpasswd	= $osdbpasswd;
 		$this->osgriddbname		= $osdbname;
 		$this->osgriddbport		= $osdbport;
-		$this->silent		= $silent;
+		$this->silent           = $silent;
 
 		$this->connect2osgrid();
 	}
@@ -135,6 +137,26 @@ class opensim {
 		}
 	}
 
+    // HG User count
+	public function countHypergridUsers() {
+		if (empty($this->_osgrid_db)) return FALSE;
+        
+        $zero_uuid = "00000000-0000-0000-0000-000000000000";
+        
+		$query = sprintf("SELECT COUNT(DISTINCT %1\$s.%2\$s) AS number FROM %1\$s WHERE %2\$s = $zero_uuid",
+					$this->presencetable,
+					$this->presencetable_regionid,
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->query();
+        
+        // The user region_id seems to be zero uuid
+        // rowCount();
+		if ($this->_osgrid_db->getNumRows() > 0) {
+			$count = $this->_osgrid_db->loadAssoc();
+			return $count['number'];
+		} else {
+			return FALSE;
+		}
 	public function externalDBerror() {
 	//	JFactory::getApplication()->enqueueMessage(JText::_(ERROR_NOSIMDB),"error");
 		return FALSE;
