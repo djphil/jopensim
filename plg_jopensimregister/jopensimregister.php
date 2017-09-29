@@ -226,7 +226,7 @@ class plgUserjOpensimRegister extends JPlugin {
 					$db =& JFactory::getDBO();
 					$query = sprintf("INSERT INTO #__opensim_userrelation (opensimID,joomlaID) VALUES ('%s','%d')",$opensimUID,$user['id']);
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}
@@ -273,14 +273,14 @@ class plgUserjOpensimRegister extends JPlugin {
 			// remove stored Offline Messages
 			$query = sprintf("DELETE FROM #__opensim_offlinemessages WHERE fromAgentID = '%1\$s' OR toAgentID = '%1\$s'",$opensimID);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 
 		// delete relation row in jOpenSim component anyway, since this user does not exists anymore
 		$query = sprintf("DELETE FROM #__opensim_userrelation WHERE opensimID = '%s'",$opensimID);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		return TRUE;
 	}
@@ -329,7 +329,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		$opensim	= $this->opensim;
 		$query		= $opensim->getOnlineStatusQuery($userid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$num_rows	= $this->_osgrid_db->getNumRows();
 		if($num_rows == 1) return TRUE;
 		else return FALSE;
@@ -367,7 +367,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		$opensim = $this->opensim;
 		$checkquery = $opensim->getCheckQuery($firstname,$lastname);
 		$this->_osgrid_db->setQuery($checkquery);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$existing = $this->_osgrid_db->getNumRows();
 		if($existing > 0) {
 			return TRUE;
@@ -416,33 +416,34 @@ class plgUserjOpensimRegister extends JPlugin {
 		$newuser['passwordHash'] = md5(md5($newuser['password']).":".$newuser['passwordSalt']);
 		$insertquery = $opensim->getInsertUserQuery($newuser);
 		$this->_osgrid_db->setQuery($insertquery['user']);
-		$retval = $this->_osgrid_db->query();
+		$retval = $this->_osgrid_db->execute();
 		$this->_osgrid_db->setQuery($insertquery['auth']);
-		$retval = $this->_osgrid_db->query();
+		$retval = $this->_osgrid_db->execute();
 		if($this->regionExists($newuser['homeregion'])) { // only add home region if set already
 			$this->_osgrid_db->setQuery($insertquery['grid']);
-			$retval = $this->_osgrid_db->query();
+			$retval = $this->_osgrid_db->execute();
 		}
 		$inventoryqueries = $opensim->getinventoryqueries($newuser['uuid']);
 		if(is_array($inventoryqueries)) {
 			foreach($inventoryqueries AS $query) {
 				$this->_osgrid_db->setQuery($query);
-				$this->_osgrid_db->query();
+				$this->_osgrid_db->execute();
 			}
 		}
 
 		// Lets copy the avatar settings if we need
 		if(isset($newuser['avatar']) && $newuser['avatar']) {
-			$query = sprintf("INSERT INTO Avatars SELECT '%s' AS PrincipalID, Avatars.`Name`, Avatars.`Value` FROM Avatars WHERE Avatars.PrincipalID = '%s'",
-								$newuser['uuid'],
-								$newuser['avatar']);
-			$this->_osgrid_db->setQuery($query);
-			$this->_osgrid_db->query();
-			// Only one line needs to be updated:
-			$query = sprintf("UPDATE Avatars SET Avatars.`Value` = '%1\$s' WHERE Avatars.PrincipalID = '%1\$s' AND Avatars.`Name` = 'UserID'",
-								$newuser['uuid']);
-			$this->_osgrid_db->setQuery($query);
-			$this->_osgrid_db->query();
+			$opensim->copyAvatar($newuser['avatar'],$newuser['uuid']);
+//			$query = sprintf("INSERT INTO Avatars SELECT '%s' AS PrincipalID, Avatars.`Name`, Avatars.`Value` FROM Avatars WHERE Avatars.PrincipalID = '%s'",
+//								$newuser['uuid'],
+//								$newuser['avatar']);
+//			$this->_osgrid_db->setQuery($query);
+//			$this->_osgrid_db->execute();
+//			// Only one line needs to be updated:
+//			$query = sprintf("UPDATE Avatars SET Avatars.`Value` = '%1\$s' WHERE Avatars.PrincipalID = '%1\$s' AND Avatars.`Name` = 'UserID'",
+//								$newuser['uuid']);
+//			$this->_osgrid_db->setQuery($query);
+//			$this->_osgrid_db->execute();
 		}
 		return $newuser['uuid'];
 	}
@@ -458,7 +459,7 @@ class plgUserjOpensimRegister extends JPlugin {
 			foreach($deletequeries AS $db => $dbquery) {
 				foreach($dbquery AS $query) {
 					$this->_osgrid_db->setQuery($query);
-					$this->_osgrid_db->query();
+					$this->_osgrid_db->execute();
 				}
 			}
 			return TRUE;
@@ -489,7 +490,7 @@ class plgUserjOpensimRegister extends JPlugin {
 						WHERE
 							#__opensim_userrelation.joomlaID = '%d'",$joomlaID);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows	= $db->getNumRows();
 		if($num_rows == 1) return $db->loadResult();
 		else return null;

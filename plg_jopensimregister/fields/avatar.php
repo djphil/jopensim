@@ -113,6 +113,13 @@ class JFormFieldAvatar extends JFormFieldRadio {
 					$avatars[$zaehler]['text'] = $img;
 					$avatars[$zaehler]['class'] = "required jopensimavatar";
 					$avatars[$zaehler]['required'] = TRUE;
+				} elseif(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$temp[0].'.jpeg')) {
+					$attr['title'] = $temp[1];
+					$attr['align'] = "absmiddle";
+					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".jpeg",$temp[1],$attr);
+					$avatars[$zaehler]['text'] = $img;
+					$avatars[$zaehler]['class'] = "required jopensimavatar";
+					$avatars[$zaehler]['required'] = TRUE;
 				} else {
 					$avatars[$zaehler]['text'] = $temp[1];
 				}
