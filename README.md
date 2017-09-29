@@ -8,8 +8,6 @@ This version is compatible with Joomla v3.8.0
 This version is compatible with OpenSimulator v0.9.0.x
 
 ## Available languages
-en-GB
-
-fr-FR
-
+en-GB<br />
+fr-FR<br />
 it-IT
