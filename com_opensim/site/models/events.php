@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -173,9 +173,9 @@ class opensimModelEvents extends OpenSimModelOpenSim {
 	}
 
 	public function insertEvent($data) {
-		$opensim	= $this->opensim;
-		$retval = array();
-		$retval['error'] = 0;
+		$opensim			= $this->opensim;
+		$retval				= array();
+		$retval['error']	= 0;
 		if(!$data['eventname']) { // Error: no name given for event
 			$retval['error'] |= 1;
 		}
@@ -259,18 +259,19 @@ class opensimModelEvents extends OpenSimModelOpenSim {
 	}
 
 	public function deleteEvent($eventid) {
+		$retval	= array();
 		$osuid	= $this->opensimIsCreated();
 		if(!$osuid) {
 			$retval['error'] |= 4; // Error: user does not have any inworld account
 		}
 
-		if($retval['error'] > 0) { // some error occured, lets go back and display messages
+		if(array_key_exists("error",$retval) && $retval['error'] > 0) { // some error occured, lets go back and display messages
 			return $retval;
 		}
 
 		// From here, nothing "should" go wrong anymore
-		$query = sprintf("DELETE FROM #__opensim_search_events WHERE eventid = '%1\$d' AND (owneruuid = '%2\$s' OR creatoruuid = '%2\$s')",$eventid,$osuid);
-		$db =& JFactory::getDBO();
+		$query	= sprintf("DELETE FROM #__opensim_search_events WHERE eventid = '%1\$d' AND (owneruuid = '%2\$s' OR creatoruuid = '%2\$s')",$eventid,$osuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
 		$retval['ok'] = 1;

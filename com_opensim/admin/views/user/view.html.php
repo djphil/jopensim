@@ -11,7 +11,8 @@ jimport( 'joomla.application.component.view');
 
 class opensimViewuser extends JViewLegacy {
 	public function display($tpl = null) {
-		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
+		$document				= JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 
 		$model = $this->getModel('user');
 		$this->sidebar			= JHtmlSidebar::render();

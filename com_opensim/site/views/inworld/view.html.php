@@ -33,6 +33,7 @@ class opensimViewinworld extends JViewLegacy {
 		$this->settings					= $model->getSettingsData();
 		$task							= JFactory::getApplication()->input->get('task','','method','string');
 		$user							= JFactory::getUser();
+		$created						= null;
 		if($user->guest) {
 			$tpl						= "needlogin";
 		} elseif(!$model->_osgrid_db) {
@@ -252,7 +253,7 @@ class opensimViewinworld extends JViewLegacy {
 						// check if jOpenSimPaypal is installed
 						$jopensimpaypalfolder		= JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_jopensimpaypal";
 						if(is_dir($jopensimpaypalfolder)) {
-							$paypallink				= "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
+							$paypallink				= "<a href='".JRoute::_("&option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
 							$params					= &JComponentHelper::getParams('com_jopensimpaypal');
 							$payout					= $params->get('currencyratesell');
 							$minbuy					= $params->get('minbuy');
@@ -266,7 +267,7 @@ class opensimViewinworld extends JViewLegacy {
 							$jopensimpaypal			= FALSE;
 						}
 						if($jopensimpaypal === TRUE && $payout > 0 && $balance >= $minbalance) {
-							$payoutlink				= "<a href='".JRoute::_("index.php?option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
+							$payoutlink				= "<a href='".JRoute::_("&option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
 						} else {
 							$payoutlink				= "";
 						}
@@ -326,26 +327,26 @@ class opensimViewinworld extends JViewLegacy {
 		$money		= JText::_('JOPENSIM_MONEY');
 		$topbar = "<div><div class='contentsubheading_table".$this->pageclass_sfx."'>";
 		$topbar .= "<div class='contentsubheading".$this->pageclass_sfx."'>";
-		$topbar .= ($task == "default")  ? $settings:"<a href='".JRoute::_('index.php?option=com_opensim&view=inworld&task=default&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$settings."</a>";
+		$topbar .= ($task == "default")  ? $settings:"<a href='".JRoute::_('&option=com_opensim&view=inworld&task=default&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$settings."</a>";
 		$topbar .= "</div>";
 		if($this->settings['addons_messages'] == 1){
 			$topbar .= "<div class='contentsubheading".$this->pageclass_sfx."'>";
-			$topbar .= ($task == "messages") ? $messages:"<a href='".JRoute::_('index.php?option=com_opensim&view=inworld&task=messages&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$messages."</a>";
+			$topbar .= ($task == "messages") ? $messages:"<a href='".JRoute::_('&option=com_opensim&view=inworld&task=messages')."' class='".$this->pageclass_sfx."'>".$messages."</a>";
 			$topbar .= "</div>";
 		}
 		if($this->settings['addons_profile'] == 1){
 			$topbar .= "<div class='contentsubheading".$this->pageclass_sfx."'>";
-			$topbar .= ($task == "profile")   ? $profile:"<a href='index.php?option=com_opensim&view=inworld&task=profile&Itemid=".$this->Itemid."' class='".$this->pageclass_sfx."'>".$profile."</a>";
+			$topbar .= ($task == "profile")   ? $profile:"<a href='".JRoute::_('&option=com_opensim&view=inworld&task=profile&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$profile."</a>";
 			$topbar .= "</div>";
 		}
 		if($this->settings['addons_groups'] == 1){
 			$topbar .= "<div class='contentsubheading".$this->pageclass_sfx."'>";
-			$topbar .= ($task == "groups")   ? $groups:"<a href='index.php?option=com_opensim&view=inworld&task=groups&Itemid=".$this->Itemid."' class='".$this->pageclass_sfx."'>".$groups."</a>";
+			$topbar .= ($task == "groups")   ? $groups:"<a href='".JRoute::_('&option=com_opensim&view=inworld&task=groups&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$groups."</a>";
 			$topbar .= "</div>";
 		}
 		if($this->settings['addons_currency'] == 1){
 			$topbar .= "<div class='contentsubheading".$this->pageclass_sfx."'>";
-			$topbar .= ($task == "money")   ? $money:"<a href='index.php?option=com_opensim&view=inworld&task=money&Itemid=".$this->Itemid."' class='".$this->pageclass_sfx."'>".$money."</a>";
+			$topbar .= ($task == "money")   ? $money:"<a href='".JRoute::_('&option=com_opensim&view=inworld&task=money&Itemid='.$this->Itemid)."' class='".$this->pageclass_sfx."'>".$money."</a>";
 			$topbar .= "</div>";
 		}
 		$topbar .= "</div></div>";

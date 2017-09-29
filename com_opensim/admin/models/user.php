@@ -196,10 +196,10 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		$this->_osgrid_db->setQuery($query);
 		$userlist = $this->_osgrid_db->loadAssocList();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "TRUNCATE TABLE #__opensim_useravatars;";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if(is_array($userlist) && count($userlist) > 0) {
 			foreach($userlist AS $useravatar) {
@@ -209,10 +209,33 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 					$useravatar['PrincipalID'],
 					$avatarname);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 		return $userlist;
+	}
+
+	public function checkAvatarProfileImage($userid) {
+		if($this->_settingsData['getTextureEnabled'] == 1) {
+			$db = JFactory::getDBO();
+			$query	= sprintf("SELECT #__opensim_userprofile.image FROM #__opensim_userprofile WHERE #__opensim_userprofile.avatar_id = '%s'",$userid);
+			$db->setQuery($query);
+			$db->execute();
+			$num_rows = $db->getNumRows();
+			if($num_rows == 1) {
+				$avatarimage = $db->loadResult();
+				if($avatarimage != $this->opensim->zerouid) {
+					$destimage	= JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$userid.".".$this->_settingsData['getTextureFormat'];
+					if(substr($this->_settingsData['opensim_host'],0,4) != "http") $opensimhost = "http://".$this->_settingsData['opensim_host'];
+					else $opensimhost		= $this->_settingsData['opensim_host'];
+					$robust_port			= $this->_settingsData['robust_port'];
+					$profileimage2nd= @file_get_contents($opensimhost.":".$robust_port."/CAPS/GetTexture/?texture_id=".$avatarimage."&format=".$this->_settingsData['getTextureFormat']);
+					if($profileimage2nd) {
+						file_put_contents($destimage,$profileimage2nd);
+					}
+				}
+			}
+		}
 	}
 
 	public function getonlinestatus($userid) {
@@ -233,19 +256,19 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		$opensim = $this->opensim;
 		$deletequeries = $opensim->getdeletequeries($userid);
 		if(is_array($deletequeries)) {
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("DELETE FROM #__opensim_userrelation WHERE opensimID = '%s'",$userid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$query = sprintf("DELETE FROM #__opensim_offlinemessages WHERE fromAgentID = '%1\$s' OR toAgentID = '%1\$s'",$userid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			// Todo: delete queries in profile (partnering?), classified, grouptables, usersettings, etc...
 			foreach($deletequeries AS $db => $dbquery) {
 				if(is_object($this->$db)) {
 					foreach($dbquery AS $query) {
 						$this->$db->setQuery($query);
-						$this->$db->query();
+						$this->$db->execute();
 					}
 				}
 			}
@@ -268,7 +291,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 			break;
 		}
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return TRUE;
 	}
 

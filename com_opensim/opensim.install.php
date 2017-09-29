@@ -211,7 +211,7 @@ class com_opensimInstallerScript {
 		  `updated` datetime DEFAULT NULL,
 		  `status` tinyint(2) NOT NULL DEFAULT '0',
 		  PRIMARY KEY (`from`,`to`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.0';";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='jOpenSim Rev. 0.3.0.0';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_search_allparcels` (
 		  `regionUUID` varchar(255) NOT NULL,
@@ -720,16 +720,6 @@ class com_opensimInstallerScript {
 			}
 		}
 
-		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions")) {
-			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
-				$application = JFactory::getApplication();
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions"), 'warning');
-			} else {
-				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions");
-			}
-		}
-
 		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars")) {
 			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
 				$application = JFactory::getApplication();
@@ -737,6 +727,26 @@ class com_opensimInstallerScript {
 				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars"), 'warning');
 			} else {
 				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars");
+			}
+		}
+
+		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."profiles")) {
+			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
+				$application = JFactory::getApplication();
+				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
+				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars"), 'warning');
+			} else {
+				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."profiles");
+			}
+		}
+
+		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions")) {
+			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
+				$application = JFactory::getApplication();
+				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
+				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions"), 'warning');
+			} else {
+				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions");
 			}
 		}
 	}

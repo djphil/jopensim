@@ -118,6 +118,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['jopensim_maps_showteleport']		= $params->get('jopensim_maps_showteleport',1);
 			$settings['jopensim_maps_showcoords']		= $params->get('jopensim_maps_showcoords',0);
 			$settings['jopensim_maps_link2article']		= $params->get('jopensim_maps_link2article',1);
+			$settings['jopensim_maps_link2article_icon']= $params->get('jopensim_maps_link2article_icon',1);
 			$settings['jopensim_maps_water']			= $params->get('jopensim_maps_water');
 			if(!$settings['jopensim_maps_water']) {
 				$settings['jopensim_maps_water']		= JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
@@ -646,7 +647,20 @@ class OpenSimModelOpenSim extends JModelAdmin {
 
 		if(!$curl && !$fopen) { // there is no way to read from outside :( at least display an error image
 			$retval['error'] = "impossible reading";
-		} elseif($fopen) {
+		} elseif($curl) {
+			ob_start();
+			$ch = curl_init($source);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			$response = curl_getinfo($ch);
+			if($response['http_code'] == 200) {
+				$retval['file_content'] = ob_get_contents();
+				ob_end_clean();
+			} else { // could not open the image with cURL - display error image
+				ob_end_clean();
+				$retval['error'] = "cURL error ".$response['http_code'];
+			}
+		} else {
 			$fexists = $this->http_test_existance($source);
 			if($fexists['status'] == 200) {
 				$handle = @fopen($source,'r');
@@ -660,19 +674,6 @@ class OpenSimModelOpenSim extends JModelAdmin {
 				}
 			} else {
 				$retval['error'] = $source."\nfopen error (status: ".$fexists['status'].")";
-			}
-		} else {
-			ob_start();
-			$ch = curl_init($source);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
-			curl_exec($ch);
-			$response = curl_getinfo($ch);
-			if($response['http_code'] == 200) {
-				$retval['file_content'] = ob_get_contents();
-				ob_end_clean();
-			} else { // could not open the image with cURL - display error image
-				ob_end_clean();
-				$retval['error'] = "cURL error ".$response['http_code'];
 			}
 		}
 		return $retval;
@@ -800,12 +801,13 @@ class OpenSimModelOpenSim extends JModelAdmin {
 
 	public function getprofile($userid) {
 		if(!$this->_osgrid_db) return FALSE;
-		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT #__opensim_userprofile.* FROM #__opensim_userprofile WHERE #__opensim_userprofile.avatar_id = '%s'",$userid);
+		$opensim	= $this->opensim;
+		$db			= JFactory::getDBO();
+		$query		= sprintf("SELECT #__opensim_userprofile.* FROM #__opensim_userprofile WHERE #__opensim_userprofile.avatar_id = '%s'",$userid);
 		$db->setQuery($query);
 		$profile = $db->loadAssoc();
 		if(count($profile) == 0) { // in case no profile stored yet, fill it with empty values to avoid php notices
+			$profile['error']			= JText::_('JOPENSIM_PROFILE_ERROR_NOTFOUND');
 			$profile['aboutText']		= "";
 			$profile['maturePublish']	= 0;
 			$profile['partner']			= null;

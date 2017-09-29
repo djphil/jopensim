@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim (Communication Interface with the OpenSim Server)
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 /* Initialize Joomla framework */
@@ -17,8 +17,14 @@ defined('_JEXEC') or die('Restricted Access');
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'configuration.php' );
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php' );
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'framework.php' );
+$jversion	= new JVersion();
+$version	= $jversion->getShortVersion();
 /* To use Joomla's Database Class */
-require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+if(version_compare("3.7.5",$version)) {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+} else {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+}
 /* Create the Application */
 $mainframe =& JFactory::getApplication('site');
 

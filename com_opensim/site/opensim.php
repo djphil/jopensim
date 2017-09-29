@@ -9,6 +9,28 @@ if(!defined("DS")) define("DS",DIRECTORY_SEPARATOR);
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+function jOpenSimCleanCache() {
+	$conf = JFactory::getConfig();
+
+	$options = array(
+		'defaultgroup' => '',
+		'storage'      => $conf->get('cache_handler', ''),
+		'caching'      => true,
+		'cachebase'    => $conf->get('cache_path', JPATH_SITE . '/cache')
+	);
+
+	$jcache	= JCache::getInstance('', $options);
+	$jcache->clean("com_opensim");
+}
+
+// First of all check cache settings
+$params			= JComponentHelper::getParams('com_opensim');
+$jopensimcache	= $params->get('jopensimcaching',1);
+if($jopensimcache == 0) {
+	jOpenSimCleanCache();
+}
+
+
 // require the opensim class
 require_once(JPATH_COMPONENT.DIRECTORY_SEPARATOR."includes".DIRECTORY_SEPARATOR."opensim.class.php");
 

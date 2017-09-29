@@ -11,7 +11,10 @@ jimport( 'joomla.application.component.view');
 
 class opensimViewaddons extends JViewLegacy {
 	public function display($tpl = null) {
-		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
+
+		$document		= JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
+//		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
 
 		$this->sidebar	= JHtmlSidebar::render();
 		$model			= $this->getModel('addons');

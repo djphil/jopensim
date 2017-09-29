@@ -46,15 +46,9 @@ foreach($this->eventlist['events'] AS $event) {
 	<td><?php echo $event['usertime']; ?></td>
 	<td><?php echo $this->duration[$event['duration']]; ?></td>
 	<td>
-	
-<!--
-<?php // if($event['editflag'] == 1): ?>
-	<a class="btn btn-default btn-danger" href='index.php?option=com_opensim&view=events&layout=eventlist&task=deleteevent&eventid=<?php // echo $event['eventid']; ?>' onClick='return confirm("<?php // echo JText::_('JOPENSIM_EVENT_DELETE_SURE'); ?>");'><img src='<?php // echo $this->assetpath; ?>images/delete.gif' width='20' height='20' alt='<?php // echo JText::_('JOPENSIM_EVENT_DELETE'); ?>' border='0' title='<?php // echo JText::_('JOPENSIM_EVENT_DELETE'); ?>' /></a>
-<?php // else: ?>
--->
-        <?php if($event['editflag'] == 1): ?>
-        <a class='btn btn-default btn-danger btn-xs pull-right' href='index.php?option=com_opensim&view=events&layout=eventlist&task=deleteevent&eventid=<?php echo $event['eventid']; ?>' onClick='return confirm("<?php echo JText::_('JOPENSIM_EVENT_DELETE_SURE'); ?>");' alt='<?php echo JText::_('JOPENSIM_EVENT_DELETE'); ?>' title='<?php echo JText::_('JOPENSIM_EVENT_DELETE'); ?>'><strong>X</strong></a>
-        <?php else: ?>&nbsp;<?php endif; ?>
+		<?php if($event['editflag'] == 1): ?>
+		<a class='btn btn-default btn-danger btn-xs pull-right' href='<?php echo JRoute::_('&option=com_opensim&view=events&layout=eventlist&task=deleteevent&eventid='.$event['eventid']); ?>' onClick='return confirm("<?php echo JText::_('JOPENSIM_EVENT_DELETE_SURE'); ?>");' alt='<?php echo JText::_('JOPENSIM_EVENT_DELETE'); ?>' title='<?php echo JText::_('JOPENSIM_EVENT_DELETE'); ?>'><strong>X</strong></a>
+		<?php else: ?>&nbsp;<?php endif; ?>
 	</td>
 </tr>
 

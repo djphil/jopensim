@@ -13,7 +13,8 @@ jimport( 'joomla.application.component.view');
 class opensimViewmisc extends JViewLegacy {
 	public function display($tpl = null) {
 		JHTML::_('behavior.modal');
-		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
+		$document			= JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 		$this->model		= $this->getModel('misc');
 		$settings			= $this->model->getSettingsData();
 		$task				= JFactory::getApplication()->input->get( 'task', '', 'method', 'string');

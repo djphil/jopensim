@@ -33,7 +33,7 @@ class OpenSimController extends JControllerForm {
 
 	}
 
-	public function display($cachable = false, $urlparams = false) {
+	public function display($cachable = false, $urlparams = array()) {
 		jimport('joomla.application.component.helper');
 		$addons = JComponentHelper::getParams('com_opensim')->get('addons');
 		$view	= JFactory::getApplication()->input->get('view');

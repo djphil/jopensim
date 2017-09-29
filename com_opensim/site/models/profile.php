@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -14,8 +14,8 @@ class opensimModelProfile extends OpenSimModelOpenSim {
 	var $_data_ext;
 	var $_regiondata = null;
 	var $_settingsData;
-	var $filename = "welcome.php";
-	var $view = "welcome";
+	var $filename = "profile.php";
+	var $view = "profile";
 	var $_os_db;
 	var $_osgrid_db;
 	var $_db;

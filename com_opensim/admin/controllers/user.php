@@ -26,6 +26,14 @@ class OpenSimControlleruser extends OpenSimController {
 
 		$data = JFactory::getApplication()->input->request->getArray();
 
+		if(!array_key_exists("jopensim_usersetting_flag3",$data)) $data['jopensim_usersetting_flag3']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag4",$data)) $data['jopensim_usersetting_flag4']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag5",$data)) $data['jopensim_usersetting_flag5']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag9",$data)) $data['jopensim_usersetting_flag9']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag10",$data)) $data['jopensim_usersetting_flag10']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag11",$data)) $data['jopensim_usersetting_flag11']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag12",$data)) $data['jopensim_usersetting_flag12']	= 0;
+
 		$data['PrincipalID']= trim($data['userid']);
 		$data['FirstName']	= trim($data['firstname']);
 		$data['LastName']	= trim($data['lastname']);
@@ -81,6 +89,9 @@ class OpenSimControlleruser extends OpenSimController {
 				}
 				$redirect = "index.php?option=com_opensim&view=user";
 			}
+		}
+		if($type != "error" && $data['UserLevel'] == -3) {
+			$model->checkAvatarProfileImage($data['PrincipalID']);
 		}
 		$this->setRedirect($redirect,$message,$type);
 	}

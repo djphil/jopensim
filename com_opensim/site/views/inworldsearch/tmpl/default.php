@@ -48,4 +48,4 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php else: ?>
 <p class="alert"><?php echo JText::_('JOPENSIM_SEARCHRESULTS_ERROR'); ?></p>
 <?php endif; ?>
-<p class="text-center">jOpenSimSearch v<?php echo $this->jopensimversion; ?> powered by <a href='http://www.jopensim.com'>FoTo50</a></p>
+<p class="text-center">jOpenSimSearch v<?php echo $this->jopensimversion; ?> powered by <a href='https://www.jopensim.com' target='_blank'>FoTo50</a></p>

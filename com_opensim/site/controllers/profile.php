@@ -12,5 +12,9 @@ class OpenSimControllerprofile extends OpenSimController {
 		parent::__construct();
 		$model = $this->getModel('profile');
 	}
+
+	public function display() {
+		parent::display(false); //true asks for caching.
+	}
 }
 ?>

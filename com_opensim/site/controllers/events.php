@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -20,7 +20,7 @@ class OpenSimControllerevents extends OpenSimController {
 		$app		= JFactory::getApplication();
 		$Itemid		= $app->input->get('Itemid');
 
-		$data['eventname']		= trim($app->input->get('eventname'));
+		$data['eventname']		= trim($app->input->get('eventname','','RAW'));
 		$data['eventdate']		= trim($app->input->get('eventdate','','RAW'));
 		$data['eventtime']		= trim($app->input->get('eventtime','','RAW'));
 		$data['eventtimezone']	= trim($app->input->get('eventtimezone','','RAW'));
@@ -31,37 +31,38 @@ class OpenSimControllerevents extends OpenSimController {
 		$data['description']	= trim($app->input->get('description','','RAW'));
 		$data['eventflags']		= trim($app->input->get('eventflags'));
 		$data['parceluuid']		= trim($app->input->get('eventlocation'));
-//		echo "<pre>\n";
-//		print_r($data);
-//		echo "</pre>\n";
-//		exit;
 		$retval = $model->insertEvent($data);
-		if($retval['error'] > 0) {
+		if(array_key_exists("error",$retval) && $retval['error'] > 0) {
 			$message	= "";
-			if($retval['error'] & 1) $message .= JText::_(ERROR_NOEVENTNAME);
-			if($retval['error'] & 2) $message .= JText::_(ERROR_NOEVENTDATE);
-			if($retval['error'] & 4) $message .= JText::_(ERROR_NOEVENTUSER);
+			if($retval['error'] & 1) {
+				$message .= JText::_('ERROR_NOEVENTNAME');
+//				$data['eventname'] = "jopensimeventerror";
+			}
+			if($retval['error'] & 2) $message .= JText::_('ERROR_NOEVENTDATE');
+			if($retval['error'] & 4) $message .= JText::_('ERROR_NOEVENTUSER');
 			$layout		= "submitevent";
 			$type		= "Error";
-			$addvalues	=	"&task=inserterror".
-							"&eventname=".$data['eventname'].
-							"&eventdate=".$data['eventdate'].
-							"&eventtime=".$data['eventtime'].
-							"&eventtimezone=".$data['eventtimezone'].
-							"&eventduration=".$data['eventduration'].
-							"&eventlocation=".$data['eventlocation'].
-							"&eventcategory=".$data['eventcategory'].
-							"&covercharge=".$data['covercharge'].
-							"&description=".$data['description'].
-							"&eventflags=".$data['eventflags'].
-							"&Itemid=".$Itemid;
+			$addvalues	=	"&task=inserterror";
+
+			// set the values into the session to refill form
+			$session = JFactory::getSession();
+			$session->set('jopensim_error_eventname', $data['eventname']);
+			$session->set('jopensim_error_eventdate', $data['eventdate']);
+			$session->set('jopensim_error_eventtime', $data['eventtime']);
+			$session->set('jopensim_error_eventtimezone', $data['eventtimezone']);
+			$session->set('jopensim_error_eventduration', $data['eventduration']);
+			$session->set('jopensim_error_eventlocation', $data['eventlocation']);
+			$session->set('jopensim_error_eventcategory', $data['eventcategory']);
+			$session->set('jopensim_error_covercharge', $data['covercharge']);
+			$session->set('jopensim_error_description', $data['description']);
+			$session->set('jopensim_error_eventflags', $data['eventflags']);
 		} else {
 			$type		= "message";
-			$message	= JText::_(OK_EVENTCREATED);
+			$message	= JText::_('OK_EVENTCREATED');
 			$layout		= "eventlist";
 			$addvalues	= "";
 		}
-		$redirect = "index.php?option=com_opensim&view=events&layout=".$layout.$addvalues;
+		$redirect = JRoute::_('&option=com_opensim&view=events&layout='.$layout.$addvalues);
 		$this->setRedirect($redirect,$message,$type);
 	}
 
@@ -76,14 +77,14 @@ class OpenSimControllerevents extends OpenSimController {
 		$eventid	= JFactory::getApplication()->input->get('eventid');
 		$model		= $this->getModel('events');
 		$retval		= $model->deleteEvent($eventid);
-		if($retval['error'] > 0) {
-			if($retval['error'] & 4) $message .= JText::_(ERROR_NOEVENTUSER);
+		if(array_key_exists("error",$retval) && $retval['error'] > 0) {
+			if($retval['error'] & 4) $message .= JText::_('ERROR_NOEVENTUSER');
 			$layout		= "eventlist";
 			$type		= "Error";
 			$message	= "";
 		} else {
 			$type		= "message";
-			$message	= JText::_(OK_EVENTDELETED);
+			$message	= JText::_('OK_EVENTDELETED');
 			$layout		= "eventlist";
 		}
 		$redirect = "index.php?option=com_opensim&view=events&layout=".$layout;

@@ -89,6 +89,18 @@
 			</field>
 			<field type="number" name="addons_terminalchannel" size="6" default = "555" label="JOPENSIM_TERMINALCHANNEL" description="JOPENSIM_TERMINALCHANNEL_DESC" />
 			<field type="number" name="addons_identminutes" size="4" default = "30" label="JOPENSIM_IDENTMINUTES" description="JOPENSIM_IDENTMINUTES_DESC" />
+			<field type="spacer" name="addonspacer2" hr="true" />
+			<field type="note" name="globalnote2" label="JOPENSIM_CACHING" />
+			<field
+				name="jopensimcaching"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_CACHINGLABEL"
+				description="JOPENSIM_CACHINGLABEL_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 		<fieldset name="opensimdb" label="JOPENSIM_DBS" description="JOPENSIM_DBS_DESC">
 			<field type="jopensimdatabasenote" name="dbnote1" label="JOPENSIM_GRIDDB" />
@@ -417,6 +429,17 @@
 				default="1"
 				label="JOPENSIM_MAPS_LINK2ARTICLE"
 				description="JOPENSIM_MAPS_LINK2ARTICLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_maps_link2article_icon"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_MAPS_LINK2ARTICLEICON"
+				description="JOPENSIM_MAPS_LINK2ARTICLEICON_DESC"
+				showon="jopensim_maps_link2article:1">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim (Communication Interface with the OpenSim Server)
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 /* Initialize Joomla framework */
@@ -20,8 +20,14 @@ error_reporting($xmlrpcerrorlevel);
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'configuration.php' );
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php' );
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'framework.php' );
+$jversion	= new JVersion();
+$version	= $jversion->getShortVersion();
 /* To use Joomla's Database Class */
-require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+if(version_compare("3.7.5",$version)) {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+} else {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+}
 /* Create the Application */
 $mainframe =& JFactory::getApplication('site');
 
@@ -296,7 +302,8 @@ if(isset($_REQUEST['test'])) {
 if($debug['access']	== "1") simpledebugzeile("Request coming from ".$remoteip);
 if($debug['input']	== "1") debugzeile($input,$function = "input");
 
-
+$method		= "unknown method";
+$debugtitle	= "unknown request";
 
 if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or better their server) should access this
 	if($debug['access'] == "1") simpledebugzeile("Access granted for ".$remoteip." at line ".__LINE__." in ".__FILE__);
@@ -503,6 +510,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			} else {
 				echo "<?x"."ml version=\"1.0\" encoding=\"utf-8\"?><boolean>false</boolean>";
 			}
+			$method = "SaveMessage";
 		break;
 		case "/RetrieveMessages/":
 			if($debug['messages'] == "1") simpledebugzeile("Offline Messages [RetrieveMessages] fired from ".$remoteip." at line ".__LINE__." in ".__FILE__);
@@ -523,6 +531,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			$query = sprintf("DELETE FROM #__opensim_offlinemessages WHERE toAgentID = '%s'",$guid);
 			$db->setQuery($query);
 			$db->query();
+			$method = "RetrieveMessages";
 		break;
 		default: // This must be some xml-rpc request from "Profile", "Search" or "Groups"
 			/*ob_start();*/
@@ -596,7 +605,11 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 		}
 	}
 	//	no access? Just dont answer at all ;)
-	if($debug['access'] == "1") simpledebugzeile("No access for ".$remoteip." at line ".__LINE__." in ".__FILE__);
+	if($debug['access'] == "1") {
+		simpledebugzeile("No access for ".$remoteip." at line ".__LINE__." in ".__FILE__);
+	
+	}
+	$debugtitle = "unauthorized request";
 }
 
 $output = ob_get_contents();
@@ -621,7 +634,7 @@ elseif(($debug['groups']	== "1" ||
 		$responsefunction	!= "profile"	&&
 		$responsefunction	!= "search"		&&
 		$responsefunction	!= "terminal"	&&
-		$responsefunction	!= "messages")	debugzeile("\nresponse for unknown method ".$method.":\n\n".$response,"response for unknown");
+		$responsefunction	!= "messages")	debugzeile("\nresponse for ".$method.":\n\n".$response,"response for ".$debugtitle);
 
 
 echo $output;

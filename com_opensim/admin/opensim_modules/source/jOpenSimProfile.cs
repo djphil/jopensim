@@ -44,7 +44,7 @@ using Mono.Addins;
 
 //[assembly: Addin("jOpenSimProfile", "0.1")]
 //[assembly: AddinDependency("OpenSim", "0.5")]
-[assembly: Addin("jOpenSim.Profile", "0.3.0.3")]
+[assembly: Addin("jOpenSim.Profile", "0.4.0.1")]
 [assembly: AddinDependency("OpenSim.Region.Framework", OpenSim.VersionInfo.VersionNumber)]
 [assembly: AddinDescription("Profile module working with jOpenSim component")]
 [assembly: AddinAuthor("FoTo50")]
@@ -71,7 +71,7 @@ namespace jOpenSim.Profile.jOpenProfile
         private Scene m_scene;
         private bool m_Enabled = false;
         public string m_moduleName = "jOpenSimProfile";
-        public string m_moduleVersion = "0.3.0.3";
+        public string m_moduleVersion = "0.4.0.1";
         public bool m_Debug = false;
         public string compileVersion = OpenSim.VersionInfo.VersionNumber;
 

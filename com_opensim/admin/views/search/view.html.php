@@ -13,7 +13,8 @@ jimport( 'joomla.application.component.view');
 class opensimViewsearch extends JViewLegacy {
 	public function display($tpl = null) {
 		JHTML::_('behavior.modal');
-		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
+		$document		= JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 		$this->sidebar	= null;
 		$model			= $this->getModel('search');
 		$this->settings	= $model->getSettingsData();

@@ -40,7 +40,7 @@ JHTML::_('behavior.modal');
 		<td><label><?php echo JText::_('JOPENSIM_PROFILE_PARTNER'); ?>:</label></td>
 		<td>
 		    <?php echo $this->profiledata['partnername']; ?>
-			<a class='btn btn-default btn-primary pull-right modal' id='partnerwindow' href='index.php?option=com_opensim&view=inworld&task=<?php echo $this->newtask; ?>&tmpl=component&Itemid=<?php echo $this->Itemid; ?>' rel="{handler: 'iframe', size: {x: <?php echo $this->modalwidth; ?>, y: <?php echo $this->modalheight; ?>}, overlayOpacity: 0.3}" style="position:relative;">
+			<a class='btn btn-default btn-primary pull-right modal' id='partnerwindow' href='<?php echo JRoute::_("&option=com_opensim&view=inworld&task=".$this->newtask."&tmpl=component&Itemid=".$this->Itemid); ?>' rel="{handler: 'iframe', size: {x: <?php echo $this->modalwidth; ?>, y: <?php echo $this->modalheight; ?>}, overlayOpacity: 0.3}" style="position:relative;">
 			    <img class="jopensim_partner" src='<?php echo $this->assetpath; ?>images/<?php echo $this->partnerimage; ?>' alt='<?php echo $this->partnerimgtitle; ?>' title='<?php echo $this->partnerimgtitle; ?>' />
 			</a>
 			

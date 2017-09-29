@@ -488,12 +488,19 @@ function getRegionInfos(x,y){
 				// #### These two lines from the old code visually remove dashes from UUIDs: seems unnecessary. ####
 				// var rx = new RegExp("(-)", "g");
 				// xmluuid = xmluuid.replace(rx,"");
-				
-				response = "<table class='regioninfo'>";
 
-				if (articleID > 0 && jArticleLink == 1) {
+				response = "";
+
+				if (showCoords == "true") {
+				    response += "Coordinates: <span class='label label-info' id='loc'>" + "(" + xmllocX + ", " + xmllocY + ")" + "</span>";
+				}
+				
+				response += "<table class='regioninfo'>";
+
+				if (articleID > 0 && jArticleLink == "1") {
 					link1 = "<a class=\"jopensim_articlelink\" href='" + jUrlBase + "/index.php?option=com_content&view=article&id="+articleID+"'>";
-					link2 = "</a>";
+					if(jArticleIcon == "1") link2 = "&nbsp;<span class='icon-link'> </span></a>";
+					else link2 = "</a>";
 				} else {
 					link1 = "";
 					link2 = "";
@@ -509,11 +516,6 @@ function getRegionInfos(x,y){
 				    marker.setTitle("Location: "+xmlregionname+"/"+xjump+"/"+yjump+"/");
 				}
 
-				if (showCoords == "true")
-				    response += "<tr><td>";
-				    response += "Coordinates: <span class='label label-info' id='loc'>" + "(" + xmllocX + ", " + xmllocY + ")" + "</span>";
-					response += "</td></tr>";
-				
 				var portnumber = hgports[map.getMapTypeId()];
 				var portstring = "";
 				var portstring2 = "";

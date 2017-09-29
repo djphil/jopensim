@@ -71,9 +71,9 @@ class opensimViewmaps extends JViewLegacy {
 
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet($asseturl.'opensim.css');
-		$doc->addScript("http://maps.google.com/maps/api/js?v=3&key=AIzaSyBACCLjQjfliUdoyI90ZS5HNf7M22TYORI");
+		$doc->addScript("https://maps.google.com/maps/api/js?v=3&key=AIzaSyBACCLjQjfliUdoyI90ZS5HNf7M22TYORI");
 		$doc->addScript($asseturl."infobubble-min.js");
-//		$doc->addScript("http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js");
+//		$doc->addScript("https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js");
 		$doc->addScript($asseturl."opensimmaps.js");
 		$doc->addScript($asseturl."copyright.js");
 

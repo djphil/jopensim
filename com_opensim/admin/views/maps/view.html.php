@@ -16,10 +16,14 @@ jimport( 'joomla.application.component.view');
 class opensimViewmaps extends JViewLegacy {
 
 	public function display($tpl = null) {
-		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
-		$queueMessage = array();
+		$document			= JFactory::getDocument();
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
+		$queueMessage 		= array();
 		$this->ismapcache	= null;
 		$this->sidebar		= JHtmlSidebar::render();
+
+		$curl = extension_loaded('curl');
+		if(!$curl) JFactory::getApplication()->enqueueMessage(JText::_('JOPENSIM_MAP_CURLREQUIRED'),"warning");
 
 		$model				    	= $this->getModel('map');
 		if(!$model->_osgrid_db) {

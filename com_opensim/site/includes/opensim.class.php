@@ -6,7 +6,7 @@ Class for OpenSimulator Joomla-Component
 started 2010-08-30 by FoTo50 (Powerdesign) foto50@jopensim.com
 
  * @component jOpenSim Component
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
 
 
@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.0.14"; // current version
+	public static $version	= "0.3.0.16"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -983,38 +983,168 @@ class opensim {
 	}
 
 	public function  getinventoryqueries($uuid) {
-		$my_inventory = $this->make_random_guid();
+		$my_inventory	= $this->make_random_guid();
+		$calling_cards	= $this->make_random_guid();
+		$friends		= $this->make_random_guid();
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
 							"VALUES ('My Inventory','8','1','$my_inventory','$uuid','".$this->zerouid."')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Textures','0','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Sounds','1','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Calling Cards','2','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Landmarks','3','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Clothing','5','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Objects','6','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							"VALUES ('Notecards','7','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
-		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							  "VALUES ('Scripts','10','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+							  "VALUES ('Animations','20','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
 							  "VALUES ('Body Parts','13','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							  "VALUES ('Trash','14','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+							"VALUES ('Calling Cards','2','1','".$calling_cards."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							  "VALUES ('Photo Album','15','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+							  "VALUES ('Friends','2','1','".$friends."','$uuid','$calling_cards')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('All','2','1','".$this->make_random_guid()."','$uuid','$friends')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Clothing','5','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Current Outfit','46','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Favorites','23','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('Gestures','21','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Landmarks','3','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
 							  "VALUES ('Lost And Found','16','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							  "VALUES ('Animations','20','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+							  "VALUES ('My Outfits','48','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
-							  "VALUES ('Gestures','21','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+							"VALUES ('Notecards','7','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Objects','6','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('Photo Album','15','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('Received Items','50','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('Scripts','10','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Sounds','1','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							"VALUES ('Textures','0','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
+		$query[] = 'INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) '.
+							  "VALUES ('Trash','14','1','".$this->make_random_guid()."','$uuid','$my_inventory')";
 		return $query;
+	}
+
+	public function copyAvatar($fromUser,$toUser) {
+		if(empty($this->_osgrid_db)) return FALSE;
+		// Inventoryfolders of $toUser must be deleted again if already created
+		$query	= sprintf("DELETE FROM inventoryfolders WHERE inventoryfolders.agentID = '%s'",$toUser);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+		// First get all folders from $fromUser and create new folderID for $toUser
+		$query	= sprintf("SELECT inventoryfolders.* FROM inventoryfolders WHERE inventoryfolders.agentID = '%s'",$fromUser);
+		$this->_osgrid_db->setQuery($query);
+		$sourceInventoryFolders = $this->_osgrid_db->loadAssocList();
+		$destFolder = array();
+		foreach($sourceInventoryFolders AS $sourceInventoryFolder) {
+			$destFolder[$sourceInventoryFolder['folderID']]	= $this->make_random_guid();
+		}
+		// now create folders for $toUser new again
+		foreach($sourceInventoryFolders AS $sourceInventoryFolder) {
+			$parentFolderID	= ($sourceInventoryFolder['parentFolderID'] == $this->zerouid) ? $this->zerouid:$destFolder[$sourceInventoryFolder['parentFolderID']]; // This is for the root folder (My Inventory)
+			$query	= sprintf("INSERT INTO inventoryfolders (folderName,type,version,folderID,agentID,parentFolderID) VALUES ('%s','%d','%d','%s','%s','%s')",
+									$this->_osgrid_db->escape($sourceInventoryFolder['folderName']),
+									$sourceInventoryFolder['type'],
+									$sourceInventoryFolder['version'],
+									$destFolder[$sourceInventoryFolder['folderID']],
+									$toUser,
+									$parentFolderID);
+			$this->_osgrid_db->setQuery($query);
+			$this->_osgrid_db->execute();
+		}
+		// since folders are created new, all existing inventory must also be deleted from $toUser to avoid broken entries in db table
+		$query	= sprintf("DELETE FROM inventoryitems WHERE inventoryitems.avatarID = '%s'",$toUser);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+
+		// now we get the source inventory...
+		$query	= sprintf("SELECT inventoryitems.* FROM inventoryitems WHERE inventoryitems.avatarID = '%s' ORDER BY inventoryitems.assetType, inventoryitems.inventoryID",$fromUser);
+		$this->_osgrid_db->setQuery($query);
+		$sourceInventoryItems = $this->_osgrid_db->loadAssocList();
+		$destInventoryID = array();
+		foreach($sourceInventoryItems AS $sourceInventoryItem) {
+//			if($sourceInventoryItem['assetType'] == 24) continue; // this is just a link, no new ID required
+			$destInventoryID[$sourceInventoryItem['inventoryID']]	= $this->make_random_guid();
+		}
+		//... and insert it with new ItemID and folderID
+		foreach($sourceInventoryItems AS $sourceInventoryItem) {
+			if($sourceInventoryItem['assetType'] == 24) {
+				$assetID		= $destInventoryID[$sourceInventoryItem['assetID']];
+				$inventoryID	= $this->make_random_guid();
+			} else {
+				$assetID		= $sourceInventoryItem['assetID'];
+				$inventoryID	= $destInventoryID[$sourceInventoryItem['inventoryID']];
+			}
+
+			$query	= sprintf("INSERT INTO inventoryitems
+										(assetID,assetType,
+										 inventoryName,inventoryDescription,
+										 inventoryNextPermissions,inventoryCurrentPermissions,
+										 invType,creatorID,
+										 inventoryBasePermissions,inventoryEveryOnePermissions,
+										 salePrice,saleType,
+										 creationDate,groupID,
+										 groupOwned,flags,
+										 inventoryID,avatarID,
+										 parentFolderID,inventoryGroupPermissions)
+									VALUES
+										('%s','%d',
+										 '%s','%s',
+										 '%d','%d',
+										 '%d','%s',
+										 '%d','%d',
+										 '%d','%d',
+										 '%d','%s',
+										 '%d','%d',
+										 '%s','%s',
+										 '%s','%d')",
+						$assetID,$sourceInventoryItem['assetType'],
+						$this->_osgrid_db->escape($sourceInventoryItem['inventoryName']),$this->_osgrid_db->escape($sourceInventoryItem['inventoryDescription']),
+						$sourceInventoryItem['inventoryNextPermissions'],$sourceInventoryItem['inventoryCurrentPermissions'],
+						$sourceInventoryItem['invType'],$sourceInventoryItem['creatorID'],
+						$sourceInventoryItem['inventoryBasePermissions'],$sourceInventoryItem['inventoryEveryOnePermissions'],
+						$sourceInventoryItem['salePrice'],$sourceInventoryItem['saleType'],
+						$sourceInventoryItem['creationDate'],$sourceInventoryItem['groupID'],
+						$sourceInventoryItem['groupOwned'],$sourceInventoryItem['flags'],
+						$inventoryID,$toUser,
+						$destFolder[$sourceInventoryItem['parentFolderID']],$sourceInventoryItem['inventoryGroupPermissions']);
+			$this->_osgrid_db->setQuery($query);
+			$this->_osgrid_db->execute();
+		}
+		
+		
+		// Now copy and update avatar settings
+		$query = sprintf("INSERT INTO Avatars SELECT '%s' AS PrincipalID, Avatars.`Name`, Avatars.`Value` FROM Avatars WHERE Avatars.PrincipalID = '%s'",
+							$toUser,
+							$fromUser);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+
+		// This is unfortunately outdated, attachment points now need the new itemID
+//		// Only one line needs to be updated:
+//		$query = sprintf("UPDATE Avatars SET Avatars.`Value` = '%1\$s' WHERE Avatars.PrincipalID = '%1\$s' AND Avatars.`Name` = 'UserID'",
+//							$toUser);
+//		$this->_osgrid_db->setQuery($query);
+//		$this->_osgrid_db->query();
+
+		$query = sprintf("SELECT Avatars.* FROM Avatars WHERE Avatars.PrincipalID = '%s' AND Avatars.Name LIKE '_ap%%'",$toUser);
+		$this->_osgrid_db->setQuery($query);
+		$attachments = $this->_osgrid_db->loadAssocList();
+		foreach($attachments AS $attachment) {
+			$query = sprintf("UPDATE Avatars SET Avatars.Value = '%s' WHERE Avatars.PrincipalID = '%s' AND Avatars.Name = '%s'",
+								$destInventoryID[$attachment['Value']],
+								$toUser,
+								$attachment['Name']);
+			$this->_osgrid_db->setQuery($query);
+			$this->_osgrid_db->execute();
+		}
+
 	}
 
 	public function getdeletequeries($userid) {
@@ -1207,7 +1337,7 @@ class opensim {
 		$ergebnis = array();
 		switch($typ) {
 			case "messaging":
-				$suchmuster = "/<([a-zA-Z]+)>([^<]*)<(\/[^>]*)>/"; // sollte xml requests von opensim an com_opensim (interface) zerlegen können
+				$suchmuster = "/<([a-zA-Z]+)>([^<]*)<(\/[^>]*)>/"; // sollte xml requests von opensim an com_opensim (interface) zerlegen kÃ¶nnen
 				preg_match_all($suchmuster,$xmlstring,$treffer,PREG_SET_ORDER);
 				if(is_array($treffer) && count($treffer) > 0) {
 					foreach($treffer AS $wert) $ergebnis[$wert[1]] = $wert[2];

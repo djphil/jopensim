@@ -99,6 +99,7 @@ var zoomStarts = {
 
 var jUrlBase		= "<?php echo JUri::base(true); ?>";
 var jArticleLink	= "<?php echo $this->settingsdata['jopensim_maps_link2article']; ?>";
+var jArticleIcon	= "<?php echo $this->settingsdata['jopensim_maps_link2article_icon']; ?>";
 var jTeleportLink	= "<?php echo $this->settingsdata['jopensim_maps_showteleport']; ?>";
 var jMapWater		= "<?php echo $this->settingsdata['jopensim_maps_water']; ?>";
 

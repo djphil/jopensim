@@ -20,7 +20,7 @@ class opensimModelOpensim extends JModelItem {
 
 	public function __construct() {
 		parent::__construct();
-		$params			= &JComponentHelper::getParams('com_opensim');
+		$params			= JComponentHelper::getParams('com_opensim');
 		$this->params	= $params;
 		$osgriddbhost	= $params->get('opensimgrid_dbhost');
 		$osgriddbuser	= $params->get('opensimgrid_dbuser');

@@ -67,7 +67,7 @@ using Mono.Addins;
 
 //[assembly: Addin("jOpenSimSearch", "0.2")]
 //[assembly: AddinDependency("OpenSim", "0.5")]
-[assembly: Addin("jOpenSim.Search", "0.3.0.3")]
+[assembly: Addin("jOpenSim.Search", "0.4.0.1")]
 [assembly: AddinDependency("OpenSim.Region.Framework", OpenSim.VersionInfo.VersionNumber)]
 [assembly: AddinDescription("search module working with jOpenSim component")]
 [assembly: AddinAuthor("FoTo50")]
@@ -96,7 +96,7 @@ namespace jOpenSim.Search
         private bool m_debug = false;
         private bool m_searchPeople = true;
         public	string m_moduleName = "jOpenSimSearch";
-        public string m_moduleVersion = "0.3.0.3";
+        public string m_moduleVersion = "0.4.0.1";
 		private readonly Commander m_commander = new Commander("jopensim");
 		public  string customTimeZone = "";
 		private bool forceUpdate = false;
@@ -338,6 +338,10 @@ namespace jOpenSim.Search
             DataUpdate(m_parentScene);
         }
 
+        public void Refresh()
+        {
+            DataUpdate(m_parentScene);
+        }
 
         public void displayversion(string module, string[] cmd)
         {

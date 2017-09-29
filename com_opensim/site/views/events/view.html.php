@@ -84,6 +84,65 @@ class opensimViewevents extends JViewLegacy {
 				$landselected				= 0;
 				$preselectedLand			= $app->input->get('eventlocation');
 		
+				switch($task) {
+					case "inserterror":
+						$session = JFactory::getSession();
+
+						$eventdata['name']			= $session->get('jopensim_error_eventname');
+						$eventdata['eventdate']		= $session->get('jopensim_error_eventdate');
+						$eventdata['eventtime']		= $session->get('jopensim_error_eventtime');
+						$osdata['timezone']			= $session->get('jopensim_error_eventtimezone');
+						$eventdata['duration']		= $session->get('jopensim_error_eventduration');
+						$preselectedLand			= $session->get('jopensim_error_eventlocation');
+						$eventdata['category']		= $session->get('jopensim_error_eventcategory');
+						$eventdata['covercharge']	= $session->get('jopensim_error_covercharge');
+						$eventdata['description']	= $session->get('jopensim_error_description');
+						$eventdata['eventflags']	= $session->get('jopensim_error_eventflags');
+
+						$session->clear('jopensim_error_eventname');
+						$session->clear('jopensim_error_eventdate');
+						$session->clear('jopensim_error_eventtime');
+						$session->clear('jopensim_error_eventtimezone');
+						$session->clear('jopensim_error_eventduration');
+						$session->clear('jopensim_error_eventlocation');
+						$session->clear('jopensim_error_eventcategory');
+						$session->clear('jopensim_error_covercharge');
+						$session->clear('jopensim_error_description');
+						$session->clear('jopensim_error_eventflags');
+
+						$eventdata['mature']		= FALSE;
+						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
+						$formaction					= "insertevent";
+					break;
+					default:
+						// calculate the next full hour for the users timezone
+						$timestamp				= time();
+						$timeCompound			= date("Y-m-d H:i:s");
+						$dateTimeZone			= new DateTimeZone($osdata['timezone']);
+						$dateTimeZoneUTC		= new DateTimeZone('UTC');
+						$dateTime				= new DateTime($timeCompound, $dateTimeZone);
+						$dateTimeUTC			= new DateTime($timeCompound, $dateTimeZoneUTC);
+						$timestampUTC			= $dateTimeUTC->format("U");
+						$differenceServerUTC	= $timestamp - $timestampUTC;
+						$timeOffset				= $dateTimeZone->getOffset($dateTimeUTC);
+						$utcDifference			= $timestamp + $differenceServerUTC + $timeOffset;
+		
+						$nexthour	= date("H",$utcDifference)+1;
+						$nexthour	= str_pad($nexthour,2,"0",STR_PAD_LEFT).":00";
+						$eventdata['name']			= "";
+						$eventdata['eventdate']		= date("d/m/Y");
+						$eventdata['eventtime']		= $nexthour;
+						$eventdata['duration']		= 0;
+						$eventdata['category']		= '29';
+						$eventdata['covercharge']	= 0;
+						$eventdata['description']	= "";
+						$eventdata['eventflags']	= 0;
+						$eventdata['mature']		= FALSE;
+						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
+						$formaction					= "insertevent";
+					break;
+				}
+
 				if($access_level <= 1) {
 					if(is_array($publicLand) && count($publicLand) > 0) {
 						$landoption[] = "<option value='?' disabled='disabled'>".JText::_('EVENTLANDPUBLIC')."</option>\n";
@@ -124,49 +183,6 @@ class opensimViewevents extends JViewLegacy {
 				$this->currencyenabled	= $setting['addons_currency'];
 				$this->eventcategories	= $model->getEventCategory();
 		
-				switch($task) {
-					case "inserterror":
-						$eventdata['name']			= $app->input->get('eventname');
-						$eventdata['eventdate']		= $app->input->get('eventdate','','RAW');
-						$eventdata['eventtime']		= $app->input->get('eventtime','','RAW');
-						$osdata['timezone']			= $app->input->get('eventtimezone','','RAW');
-						$eventdata['duration']		= $app->input->get('eventduration');
-						$eventdata['category']		= $app->input->get('eventcategory');
-						$eventdata['covercharge']	= $app->input->get('covercharge');
-						$eventdata['description']	= $app->input->get('description');
-						$eventdata['eventflags']	= $app->input->get('eventflags');
-						$eventdata['mature']		= FALSE;
-						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
-						$formaction					= "insertevent";
-					break;
-					default:
-						// calculate the next full hour for the users timezone
-						$timestamp				= time();
-						$timeCompound			= date("Y-m-d H:i:s");
-						$dateTimeZone			= new DateTimeZone($osdata['timezone']);
-						$dateTimeZoneUTC		= new DateTimeZone('UTC');
-						$dateTime				= new DateTime($timeCompound, $dateTimeZone);
-						$dateTimeUTC			= new DateTime($timeCompound, $dateTimeZoneUTC);
-						$timestampUTC			= $dateTimeUTC->format("U");
-						$differenceServerUTC	= $timestamp - $timestampUTC;
-						$timeOffset				= $dateTimeZone->getOffset($dateTimeUTC);
-						$utcDifference			= $timestamp + $differenceServerUTC + $timeOffset;
-		
-						$nexthour	= date("H",$utcDifference)+1;
-						$nexthour	= str_pad($nexthour,2,"0",STR_PAD_LEFT).":00";
-						$eventdata['name']			= "";
-						$eventdata['eventdate']		= date("d/m/Y");
-						$eventdata['eventtime']		= $nexthour;
-						$eventdata['duration']		= 0;
-						$eventdata['category']		= '29';
-						$eventdata['covercharge']	= 0;
-						$eventdata['description']	= "";
-						$eventdata['eventflags']	= 0;
-						$eventdata['mature']		= FALSE;
-						$this->formtitle = JText::_('JOPENSIM_EVENT_CREATE');
-						$formaction					= "insertevent";
-					break;
-				}
 			break;
 			case "eventlist":
 				$param['uuid'] = $created;
