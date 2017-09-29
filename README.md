@@ -9,5 +9,7 @@ This version is compatible with OpenSimulator v0.9.0.x
 
 ## Available languages
 en-GB
+
 fr-FR
+
 it-IT
