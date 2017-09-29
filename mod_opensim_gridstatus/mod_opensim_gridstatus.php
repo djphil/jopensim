@@ -1,7 +1,7 @@
 <?php
 /*
  * @module OpenSim Gridstatus
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 if (!defined('DS')) define("DS",DIRECTORY_SEPARATOR);
 
 // include the opensim class if present
-define("_OPENSIMCLASS_GS",JPATH_BASE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_opensim".DIRECTORY_SEPARATOR."includes".DIRECTORY_SEPARATOR."opensim.class.php");
+if (!defined('_OPENSIMCLASS_GS')) define("_OPENSIMCLASS_GS",JPATH_BASE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_opensim".DIRECTORY_SEPARATOR."includes".DIRECTORY_SEPARATOR."opensim.class.php");
 
 $connect	= array();
 $mystatus	= "";
@@ -20,7 +20,7 @@ $mystatus	= "";
 if (is_file(_OPENSIMCLASS_GS)) {
 	$mystatus = "default";
 	include_once(_OPENSIMCLASS_GS);
-	define("_OPENSIMCOMPONENT", TRUE);
+	if (!defined('_OPENSIMCOMPONENT')) define("_OPENSIMCOMPONENT", TRUE);
 	jimport('joomla.application.component.helper');
 	$comp_params = JComponentHelper::getParams('com_opensim');
 	$component = array();
