@@ -1,7 +1,7 @@
 <?php
 /*
  * @module OpenSim Friends
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -94,13 +94,11 @@ jQuery(document).ready(function(){
         <?php foreach($friendlist[1] AS $friend): ?>
         <tr>
         <?php
-        if ($linkprofile == 1)
-        {
-            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."'".$nofollowattr.">";
+        if ($linkprofile == 1) {
+        	$friendurl	= JRoute::_("&option=com_opensim&view=profile&uid=".$friend['uid']."&Itemid=0");
+            $link1 = "<a href='".$friendurl."'".$nofollowattr.">";
             $link2 = "</a>";
-        }
-        else
-        {
+        } else {
             $link1 = "";
             $link2 = "";
         }
@@ -115,7 +113,8 @@ jQuery(document).ready(function(){
         <tr>
         <?php
         if($linkprofile == 1) {
-            $link1 = "<a href='".JURI::root()."index.php?option=com_opensim&view=profile&uid=".$friend['uid']."'".$nofollowattr.">";
+        	$friendurl	= JRoute::_("&option=com_opensim&view=profile&uid=".$friend['uid']."&Itemid=0");
+            $link1 = "<a href='".$friendurl."'".$nofollowattr.">";
             $link2 = "</a>";
         } else {
             $link1 = "";

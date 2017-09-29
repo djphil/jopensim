@@ -6,12 +6,12 @@
 	method="upgrade">
 	<name>MOD_OPENSIM_FRIENDS</name>
 	<author>FoTo50</author>
-	<creationDate>2016/04/24</creationDate>
-	<copyright>All rights reserved by FoTo50 2016</copyright>
+	<creationDate>2017-09-03</creationDate>
+	<copyright>All rights reserved by FoTo50 2017</copyright>
 	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.11</version>
+	<version>0.3.0.15</version>
 	<description>MOD_OPENSIM_FRIENDS_DESC</description>
 
 	<files>
