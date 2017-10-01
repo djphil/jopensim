@@ -17,12 +17,12 @@ class ModOpenSimHelper {
     public $_osgrid_db;
     public $regions;
 
-	public function __construct($connect,$parameter) {
+    public function __construct($connect,$parameter) {
         if(is_array($connect)) {
             foreach($connect AS $key => $val) {
                 $this->connectparams[$key] = $val;
             }
-		}
+        }
         $this->setParameter($parameter);
         $this->initOpenSim();                       // generate the opensim object
         $this->_osgrid_db = $this->getOsGridDB();   // load the external DB in an object
