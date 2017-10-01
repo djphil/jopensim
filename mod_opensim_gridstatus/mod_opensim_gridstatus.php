@@ -25,36 +25,42 @@ if (is_file(_OPENSIMCLASS_GS)) {
 	$comp_params = JComponentHelper::getParams('com_opensim');
 	$component = array();
 
-	$component['gridstatus']		= $comp_params->get('loginscreen_gridstatus');
-	$component['showgridstatus']	= $comp_params->get('loginscreen_show_status');
-	$component['showregions']		= $comp_params->get('loginscreen_show_regions');
-	$component['hiddenregions']		= $comp_params->get('loginscreen_show_counthidden');
-	$component['showlastvisitors']	= $comp_params->get('loginscreen_show_uniquevisitors');
-	$component['lastDays']			= $comp_params->get('loginscreen_show_uniquevisitors_days');
-	$component['showtotalusers']	= $comp_params->get('loginscreen_show_totalusers');
-	$component['showonline']		= $comp_params->get('loginscreen_show_onlinenow');
-	$component['onlinecolor']		= $comp_params->get('jopensim_loginscreen_color_online');
-	$component['offlinecolor']		= $comp_params->get('jopensim_loginscreen_color_offline');
+	$component['gridstatus']        = $comp_params->get('loginscreen_gridstatus');
+	$component['showgridstatus']    = $comp_params->get('loginscreen_show_status');
+	$component['showregions']       = $comp_params->get('loginscreen_show_regions');
+	$component['hiddenregions'] = $comp_params->get('loginscreen_show_counthidden');
+    
+	$component['showtodayvisitors'] = $comp_params->get('loginscreen_show_uniquevisitors');
 
-	$connect['test'] = 1;
-	$connect['osgriddbhost']		= $comp_params->get('opensimgrid_dbhost');  
-	$connect['osgriddbuser']		= $comp_params->get('opensimgrid_dbuser');  
-	$connect['osgriddbpasswd']		= $comp_params->get('opensimgrid_dbpasswd');
-	$connect['osgriddbname']		= $comp_params->get('opensimgrid_dbname');  
-	$connect['osgriddbport']		= $comp_params->get('opensimgrid_dbport');  
+    $component['showlastvisitors']  = $comp_params->get('loginscreen_show_uniquevisitors');
+	$component['lastDays']          = $comp_params->get('loginscreen_show_uniquevisitors_days');
+	$component['showtotalusers']    = $comp_params->get('loginscreen_show_totalusers');
+	$component['showonline']        = $comp_params->get('loginscreen_show_onlinenow');
+	$component['onlinecolor']       = $comp_params->get('jopensim_loginscreen_color_online');
+	$component['offlinecolor']      = $comp_params->get('jopensim_loginscreen_color_offline');
+
+	$connect['test']                = 1;
+	$connect['osgriddbhost']        = $comp_params->get('opensimgrid_dbhost');  
+	$connect['osgriddbuser']        = $comp_params->get('opensimgrid_dbuser');  
+	$connect['osgriddbpasswd']      = $comp_params->get('opensimgrid_dbpasswd');
+	$connect['osgriddbname']        = $comp_params->get('opensimgrid_dbname');  
+	$connect['osgriddbport']        = $comp_params->get('opensimgrid_dbport');  
 
 	// get the rest parameters from the module's configuration but default to components loginscreen settings if not set yet
-	$parameter['lastDays']			= $params->get('lastDays',$component['lastDays']);
-	$parameter['offlinecolor']		= $params->get('offlinecolor',$component['offlinecolor']);
-	$parameter['onlinecolor']		= $params->get('onlinecolor',$component['onlinecolor']);
-	$parameter['gridstatus']		= $params->get('gridstatus',$component['gridstatus']);
-	$parameter['showgridstatus']	= $params->get('showgridstatus',$component['showgridstatus']);
-	$parameter['showregions']		= $params->get('showregions',$component['showregions']);
-	$parameter['showlastvisitors']	= $params->get('showlastvisitors',$component['showlastvisitors']);
-	$parameter['showtotalusers']	= $params->get('showtotalusers',$component['showtotalusers']);
-	$parameter['showonline']		= $params->get('showonline',$component['showonline']);
-    $parameter['showonlinehg']		= $params->get('showonlinehg', $component['showonlinehg']);
-	$parameter['hiddenregions']		= $params->get('hiddenregions',$component['hiddenregions']);
+	$parameter['lastDays']          = $params->get('lastDays',$component['lastDays']);
+	$parameter['offlinecolor']      = $params->get('offlinecolor',$component['offlinecolor']);
+	$parameter['onlinecolor']       = $params->get('onlinecolor',$component['onlinecolor']);
+	$parameter['gridstatus']        = $params->get('gridstatus',$component['gridstatus']);
+	$parameter['showgridstatus']    = $params->get('showgridstatus',$component['showgridstatus']);
+	$parameter['showregions']       = $params->get('showregions',$component['showregions']);
+	
+    $parameter['showtodayvisitors'] = $params->get('showtodayvisitors',$component['showtodayvisitors']);
+    
+    $parameter['showlastvisitors']  = $params->get('showlastvisitors',$component['showlastvisitors']);
+	$parameter['showtotalusers']    = $params->get('showtotalusers',$component['showtotalusers']);
+	$parameter['showonline']        = $params->get('showonline',$component['showonline']);
+    $parameter['showonlinehg']      = $params->get('showonlinehg', $component['showonlinehg']);
+	$parameter['hiddenregions'] = $params->get('hiddenregions',$component['hiddenregions']);
 
 	// $assetpath = JUri::base(true)."/components/com_opensim/assets/";
     // $doc = JFactory::getDocument();
@@ -75,25 +81,25 @@ if (is_file(_OPENSIMCLASS_GS)) {
 	define("_OPENSIMCOMPONENT",FALSE);
 
 	$connect['test'] = 2;
-	$connect['osgriddbhost']		= $params->get('osgriddbhost');
-	$connect['osgriddbuser']		= $params->get('osgriddbuser');
-	$connect['osgriddbpasswd']		= $params->get('osgriddbpasswd');
-	$connect['osgriddbname']		= $params->get('osgriddbname');
-	$connect['osgriddbport']		= $params->get('osgriddbport');
+	$connect['osgriddbhost']        = $params->get('osgriddbhost');
+	$connect['osgriddbuser']        = $params->get('osgriddbuser');
+	$connect['osgriddbpasswd']      = $params->get('osgriddbpasswd');
+	$connect['osgriddbname']        = $params->get('osgriddbname');
+	$connect['osgriddbport']        = $params->get('osgriddbport');
 	
 	// get the rest parameters from the module's configuration
-	$parameter['lastDays']			= $params->get('lastDays');
-	$parameter['offlinecolor']		= $params->get('offlinecolor');
-	$parameter['onlinecolor']		= $params->get('onlinecolor');
-	$parameter['gridstatus']		= $params->get('gridstatus');
-	$parameter['showgridstatus']	= $params->get('showgridstatus');
-	$parameter['showregions']		= $params->get('showregions');
-	$parameter['showlastvisitors']	= $params->get('showlastvisitors');
-	$parameter['showtotalusers']	= $params->get('showtotalusers');
-	$parameter['showonline']		= $params->get('showonline');
-    $parameter['showonlinehg']		= $params->get('showonlinehg');
+	$parameter['lastDays']          = $params->get('lastDays');
+	$parameter['offlinecolor']      = $params->get('offlinecolor');
+	$parameter['onlinecolor']       = $params->get('onlinecolor');
+	$parameter['gridstatus']        = $params->get('gridstatus');
+	$parameter['showgridstatus']    = $params->get('showgridstatus');
+	$parameter['showregions']       = $params->get('showregions');
+	$parameter['showlastvisitors']  = $params->get('showlastvisitors');
+	$parameter['showtotalusers']    = $params->get('showtotalusers');
+	$parameter['showonline']        = $params->get('showonline');
+    $parameter['showonlinehg']      = $params->get('showonlinehg');
 	// $parameter['hiddenregions']  = $params->get('hiddenregions');
-	$parameter['hiddenregions']		= 1; // in standalone, the database table most probably will not exist
+	$parameter['hiddenregions']     = 1; // in standalone, the database table most probably will not exist
 }
 
 // include the helper file
@@ -122,6 +128,17 @@ if($parameter['showregions'] == "0") {
 	$test['showregions'] = 1;
 	$values['gridboxlines'] |= 2;
 }
+
+// Visitors today
+if($parameter['showtodayvisitors'] == "0") {
+	$test['showtodayvisitors'] = 0;
+	if(($values['gridboxlines'] & 64) == 64) $values['gridboxlines'] -= 64;
+} else {
+	$test['showtodayvisitors'] = 1;
+	$values['gridboxlines'] |= 64;
+}
+
+// Visitors last x days
 if($parameter['showlastvisitors'] == "0") {
 	$test['showlastvisitors'] = 0;
 	if(($values['gridboxlines'] & 4) == 4) $values['gridboxlines'] -= 4;
@@ -129,6 +146,7 @@ if($parameter['showlastvisitors'] == "0") {
 	$test['showlastvisitors'] = 1;
 	$values['gridboxlines'] |= 4;
 }
+
 if($parameter['showtotalusers'] == "0") {
 	$test['showtotalusers'] = 0;
 	if(($values['gridboxlines'] & 16) == 16) $values['gridboxlines'] -= 16;

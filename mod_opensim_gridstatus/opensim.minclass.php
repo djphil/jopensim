@@ -34,59 +34,58 @@ class opensim {
 	public $userquery;
 	public $defaultval = array();
 	// table and fields for general info from user
-	public $usertable						= "UserAccounts";
-	public $usertable_field_id				= "PrincipalID";
-	public $usertable_field_ScopeID			= "ScopeID";
-	public $usertable_field_firstname		= "FirstName";
-	public $usertable_field_lastname		= "LastName";
-	public $usertable_field_email			= "Email";
-	public $usertable_field_ServiceURLs		= "ServiceURLs";
-	public $usertable_field_created			= "Created";
-	public $usertable_field_UserLevel		= "UserLevel";
-	public $usertable_field_UserFlags		= "UserFlags";
-	public $usertable_field_UserTitle		= "UserTitle";
+	public $usertable                       = "UserAccounts";
+	public $usertable_field_id              = "PrincipalID";
+	public $usertable_field_ScopeID         = "ScopeID";
+	public $usertable_field_firstname       = "FirstName";
+	public $usertable_field_lastname        = "LastName";
+	public $usertable_field_email           = "Email";
+	public $usertable_field_ServiceURLs     = "ServiceURLs";
+	public $usertable_field_created         = "Created";
+	public $usertable_field_UserLevel       = "UserLevel";
+	public $usertable_field_UserFlags       = "UserFlags";
+	public $usertable_field_UserTitle       = "UserTitle";
 	// table and fields for info about user in the grid
-	public $gridtable						= "GridUser";
-	public $gridtable_field_id				= "UserID";
-	public $gridtable_field_homeregion		= "HomeRegionID";
-	public $gridtable_field_homeposition	= "HomePosition";
-	public $gridtable_field_homelookat		= "HomeLookAt";
-	public $gridtable_field_online			= "Online";
-	public $gridtable_field_login			= "Login";
-	public $gridtable_field_logout			= "Logout";
+	public $gridtable                       = "GridUser";
+	public $gridtable_field_id              = "UserID";
+	public $gridtable_field_homeregion      = "HomeRegionID";
+	public $gridtable_field_homeposition    = "HomePosition";
+	public $gridtable_field_homelookat      = "HomeLookAt";
+	public $gridtable_field_online          = "Online";
+	public $gridtable_field_login           = "Login";
+	public $gridtable_field_logout          = "Logout";
 	// table and fields for user athentification
-	public $authtable						= "auth";
-	public $authtable_field_id				= "UUID";
-	public $authtable_field_passwordHash	= "passwordHash";
-	public $authtable_field_passwordSalt	= "passwordSalt";
-	public $authtable_field_webLoginKey		= "webLoginKey";
-	public $authtable_field_accountType		= "accountType";
+	public $authtable                       = "auth";
+	public $authtable_field_id              = "UUID";
+	public $authtable_field_passwordHash    = "passwordHash";
+	public $authtable_field_passwordSalt    = "passwordSalt";
+	public $authtable_field_webLoginKey     = "webLoginKey";
+	public $authtable_field_accountType     = "accountType";
 	// table and fields for friends
-	public $friendstable					= "Friends";
-	public $friendstable_field_id			= "PrincipalID";
-	public $friendstable_friend				= "Friend";
-	public $friendstable_flags				= "Flags";
-	public $friendstable_offered			= "Offered";
+	public $friendstable                    = "Friends";
+	public $friendstable_field_id           = "PrincipalID";
+	public $friendstable_friend             = "Friend";
+	public $friendstable_flags              = "Flags";
+	public $friendstable_offered            = "Offered";
 	// region table
-	public $regiontable						= "regions";
-	public $regiontable_field_id			= "uuid";
-	public $regiontable_regionname			= "regionName";
-	public $regiontable_serverIP			= "serverIP";
-	public $regiontable_serverPort			= "serverPort";
-	public $regiontable_locationX			= "locX";
-	public $regiontable_locationY			= "locY";
+	public $regiontable                     = "regions";
+	public $regiontable_field_id            = "uuid";
+	public $regiontable_regionname          = "regionName";
+	public $regiontable_serverIP            = "serverIP";
+	public $regiontable_serverPort          = "serverPort";
+	public $regiontable_locationX           = "locX";
+	public $regiontable_locationY           = "locY";
     // presence table
     public $presencetable                   = "presence";
     public $presencetable_regionid          = "RegionID";                                          
 
 	public function __construct($osdbhost,$osdbuser,$osdbpasswd,$osdbname,$osdbport = '3306', $silent = FALSE) {
-		$this->osgriddbhost		= $osdbhost;
-		$this->osgriddbuser		= $osdbuser;
-		$this->osgriddbpasswd	= $osdbpasswd;
-		$this->osgriddbname		= $osdbname;
-		$this->osgriddbport		= $osdbport;
+		$this->osgriddbhost     = $osdbhost;
+		$this->osgriddbuser     = $osdbuser;
+		$this->osgriddbpasswd   = $osdbpasswd;
+		$this->osgriddbname     = $osdbname;
+		$this->osgriddbport     = $osdbport;
 		$this->silent           = $silent;
-
 		$this->connect2osgrid();
 	}
 
@@ -102,43 +101,45 @@ class opensim {
 		$option['database'] = $this->osgriddbname;		// Database name
 		$option['prefix']   = '';						// Database prefix (may be empty)
 
-		try {
-			$osgrid_db = JDatabaseDriver::getInstance($option);
-			$this->_osgrid_db = $osgrid_db;
-			$test = $osgrid_db->connect();
-			return $this->_osgrid_db;
-		} catch (Exception $e) {
-			if($this->silent === FALSE) {
-				if($this->connectionerror === FALSE) {
-					$message = $e->getMessage();
-					$errormsg = JText::sprintf('JOPENSIM_ERROR_DB_MIN',$message);
-					JFactory::getApplication()->enqueueMessage($errormsg,"error");
-					$this->connectionerror = TRUE;
-				}
-			}
-			$this->_osgrid_db = null;
-			return null;
-		}
-	}
+        try {
+            $osgrid_db = JDatabaseDriver::getInstance($option);
+            $this->_osgrid_db = $osgrid_db;
+            $test = $osgrid_db->connect();
+            return $this->_osgrid_db;
+        } catch (Exception $e) {
+            if($this->silent === FALSE) {
+                if($this->connectionerror === FALSE) {
+                    $message = $e->getMessage();
+                    $errormsg = JText::sprintf('JOPENSIM_ERROR_DB_MIN',$message);
+                    JFactory::getApplication()->enqueueMessage($errormsg,"error");
+                    $this->connectionerror = TRUE;
+                }
+            }
+            $this->_osgrid_db = null;
+            return null;
+        }
+    }
 
-	public function countActiveUsers() {
-		if(empty($this->_osgrid_db)) return FALSE;
-		$query = sprintf("SELECT COUNT(DISTINCT %1\$s.%2\$s) AS anzahl FROM %1\$s WHERE %1\$s.%3\$s >= 0",
-					$this->usertable,
-					$this->usertable_field_id,
-					$this->usertable_field_UserLevel);
-		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
-		if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get up2date data from there
-			$count	= $this->_osgrid_db->loadAssoc();
-			return $count['anzahl'];
-		} else {
-			return FALSE;
-		}
-	}
+    public function countActiveUsers() {
+        if(empty($this->_osgrid_db)) return FALSE;
+        
+        $query = sprintf("SELECT COUNT(DISTINCT %1\$s.%2\$s) AS anzahl FROM %1\$s WHERE %1\$s.%3\$s >= 0",
+        $this->usertable,
+        $this->usertable_field_id,
+        $this->usertable_field_UserLevel);
+        $this->_osgrid_db->setQuery($query);
+        $this->_osgrid_db->query();
+
+        if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get up2date data from there
+            $count	= $this->_osgrid_db->loadAssoc();
+            return $count['anzahl'];
+        } else {
+            return FALSE;
+        }
+    }
 
     // HG User count
-	public function countHypergridUsers()
+    public function countHypergridUsers()
     {
         if (empty($this->_osgrid_db)) return FALSE;
 
@@ -156,12 +157,9 @@ class opensim {
         {
             $count = $this->_osgrid_db->loadAssoc();
             return $count['number'];
-        }
-
-        else
-        {
+        } else {
             return FALSE;
-		}
+        }
     }
 
 	public function externalDBerror() {

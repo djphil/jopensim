@@ -55,10 +55,11 @@ class ModOpenSimHelper {
 
         if ($parameter['showgridstatus']) $gridlines += 1;
 		if ($parameter['showregions']) $gridlines += 2;
-		if ($parameter['showlastvisitors']) $gridlines += 4;
+        if ($parameter['showlastvisitors']) $gridlines += 4;
 		if ($parameter['showonline']) $gridlines += 8;
 		if ($parameter['showtotalusers']) $gridlines += 16;
         if ($parameter['showonlinehg']) $gridlines += 32;
+        if ($parameter['showtodayvisitors']) $gridlines += 64;
 		$this->parameter['gridlines'] = $gridlines;
 	}
 
@@ -111,18 +112,24 @@ class ModOpenSimHelper {
 
 			$this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID != '%s'",$zeroUID));
 			$returnvalue['online'] = $this->_osgrid_db->loadResult();
+
             // Hypergrid users
 			$this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID = '%s'", $zeroUID));
 			$returnvalue['hgonline'] = $this->_osgrid_db->loadResult();
 
-			$tage = sprintf("%d",$lastDays);
+            // Visitors Last x days
+			$tage = sprintf("%d", $lastDays);
 			$jetzt = time();
 			$lastloggedin = $jetzt - 60*60*24*$tage;
 			$this->_osgrid_db->setQuery("SELECT COUNT(*) FROM GridUser WHERE Login > '$lastloggedin' OR Logout > '$lastloggedin'");
 			$returnvalue['lastonline'] = $this->_osgrid_db->loadResult();
+            
+            // Visitors Today
+            $lastloggedin = $jetzt - 60*60*24;
+            $this->_osgrid_db->setQuery("SELECT COUNT(*) FROM GridUser WHERE Login > '$lastloggedin' OR Logout > '$lastloggedin'");
+            $returnvalue['todayonline'] = $this->_osgrid_db->loadResult();
 
 			$returnvalue['totalusers'] = $this->opensim->countActiveUsers();
-
 			$returnvalue['gridboxlines'] = $this->parameter['gridlines'];
 		}
 		return $returnvalue;

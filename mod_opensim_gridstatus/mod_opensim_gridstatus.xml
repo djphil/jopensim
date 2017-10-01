@@ -4,235 +4,244 @@
     version="3.1" 
     client="site" 
     method="upgrade">
-	<name>MOD_OPENSIM_GRIDSTATUS</name>
-	<title>MOD_OPENSIM_GRIDSTATUS</title>
-	<author>FoTo50</author>
-	<creationDate>2017-09-18</creationDate>
-	<copyright>All rights reserved by FoTo50 2017</copyright>
-	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
-	<authorEmail>foto50@jopensim.com</authorEmail>
-	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.16</version>
-	<description>MOD_OPENSIM_GRIDSTATUS_DESC</description>
+    <name>MOD_OPENSIM_GRIDSTATUS</name>
+    <title>MOD_OPENSIM_GRIDSTATUS</title>
+    <author>FoTo50</author>
+    <creationDate>2017-09-18</creationDate>
+    <copyright>All rights reserved by FoTo50 2017</copyright>
+    <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <version>0.3.0.16</version>
+    <description>MOD_OPENSIM_GRIDSTATUS_DESC</description>
 
     <files>
-		<filename module="mod_opensim_gridstatus">mod_opensim_gridstatus.php</filename>
-		<folder>assets</folder>
+        <filename module="mod_opensim_gridstatus">mod_opensim_gridstatus.php</filename>
+        <folder>assets</folder>
         <folder>language</folder>
         <folder>tmpl</folder>
         <filename>index.html</filename>
-		<filename>helper.php</filename>
+        <filename>helper.php</filename>
         <filename>opensim.minclass.php</filename>
         <filename>mod_opensim_installerscript.php</filename>
-	</files>
+    </files>
 
     <languages>
-		<language tag="en-GB">language/en-GB.mod_opensim_gridstatus.ini</language>
-		<language tag="en-GB">language/en-GB.mod_opensim_gridstatus.sys.ini</language>
-		<language tag="fr-FR">language/fr-FR.mod_opensim_gridstatus.ini</language>
-		<language tag="fr-FR">language/fr-FR.mod_opensim_gridstatus.sys.ini</language>
-		<language tag="it-IT">language/it-IT.mod_opensim_gridstatus.ini</language>
-		<language tag="it-IT">language/it-IT.mod_opensim_gridstatus.sys.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_gridstatus.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_gridstatus.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_gridstatus.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_gridstatus.sys.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_gridstatus.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_gridstatus.sys.ini</language>
     </languages>
 
     <help url="MOD_OPENSIM_GRIDSTATUS_HELP_URL" key="" />
 
     <config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="showgridstatus"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWSTATUS"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWSTATUS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="showgridstatus"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWSTATUS"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWSTATUS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="gridstatus"
-					type="list"
-					showon="showgridstatus:1"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_GRIDSTATUS"
-					description="MOD_OPENSIM_GRIDSTATUS_GRIDSTATUS_DESC">
-					<option value="0">MOD_OPENSIM_GRIDSTATUS_AUTO</option>
-					<option value="1">MOD_OPENSIM_GRIDSTATUS_ONLINE</option>
-					<option value="-1">MOD_OPENSIM_GRIDSTATUS_OFFLINE</option>
-				</field>
+                <field
+                    name="gridstatus"
+                    type="list"
+                    showon="showgridstatus:1"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_GRIDSTATUS"
+                    description="MOD_OPENSIM_GRIDSTATUS_GRIDSTATUS_DESC">
+                    <option value="0">MOD_OPENSIM_GRIDSTATUS_AUTO</option>
+                    <option value="1">MOD_OPENSIM_GRIDSTATUS_ONLINE</option>
+                    <option value="-1">MOD_OPENSIM_GRIDSTATUS_OFFLINE</option>
+                </field>
 
-				<field
-					name="showregions"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWREGIONS"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWREGIONS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="showregions"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWREGIONS"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWREGIONS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="hiddenregions"
-					type="radio"
-					showon="showregions:1"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_HIDDENREGIONS"
-					description="MOD_OPENSIM_GRIDSTATUS_HIDDENREGIONS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="hiddenregions"
+                    type="radio"
+                    showon="showregions:1"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_HIDDENREGIONS"
+                    description="MOD_OPENSIM_GRIDSTATUS_HIDDENREGIONS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="showlastvisitors"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWLASTVISITORS"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWLASTVISITORS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="showtodayvisitors"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWTODAYVISITORS"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWTODAYVISITORS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field
+                    name="showlastvisitors"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWLASTVISITORS"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWLASTVISITORS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="lastDays"
-					type="text"
-					showon="showlastvisitors:1"
-					default="30"
-					size="4"
-					label="MOD_OPENSIM_GRIDSTATUS_LASTDAYS"
-					description="MOD_OPENSIM_GRIDSTATUS_LASTDAYS_DESC" />
+                <field
+                    name="lastDays"
+                    type="text"
+                    showon="showlastvisitors:1"
+                    default="30"
+                    size="4"
+                    label="MOD_OPENSIM_GRIDSTATUS_LASTDAYS"
+                    description="MOD_OPENSIM_GRIDSTATUS_LASTDAYS_DESC" />
 
-				<field
-					name="showtotalusers"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWTOTALUSERS"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWTOTALUSERS_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="showtotalusers"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWTOTALUSERS"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWTOTALUSERS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="showonline"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWONLINE"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWONLINE_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="showonline"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWONLINE"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWONLINE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="showonlinehg"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_SHOWONLINEHG"
-					description="MOD_OPENSIM_GRIDSTATUS_SHOWONLINEHG_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
+                <field
+                    name="showonlinehg"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_SHOWONLINEHG"
+                    description="MOD_OPENSIM_GRIDSTATUS_SHOWONLINEHG_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
 
-			<fieldset name="GRIDSTATUS_CONFIGURATION">
-				<field 
+            <fieldset name="GRIDSTATUS_CONFIGURATION">
+                <field 
                     name="spacer" 
                     type="spacer" 
                     class="text"
-					label="MOD_OPENSIM_GRIDSTATUS_ADVANCED_DESC" />
-
-				<field
-					name="osgriddbhost"
-					type="text"
-					default="localhost"
-					label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBHOST"
-					description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBHOST_DESC" />
-
-				<field
-					name="osgriddbport"
-					type="text"
-					default="3306"
-					size="4"
-					label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPORT"
-					description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPORT_DESC" />
-
-				<field
-					name="osgriddbname"
-					type="text"
-					default=""
-					label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBNAME"
-					description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBNAME_DESC" />
-
-				<field
-					name="osgriddbuser"
-					type="text"
-					default="root"
-					label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBUSER"
-					description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBUSER_DESC" />
-
-				<field
-					name="osgriddbpasswd"
-					type="text"
-					default=""
-					label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPASSWD"
-					description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPASSWD_DESC" />
-			</fieldset>
-            
-			<fieldset
-				name="GRIDSTATUS_CUSTOMIZED">
-				<field
-					name="offlinecolor"
-					type="color"
-					default="#FF0000"
-					size="7"
-					label="MOD_OPENSIM_GRIDSTATUS_OFFLINECOLOR"
-					description="MOD_OPENSIM_GRIDSTATUS_OFFLINECOLOR_DESC" />
-
-				<field
-					name="onlinecolor"
-					type="color"
-					default="#00FF00"
-					size="7"
-					label="MOD_OPENSIM_GRIDSTATUS_ONLINECOLOR"
-					description="MOD_OPENSIM_GRIDSTATUS_ONLINECOLOR_DESC" />
+                    label="MOD_OPENSIM_GRIDSTATUS_ADVANCED_DESC" />
 
                 <field
-					name="stylebold"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_GRIDSTATUS_STYLEBOLD"
-					description="MOD_OPENSIM_GRIDSTATUS_STYLEBOLD_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
+                    name="osgriddbhost"
+                    type="text"
+                    default="localhost"
+                    label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBHOST"
+                    description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBHOST_DESC" />
 
-			<fieldset
-				name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+                <field
+                    name="osgriddbport"
+                    type="text"
+                    default="3306"
+                    size="4"
+                    label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPORT"
+                    description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPORT_DESC" />
 
-				<field
-					name="moduleclass_sfx"
-					type="textarea" rows="3"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-			</fieldset>
-		</fields>
-	</config>
+                <field
+                    name="osgriddbname"
+                    type="text"
+                    default=""
+                    label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBNAME"
+                    description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBNAME_DESC" />
+
+                <field
+                    name="osgriddbuser"
+                    type="text"
+                    default="root"
+                    label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBUSER"
+                    description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBUSER_DESC" />
+
+                <field
+                    name="osgriddbpasswd"
+                    type="text"
+                    default=""
+                    label="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPASSWD"
+                    description="MOD_OPENSIM_GRIDSTATUS_OSGRIDDBPASSWD_DESC" />
+            </fieldset>
+            
+            <fieldset name="GRIDSTATUS_CUSTOMIZED">
+                <field
+                    name="offlinecolor"
+                    type="color"
+                    default="#FF0000"
+                    size="7"
+                    label="MOD_OPENSIM_GRIDSTATUS_OFFLINECOLOR"
+                    description="MOD_OPENSIM_GRIDSTATUS_OFFLINECOLOR_DESC" />
+
+                <field
+                    name="onlinecolor"
+                    type="color"
+                    default="#00FF00"
+                    size="7"
+                    label="MOD_OPENSIM_GRIDSTATUS_ONLINECOLOR"
+                    description="MOD_OPENSIM_GRIDSTATUS_ONLINECOLOR_DESC" />
+
+                <field
+                    name="stylebold"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_GRIDSTATUS_STYLEBOLD"
+                    description="MOD_OPENSIM_GRIDSTATUS_STYLEBOLD_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea" rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+            </fieldset>
+        </fields>
+    </config>
 
     <scriptfile>mod_opensim_installerscript.php</scriptfile>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
+        <server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
