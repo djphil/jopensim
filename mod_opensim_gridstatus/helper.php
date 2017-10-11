@@ -9,16 +9,16 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 class ModOpenSimHelper {
-    public $offlinecolor = "#FF0000";
-    public $onlinecolor = "#00FF00";
-    public $connectparams = array();
-    public $parameter = array();
+    public $offlinecolor    = "#BD0000";
+    public $onlinecolor     = "#00BD00";
+    public $connectparams   = array();
+    public $parameter       = array();
     public $opensim;
     public $_osgrid_db;
     public $regions;
 
     public function __construct($connect,$parameter) {
-        if(is_array($connect)) {
+        if (is_array($connect)) {
             foreach($connect AS $key => $val) {
                 $this->connectparams[$key] = $val;
             }
@@ -44,11 +44,11 @@ class ModOpenSimHelper {
 
     public function setParameter($parameter) {
         if (!is_array($parameter)) return FALSE;
-        $this->parameter['lastDays']        = $parameter['lastDays'];
-        $this->parameter['offlinecolor']    = $parameter['offlinecolor'];
-        $this->parameter['onlinecolor']     = $parameter['onlinecolor'];
-        $this->parameter['gridstatus']      = $parameter['gridstatus'];
-        $this->parameter['hiddenregions']   = $parameter['hiddenregions'];
+        $this->parameter['lastDays']		= $parameter['lastDays'];
+        $this->parameter['offlinecolor']	= $parameter['offlinecolor'];
+        $this->parameter['onlinecolor']		= $parameter['onlinecolor'];
+        $this->parameter['gridstatus']		= $parameter['gridstatus'];
+        $this->parameter['hiddenregions']	= $parameter['hiddenregions'];
 
         $gridlines = 0;
 
@@ -70,10 +70,10 @@ class ModOpenSimHelper {
         if (!$this->_osgrid_db) {
             $returnvalue['statusmsg'] = "<font color='".$this->offlinecolor."'>".JText::_('MOD_OPENSIM_GRIDSTATUS_OFFLINE')."</font>";
         } else {
-            $zeroUID        = "00000000-0000-0000-0000-000000000000";
-            $lastDays       = $this->parameter['lastDays'];
-            $offlinecolor   = $this->offlinecolor;
-            $onlinecolor    = $this->onlinecolor;
+            $zeroUID		= "00000000-0000-0000-0000-000000000000";
+            $lastDays		= $this->parameter['lastDays'];
+            $offlinecolor	= $this->offlinecolor;
+            $onlinecolor	= $this->onlinecolor;
             $returnvalue    = array();
 
             $this->_osgrid_db->setQuery("SELECT uuid FROM regions");
@@ -85,7 +85,8 @@ class ModOpenSimHelper {
                 $db->setQuery($query);
                 $db->execute();
                 $numrows = $db->getNumRows();
-                if($numrows > 0) {
+
+                if ($numrows > 0) {
                     $hiddenregions = $db->loadColumn();
                     foreach($hiddenregions AS $hiddenregion) {
                         $ishidden = array_search($hiddenregion,$regions);
@@ -100,7 +101,7 @@ class ModOpenSimHelper {
             else if ($this->parameter['gridstatus'] == 1) $returnvalue['status'] = "online";
             else {
                 if ($returnvalue['totalregions'] > 0) $returnvalue['status'] = "online"; // Online Server needs more than 0 regions
-                else $returnvalue['status'] = "offline";
+                else  $returnvalue['status'] = "offline";
             }
 
             if ($returnvalue['status'] == "online") 
@@ -113,7 +114,8 @@ class ModOpenSimHelper {
             $returnvalue['online'] = $this->_osgrid_db->loadResult();
 
             // Hypergrid users
-            $this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID = '%s'", $zeroUID));
+            $query = sprintf("SELECT COUNT(*) FROM Presence LEFT JOIN UserAccounts ON UserAccounts.PrincipalID COLLATE utf8_general_ci = Presence.UserID COLLATE utf8_general_ci WHERE Presence.RegionID COLLATE utf8_general_ci != '%s' AND UserAccounts.PrincipalID IS NULL", $zeroUID);
+            $this->_osgrid_db->setQuery($query);
             $returnvalue['hgonline'] = $this->_osgrid_db->loadResult();
 
             // Visitors Last x days
@@ -125,7 +127,8 @@ class ModOpenSimHelper {
 
             // Visitors Today
             $lastloggedin = $jetzt - 60*60*24;
-            $this->_osgrid_db->setQuery("SELECT COUNT(*) FROM GridUser WHERE Login > '$lastloggedin' OR Logout > '$lastloggedin'");
+            $query = "SELECT COUNT(DISTINCT(GridUser.UserID)) FROM GridUser WHERE Login > '$lastloggedin' OR Logout > '$lastloggedin'";
+            $this->_osgrid_db->setQuery($query);
             $returnvalue['todayonline'] = $this->_osgrid_db->loadResult();
 
             $returnvalue['totalusers'] = $this->opensim->countActiveUsers();
