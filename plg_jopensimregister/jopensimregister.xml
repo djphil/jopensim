@@ -1,146 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension method="upgrade" version="3.1" type="plugin" group="user">
-	<name>User - jOpenSimRegister</name>
-	<author>FoTo50</author>
-	<creationDate>2017-10-11</creationDate>
-	<copyright>(C) 2017 - FoTo50</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>foto50@jopensim.com</authorEmail>
-	<authorUrl>http://www.jopensim.com/</authorUrl>
-	<version>0.3.0.17</version>
-	<description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
-	<scriptfile>script.jopensimregister.php</scriptfile>
-	<languages folder="language">
-		<language tag="en-GB" >en-GB.plg_user_jopensimregister.ini</language>
-		<language tag="fr-FR" >fr-FR.plg_user_jopensimregister.ini</language>
-		<language tag="it-IT" >it-IT.plg_user_jopensimregister.ini</language>
-	</languages>
-	<files>
-		<filename plugin="jopensimregister">jopensimregister.php</filename>
-		<folder>fields</folder>
-		<folder>language</folder>
-		<folder>layout</folder>
-		<folder>profiles</folder>
-	</files>
-	<config>
-		<fields name="params" addfieldpath="/administrator/components/com_content/models/fields">
-			<fieldset name="basic">
-				<field
-					name="plgJopensimRegisterUser"
-					type="list"
-					default="normal"
-					label="PLG_JOPENSIMREGISTER_USER_LABEL"
-					description="PLG_JOPENSIMREGISTER_USER_DESC">
-					<option value='optional'>PLG_JOPENSIMREGISTER_USER_OPTIONAL</option>
-					<option value='required'>PLG_JOPENSIMREGISTER_USER_REQUIRED</option>
-				</field>
+    <name>User - jOpenSimRegister</name>
+    <author>FoTo50</author>
+    <creationDate>2017-10-11</creationDate>
+    <copyright>(C) 2017 - FoTo50</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com/</authorUrl>
+    <version>0.3.0.17</version>
+    <description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
+    <scriptfile>script.jopensimregister.php</scriptfile>
+    <languages folder="language">
+        <language tag="en-GB" >en-GB.plg_user_jopensimregister.ini</language>
+        <language tag="fr-FR" >fr-FR.plg_user_jopensimregister.ini</language>
+        <language tag="it-IT" >it-IT.plg_user_jopensimregister.ini</language>
+    </languages>
+    <files>
+        <filename plugin="jopensimregister">jopensimregister.php</filename>
+        <folder>fields</folder>
+        <folder>language</folder>
+        <folder>layout</folder>
+        <folder>profiles</folder>
+    </files>
+    <config>
+        <fields name="params" addfieldpath="/administrator/components/com_content/models/fields">
+            <fieldset name="basic">
+                <field
+                    name="plgJopensimRegisterUser"
+                    type="list"
+                    default="normal"
+                    label="PLG_JOPENSIMREGISTER_USER_LABEL"
+                    description="PLG_JOPENSIMREGISTER_USER_DESC">
+                    <option value='optional'>PLG_JOPENSIMREGISTER_USER_OPTIONAL</option>
+                    <option value='required'>PLG_JOPENSIMREGISTER_USER_REQUIRED</option>
+                </field>
 
-				<field
-					name="plgJopensimDeleteUser"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					label="PLG_JOPENSIMREGISTER_USERDELETE_LABEL"
-					description="PLG_JOPENSIMREGISTER_USERDELETE_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="plgJopensimDeleteUser"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="PLG_JOPENSIMREGISTER_USERDELETE_LABEL"
+                    description="PLG_JOPENSIMREGISTER_USERDELETE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="plgJopensimDoRedirect"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_JOPENSIMREGISTER_DOREDIRECT"
-					description="PLG_JOPENSIMREGISTER_DOREDIRECT_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="plgJopensimDoRedirect"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="PLG_JOPENSIMREGISTER_DOREDIRECT"
+                    description="PLG_JOPENSIMREGISTER_DOREDIRECT_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="plgJopensimGroupJoin"
-					type="grouplist"
-					label="PLG_JOPENSIMREGISTER_GROUPJOIN_LABEL"
-					description="PLG_JOPENSIMREGISTER_GROUPJOIN_DESC"
-				>
-					<option value="-1">PLG_JOPENSIMREGISTER_NOGROUP</option>
-				</field>
+                <field
+                    name="plgJopensimRedirectAfter"
+                    type="menuitem" 
+                    showon="plgJopensimDoRedirect:1"
+                    label="PLG_JOPENSIMREGISTER_REDIRECT" 
+                    description="PLG_JOPENSIMREGISTER_REDIRECT_DESC" />
 
-				<field
-					name="plgJopensimRedirectAfter"
-					type="menuitem" 
-					label="PLG_JOPENSIMREGISTER_REDIRECT" 
-					description="PLG_JOPENSIMREGISTER_REDIRECT_DESC" />
-			</fieldset>
-			<fieldset name="JOPENSIM_REGISTER_AVATAR" addfieldpath="/plugins/user/jopensimregister/fields">
-				<field
-					name="plgJopensimRegisterAvatarSelect"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_JOPENSIMREGISTER_AVATARSELECT_LABEL"
-					description="PLG_JOPENSIMREGISTER_AVATARSELECT_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+                <field
+                    name="plgJopensimGroupJoin"
+                    type="grouplist"
+                    label="PLG_JOPENSIMREGISTER_GROUPJOIN_LABEL"
+                    description="PLG_JOPENSIMREGISTER_GROUPJOIN_DESC">
+                    <option value="-1">PLG_JOPENSIMREGISTER_NOGROUP</option>
+                </field>
+            </fieldset>
 
-				<field
-					name="plgJopensimRegisterAvatarArticle"
-					type="modal_article"
-					label="PLG_JOPENSIMREGISTER_AVATAR_ARTICLE_LABEL"
-					description="PLG_JOPENSIMREGISTER_AVATAR_ARTICLE_DESC"
-					showon="plgJopensimRegisterAvatarSelect:1" />
+            <fieldset name="JOPENSIM_REGISTER_AVATAR" addfieldpath="/plugins/user/jopensimregister/fields">
+                <field
+                    name="plgJopensimRegisterAvatarSelect"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="PLG_JOPENSIMREGISTER_AVATARSELECT_LABEL"
+                    description="PLG_JOPENSIMREGISTER_AVATARSELECT_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="plgJopensimRegisterAvatar"
-					type="avatarlist"
-					label="PLG_JOPENSIMREGISTER_AVATAR_LABEL"
-					description="PLG_JOPENSIMREGISTER_AVATAR_DESC"
-					showon="plgJopensimRegisterAvatarSelect:1"
-					multiple="true">
-					<option value="1">1</option>
-					<option value="0">2</option>
-				</field>
+                <field
+                    name="plgJopensimRegisterAvatarArticle"
+                    type="modal_article"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_ARTICLE_LABEL"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_ARTICLE_DESC"
+                    showon="plgJopensimRegisterAvatarSelect:1" />
 
-				<field
-					name="plgJopensimRegisterAvatarColumns"
-					type="number"
-					default="2"
-					label="PLG_JOPENSIMREGISTER_AVATAR_COLUMNS"
-					description="PLG_JOPENSIMREGISTER_AVATAR_COLUMNS_DESC"
-					showon="plgJopensimRegisterAvatarSelect:1" />
+                <field
+                    name="plgJopensimRegisterAvatar"
+                    type="avatarlist"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_LABEL"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_DESC"
+                    showon="plgJopensimRegisterAvatarSelect:1"
+                    multiple="true">
+                    <option value="1">1</option>
+                    <option value="0">2</option>
+                </field>
 
-				<field
-					name="plgJopensimRegisterAvatarWidth"
-					type="number"
-					default="256"
-					label="PLG_JOPENSIMREGISTER_AVATAR_WIDTH"
-					description="PLG_JOPENSIMREGISTER_AVATAR_WIDTH_DESC"
-					showon="plgJopensimRegisterAvatarSelect:1" />
+                <field
+                    name="plgJopensimRegisterAvatarColumns"
+                    type="number"
+                    default="2"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_COLUMNS"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_COLUMNS_DESC"
+                    showon="plgJopensimRegisterAvatarSelect:1" />
 
-				<field
-					name="plgJopensimRegisterAvatarWidthStyle"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="no"
-					showon="plgJopensimRegisterAvatarSelect:1"
-					label="PLG_JOPENSIMREGISTER_AVATAR_WIDTHSTYLE"
-					description="PLG_JOPENSIMREGISTER_AVATAR_WIDTHSTYLE_DESC">
-					<option value="px">px</option>
-					<option value="%">%</option>
-				</field>
+                <field
+                    name="plgJopensimRegisterAvatarWidth"
+                    type="number"
+                    default="256"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_WIDTH"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_WIDTH_DESC"
+                    showon="plgJopensimRegisterAvatarSelect:1" />
 
-				<field
-					name="plgJopensimRegisterAvatarColumnspace"
-					type="number"
-					default="10"
-					label="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE"
-					description="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE_DESC"
-					showon="plgJopensimRegisterAvatarSelect:1" />
-			</fieldset>
-		</fields>
-	</config>
- <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
- </updateservers>
+                <field
+                    name="plgJopensimRegisterAvatarWidthStyle"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="no"
+                    showon="plgJopensimRegisterAvatarSelect:1"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_WIDTHSTYLE"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_WIDTHSTYLE_DESC">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                </field>
+
+                <field
+                    name="plgJopensimRegisterAvatarColumnspace"
+                    type="number"
+                    default="10"
+                    label="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE"
+                    description="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE_DESC"
+                    showon="plgJopensimRegisterAvatarSelect:1" />
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+    </updateservers>
 </extension>
