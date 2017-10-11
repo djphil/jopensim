@@ -16,8 +16,7 @@ JFormHelper::loadFieldClass('text');
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  11.1
  */
-class JFormFieldJopensimnames extends JFormFieldText
-{
+class JFormFieldJopensimnames extends JFormFieldText {
 
 	protected $type = 'Jopensimnames';
 
@@ -33,21 +32,21 @@ class JFormFieldJopensimnames extends JFormFieldText
 	 *
 	 * @since   11.1
 	 */
-	protected function getInput()
-	{
+	protected function getInput() {
 		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
 		$requiredField			= $this->params->get('plgJopensimRegisterUser');
 		if($requiredField == "required") {
 			$this->class = "required";
-			$this->labelclass[] = "required";
+			if(is_array($this->labelclass)) $this->labelclass[] = "required";
+			elseif($this->labelclass) $this->labelclass .= " required";
+			else $this->labelclass = "required";
 			$this->__set('required',1);
 		}
 		return parent::getInput();
 	}
 
-	protected function getLabel()
-	{
+	protected function getLabel() {
 		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
 		$requiredField			= $this->params->get('plgJopensimRegisterUser');
@@ -55,8 +54,7 @@ class JFormFieldJopensimnames extends JFormFieldText
 			$this->required = 'true';
 		}
 
-		if ($this->hidden)
-		{
+		if ($this->hidden) {
 			return '';
 		}
 

@@ -18,20 +18,20 @@ JFormHelper::loadFieldClass('radio');
  */
 class JFormFieldAvatar extends JFormFieldRadio {
 	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  2.5.5
-	 */
+	* The form field type.
+	*
+	* @var    string
+	* @since  2.5.5
+	*/
 	protected $type = 'Avatar';
 
 	/**
-	 * Method to get the field label markup.
-	 *
-	 * @return  string  The field label markup.
-	 *
-	 * @since   2.5.5
-	 */
+	* Method to get the field label markup.
+	*
+	* @return  string  The field label markup.
+	*
+	* @since   2.5.5
+	*/
 	protected function getLabel() {
 		// Initialise variables.
 		$label = '';
@@ -52,7 +52,7 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		if($requiredField == "required") {
 			$this->required = true;
 			$class =$class . ' required';
@@ -65,14 +65,14 @@ class JFormFieldAvatar extends JFormFieldRadio {
 
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description)) {
-			$label .= ' title="'
+			$label .= ' data-title="'
 				. htmlspecialchars(
-				trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+                    trim($text),
 				ENT_COMPAT, 'UTF-8'
-			) . '"';
+			).'"
+            data-content="'.JText::_($this->description).'"';
 		}
-		
-//		$avatararticle = $this->element['article'] ? (int) $this->element['article'] : 1;
+
 		$avatararticle = $this->params->get('plgJopensimRegisterAvatarArticle');
 		if($avatararticle > 0) {
 			$link = '<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id=' . $avatararticle . '&amp;tmpl=component" rel="{handler: \'iframe\', size: {x:800, y:500}}">' . $text . '</a>';
@@ -90,10 +90,11 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		// Initialize variables.
 		$options = array();
 		$avatars = array();
-		
-		$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
-		$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
-		$avatarlist = $this->params->get('plgJopensimRegisterAvatar');
+
+		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
+		$avatarlist				= $this->params->get('plgJopensimRegisterAvatar');
+
 		if(is_array($avatarlist) && count($avatarlist) > 0) {
 			foreach($avatarlist AS $avatar) {
 				$zaehler = count($avatars);
@@ -126,15 +127,12 @@ class JFormFieldAvatar extends JFormFieldRadio {
 			}
 		} else {
 			$avatars[0]['value'] = "-1";
-			$avatars[0]['text'] = JText::_('PLG_JOPENSIMREGISTER_ERROR_NOAVATARS');
+			$avatars[0]['text'] = "<div class='label label-danger spacer'>".JText::_('PLG_JOPENSIMREGISTER_ERROR_NOAVATARS')."</div>";
 		}
 
 		foreach ($avatars as $option) {
-
 			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', (string) $option['value'], trim((string) $option['text']), 'value', 'text'
-			);
+			$tmp = JHtml::_('select.option', (string) $option['value'], trim((string) $option['text']), 'value', 'text');
 
 			// Set some option attributes.
 			if(array_key_exists("class",$option)) $tmp->class = (string) $option['class'];
@@ -145,14 +143,11 @@ class JFormFieldAvatar extends JFormFieldRadio {
 			// Add the option object to the result set.
 			$options[] = $tmp;
 		}
-
 		reset($options);
-
 		return $options;
 	}
 
-	protected function getInput()
-	{
+	protected function getInput() {
 		$html = array();
 
 		// Initialize some field attributes.
@@ -163,40 +158,47 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		$readonly  = $this->readonly;
 
 		// Start the radio field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
+		// $html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
 
 		// Get the field options.
 		$options = $this->getOptions();
+        $avatarcolumns = $this->params->get('plgJopensimRegisterAvatarColumns', 1);
+        $columns = 0;
 
 		// Build the radio field output.
-		foreach ($options as $i => $option)
-		{
+		foreach ($options as $i => $option) {
+
+			$html[] = '<fieldset id="'.$this->id.'" class="jform_jopensimregister_jopensimavatar " '.$required . $autofocus . $disabled.'>';
+			$html[] = '<div class="text-center btn btn-default ">';
+
 			// Initialize some option attributes.
-			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
-			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-
-			$disabled = !empty($option->disable) || ($readonly && !$checked);
-
-			$disabled = $disabled ? ' disabled' : '';
-
+			$checked    = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
+			$class      = !empty($option->class) ? ' class="' . $option->class . '"' : '';
+			$disabled   = !empty($option->disable) || ($readonly && !$checked);
+			$disabled   = $disabled ? ' disabled' : '';
 			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
+			$onclick    = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
+			$onchange   = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
-			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $required . $onclick
-				. $onchange . $disabled . ' />';
-
+			// Avatar picture
 			$html[] = '<label for="' . $this->id . $i . '"' . $class . ' >'
-				. JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
-			$html[] = "<div class='plg_jopensimregister_clear'></div>";
+				.JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)).'</label>';
+
+			// Avatar radio select
+			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
+				.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$checked." ".$class." ".$required." ".$onclick." ".$onchange." ".$disabled. '" />';
+
 			$required = '';
+
+			$html[] = '</div>';
+			$html[] = '</fieldset>';
+
+			// Create Columns
+			$columns++;
+			if ($columns % $avatarcolumns != true) {
+				$html[] = "<div class='clearfix'></div>";
+			}
 		}
-
-		// End the radio field output.
-		$html[] = '</fieldset>';
-
 		return implode($html);
 	}
-
 }

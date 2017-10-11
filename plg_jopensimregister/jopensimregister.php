@@ -75,14 +75,15 @@ class plgUserjOpensimRegister extends JPlugin {
 		$avatarwidthstyle	= $this->params->get('plgJopensimRegisterAvatarWidthStyle','px');
 		$avatarcolumns		= $this->params->get('plgJopensimRegisterAvatarColumns',1);
 		$avatarcolumnspace	= $this->params->get('plgJopensimRegisterAvatarColumnspace',10);
-		$joomlaformenabled	= $this->params->get('plgJopensimRegisterFormJoomla');
+		$joomlaformenabled	= 1;
 
 		// Add CSS and JS for the TOS field
 		$doc = JFactory::getDocument();
-		$css = "#jform_jopensimregister_jopensimavatar div.plg_jopensimregister_clear {display:inline-block;}
-				#jform_jopensimregister_jopensimavatar div:nth-of-type(".$avatarcolumns."n+".$avatarcolumns.") {display:block;height:".$avatarcolumnspace."px;}
-				#jform_jopensimregister_jopensimavatar label.jopensimavatar {width:".$avatarwidth.$avatarwidthstyle.";}
-				";
+		$css = "
+			.jform_jopensimregister_jopensimavatar label.jopensimavatar {padding: 3px 0px 0px 0px;}
+			.jform_jopensimregister_jopensimavatar img {border-radius: 3px; width:".$avatarwidth.$avatarwidthstyle.";}
+			.jform_jopensimregister_jopensimavatar {float:left; display:block; margin: 0px ".$avatarcolumnspace."px ".$avatarcolumnspace."px 0px;}
+		";
 		$doc->addStyleDeclaration($css);
 
 		$formname = $form->getName();
@@ -187,9 +188,9 @@ class plgUserjOpensimRegister extends JPlugin {
 				$avatar = null;
 			}
 
-			$option			= JFactory::getApplication()->input->get('option','','method','string');
-			$task			= JFactory::getApplication()->input->get('task','','method','string');
-			$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
+			$option					= JFactory::getApplication()->input->get('option','','method','string');
+			$task					= JFactory::getApplication()->input->get('task','','method','string');
+			$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
 			$registerForms = $this->getEnabledForms();
 
 			// Check out, from that form we get data
@@ -223,10 +224,36 @@ class plgUserjOpensimRegister extends JPlugin {
 				if($firstname && $lastname) {
 					$opensimUID = $this->insertuser($newuser);
 
-					$db =& JFactory::getDBO();
+					$db = JFactory::getDBO();
 					$query = sprintf("INSERT INTO #__opensim_userrelation (opensimID,joomlaID) VALUES ('%s','%d')",$opensimUID,$user['id']);
 					$db->setQuery($query);
 					$db->execute();
+					$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
+					$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
+					$autojoingroup	= $this->params->get('plgJopensimGroupJoin',-1);
+					if($autojoingroup != -1) { // join a group
+						$uuidZero					= "00000000-0000-0000-0000-000000000000";
+						//first add to group
+						$newMember					= new stdClass();
+						$newMember->GroupID			= $autojoingroup;
+						$newMember->AgentID			= $opensimUID;
+						$newMember->Contribution	= 0;
+						$newMember->ListInProfile	= 1;
+						$newMember->AcceptNotices	= 1;
+						$newMember->SelectedRoleID	= $uuidZero;
+						$result = $db->insertObject('#__opensim_groupmembership', $newMember);
+						// now add to role "everyone"
+						$newMemberRole	= new stdClass();
+						$newMemberRole->GroupID	= $autojoingroup;
+						$newMemberRole->RoleID	= $uuidZero;
+						$newMemberRole->AgentID	= $opensimUID;
+						$result = $db->insertObject('#__opensim_grouprolemembership', $newMemberRole);
+						// and activate this group
+						$query	= "INSERT INTO ".$db->quoteName('#__opensim_groupactive')." (".$db->quoteName('ActiveGroupID').", ".$db->quoteName('AgentID').") VALUES (".$db->quote($autojoingroup).", ".$db->quote($opensimUID).")
+										ON DUPLICATE KEY UPDATE ".$db->quoteName('ActiveGroupID')." = ".$db->quote($autojoingroup).", ".$db->quoteName('AgentID')." = ".$db->quote($opensimUID);
+						$db->setQuery($query);
+						$db->execute();
+					}
 				}
 			}
 		}
@@ -257,17 +284,15 @@ class plgUserjOpensimRegister extends JPlugin {
 	}
 
 	public function onUserAfterDelete($user) {
-		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params   		= new JRegistry($plgRegisterjOpenSim->params);
 		$deleteOpensim			= $this->params->get('plgJopensimDeleteUser');
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if($deleteOpensim == "1") { // if set, delete the opensim account
 
 			// now we need to look into the opensim database
 			$this->getOpenSimGridDB();
 			$this->getSettings();
-
-
 
 			$opensimID = $this->deleteuser($user['id']);
 			// remove stored Offline Messages
@@ -286,13 +311,16 @@ class plgUserjOpensimRegister extends JPlugin {
 	}
 
 	public function getEnabledForms() {
-		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
-		$this->params   		= new JRegistry($plgRegisterjOpenSim->params);
-		$forms['joomla']		= $this->params->get('plgJopensimRegisterFormJoomla');
-		$forms['cb']			= $this->params->get('plgJopensimRegisterFormCB');
-		$forms['joomlsocial']	= $this->params->get('plgJopensimRegisterFormJS');
-		$forms['test'] = $this->params;
+		$forms['joomla']		= 1;
 		return $forms;
+
+// No CB anymore
+//		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
+//		$this->params   		= new JRegistry($plgRegisterjOpenSim->params);
+//		$forms['joomla']		= $this->params->get('plgJopensimRegisterFormJoomla');
+//		$forms['cb']			= $this->params->get('plgJopensimRegisterFormCB');
+//		$forms['test'] = $this->params;
+//		return $forms;
 	}
 
 	public function checkUser($firstname,$lastname) {
@@ -381,17 +409,17 @@ class plgUserjOpensimRegister extends JPlugin {
 		// lets have a look for allowed or denied lastnames
 		$jopensimsettings = $this->getSettings();
 
-		if(			is_array($jopensimsettings) &&
-					array_key_exists("lastnametype",$jopensimsettings) &&
-					array_key_exists("lastnames",$jopensimsettings) &&
-					$jopensimsettings['lastnametype'] != 0 &&
-					is_array($jopensimsettings['lastnames']) && 
-					count($jopensimsettings['lastnames']) > 0) {
-			if($jopensimsettings['lastnametype'] == "-1" && in_array($lastname,$jopensimsettings['lastnames'])) {
+        if (is_array($jopensimsettings) &&
+            array_key_exists("lastnametype",$jopensimsettings) &&
+            array_key_exists("lastnames",$jopensimsettings) &&
+            $jopensimsettings['lastnametype'] != 0 &&
+            is_array($jopensimsettings['lastnames']) && 
+            count($jopensimsettings['lastnames']) > 0) {
+			if ($jopensimsettings['lastnametype'] == "-1" && in_array($lastname,$jopensimsettings['lastnames'])) {
 				$message = JText::_(PLG_JOPENSIMREGISTER_ERROR_MESSAGE_DENIED);
 				$this->returnError($message);
 				$retval = FALSE;
-			} elseif ($jopensimsettings['lastnametype'] == "1" && !in_array($lastname,$jopensimsettings['lastnames'])) {
+			} else if ($jopensimsettings['lastnametype'] == "1" && !in_array($lastname,$jopensimsettings['lastnames'])) {
 				$message = JText::_(PLG_JOPENSIMREGISTER_ERROR_MESSAGE_ALLOWED);
 				$this->returnError($message);
 				$retval = FALSE;
@@ -419,12 +447,12 @@ class plgUserjOpensimRegister extends JPlugin {
 		$retval = $this->_osgrid_db->execute();
 		$this->_osgrid_db->setQuery($insertquery['auth']);
 		$retval = $this->_osgrid_db->execute();
-		if($this->regionExists($newuser['homeregion'])) { // only add home region if set already
+		if ($this->regionExists($newuser['homeregion'])) { // only add home region if set already
 			$this->_osgrid_db->setQuery($insertquery['grid']);
 			$retval = $this->_osgrid_db->execute();
 		}
 		$inventoryqueries = $opensim->getinventoryqueries($newuser['uuid']);
-		if(is_array($inventoryqueries)) {
+		if (is_array($inventoryqueries)) {
 			foreach($inventoryqueries AS $query) {
 				$this->_osgrid_db->setQuery($query);
 				$this->_osgrid_db->execute();
@@ -432,7 +460,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		}
 
 		// Lets copy the avatar settings if we need
-		if(isset($newuser['avatar']) && $newuser['avatar']) {
+		if (isset($newuser['avatar']) && $newuser['avatar']) {
 			$opensim->copyAvatar($newuser['avatar'],$newuser['uuid']);
 //			$query = sprintf("INSERT INTO Avatars SELECT '%s' AS PrincipalID, Avatars.`Name`, Avatars.`Value` FROM Avatars WHERE Avatars.PrincipalID = '%s'",
 //								$newuser['uuid'],
@@ -488,7 +516,7 @@ class plgUserjOpensimRegister extends JPlugin {
 						FROM
 							#__opensim_userrelation
 						WHERE
-							#__opensim_userrelation.joomlaID = '%d'",$joomlaID);
+							#__opensim_userrelation.joomlaID = '%d'", $joomlaID);
 		$db->setQuery($query);
 		$db->execute();
 		$num_rows	= $db->getNumRows();
