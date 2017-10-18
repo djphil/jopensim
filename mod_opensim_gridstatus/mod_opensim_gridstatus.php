@@ -62,6 +62,10 @@ if (is_file(_OPENSIMCLASS_GS)) {
     $doc = JFactory::getDocument();
     $assetpath = JUri::base(true)."/modules/mod_opensim_gridstatus/assets/";
     $doc->addStyleSheet($assetpath.'mod_opensim_gridstatus.css');
+
+    $assetpath = JUri::base(true)."/components/com_opensim/assets/";
+    $doc->addStyleSheet($assetpath.'opensim.css');
+    $doc->addStyleSheet($assetpath.'opensim.override.css');
 } else {
     // opensim component is not installed, get the values from the module parameters
     $mystatus = "standalone";
