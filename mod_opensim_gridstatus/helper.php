@@ -9,8 +9,8 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 class ModOpenSimHelper {
-    public $offlinecolor    = "#BD0000";
-    public $onlinecolor     = "#00BD00";
+    public $offlinecolor    = "#FF0000";
+    public $onlinecolor     = "#00FF00";
     public $connectparams   = array();
     public $parameter       = array();
     public $opensim;
@@ -18,7 +18,7 @@ class ModOpenSimHelper {
     public $regions;
 
     public function __construct($connect,$parameter) {
-        if (is_array($connect)) {
+        if(is_array($connect)) {
             foreach($connect AS $key => $val) {
                 $this->connectparams[$key] = $val;
             }
@@ -44,11 +44,11 @@ class ModOpenSimHelper {
 
     public function setParameter($parameter) {
         if (!is_array($parameter)) return FALSE;
-        $this->parameter['lastDays']		= $parameter['lastDays'];
-        $this->parameter['offlinecolor']	= $parameter['offlinecolor'];
-        $this->parameter['onlinecolor']		= $parameter['onlinecolor'];
-        $this->parameter['gridstatus']		= $parameter['gridstatus'];
-        $this->parameter['hiddenregions']	= $parameter['hiddenregions'];
+        $this->parameter['lastDays']        = $parameter['lastDays'];
+        $this->parameter['offlinecolor']    = $parameter['offlinecolor'];
+        $this->parameter['onlinecolor']     = $parameter['onlinecolor'];
+        $this->parameter['gridstatus']      = $parameter['gridstatus'];
+        $this->parameter['hiddenregions']   = $parameter['hiddenregions'];
 
         $gridlines = 0;
 
@@ -70,10 +70,10 @@ class ModOpenSimHelper {
         if (!$this->_osgrid_db) {
             $returnvalue['statusmsg'] = "<font color='".$this->offlinecolor."'>".JText::_('MOD_OPENSIM_GRIDSTATUS_OFFLINE')."</font>";
         } else {
-            $zeroUID		= "00000000-0000-0000-0000-000000000000";
-            $lastDays		= $this->parameter['lastDays'];
-            $offlinecolor	= $this->offlinecolor;
-            $onlinecolor	= $this->onlinecolor;
+            $zeroUID        = "00000000-0000-0000-0000-000000000000";
+            $lastDays       = $this->parameter['lastDays'];
+            $offlinecolor   = $this->offlinecolor;
+            $onlinecolor    = $this->onlinecolor;
             $returnvalue    = array();
 
             $this->_osgrid_db->setQuery("SELECT uuid FROM regions");
@@ -85,8 +85,7 @@ class ModOpenSimHelper {
                 $db->setQuery($query);
                 $db->execute();
                 $numrows = $db->getNumRows();
-
-                if ($numrows > 0) {
+                if($numrows > 0) {
                     $hiddenregions = $db->loadColumn();
                     foreach($hiddenregions AS $hiddenregion) {
                         $ishidden = array_search($hiddenregion,$regions);
@@ -101,7 +100,7 @@ class ModOpenSimHelper {
             else if ($this->parameter['gridstatus'] == 1) $returnvalue['status'] = "online";
             else {
                 if ($returnvalue['totalregions'] > 0) $returnvalue['status'] = "online"; // Online Server needs more than 0 regions
-                else  $returnvalue['status'] = "offline";
+                else $returnvalue['status'] = "offline";
             }
 
             if ($returnvalue['status'] == "online") 
