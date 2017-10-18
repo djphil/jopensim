@@ -1,13 +1,20 @@
 <?php
 /**
  * @module      OpenSim Teleport (mod_opensim_teleport)
- * @copyright   Copyright (C) djphil 2016, Inc. All rights reserved.
+ * @copyright   Copyright (C) djphil 2017, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later.
  * @creative    CC-BY-NC-SA 4.0
 **/
 
 // no direct access
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+
+function getButtonAlign($params)
+{
+    if ($params == 1) return "text-right";
+    else if ($params == 2) return "text-center";
+    return "text-left";
+}
 
 function getButtonSize($params)
 {
