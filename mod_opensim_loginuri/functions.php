@@ -1,7 +1,7 @@
 <?php
 /**
  * @module      OpenSim LoginURI (mod_opensim_loginuri)
- * @copyright   Copyright (C) djphil 2016, Inc. All rights reserved.
+ * @copyright   Copyright (C) djphil 2017, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later.
  * @creative    CC-BY-NC-SA 4.0
 **/
