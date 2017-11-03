@@ -133,7 +133,8 @@
                 <field 
                     name="spacer" 
                     type="note" 
-                    class="text"
+                    class="alert alert-info"
+                    close="true"
                     label="MOD_OPENSIM_TELEPORT_CONFIGURATION_LABEL"
                     description="MOD_OPENSIM_TELEPORT_CONFIGURATION_DESC" />
 
