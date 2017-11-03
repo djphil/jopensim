@@ -38,6 +38,24 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
+                <field 
+                    name="spacer" 
+                    type="note" 
+                    class="alert alert-warning"
+                    close="true"
+                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_LABEL" 
+                    description="MOD_OPENSIM_LOGINURI_CONFIGURATION_LABEL_NO_DESC"
+                    showon="loginuri:0" />
+
+                <field 
+                    name="spacerno" 
+                    type="note" 
+                    class="alert alert-info"
+                    close="true"
+                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_LABEL" 
+                    description="MOD_OPENSIM_LOGINURI_CONFIGURATION_LABEL_DESC"
+                    showon="loginuri:1" />
+
                 <field
                     name="loginuri"
                     type="radio"
@@ -48,20 +66,6 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-
-                <field 
-                    name="spacer" 
-                    type="spacer" 
-                    class="text"
-                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_NO_DESC" 
-                    showon="loginuri:0" />
-
-                <field 
-                    name="spacerno" 
-                    type="spacer" 
-                    class="text"
-                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_DESC" 
-                    showon="loginuri:1" />
 
                 <field
                     name="domainname"
@@ -121,6 +125,24 @@
                     <option value="0">JNO</option>
                 </field>
 
+                <field 
+                    name="spacerhg" 
+                    type="note" 
+                    class="alert alert-warning"
+                    close="true"
+                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_LABEL" 
+                    description="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_LABEL_NO_DESC"
+                    showon="hgloginuri:0" />
+
+                <field 
+                    name="spacerhgno" 
+                    type="note" 
+                    class="alert alert-info"
+                    close="true"
+                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_LABEL" 
+                    description="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_LABEL_DESC"
+                    showon="hgloginuri:1" />
+
                 <field
                     name="hgloginuri"
                     type="radio"
@@ -131,20 +153,6 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-
-                <field 
-                    name="spacerhg" 
-                    type="spacer" 
-                    class="text"
-                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_NO_DESC" 
-                    showon="hgloginuri:0" />
-
-                <field 
-                    name="spacerhgno" 
-                    type="spacer" 
-                    class="text"
-                    label="MOD_OPENSIM_LOGINURI_CONFIGURATION_HG_DESC" 
-                    showon="hgloginuri:1" />
 
                 <field
                     name="hgdomainname"
