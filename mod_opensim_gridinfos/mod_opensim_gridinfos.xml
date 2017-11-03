@@ -61,8 +61,19 @@
                     <option value="3">Moze</option>
                     <option value="4">Aurora-Sim</option>
                     <option value="5">WhiteCore-Sim</option>
-                    <option value="5">Halcyon</option>
+                    <option value="6">Halcyon</option>
+                    <option value="7">MOD_OPENSIM_GRIDINFOS_FIELD_CUSTOM</option>
                 </field>
+
+                <field
+                    name="simulatortextcustom"
+                    type="text"
+                    filter="safehtml"
+                    default="OpenSimulator"
+                    showon="simulator:1[AND]simulatortext:7"
+                    size="30"
+                    label="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_CUSTOM_LABEL"
+                    description="MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR_CUSTOM_LABEL_DESC" />
 
                 <field
                     name="version"
@@ -241,8 +252,18 @@
                     <option value="2">Bulletsim</option>
                     <option value="3">PhysX</option>
                     <option value="4">Ninja</option>
-                    <option value="5">Custom</option>
+                    <option value="5">MOD_OPENSIM_GRIDINFOS_FIELD_CUSTOM</option>
                 </field>
+
+                <field
+                    name="physicstextcustom"
+                    type="text"
+                    filter="safehtml"
+                    default="Havok"
+                    showon="physics:1[AND]physicstext:5"
+                    size="30"
+                    label="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_CUSTOM_LABEL"
+                    description="MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS_CUSTOM_LABEL_DESC" />
 
                 <field
                     name="scripts"
@@ -263,8 +284,18 @@
                     label="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_LABEL"
                     description="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_DESC">
                     <option value="0">XEngine</option>
-                    <option value="1">Custom</option>
+                    <option value="1">MOD_OPENSIM_GRIDINFOS_FIELD_CUSTOM</option>
                 </field>
+
+                <field
+                    name="scriptstextcustom"
+                    type="text"
+                    filter="safehtml"
+                    default="Mono"
+                    showon="scripts:1[AND]scriptstext:1"
+                    size="30"
+                    label="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_CUSTOM_LABEL"
+                    description="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_CUSTOM_LABEL_DESC" />
             </fieldset>
 
             <fieldset name="advanced">

@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 	<?php if ($params->get('simulator')): ?>
         <tr class="simulator">
             <td class='text-left'><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR'); ?>:</td>
-            <td class='text-right'><?php echo getSimulatorName($params->get('simulatortext')); ?></td>
+            <td class='text-right'><?php echo getSimulatorName($params->get('simulatortext'), $params->get('simulatortextcustom')); ?></td>
         </tr>
 	<?php endif; ?>
 
@@ -72,14 +72,14 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 	<?php if ($params->get('physics')): ?>
         <tr class="physics">
             <td class='text-left'><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS'); ?>:</td>
-            <td class='text-right'><?php echo getSimulatorPhysicsEngine($params->get('physicstext')); ?></td>
+            <td class='text-right'><?php echo getSimulatorPhysicsEngine($params->get('physicstext'), $params->get('physicstextcustom')); ?></td>
         </tr>
 	<?php endif; ?>
 
 	<?php if ($params->get('scripts')): ?>
         <tr class="scripts">
             <td class='text-left'><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS'); ?>:</td>
-            <td class='text-right'><?php echo getSimulatorScriptsEngine($params->get('scriptstext')); ?></td>
+            <td class='text-right'><?php echo getSimulatorScriptsEngine($params->get('scriptstext'), $params->get('scriptstextcustom')); ?></td>
         </tr>
 	<?php endif; ?>
     </tbody>

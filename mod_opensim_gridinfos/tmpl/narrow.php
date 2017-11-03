@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 	<?php if ($params->get('simulator')): ?>
     <div class="simulator">
         <p class="text-left"><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_SIMULATOR'); ?>: 
-            <span class="pull-right"><?php echo getSimulatorName($params->get('simulatortext')); ?></span>
+            <span class="pull-right"><?php echo getSimulatorName($params->get('simulatortext'), $params->get('simulatortextcustom')); ?></span>
         </p>
     </div>
 	<?php endif; ?>
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 	<?php if ($params->get('physics')): ?>
     <div class="physics">
         <p class="text-left"><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_PHYSICS'); ?>: 
-            <span class="pull-right"><?php echo getSimulatorPhysicsEngine($params->get('physicstext')); ?></span>
+            <span class="pull-right"><?php echo getSimulatorPhysicsEngine($params->get('physicstext'), $params->get('physicstextcustom')); ?></span>
         </p>
     </div>
 	<?php endif; ?>
@@ -86,7 +86,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
     <?php if ($params->get('scripts')): ?>
     <div class="scripts">
         <p class="text-left"><?php echo JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS'); ?>: 
-            <span class="pull-right"><?php echo getSimulatorScriptsEngine($params->get('scriptstext')); ?></span>
+            <span class="pull-right"><?php echo getSimulatorScriptsEngine($params->get('scriptstext'), $params->get('scriptstextcustom')); ?></span>
         </p>
     </div>
     <?php endif; ?>

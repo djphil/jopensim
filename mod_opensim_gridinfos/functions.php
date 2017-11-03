@@ -9,13 +9,15 @@
 // no direct access
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-function getSimulatorName($params)
+function getSimulatorName($params, $custom)
 {
     if ($params == 0) return "<span class='label label-info'>OpenSim</span>";
     else if ($params == 1) return "<span class='label label-info'>Diva</span>";
     else if ($params == 3) return "<span class='label label-info'>Moze</span>";
     else if ($params == 4) return "<span class='label label-info'>Aurora-Sim</span>";
     else if ($params == 5) return "<span class='label label-info'>WhiteCore-Sim</span>";
+    else if ($params == 6) return "<span class='label label-info'>Halcion</span>";
+    else if ($params == 7) return "<span class='label label-info'>".$custom."</span>";
     return "<span class='label label-warning'>".JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_UNKNOW')."</span>";
 }
 
@@ -62,21 +64,21 @@ function getSimulatorMoney($params)
     return "<span class='label label-warning'>".JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_UNKNOW')."</span>";
 }
 
-function getSimulatorPhysicsEngine($params)
+function getSimulatorPhysicsEngine($params, $custom)
 {
     if ($params == 0) return "<span class='label label-info'>Ode</span>";
     else if ($params == 1) return "<span class='label label-info'>ubOde</span>";
     else if ($params == 2) return "<span class='label label-info'>Bulletsim</span>";
     else if ($params == 3) return "<span class='label label-info'>PhysX</span>";
     else if ($params == 4) return "<span class='label label-info'>Ninja</span>";
-    else if ($params == 5) return "<span class='label label-info'>Custom</span>";
+    else if ($params == 5) return "<span class='label label-info'>".$custom."</span>";
     return "<span class='label label-warning'>".JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_UNKNOW')."</span>";
 }
 
-function getSimulatorScriptsEngine($params)
+function getSimulatorScriptsEngine($params, $custom)
 {
     if ($params == 0) return "<span class='label label-info'>XEngine</span>";
-    else if ($params == 1) return "<span class='label label-info'>Custom</span>";
+    else if ($params == 1) return "<span class='label label-info'>".$custom."</span>";
     return "<span class='label label-warning'>".JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_UNKNOW')."</span>";
 }
 ?>
