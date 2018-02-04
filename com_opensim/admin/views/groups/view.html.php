@@ -73,6 +73,9 @@ class opensimViewgroups extends JViewLegacy {
 		switch($tpl) {
 			default:
 				JToolBarHelper::deleteList(JText::_('JOPENSIM_DELETEGROUPSSURE'),"deleteGroups",JText::_('JOPENSIM_DELETEGROUPS'),true,false);
+				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
+				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_GROUPS'));
 			break;
 		}

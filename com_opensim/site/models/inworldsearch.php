@@ -6,7 +6,7 @@
  */
 defined('_JEXEC') or die();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
 
 class opensimModelinworldsearch extends OpenSimModelOpenSim {
 

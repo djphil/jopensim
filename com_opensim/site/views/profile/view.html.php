@@ -23,7 +23,7 @@ class opensimViewprofile extends JViewLegacy {
 		$menu			= JFactory::getApplication()->getMenu();
 		$active			= $menu->getActive($this->Itemid);
 		if (is_object($active)) {
-			$params			= &JComponentHelper::getParams('com_opensim');
+			$params			= JComponentHelper::getParams('com_opensim');
 			$this->pageclass_sfx	= $params->get('pageclass_sfx');
 		} else {
 			$this->pageclass_sfx	= "";

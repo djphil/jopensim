@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  *
  */
@@ -13,11 +13,6 @@ $db =& JFactory::getDBO();
 
 $droptable = array();
 
-
-
-
-
-
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_clientinfo`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_group`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_groupactive`;";
@@ -27,6 +22,7 @@ $droptable[] = "DROP TABLE IF EXISTS `#__opensim_groupnotice`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprole`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprolemembership`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_inworldident`;";
+$droptable[] = "DROP TABLE IF EXISTS `#__opensim_loginscreen`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_mapinfo`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_money_customfees`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_moneybalances`;";

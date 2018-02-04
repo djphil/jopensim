@@ -35,6 +35,7 @@ if(isset($_REQUEST['uuid'])) $uuid = str_replace("-","",$_REQUEST['uuid']);
 else $uuid = "";
 
 $source			= $serveruri."/index.php?method=regionImage".$uuid."";
+// error_log("regionimage: ".$source);
 $curl			= extension_loaded('curl');
 $file_content	= "";
 

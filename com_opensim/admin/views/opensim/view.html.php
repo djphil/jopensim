@@ -74,8 +74,8 @@ class opensimViewopensim extends JViewLegacy {
 				$this->sidebar				= JHtmlSidebar::render();
 				$document					= JFactory::getDocument();
 				$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/quickiconstyle.css?v=2.6.8');
-				$version					= $model->opensim->osversion();
-				$recentversion				= $model->opensim->checkversion();
+				$version					= $model->getVersion();
+				$recentversion				= $model->checkversion();
 				$settings					= $model->_settingsData;
 				$this->addons				= $settings['addons'];
 				$document->addStyleSheet(JURI::root(true).'/media/jui/css/icomoon.css');

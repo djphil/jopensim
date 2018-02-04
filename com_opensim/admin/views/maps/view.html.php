@@ -18,6 +18,7 @@ class opensimViewmaps extends JViewLegacy {
 	public function display($tpl = null) {
 		$document			= JFactory::getDocument();
 		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
+		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/font-awesome.css');
 		$queueMessage 		= array();
 		$this->ismapcache	= null;
 		$this->sidebar		= JHtmlSidebar::render();
@@ -108,18 +109,22 @@ class opensimViewmaps extends JViewLegacy {
 				case "selectdefault":
 					$ueberschrift = JText::_('MAPSDEFAULT');
 					$data = JFactory::getApplication()->input->request->getArray();
-					if(array_key_exists("jopensim_userhome_region",$settingsdata) && $settingsdata['jopensim_userhome_region'] == $data['region']) {
-						$this->locX = sprintf("%d",$settingsdata['jopensim_userhome_x']);
-						$this->locY = sprintf("%d",$settingsdata['jopensim_userhome_y']);
-						$this->locZ = sprintf("%d",$settingsdata['jopensim_userhome_z']);
-						$this->imgAddLink = "&defaultX=".$this->locX."&defaultY=".$this->locY;
-					} else {
-						$this->imgAddLink = "";
-					}
 					$region = $data['region'];
 					$this->region		= $region;
 					$regiondata			= $model->getRegionDetails($region);
 					$this->regiondata	= $regiondata;
+					if(array_key_exists("jopensim_userhome_region",$settingsdata) && $settingsdata['jopensim_userhome_region'] == $data['region']) {
+						$this->locX = sprintf("%d",$settingsdata['jopensim_userhome_x']);
+						$this->locY = sprintf("%d",$settingsdata['jopensim_userhome_y']);
+						$this->locZ = sprintf("%d",$settingsdata['jopensim_userhome_z']);
+						if(array_key_exists("sizeX",$regiondata) && $regiondata['sizeX'] > 256) $locX = $this->locX / $regiondata['sizeX'] * 256;
+						else $locX	= $this->locX;
+						if(array_key_exists("sizeY",$regiondata) && $regiondata['sizeY'] > 256) $locY = $this->locY / $regiondata['sizeY'] * 256;
+						else $locY	= $this->locY;
+						$this->imgAddLink = "&defaultX=".$locX."&defaultY=".$locY;
+					} else {
+						$this->imgAddLink = "";
+					}
 					$tpl				= "selectregion";
 				break;
 				case "editinfo":
@@ -176,6 +181,7 @@ class opensimViewmaps extends JViewLegacy {
 							$regions[$key]['articleTitle']	= $mapinfo['articleTitle'];
 							$regions[$key]['hidemap']		= $mapinfo['hidemap'];
 							$regions[$key]['public']		= $mapinfo['public'];
+							$regions[$key]['guide']			= $mapinfo['guide'];
 							$regions[$key]['toggletask']	= ($regions[$key]['hidemap'] == 1) ? "setRegionVisible":"setRegionInvisible";
 							$regions[$key]['visible']		= ($regions[$key]['hidemap'] == 1) ? 0:1;
 	
@@ -231,6 +237,9 @@ class opensimViewmaps extends JViewLegacy {
 				JToolBarHelper::editList('editinfo');
 				if($this->ismapcache) {
 					JToolBarHelper::custom("maprefresh","maprefresh","maprefresh2",JText::_('JOPENSIM_REFRESHMAP'),true,false);
+				}
+				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_MAPS'));
 			break;

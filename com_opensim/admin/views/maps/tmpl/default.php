@@ -76,7 +76,6 @@ Joomla.orderTable = function()
 <p class="text-info">
 	<?php echo JText::_('SELECT_MAP'); ?>
 </p>
-
 <table cellspacing="5" border='0' class="table table-striped table-hover adminlist">
 <thead>
 <tr>
@@ -85,6 +84,8 @@ Joomla.orderTable = function()
 	<th><?php echo JHtml::_('grid.sort', 'JOPENSIM_REGION_NAME', 'regions.regionName', $listDirn, $listOrder); ?></th>
 	<th class='title'><?php echo JText::_('JOPENSIM_REGION_OWNER'); ?></th>
 	<th class='title'><?php echo JText::_('REGION_DEFAULT'); ?></th>
+	<th class='title'><?php echo JText::_('JOPENSIM_REGION_PUBLIC'); ?></th>
+	<th class='title'><?php echo JText::_('JOPENSIM_REGION_GUIDE'); ?></th>
 	<th class='title'>&nbsp;</th>
 	<th class='title'><?php echo JText::_('REGION_VISIBLE'); ?></th>
 	<th class='title'><nobr><?php echo JHtml::_('grid.sort', 'JOPENSIM_REGION_POSITION_X', 'regions.locX', $listDirn, $listOrder); ?></nobr></th>
@@ -98,7 +99,15 @@ $k = 0;
 $i=0;
 $num	= $this->limitstart;
 foreach($this->regions AS $key => $region) {
-	$num++
+	$num++;
+	$debug = var_export($region,TRUE);
+	$publicclass	= ($region['public'] == 1) ? "public_yes":"public_no";
+	$publictitle	= ($region['public'] == 1) ? JText::_('JOPENSIM_REGION_PUBLIC_YES_TITLE'):JText::_('JOPENSIM_REGION_PUBLIC_NO_TITLE');
+	$publicicon		= ($region['public'] == 1) ? "fa-calendar-check-o":"fa-calendar-times-o";
+
+	$guideclass		= ($region['guide'] == 1) ? "guide_yes":"guide_no";
+	$guidetitle		= ($region['guide'] == 1) ? JText::_('JOPENSIM_REGION_GUIDE_YES_TITLE'):JText::_('JOPENSIM_REGION_GUIDE_NO_TITLE');
+	$guideicon		= ($region['guide'] == 1) ? "fa-bookmark":"fa-bookmark-o";
 ?>
 <tr class="row<?php echo $i % 2; ?>">
 	<td><?php echo $num; ?></td>
@@ -118,6 +127,12 @@ foreach($this->regions AS $key => $region) {
 		<a class="btn btn-micro hasTooltip" href="index.php?option=com_opensim&view=maps&task=selectdefault&region=<?php echo $region['uuid']; ?>" data-original-title="<?php echo JText::_('JLIB_HTML_SETDEFAULT_ITEM'); ?>" title="<?php echo JText::_('JLIB_HTML_SETDEFAULT_ITEM'); ?>"><i class="icon-unfeatured"></i></a>
 		<!-- <span class="jgrid" title="<?php // echo JText::_('JLIB_HTML_SETDEFAULT_ITEM'); ?>"><span class="state notdefault"><span class="text"><?php // echo JText::_('JLIB_HTML_SETDEFAULT_ITEM'); ?></span></span></span> -->
 		<?php endif; ?>
+	</td>
+	<td align="center">
+		<a class="btn btn-micro hasTooltip" href="index.php?option=com_opensim&view=maps&task=<?php echo (array_key_exists("public",$region) && $region['public'] == 1) ? "setRegionUnpublic":"setRegionPublic"; ?>&region=<?php echo $region['uuid']; ?>" data-original-title="<?php echo $publictitle; ?>" title=""><i class="fa <?php echo $publicicon." ".$publicclass; ?>"></i></a>
+	</td>
+	<td align="center">
+		<a class="btn btn-micro hasTooltip" href="index.php?option=com_opensim&view=maps&task=<?php echo (array_key_exists("guide",$region) && $region['guide'] == 1) ? "setRegionGuideHide":"setRegionGuideShow"; ?>&region=<?php echo $region['uuid']; ?>" data-original-title="<?php echo $guidetitle; ?>" title=""><i class="fa <?php echo $guideicon." ".$guideclass; ?>"></i></a>
 	</td>
 	<td><?php echo $region['image']; ?></td>
 	<td align='center' class='jgrid'>

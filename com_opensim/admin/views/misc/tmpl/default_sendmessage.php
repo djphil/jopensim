@@ -12,6 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
+
 <div id="j-main-container" class="span10">
 <div class="form-inline">
     <form action="index.php" method="post" id="adminForm" name="adminForm">

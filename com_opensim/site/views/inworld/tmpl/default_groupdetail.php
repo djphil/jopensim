@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<h2><?php echo JText::_('GROUPDETAILS'); ?></h2>
+<h3><?php echo JText::_('JOPENSIM_GROUPDETAILS'); ?></h3>
 
 <?php if($this->settings['addons_groups'] == 1): ?>
 <table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>

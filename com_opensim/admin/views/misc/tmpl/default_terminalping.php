@@ -7,5 +7,6 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
-<h1>Terminal <?php echo $this->terminal['terminalName']; ?> is anwering:</h1>
+<h4>Terminal <?php echo $this->terminal['terminalName']; ?> is anwering:</h4>
 <p><?php echo $this->pingAnswer; ?></p>
+

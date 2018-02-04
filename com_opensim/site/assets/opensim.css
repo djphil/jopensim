@@ -233,3 +233,134 @@ table a.btn-link {;}
 }
 
 .jopensim-searchfield{;}
+
+.jopensim_showcase .tplocal,
+.jopensim_showcase .tphg,
+.jopensim_showcase .tphgv3,
+.jopensim_showcase .tphop,
+.jopensim_showcase .tpdummy {
+	display: inline-block;  margin-bottom: 4px;
+}
+
+.tpbtn {
+	padding: 3px 6px;
+	font-size: 9.75px;
+	border-radius: 2px;
+}
+
+a.tpbtn:hover {
+	color:#fff !important;
+}
+
+.btn-local {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #49afcd;
+	background-image: -moz-linear-gradient(top,#5bc0de,#2f96b4);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#5bc0de),to(#2f96b4));
+	background-image: -webkit-linear-gradient(top,#5bc0de,#2f96b4);
+	background-image: -o-linear-gradient(top,#5bc0de,#2f96b4);
+	background-image: linear-gradient(to bottom,#5bc0de,#2f96b4);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
+	border-color: #2f96b4 #2f96b4 #1f6377;
+	*background-color: #2f96b4;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn-local:hover,
+.btn-local:focus,
+.btn-local:active {
+	background-image: none;
+	background-color: #2a85a0;
+}
+
+.btn-hg {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #004b8d;
+	background-image: -moz-linear-gradient(top,#005e8d,#002f8d);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#005e8d),to(#002f8d));
+	background-image: -webkit-linear-gradient(top,#005e8d,#002f8d);
+	background-image: -o-linear-gradient(top,#005e8d,#002f8d);
+	background-image: linear-gradient(to bottom,#005e8d,#002f8d);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff005e8d', endColorstr='#ff002e8d', GradientType=0);
+	border-color: #002f8d #002f8d #001641;
+	*background-color: #002f8d;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn-hg:hover,
+.btn-hg:focus,
+.btn-hg:active {
+	background-image: none;
+	background-color: #002674;
+}
+
+.btn-hgv3 {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #faa732;
+	background-image: -moz-linear-gradient(top,#fbb450,#f89406);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#fbb450),to(#f89406));
+	background-image: -webkit-linear-gradient(top,#fbb450,#f89406);
+	background-image: -o-linear-gradient(top,#fbb450,#f89406);
+	background-image: linear-gradient(to bottom,#fbb450,#f89406);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffab44f', endColorstr='#fff89406', GradientType=0);
+	border-color: #f89406 #f89406 #ad6704;
+	*background-color: #f89406;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn-hgv3:hover,
+.btn-hgv3:focus,
+.btn-hgv3:active {
+	background-image: none;
+	background-color: #df8505;
+}
+
+.btn-tphop {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #da4f49;
+	background-image: -moz-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ee5f5b),to(#bd362f));
+	background-image: -webkit-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: -o-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: linear-gradient(to bottom,#ee5f5b,#bd362f);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+	border-color: #bd362f #bd362f #802420;
+	*background-color: #bd362f;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn-tphop:hover,
+.btn-tphop:focus,
+.btn-tphop:active {
+	background-image: none;
+	background-color: #a9302a;
+}
+
+.btn-tpdummy {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #999;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.tpdummy .btn-tpdummy {
+	padding: 0px 3px;
+}
+
+.jopensimshowcase .btn,
+.jopensimshowcase .btn-default {
+	cursor:default !important;
+}
+
+.jopensimshowcase .btn {
+	border-color: #e6e6e6 #e6e6e6 #bfbfbf !important;
+	margin-bottom:3px;
+}

@@ -42,7 +42,7 @@ $row_class = "even";
 			</td>
 			<td class='<?php echo $row_class; ?><?php echo $this->pageclass_sfx; ?>'>
 				<!-- <span class="icon-search btn-large pull-right"></span> -->
-				<a class='btn btn-default btn-primary btn-xs pull-right modal' id='groupdetailwindow' href='index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $group['groupid']; ?>&tmpl=component' rel="{handler: 'iframe', size: {x: 500, y: 350}, overlayOpacity: 0.3}" style="position:relative;" alt='<?php echo JText::_('VIEWGROUPDETAILS'); ?>' title='<?php echo JText::_('VIEWGROUPDETAILS'); ?>'>
+				<a class='btn btn-default btn-primary btn-xs pull-right modal' id='groupdetailwindow' href='<?php echo JUri::base(true); ?>/index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $group['groupid']; ?>&tmpl=component' rel="{handler: 'iframe', size: {x: 500, y: 350}, overlayOpacity: 0.3}" style="position:relative;" alt='<?php echo JText::_('VIEWGROUPDETAILS'); ?>' title='<?php echo JText::_('VIEWGROUPDETAILS'); ?>'>
 				    Show
 				</a>
 			</td>

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -12,7 +12,7 @@ jimport( 'joomla.application.component.view');
 class opensimViewmaps extends JViewLegacy {
 
 	public function display($tpl = null) {
-		$this->mparams	= &JComponentHelper::getParams('com_menus');
+		$this->mparams	= JComponentHelper::getParams('com_menus');
 
 		$app	= JFactory::getApplication(); // Access the Application Object
 		$menu	= $app->getMenu(); // Load the JMenuSite Object

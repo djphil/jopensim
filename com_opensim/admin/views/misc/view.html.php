@@ -23,8 +23,14 @@ class opensimViewmisc extends JViewLegacy {
 		$assetinfo			= pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
 		$assetpath			= "components".DIRECTORY_SEPARATOR.$assetinfo['basename'].DIRECTORY_SEPARATOR."assets".DS;
 		$this->assetpath	= $assetpath;
+		$misclinks			= array();
 
 		switch($task) {
+			case "getopensimversion":
+				// $remotehost			= $settings['remotehost'];
+				// $this->remotehost	= $remotehost;
+				$tpl				= "getopensimversion";
+			break;
 			case "addregion":
 				$remotehost			= $settings['remotehost'];
 				$this->remotehost	= $remotehost;
@@ -60,12 +66,14 @@ class opensimViewmisc extends JViewLegacy {
 				$tpl				= "terminalping";
 			break;
 			default:
-				if($settings['enableremoteadmin'] == "1") {
-					$misclinks['addregion']		= "<a href='index.php?option=com_opensim&view=misc&task=addregion'>".JText::_('JOPENSIM_ADDREGION')."</a>";
-					$misclinks['sendmessage']	= "<a href='index.php?option=com_opensim&view=misc&task=sendmessage'>".JText::_('SENDGLOBALMESSAGE')."</a>";
-				} else {
-					$misclinks['addregion']		= JText::_('JOPENSIM_ADDREGION')." (".JText::_('DISABLED_NOREMOTEADMIN').")";
-					$misclinks['sendmessage']	= JText::_('SENDGLOBALMESSAGE')." (".JText::_('DISABLED_NOREMOTEADMIN').")";
+				if ($settings['enableremoteadmin'] == "1") { 
+                    $misclinks['addregion']         = "<a href='index.php?option=com_opensim&view=misc&task=addregion'>".JText::_('JOPENSIM_ADDREGION')."</a>";
+					$misclinks['sendmessage']       = "<a href='index.php?option=com_opensim&view=misc&task=sendmessage'>".JText::_('SENDGLOBALMESSAGE')."</a>";
+                    $misclinks['getopensimversion'] = "<a href='index.php?option=com_opensim&view=misc&task=getopensimversion'>".JText::_('GETOPENSIMVERSION')."</a>";
+                } else {
+                    $misclinks['addregion']         = JText::_('JOPENSIM_ADDREGION')." (".JText::_('DISABLED_NOREMOTEADMIN').")";
+					$misclinks['sendmessage']       = JText::_('SENDGLOBALMESSAGE')." (".JText::_('DISABLED_NOREMOTEADMIN').")";
+                    $misclinks['getopensimversion'] = JText::_('GETOPENSIMVERSION')." (".JText::_('DISABLED_NOREMOTEADMIN').")";
 				}
 				if($settings['addons'] & 8) {
 					$misclinks['terminals']		= "<a href='index.php?option=com_opensim&view=misc&task=terminals'>".JText::_('MANAGETERMINALS')."</a>";
@@ -83,6 +91,11 @@ class opensimViewmisc extends JViewLegacy {
 		$task = JFactory::getApplication()->input->get( 'task', '', 'method', 'string');
 
 		switch($tpl) {
+			case "getopensimversion":
+                // JToolBarHelper::publish('getopensimulatorversion');
+				JToolBarHelper::cancel('canceladdregion','JCANCEL');
+				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_MISC_ADDREGION'));
+			break;
 			case "addregion":
 				JToolBarHelper::save('createregionsend');
 				JToolBarHelper::cancel('canceladdregion','JCANCEL');
@@ -106,6 +119,9 @@ class opensimViewmisc extends JViewLegacy {
 				$os_settings = $this->model->getSettingsData();
 				if(isset($os_settings['remoteadmin_enabled']) && $os_settings['remoteadmin_enabled'] == 1) {
 					JToolBarHelper::custom("sendmessage","osmisc","opensim",JText::_('SENDMESSAGE2USER'),false,false);
+				}
+				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_MISC'));
 			break;

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type='hidden' name='option' value='com_opensim' />
     <?php if($this->tmpl == TRUE): ?>
     <input type='hidden' name='tmpl' value='component' />
+    <input type='hidden' name='task' value='viewersearch' />
     <?php endif; ?>
     <input type='hidden' name='view' value='inworldsearch' />
     <input type='hidden' name='Itemid' value='<?php echo $this->itemid; ?>' />
@@ -28,11 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </form>
 </div>
 <?php endif; ?>
-
-<?php if($this->showcase === TRUE): ?>
-<!-- <span class="icon-info"></span>
-<p class="alert alert-info"><?php echo JText::_('JOPENSIM_SHOWCASE'); ?></p> -->
-<?php elseif(is_array($this->result)): ?>
+<?php if(is_array($this->result)): ?>
 <h3><?php echo JText::_('JOPENSIM_SEARCHRESULTS'); ?>:</h3>
 
 <?php if(count($this->results) > 0): ?>

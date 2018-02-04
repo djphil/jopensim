@@ -12,6 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
+
 <div id="j-main-container" class="span10">
 <div class="form-group">
     <form action="index.php" method="post" id="adminForm" name="adminForm">
@@ -20,90 +21,65 @@ defined('_JEXEC') or die('Restricted access');
             <input type="hidden" name="option" value="com_opensim" />
             <input type="hidden" name="view" value="misc" />
             <input type="hidden" name="task" value="createregionsend" />
+            <table class="table table-condensed table-striped table-hover">
+                <colgroup>
+                    <col width='150' /><col>
+                </colgroup>
+
+                <tbody>
+                    <tr>
+                        <td>Region Name:</td>
+                        <td><input type='text' maxlength='25' name="region_name" placeHolder="jOpenSim"/></td>
+                    </tr>
+                    <tr>
+                        <td>Listen IP:</td>
+                        <td><input type='text' maxlength='25' name="listen_ip" placeHolder="0.0.0.0" /></td>
+                    </tr>
+                    <tr>
+                        <td>Listen Port:</td>
+                        <td><input type='text' maxlength='25' name="listen_port" placeHolder="9000" /></td>
+                    </tr>
+                    <tr>
+                        <td>External Adress:</td>
+                        <td><input type='text' maxlength='25' name="external_address" placeHolder="<?php echo $this->remotehost; ?>" /></td>
+                    </tr>
+                    <tr>
+                        <td>Region X:</td>
+                        <td><input type='text' maxlength='25' name="region_x" placeHolder="1000" /></td>
+                    </tr>
+                    <tr>
+                        <td>Region Y:</td>
+                        <td><input type='text' maxlength='25' name="region_y" placeHolder="1000" /></td>
+                    </tr>
+                    <tr>
+                        <td>Public Region ?</td>
+                        <td> 
+                            <select name="public">
+                                <option value="false">No</option>
+                                <option value="true" selected='selected'>Yes</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Voice ?</td>
+                        <td>
+                            <select name="voice">
+                                <option value="false" selected='selected'>No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Estate Name:</td>
+                        <td><input type='text' maxlength='64' name="estate_name" placeHolder="My Estate" /></td>
+                    </tr>
+                </tbody>
+            </table>
             
-			<div class='jopensim_useredittable'>
-			    <div class='jopensim_useredittable_tr'>
-				    <div class='jopensim_useredittable_td1'>
-					    Region Name:
-					</div>
-				    <div class='jopensim_useredittable_td2'>
-					    <input type='text' maxlength='25' name="region_name" />
-					</div>
-				</div>
-				
-				<div class='jopensim_useredittable_tr'>
-				    <div class='jopensim_useredittable_td1'>Listen IP:</div>
-    					<div class='jopensim_useredittable_td2'>
-						    <input type='text' maxlength='25' name="listen_ip" value="0.0.0.0" />
-						</div>
-					</div>
-				<div class='jopensim_useredittable_tr'>
-    				<div class='jopensim_useredittable_td1'>
-					    Listen Port:
-					</div>
-					<div class='jopensim_useredittable_td2'>
-					    <input type='text' maxlength='25' name="listen_port" value="9000" />
-					</div>
-				</div>
-				<div class='jopensim_useredittable_tr'>
-				    <div class='jopensim_useredittable_td1'>
-					    External Adress:
-					</div>
-					<div class='jopensim_useredittable_td2'>
-					    <input type='text' maxlength='25' name="external_address" value="<?php echo $this->remotehost; ?>" />
-					</div>
-				</div>
-				<div class='jopensim_useredittable_tr'>
-				    <div class='jopensim_useredittable_td1'>
-    					Region X:
-					</div>
-					<div class='jopensim_useredittable_td2'>
-					    <input type='text' maxlength='25' name="region_x" value="1000" />
-					</div>
-				</div>
-				<div class='jopensim_useredittable_tr'>
-    				<div class='jopensim_useredittable_td1'>
-					    Region Y:
-					</div>
-					<div class='jopensim_useredittable_td2'>
-				        <input type='text' maxlength='25' name="region_y" value="1000" />
-				    </div>
-			    </div>
-			    <div class='jopensim_useredittable_tr'>
-			        <div class='jopensim_useredittable_td1'>
-				        Public Region ?
-				    </div>
-			        <div class='jopensim_useredittable_td2'>
-			            <select name="public">
-				            <option value="false">No</option>
-					        <option value="true" selected='selected'>Yes</option>
-				        </select>
-			        </div>
-		        </div>
-			    <div class='jopensim_useredittable_tr'>
-				    <div class='jopensim_useredittable_td1'>
-					    Voice ?
-					</div>
-					<div class='jopensim_useredittable_td2'>
-					    <select name="voice">
-						    <option value="false" selected='selected'>No</option>
-							<option value="true">Yes</option>
-						</select>
-					</div>
-				</div>
-				<div class='jopensim_useredittable_tr'>
-    				<div class='jopensim_useredittable_td1'>
-					    Estate Name:
-					</div>
-				    <div class='jopensim_useredittable_td2'>
-					    <input type='text' maxlength='64' name="estate_name" value="" />
-					</div>
-				</div>
-			</div>
-			<button type='submit' class='btn btn-default btn-success' />
-		        <span class='icon-checkmark'></span> <?php echo JText::_('JOPENSIM_ADDREGION'); ?>
-		    </button>
-	    </legend>
+            <button type='submit' class='btn btn-default btn-success' />
+                <span class='icon-checkmark'></span> <?php echo JText::_('JOPENSIM_ADDREGION'); ?>
+            </button>
+	    </fieldset>
     </form>
 </div>
 </div>

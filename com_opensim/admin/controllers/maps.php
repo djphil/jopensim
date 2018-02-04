@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -62,6 +62,34 @@ class OpenSimControllerMaps extends OpenSimController {
 		$data = JFactory::getApplication()->input->request->getArray();
 		$region = $data['region'];
 		$this->model->setVisible($region,1);
+		$this->setRedirect('index.php?option=com_opensim&view=maps');
+	}
+
+	public function setRegionUnpublic() {
+		$data = JFactory::getApplication()->input->request->getArray();
+		$region = $data['region'];
+		$this->model->setPublic($region,0);
+		$this->setRedirect('index.php?option=com_opensim&view=maps');
+	}
+
+	public function setRegionPublic() {
+		$data = JFactory::getApplication()->input->request->getArray();
+		$region = $data['region'];
+		$this->model->setPublic($region,1);
+		$this->setRedirect('index.php?option=com_opensim&view=maps');
+	}
+
+	public function setRegionGuideShow() {
+		$data = JFactory::getApplication()->input->request->getArray();
+		$region = $data['region'];
+		$this->model->setGuide($region,1);
+		$this->setRedirect('index.php?option=com_opensim&view=maps');
+	}
+
+	public function setRegionGuideHide() {
+		$data = JFactory::getApplication()->input->request->getArray();
+		$region = $data['region'];
+		$this->model->setGuide($region,0);
 		$this->setRedirect('index.php?option=com_opensim&view=maps');
 	}
 

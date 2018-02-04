@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details"
+		addfieldpath="/administrator/components/com_opensim/models/fields"
+	>
+		<field name="id"
+			type="int"
+			default="0"
+			readonly="true"
+			class="readonly"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC"/>
+
+		<field name="positionname"
+			type="text"
+			class="inputbox"
+			size="40"
+			label="JOPENSIM_LOGINSCREEN_POSITIONNAME"
+			description="JOPENSIM_LOGINSCREEN_POSITIONNAME_DESC"
+			hint=""
+			required="true" />
+		<field name="zindex"
+			type="number"
+			class="inputbox"
+			label="JOPENSIM_LOGINSCREEN_ZINDEX"
+			description="JOPENSIM_LOGINSCREEN_ZINDEX_DESC"
+		/>
+		<field name="alignH"
+			type="list"
+			label="JOPENSIM_LOGINSCREEN_POSITION_ALIGN"
+			description="JOPENSIM_LOGINSCREEN_POSITION_ALIGNX_DESC"
+			class="inputbox"
+			size="1"
+			default="left">
+			<option value="left">JOPENSIM_LOGINSCREEN_POSITION_ALIGN_LEFT</option>
+			<option value="right">JOPENSIM_LOGINSCREEN_POSITION_ALIGN_RIGHT</option>
+		</field>
+		<field name="posX"
+			type="number"
+			default="0"
+			label="JOPENSIM_LOGINSCREEN_POSITION_PIXELS"
+			description ="JOPENSIM_LOGINSCREEN_POSITION_PIXELS_DESC"/>
+		<field name="alignV"
+			type="list"
+			label="JOPENSIM_LOGINSCREEN_POSITION_ALIGN"
+			description="JOPENSIM_LOGINSCREEN_POSITION_ALIGNY_DESC"
+			class="inputbox"
+			size="1"
+			default="left">
+			<option value="top">JOPENSIM_LOGINSCREEN_POSITION_ALIGN_TOP</option>
+			<option value="bottom">JOPENSIM_LOGINSCREEN_POSITION_ALIGN_BOTTOM</option>
+		</field>
+		<field name="posY"
+			type="number"
+			default="0"
+			label="JOPENSIM_LOGINSCREEN_POSITION_PIXELS"
+			description ="JOPENSIM_LOGINSCREEN_POSITION_PIXELS_DESC"/>
+		<field name="distance"
+			type="int"
+			default="0"
+			label="JOPENSIM_LOGINSCREEN_POSITION_PIXELS"
+			description ="JOPENSIM_LOGINSCREEN_POSITION_PIXELS_DESC"/>
+	</fieldset>
+</form>

@@ -47,12 +47,16 @@ class OpenSimController extends JControllerForm {
 	}
 
 	public function jopensimmenue($addon,$vName) {
-		$view				= JFactory::getApplication()->input->get('view');
+//		$view				= JFactory::getApplication()->input->get('view');
 		$addons_groups		= JComponentHelper::getParams('com_opensim')->get('addons_groups');
 		$addons_search		= JComponentHelper::getParams('com_opensim')->get('addons_search');
 		$addons_currency	= JComponentHelper::getParams('com_opensim')->get('addons_currency');
+		$loginscreen_layout	= JComponentHelper::getParams('com_opensim')->get('loginscreen_layout');
 
 		JHtmlSidebar::addEntry(JText::_('JOPENSIM_OVERVIEW'), 'index.php?option=com_opensim',$vName == 'opensim');
+		if($loginscreen_layout == "custom") {
+			JHtmlSidebar::addEntry(JText::_('JOPENSIM_LOGINSCREEN'), 'index.php?option=com_opensim&view=loginscreen',$vName == 'loginscreen');
+		}
 		JHtmlSidebar::addEntry(JText::_('JOPENSIM_MAPS'), 'index.php?option=com_opensim&view=maps',$vName == 'maps');
 		JHtmlSidebar::addEntry(JText::_('JOPENSIM_USER'), 'index.php?option=com_opensim&view=user',$vName == 'user');
 		if($addons_groups == 1) 	JHtmlSidebar::addEntry(JText::_('JOPENSIM_GROUPS'), 'index.php?option=com_opensim&view=groups',$vName == 'groups');

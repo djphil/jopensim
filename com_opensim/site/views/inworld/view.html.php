@@ -212,7 +212,8 @@ class opensimViewinworld extends JViewLegacy {
 						$tpl						= "groups";
 					break;
 					case "groupdetail":
-						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
+						$doc->addStyleSheet($this->assetpath.'opensim_modal.css');
+//						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
 						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
 						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);
 						$this->grouplist			= $grouplist[0];
@@ -220,7 +221,8 @@ class opensimViewinworld extends JViewLegacy {
 						$tpl						= "groupdetail";
 					break;
 					case "groupnotices":
-						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
+						$doc->addStyleSheet($this->assetpath.'opensim_modal.css');
+//						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
 						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
 						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);
 						if($grouplist[0]['acceptnotices'] == 1 && $grouplist[0]['power']['power_receivenotice'] == 1 && $grouplist[0]['hasnotices'] > 0) $noticelist = $model->getnotices($groupid);
@@ -230,7 +232,8 @@ class opensimViewinworld extends JViewLegacy {
 						$tpl						= "groupnotices";
 					break;
 					case "groupmembers":
-						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
+						$doc->addStyleSheet($this->assetpath.'opensim_modal.css');
+//						JHTML::stylesheet( 'opensim_modal.css', 'components/com_opensim/assets/' );
 						$groupid					= JFactory::getApplication()->input->get('groupid','','','string');
 						$memberlist					= $model->memberlist($groupid);
 						$grouplist					= $model->groupmemberships($this->osdata['uuid'],$groupid);

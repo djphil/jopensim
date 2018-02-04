@@ -82,21 +82,27 @@ function GetBalance($parameter) {
 		$retval['message']	= "No clientUUID provided for function GetBalance() in ".__FILE__." at line ".__LINE__;
 		return $retval;
 	}
+	if(!array_key_exists("AgentHomeURL",$parameter)) $parameter['AgentHomeURL'] = "local"; // just in case still an old module is running, no HG is considered
 	$clientSessionID		= (isset($parameter['clientSessionID']))		? $parameter['clientSessionID']:null;
 	$clientSecureSessionID	= (isset($parameter['clientSecureSessionID']))	? $parameter['clientSecureSessionID']:null;
 	$uuid					= $parameter['clientUUID'];
-	$query					= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
-	$db						=& JFactory::getDBO();
+	$query					= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s' AND `homeurl` = '%s'",$uuid,$parameter['AgentHomeURL']);
+	$db						= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows 				= $db->getNumRows();
+//	echo "Zeile ".__LINE__;
+//	echo $query;
+//	exit;
 	if($num_rows == 0) {
-		$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`balance`,`status`) VALUES ('%s','%d','1')",$uuid,0); // Insert a new row for $uuid
+		$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`homeurl`,`balance`,`status`) VALUES ('%s','%s','%d','1')",$uuid,$parameter['AgentHomeURL'],0); // Insert a new row for $uuid
 		$db->setQuery($query);
 		$db->execute();
 
 		$parameter['senderID']		= getSettingsValue("bankerUID");
+		$parameter['senderHome']	= "local";
 		$parameter['receiverID']	= $uuid;
+		$parameter['receiverHome']	= $parameter['AgentHomeURL'];
 		$parameter['amount']		= $startbalance;
 		$parameter['description']	= JTEXT::_('JOPENSIM_MONEY_STARTBALANCE');
 		TransferMoney($parameter);
@@ -120,8 +126,11 @@ function TransferMoney($parameter) {
 		$debug = varexport($parameter,TRUE);
 		debugzeile($debug,"Parameter TransferMoney");
 	}
-	$isSender	= checkClient($parameter['senderID']);
-	$isReceiver	= checkClient($parameter['receiverID']);
+	if(!array_key_exists("senderHome",$parameter) || !$parameter['senderHome']) $parameter['senderHome']		= "local";
+	if(!array_key_exists("receiverHome",$parameter) || !$parameter['receiverHome']) $parameter['receiverHome']	= "local";
+	$isSender	= checkClient($parameter['senderID'],$parameter['senderHome']);
+	$isReceiver	= checkClient($parameter['receiverID'],$parameter['receiverHome']);
+	if(!array_key_exists("senderSecureSessionID",$parameter)) $parameter['senderSecureSessionID'] = "00000000-0000-0000-0000-000000000000";
 
 	// Maybe receiver is a group without balance yet?
 	if($isReceiver === FALSE) {
@@ -139,8 +148,9 @@ function TransferMoney($parameter) {
 		$retval['success']	= FALSE;
 		$retval['message']	= "Could not locate receiverID ".$parameter['receiverID'];
 	} else {
-		$checkbalance['clientUUID']	= $parameter['senderID'];
-		$checkbalance['amount']		= $parameter['amount'];
+		$checkbalance['clientUUID']		= $parameter['senderID'];
+		$checkbalance['AgentHomeURL']	= $parameter['senderHome'];
+		$checkbalance['amount']			= $parameter['amount'];
 		$amountcovered = AmountCovered($checkbalance);
 		if($amountcovered['success'] !== TRUE) {
 			$retval['success']	= FALSE;
@@ -160,8 +170,8 @@ function TransferMoney($parameter) {
 		
 					insertTransaction($parameter);
 		
-					setBalance($parameter['receiverID'],$parameter['amount']);
-					setBalance($parameter['senderID'],-$parameter['amount']);
+					setBalance($parameter['receiverID'],$parameter['amount'],$parameter['receiverHome']);
+					setBalance($parameter['senderID'],-$parameter['amount'],$parameter['senderHome']);
 		
 					$db->transactionCommit();
 					unlockSession($parameter['senderSecureSessionID']);
@@ -184,7 +194,7 @@ function TransferMoney($parameter) {
 	return $retval;
 }
 
-function setBalance($uuid,$amount) {
+function setBalance($uuid,$amount,$home = "local") {
 	if(_JOPENSIMMONEYDEBUG === TRUE) {
 		$arg_list = func_get_args();
 		$debug = varexport($arg_list,TRUE);
@@ -192,38 +202,38 @@ function setBalance($uuid,$amount) {
 	}
 	$isGroup = checkGroup($uuid);
 	if($isGroup === TRUE) balanceExists($uuid,"2"); // $uuid could be a group, see if it exists and if not, create a balance line for it
-	$query	= sprintf("UPDATE #__opensim_moneybalances SET balance = balance + %d WHERE `user`= '%s'",$amount,$uuid);
+	$query	= sprintf("UPDATE #__opensim_moneybalances SET balance = balance + %d WHERE `user`= '%s' AND homeurl = '%s'",$amount,$uuid,$home);
 	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 }
 
-function balanceExists($uuid,$status = "1") { // if this $uuid does not exist yet, it will create a 0 Balance for it (different to GetBalance, where $startbalance will be created)
+function balanceExists($uuid,$status = "1",$home = "local") { // if this $uuid does not exist yet, it will create a 0 Balance for it (different to GetBalance, where $startbalance will be created)
 	if(_JOPENSIMMONEYDEBUG === TRUE) {
 		$arg_list = func_get_args();
 		$debug = varexport($arg_list,TRUE);
 		debugzeile($debug,"Parameter balanceExists");
 	}
-	$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
-	$db		=& JFactory::getDBO();
+	$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s' AND homeurl = '%s'",$uuid,$home);
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows = $db->getNumRows();
 	if($num_rows == 0) {
-		$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`balance`,`status`) VALUES ('%s',0,$status)",$uuid);
+		$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`homeurl`,`balance`,`status`) VALUES ('%s','%s',0,$status)",$uuid,$home);
 		$db->setQuery($query);
 		$db->execute();
 	}
 }
 
-function checkClient($uuid) {
+function checkClient($uuid,$home = "local") {
 	if(_JOPENSIMMONEYDEBUG === TRUE) {
 		$arg_list = func_get_args();
 		$debug = varexport($arg_list,TRUE);
 		debugzeile($debug,"Parameter checkClient");
 	}
-	$query = sprintf("SELECT * FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
-	$db		=& JFactory::getDBO();
+	$query = sprintf("SELECT * FROM #__opensim_moneybalances WHERE `user`= '%s' AND `homeurl` ='%s'",$uuid,$home);
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows = $db->getNumRows();
@@ -241,7 +251,7 @@ function checkGroup($uuid) {
 		debugzeile($debug,"Parameter checkGroup");
 	}
 	$query = sprintf("SELECT * FROM #__opensim_group WHERE `GroupID`= '%s'",$uuid);
-	$db		=& JFactory::getDBO();
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows = $db->getNumRows();
@@ -258,14 +268,15 @@ function AmountCovered($parameter) {
 		debugzeile($debug,"Parameter AmountCovered");
 	}
 	$uuid	= $parameter['clientUUID'];
+	$home	= (array_key_exists("AgentHomeURL",$parameter)) ? $parameter['AgentHomeURL']:"local";
 	$banker	= getSettingsValue("bankerUID");
 	if($banker == $uuid) {
 		$retval['success'] = TRUE; // The banker ALLWAYS has sufficient balance ;)
 		return $retval;
 	}
 	$amount	= $parameter['amount'];
-	$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
-	$db		=& JFactory::getDBO();
+	$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s' AND `homeurl` = '%s'",$uuid,$home);
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows = $db->getNumRows();
@@ -291,7 +302,9 @@ function ApplyCharge($parameter) {
 	}
 	$amount							= $parameter['amount'];
 	$parameter['senderID']			= $parameter['clientUUID'];
+	$parameter['senderHome']		= (array_key_exists("AgentHomeURL",$parameter)) ? $parameter['AgentHomeURL']:"local";
 	$parameter['receiverID']		= getSettingsValue("bankerUID");
+	$parameter['receiverHome']		= "local";
 	$parameter['time']				= time();
 	switch($parameter['description']) {
 		case "Asset upload":
@@ -328,8 +341,8 @@ function ApplyCharge($parameter) {
 		$retval['message'] = "Insufficient balance for $amount!"; // This should actually always have happened before already, but however...
 	} else {
 		insertTransaction($parameter);
-		setBalance($parameter['receiverID'],$amount);
-		setBalance($parameter['senderID'],-$amount);
+		setBalance($parameter['receiverID'],$amount,$parameter['receiverHome']);
+		setBalance($parameter['senderID'],-$amount,$parameter['senderHome']);
 		$retval['success'] = TRUE;
 	}
 	checkGridBalance("ApplyCharge");
@@ -431,7 +444,7 @@ function insertTransaction($parameter) {
 								$status,
 								$description);
 	
-	$db		=& JFactory::getDBO();
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 }
@@ -500,7 +513,7 @@ function groupDividend($parameter) {
 	}
 	$groupID			= $parameter['groupID'];
 	$query				= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE #__opensim_moneybalances.`user` = '%s'",$groupID);
-	$db					=& JFactory::getDBO();
+	$db					= JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows			= $db->getNumRows();
@@ -559,6 +572,7 @@ function groupDividend($parameter) {
 		$parameter['amount']				= $groupdividend;
 		$parameter['senderID']				= $groupID;
 		$parameter['receiverID']			= $receivers[$key]['AgentID'];
+		$parameter['receiverHome']			= "local";
 		$parameter['clientSessionID']		= null;
 		$parameter['clientUUID']			= null;
 		$parameter['clientSecureSessionID']	= null;
@@ -589,29 +603,51 @@ function get_confirm_value() {
 }
 
 function buyCurrency($parameter) {
+	$test = var_export($parameter,TRUE);
 	return getCurrencyQuote($parameter);
 }
 
 function getCurrencyQuote($parameter) {
+	$test = var_export($parameter,TRUE);
 	if(_JOPENSIMMONEYDEBUG === TRUE) {
 		$debug = varexport($parameter,TRUE);
 		debugzeile($debug,"Parameter getCurrencyQuote");
 	}
 
-	$amount	   = $parameter['currencyBuy'];
-	$cost = convert_to_real($amount);
-	$currency = array('estimatedCost'=> $cost, 'currencyBuy'=> $amount);
+//	$amount	   = $parameter['currencyBuy'];
+//	$cost = convert_to_real($amount);
+//	$currency = array('estimatedCost'=> $cost, 'currencyBuy'=> $amount);
 
-	$confirmvalue = get_confirm_value();
+//	$confirmvalue = get_confirm_value();
 
-	$retval['success'] = FALSE;
-	$retval['errorMessage'] = JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG');
+	// get a default value for emergency
 	if(strlen(JPATH_BASE) > strlen($_SERVER['DOCUMENT_ROOT'])) {
 		$joomlauri	= $_SERVER['HTTP_HOST'].substr(JPATH_BASE,strlen($_SERVER['DOCUMENT_ROOT']));
 	} else {
 		$joomlauri	= $_SERVER['HTTP_HOST'];
 	}
-	$retval['errorURI'] = $_SERVER['REQUEST_SCHEME']."/"."/".$joomlauri;
+
+	$settings	= jOpenSimSettings();
+	
+	$retval['success'] = FALSE;
+	if($settings['jopensimmoney_buycurrency'] == 0) {
+		$retval['errorMessage'] = JText::_('JOPENSIM_MONEY_BUYCURRENCY_DISABLED_MSG');
+		$joomlauri = $settings['jopensimmoney_buycurrency_url'];
+	} else {
+		if($settings['jopensimmoney_buycurrency_customized'] == 0) {
+			$retval['errorMessage'] = JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG');
+			if($settings['jopensimmoney_buycurrency_url']) $joomlauri = $settings['jopensimmoney_buycurrency_url'];
+		} else {
+			if($settings['jopensimmoney_buycurrency_custom_msg']) $retval['errorMessage'] = $settings['jopensimmoney_buycurrency_custom_msg'];
+			else $retval['errorMessage'] = JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG');
+			if($settings['jopensimmoney_buycurrency_custom_url']) {
+				$joomlauri = $settings['jopensimmoney_buycurrency_custom_url'];
+			} elseif($settings['jopensimmoney_buycurrency_url']) {
+				$joomlauri = $settings['jopensimmoney_buycurrency_url'];
+			}
+		}
+	}
+	$retval['errorURI'] = $joomlauri;
 	return $retval;
 }
 

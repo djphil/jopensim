@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.0.16"; // current version
+	public static $version	= "0.3.1.2 RC1"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -691,8 +691,8 @@ class opensim {
 						$this->regiontable_regionname,
 						$this->regiontable_locationY,
 						$this->regiontable_locationX,
-						$locX,
-						$locY);
+						$locY,
+						$locX);
 		$this->_osgrid_db->setQuery($query);
 		$this->_osgrid_db->query();
 		if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get the info
@@ -1365,22 +1365,6 @@ class opensim {
 
 	public function osversion() {
 		return self::$version;
-	}
-
-	public function checkversion() {
-		$versionfile	= "http://www.jopensim.com/opensim/version3.txt";
-		$recentversion	= @file_get_contents($versionfile);
-		if(!$recentversion) return JText::_('UPDATEINFONOTAVAILABLE');
-		$versioncheck	= version_compare(self::$version,trim($recentversion));
-		if($versioncheck < 0) {
-			return JText::sprintf('UPDATEVERSION',$recentversion);
-		} elseif($versioncheck > 0) {
-			return "<i class='icon-warning-circle' style='color:orange;'></i>PreRelease?";
-		} else {
-			return JText::_('UP2DATE');
-		}
-//		elseif(trim($recentversion) == self::$version) return JText::_('UP2DATE');
-//		else return JText::sprintf('UPDATEVERSION',$recentversion);
 	}
 
 	public function checkRegionIP($ip) {

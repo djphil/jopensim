@@ -7,6 +7,16 @@
 
 // ########## GRID SPECIFIC VARIABLES, CHANGE THESE AS REQUIRED ##########
 
+
+// TO DO Language translation
+var region_coordinates = "Coordinates";
+var region_uuid = "Region UUID";
+var region_location = "Location";
+var region_home = "Home";
+var region_home_click = "Click to set the map to Home";
+var viewer_restriction = "Viewer may restrict login within SE 256x256 corner of larger regions in OpenSim";
+
+
 var defaultMap = 'world1'; // must be in the lists below, usually the first
 
 // Note that the index labels, e.g. "world1", "world2" etc MUST be the same in each section where they appear,
@@ -196,7 +206,8 @@ function load() {
   // ## Initialise map ##
   map = new google.maps.Map(document.getElementById('map-canvas'), 
       mapOptions);
-//	keep the next div transparent in order to can see the custom background image
+    // Fix for background image (01/01/2017)
+    // keep the next div transparent in order to can see the custom background image
 	var nextdiv = div.firstChild;
 	nextdiv.style.backgroundColor = "transparent";
 
@@ -215,7 +226,7 @@ function load() {
     request.onreadystatechange = function(){
       parseMapResponse(request,map);
     };
-    request.open("GET",jUrlBase+"/components/com_opensim/map.php",false);
+    request.open("GET", jUrlBase+"/components/com_opensim/map.php", true);
     request.send(null);
   }
 
@@ -447,7 +458,12 @@ function parseMapResponse(request,map){
 
               if (filenames == "uuid" || filenames == "uuid-no-dashes") { // Use UUID format for jpg names
                 //layer[layerCount] = new google.maps.GroundOverlay('data/regions/' + xmluuid + '.jpg', boundaries, groundOverlayOptions);
-                groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
+                if(sizeX > 256) {
+                	groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
+//                	groundoverlay = jUrlBase+'/images/jopensim/regions/varregions/map-1-' + xmllocXx + '-' + xmllocYy + '-objects'+ '.jpg';
+                } else {
+                	groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
+                }
               }
               else if (filenames == "opensim") { // Use default opensim naming pattern for jpg names
                 //layer[layerCount] = new google.maps.GroundOverlay('data/regions/' + opensimFilename, boundaries, groundOverlayOptions);
@@ -469,37 +485,40 @@ function parseMapResponse(request,map){
 }
 
 // #### Function to return information for infoWindow ####
-function getRegionInfos(x,y){
-//	alert("x: "+x+"\ny: "+y);
-//	x = x - mapxoffset;
-//	y = y - mapyoffset;
-//	alert("x: "+x+"\ny: "+y);
-	if (__items==null) {return;}
-	var response = "";
-	for (var i = 0; i < __items.length; i++){		
-		if (__items[i].nodeType == 1){
-			var xmllocX = __items[i].getElementsByTagName("LocX")[0].firstChild.nodeValue;
+function getRegionInfos(x, y)
+{
+    //	alert("x: "+x+"\ny: "+y);
+    //	x = x - mapxoffset;
+    //	y = y - mapyoffset;
+    //	alert("x: "+x+"\ny: "+y);
+
+	if (__items == null) {return;}
+	
+    var response = "";
+	
+    for (var i = 0; i < __items.length; i++)
+    {
+        if (__items[i].nodeType == 1)
+        {
+            var xmllocX = __items[i].getElementsByTagName("LocX")[0].firstChild.nodeValue;
 			var xmllocY = __items[i].getElementsByTagName("LocY")[0].firstChild.nodeValue;			
-			if (xmllocX == x && xmllocY == y){
+			
+            if (xmllocX == x && xmllocY == y)
+            {
 				var articleID		= __items[i].getElementsByTagName("articleID")[0].firstChild.nodeValue;
 				var xmluuid			= __items[i].getElementsByTagName("Uuid")[0].firstChild.nodeValue;
 				var xmlregionname	= __items[i].getElementsByTagName("RegionName")[0].firstChild.nodeValue;
-				
+
 				// #### These two lines from the old code visually remove dashes from UUIDs: seems unnecessary. ####
 				// var rx = new RegExp("(-)", "g");
 				// xmluuid = xmluuid.replace(rx,"");
 
 				response = "";
-
-				if (showCoords == "true") {
-				    response += "Coordinates: <span class='label label-info' id='loc'>" + "(" + xmllocX + ", " + xmllocY + ")" + "</span>";
-				}
-				
 				response += "<table class='regioninfo'>";
 
 				if (articleID > 0 && jArticleLink == "1") {
-					link1 = "<a class=\"jopensim_articlelink\" href='" + jUrlBase + "/index.php?option=com_content&view=article&id="+articleID+"'>";
-					if(jArticleIcon == "1") link2 = "&nbsp;<span class='icon-link'> </span></a>";
+                    link1 = "<a class=\"jopensim_articlelink\" href='" + jUrlBase + "/index.php?option=com_content&view=article&id="+articleID+"'>";
+					if (jArticleIcon == "1") link2 = "&nbsp;<span class='icon-link'> </span></a>";
 					else link2 = "</a>";
 				} else {
 					link1 = "";
@@ -511,19 +530,34 @@ function getRegionInfos(x,y){
 				response += "</th></tr></thead>";
 				
 				if (showUUID == "true") {
-				    marker.setTitle("Region UUID:\n"+xmluuid+"\nLocation: "+xmlregionname+"/"+xjump+"/"+yjump+"/");
+				    marker.setTitle(region_uuid + ":\n" +xmluuid+ "\nLocation: " +xmlregionname+ "/" +xjump+ "/" +yjump+ "/");
 				} else {
-				    marker.setTitle("Location: "+xmlregionname+"/"+xjump+"/"+yjump+"/");
+				    marker.setTitle(region_location + ": " +xmlregionname+ "/" +xjump+ "/" +yjump+ "/");
 				}
+
+				if (showCoords == "true")
+                {
+				    response += "<tr><td>";
+				    response += region_coordinates + ": ";
+                    response += "<span class='label label-danger' id='locX'>X:</span> <strong>" +xmllocX+ "</strong> <span class='label label-success'>Y: </span> <strong>"+xmllocY+"</strong>";
+					response += "</td></tr>";
+                }
 
 				var portnumber = hgports[map.getMapTypeId()];
 				var portstring = "";
 				var portstring2 = "";
-				if (port80 == 1) {portstring = ":" + portnumber; portstring2 = "|" + portnumber;}
-				if (jTeleportLink == 1) {
+				
+                if (port80 == 1)
+                {
+                    portstring = ":" + portnumber; 
+                    portstring2 = "|" + portnumber;
+                }
+				
+                if (jTeleportLink == 1)
+                {
 					response += "<tr><td>";
 					response += "<a class=\"btn btn-default btn-primary\" href=\"secondlife://" + xmlregionname + "/" + xjump + "/" + yjump + "/\">";
-					response += "Teleport"; // <i class='icon-ok'></i>
+					response += "<i class='icon-ok'></i> Teleport";
 					response += "</a>";
 					response += "</td></tr>";
 					
@@ -531,7 +565,7 @@ function getRegionInfos(x,y){
 						response += "</table>";
 						response += "<table class='regioninfo'>";
 						response += "<tr><td>";
-						response += "Viewer may restrict login within SE 256x256 corner of larger regions in OpenSim";
+						response += viewer_restriction;
 						response += "</td></tr>";
 						response += "</table>";
 					}
@@ -646,7 +680,8 @@ function HomeControl(controlDiv, map) {
 	controlUI.style.borderWidth = '2px';
 	controlUI.style.cursor = 'pointer';
 	controlUI.style.textAlign = 'center';
-	controlUI.title = 'Click to set the map to Home';
+	controlUI.title = region_home_click;
+    // controlUI.title = 'Click to set the map to Home';
 	controlDiv.appendChild(controlUI);
 
 	// ## Set CSS for the control interior ##
@@ -655,7 +690,8 @@ function HomeControl(controlDiv, map) {
 	controlText.style.fontSize = '11px';
 	controlText.style.paddingLeft = '4px';
 	controlText.style.paddingRight = '4px';
-	controlText.innerHTML = '<strong>Home<strong>';
+	// controlText.innerHTML = '<strong>'+region_home+'<strong>';
+    controlText.innerHTML = '<strong>Home<strong>';
 	controlUI.appendChild(controlText);
 
 	// ## Set up the click event listeners ##

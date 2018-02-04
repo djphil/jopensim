@@ -1,12 +1,12 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
 
 class opensimModelMaps extends OpenSimModelOpenSim {
 

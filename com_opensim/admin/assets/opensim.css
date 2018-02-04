@@ -88,15 +88,15 @@ a.os_mainscreen:hover {
 	/* border-bottom: 1px dotted black; */
 }
 
-.terminaltable, .grouptable {
+.grouptable {
 	border:#000000 1px solid;
 }
 
-.terminaltable th, .terminaltable td, .grouptable th, .grouptable td {
+.grouptable th, .grouptable td {
 	padding:10px;
 }
 
-.terminaltable th, .grouptable th {
+.grouptable th {
 	background:#cccccc;
 }
 
@@ -346,4 +346,54 @@ a.menu-component[href="index.php?option=com_opensim&view=addons"] {background-im
 span.jopensimcontributors {
 	display:inline-block;
 	min-width:110px;
+}
+
+[class^="fa-"],
+[class*=" fa-"] {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-left: .25em;
+	margin-right: .25em;
+	line-height: 14px;
+}
+
+.public_yes {
+	font-size: 1.3em !important;
+	color:#009900;
+}
+
+.public_no {
+	font-size: 1.3em !important;
+	color:#999999;
+}
+
+.guide_yes {
+	font-size: 1.3em !important;
+	color:#000099;
+}
+
+.guide_no {
+	font-size: 1.3em !important;
+	color:#999999;
+}
+
+.jopensimbuttondisabled {
+	cursor:default !important;
+	color:#999 !important;
+}
+
+.jopensimbuttongreen {
+	background:#090 !important;
+	color:#fff !important;
+}
+
+.jopensimbuttonred {
+	background:#900 !important;
+	color:#fff !important;
+}
+
+.jopensimmoduleunpublished {
+	font-style:italic;
+	color:#666;
 }

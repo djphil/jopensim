@@ -79,7 +79,6 @@ class opensimViewuser extends JViewLegacy {
 					$this->relation			= $relation[0];
 					$joomlalist				= $model->getJoomlaRelationList($postdata['checkUser'][0]);
 					
-					$this->testrelationen	= $testrelationen;
 					$this->joomlalist		= $joomlalist;
 					$tpl					= "attachuser";
 				break;
@@ -143,6 +142,9 @@ class opensimViewuser extends JViewLegacy {
 				JToolBarHelper::custom("repairUserStatus","userrepair","opensim",JText::_('REPAIRUSERSTATUS'),false,false);
 				if($model->moneyEnabled === TRUE) {
 					JToolBarHelper::custom("userMoney","usermoney","opensim",JText::_('JOPENSIMUSERMONEY'),true,false);
+				}
+				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_USER'));
 			break;

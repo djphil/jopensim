@@ -25,14 +25,26 @@ class opensimViewopensim extends JViewLegacy {
 		$regions			= $model->getData();
 		$this->settingsdata	= $model->getSettingsData();
 
-		if(intval($this->settingsdata['hiddenregions']) == 0) {
-			$regionarray	= $model->removehidden($regions['regions']);
-		} else {
-			$regionarray	= $regions['regions'];
-		}
+		if($this->settingsdata['loginscreen_layout'] == "classic") {
 
-		$this->regions		= $regionarray;
-		$this->totalusers	= $model->opensim->countActiveUsers();
+			if(intval($this->settingsdata['hiddenregions']) == 0) {
+				$regionarray	= $model->removehidden($regions['regions']);
+			} else {
+				$regionarray	= $regions['regions'];
+			}
+
+			$this->regions		= $regionarray;
+			$this->totalusers	= $model->opensim->countActiveUsers();
+
+		} else {
+			$this->loginscreenpositions = $model->getLoginscreenPositions();
+			if($this->settingsdata['jopensim_loginscreen_customcss']) {
+				$document = JFactory::getDocument();
+				$document->addStyleDeclaration($this->settingsdata['jopensim_loginscreen_customcss']);
+			}
+			
+			$tpl = "custom";
+		}
 
 		parent::display($tpl);
 	}

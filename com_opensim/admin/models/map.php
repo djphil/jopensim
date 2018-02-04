@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -110,11 +110,17 @@ class opensimModelMap extends OpenSimModelOpenSim {
 
 		if(is_array($regiondata['regions'])) {
 			foreach($regiondata['regions'] AS $key => $val) {
+//				$debug = var_export($val,TRUE);
+//				error_log($debug);
 				$regiondata['regions'][$key]['posX'] = intval($regiondata['regions'][$key]['posX']);
 				$regiondata['regions'][$key]['posY'] = intval($regiondata['regions'][$key]['posY']);
 				$regiondata['regions'][$key]['maplink'] = str_replace("-","",$val['uuid']);
 				$ownerdata = $opensim->getUserData($val['owner_uuid']);
-				$regiondata['regions'][$key]['ownername'] = $ownerdata['firstname']." ".$ownerdata['lastname'];
+				if(array_key_exists("firstname",$ownerdata) && array_key_exists("lastname",$ownerdata)) {
+					$regiondata['regions'][$key]['ownername'] = $ownerdata['firstname']." ".$ownerdata['lastname'];
+				} else {
+					$regiondata['regions'][$key]['ownername'] = "n/a";
+				}
 				$mapinfo = $this->getMapInfo($val['uuid']);
 				$regiondata['regions'][$key]['articleId'] = $mapinfo['articleId'];
 				$regiondata['regions'][$key]['articleTitle'] = $this->getContentTitleFromId($mapinfo['articleId']);
@@ -185,11 +191,15 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		$x		= JFactory::getApplication()->input->get('x');
 		$y		= JFactory::getApplication()->input->get('y');
 		$z		= JFactory::getApplication()->input->get('z',0);
-		
+
 		$data['defaulthome'] = $region;
 		$data['mapstartX'] = intval($x / 2);
 		$data['mapstartY'] = intval(256 - ($y / 2));
 		$data['mapstartZ'] = intval($z);
+
+		$regiondata	= $this->opensim->getRegionData($region);
+		if($regiondata['sizeX'] > 256) $data['mapstartX'] = ($data['mapstartX']/256)*$regiondata['sizeX'];
+		if($regiondata['sizeY'] > 256) $data['mapstartY'] = ($data['mapstartY']/256)*$regiondata['sizeY'];
 
 		$jOpenSim = JComponentHelper::getComponent('com_opensim',TRUE);
 		$comparams = JComponentHelper::getParams('com_opensim');
@@ -250,7 +260,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 			$region = $regionUUID;
 		}
 		$retval = array();
-		$query = sprintf("SELECT * FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$region);
+		$query = sprintf("SELECT #__opensim_mapinfo.* FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$region);
 		$db =& JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
@@ -263,25 +273,24 @@ class opensimModelMap extends OpenSimModelOpenSim {
 			$retval['articleId']	= null;
 			$retval['articleTitle'] = "";
 			$retval['hidemap']		= 0;
-			$retval['public']		= null;
+			$retval['public']		= 0;
+			$retval['guide']		= 0;
 		}
 		return $retval;
 	}
 
 	public function setMapInfo($data) {
-		$regionUUID		= JFactory::getApplication()->input->get('regionUUID');
-		$regionArticle	= JFactory::getApplication()->input->get('regionArticle');
-		$mapinvisible	= JFactory::getApplication()->input->get('mapinvisible');
-		$mappublic		= JFactory::getApplication()->input->get('mappublic');
-		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,hidemap,`public`) VALUES ('%1\$s','%2\$d','%3\$d','%4\$d')
+		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,hidemap,`public`,guide) VALUES ('%1\$s','%2\$d','%3\$d','%4\$d','%5\$d')
 								ON DUPLICATE KEY UPDATE
 							articleId = '%2\$d',
 							`public` = '%4\$d',
-							hidemap = '%3\$d'",
+							hidemap = '%3\$d',
+							guide = '%5\$d'",
 					$data['regionUUID'],
 					$data['regionArticle'],
 					$data['mapinvisible'],
-					$data['mappublic']);
+					$data['mappublic'],
+					$data['mapguide']);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
@@ -298,6 +307,28 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,hidemap) VALUES ('%1\$s',NULL,'%2\$d')
 								ON DUPLICATE KEY UPDATE
 							hidemap = '%2\$d'",
+					$regionUUID,
+					$status);
+		$db = JFactory::getDBO();
+		$db->setQuery($query);
+		$db->query();
+	}
+
+	public function setPublic($regionUUID,$status) {
+		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,public) VALUES ('%1\$s',NULL,'%2\$d')
+								ON DUPLICATE KEY UPDATE
+							public = '%2\$d'",
+					$regionUUID,
+					$status);
+		$db = JFactory::getDBO();
+		$db->setQuery($query);
+		$db->query();
+	}
+
+	public function setGuide($regionUUID,$status) {
+		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,guide) VALUES ('%1\$s',NULL,'%2\$d')
+								ON DUPLICATE KEY UPDATE
+							guide = '%2\$d'",
 					$regionUUID,
 					$status);
 		$db = JFactory::getDBO();

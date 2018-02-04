@@ -231,13 +231,15 @@ label[for="jform_jopensim_maps_width_style1"].active,
 label[for="jform_jopensim_maps_height_style1"].active,
 label[for="jform_classified_order1"].active,
 label[for="jform_getTextureFormat0"].active,
-label[for="jform_jopensimmoney_zerolines2"].active {
+label[for="jform_jopensimmoney_zerolines2"].active,
+label[for="jform_loginscreen_layout0"].active {
 	background:#9B18D3;
 	border-color:#9B18D3;
 }
 label[for="jform_lastnametype2"].active,
 label[for="jform_getTextureFormat1"].active,
-label[for="jform_jopensimmoney_zerolines3"].active {
+label[for="jform_jopensimmoney_zerolines3"].active,
+label[for="jform_loginscreen_layout1"].active {
 	background:#FF8000;
 	border-color:#FF8000;
 }

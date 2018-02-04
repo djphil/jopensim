@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -25,7 +25,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 
 	public function __construct($config = array()) {
 		parent::__construct($config);
-		$params			= &JComponentHelper::getParams('com_opensim');
+		$params			= JComponentHelper::getParams('com_opensim');
 		$this->params	= $params;
 		$osgriddbhost	= $params->get('opensimgrid_dbhost');
 		$osgriddbuser	= $params->get('opensimgrid_dbuser');
@@ -61,6 +61,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['osdbpasswd']				= $params->get('opensimgrid_dbpasswd');
 			$settings['osdbname']				= $params->get('opensimgrid_dbname');
 			$settings['osdbport']				= $params->get('opensimgrid_dbport',3306);
+
+			$settings['loginscreen_layout']		= $params->get('loginscreen_layout','classic');
 
 			$settings['enableremoteadmin']		= $params->get('enableremoteadmin');
 			$settings['remotehost']				= $params->get('remotehost');
@@ -143,6 +145,11 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['jopensimmoney_groupcreation']			= $params->get('jopensimmoney_groupcreation',0);
 			$settings['jopensimmoney_groupdividend']			= $params->get('jopensimmoney_groupdividend',0);
 			$settings['jopensimmoney_zerolines']				= $params->get('jopensimmoney_zerolines',3);
+			$settings['jopensimmoney_buycurrency']				= $params->get('jopensimmoney_buycurrency',0);
+			$settings['jopensimmoney_buycurrency_url']			= $params->get('jopensimmoney_buycurrency_url',0);
+			$settings['jopensimmoney_buycurrency_customized']	= $params->get('jopensimmoney_buycurrency_customized',0);
+			$settings['jopensimmoney_buycurrency_custom_url']	= $params->get('jopensimmoney_buycurrency_custom_url',JURI::root());
+			$settings['jopensimmoney_buycurrency_custom_msg']	= $params->get('jopensimmoney_buycurrency_custom_msg',JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG'));
 			$settings['jopensimmoney_sendgridbalancewarning']	= $params->get('jopensimmoney_sendgridbalancewarning',0);
 			$settings['jopensimmoney_warningrecipient']			= $params->get('jopensimmoney_warningrecipient','');
 			$settings['jopensimmoney_warningsubject']			= $params->get('jopensimmoney_warningsubject','Grid Balance Warning');
@@ -165,6 +172,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['classified_sort']				= $params->get('classified_sort','creationdate');
 			$settings['classified_order']				= $params->get('classified_order','DESC');
 			$settings['classified_images']				= $params->get('classified_images');
+			$settings['classified_images_maxwidth']		= $params->get('classified_images_maxwidth',512);
+			$settings['classified_images_maxheight']	= $params->get('classified_images_maxheight',512);
 
 			$settings['lastnametype']					= $params->get('lastnametype');
 			$settings['lastnamelist']					= $params->get('lastnamelist');
@@ -207,6 +216,44 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		} else {
 			return null;
 		}
+	}
+
+	public function getVersion() {
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select($db->quoteName('#__extensions.manifest_cache'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('#__extensions.type').' = '.$db->quote("component"));
+		$query->where($db->quoteName('#__extensions.element').' = '.$db->quote("com_opensim"));
+
+		$db->setQuery($query);
+		$db->execute();
+
+		$foundparams = $db->getNumRows();
+		if($foundparams == 1) {
+			$componentjson = $db->loadResult();
+			$componentInfo = json_decode($componentjson, true);
+			return $componentInfo['version'];
+		} else {
+			return null;
+		}
+	}
+
+	public function checkversion() {
+		$versionfile	= "https://www.jopensim.com/opensim/version3.txt";
+		$recentversion	= @file_get_contents($versionfile);
+		if(!$recentversion) return JText::_('UPDATEINFONOTAVAILABLE');
+		$versioncheck	= version_compare($this->getVersion(),trim($recentversion));
+		if($versioncheck < 0) {
+			return JText::sprintf('UPDATEVERSION',$recentversion);
+		} elseif($versioncheck > 0) {
+			return "<i class='icon-warning-circle' style='color:orange;'></i>PreRelease?";
+		} else {
+			return JText::_('UP2DATE');
+		}
+//		elseif(trim($recentversion) == self::$version) return JText::_('UP2DATE');
+//		else return JText::sprintf('UPDATEVERSION',$recentversion);
 	}
 
 	public function importsettingsfile() {
@@ -305,7 +352,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		return; // temporary disabled
 		$identminutes = $this->_settingsData['identminutes'];
 		if($identminutes > 0) {
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("DELETE FROM #__opensim_inworldident WHERE created < DATE_SUB(NOW(), INTERVAL %d MINUTE)",$identminutes);
 			$db->setQuery($query);
 			$db->query();
@@ -341,7 +388,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function opensimRelation($uuid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$uuid);
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
@@ -1126,7 +1173,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$retval['type']		= "error";
 			$retval['message']	= JText::_('JOPENSIM_CSSSAVE_ERROR');
 		} else {
-			$csscontent = trim(JFactory::getApplication()->input->get('csscontent'));
+			$csscontent = trim(JFactory::getApplication()->input->get('csscontent','','raw'));
 			file_put_contents($cssfile, $csscontent);
 
 			$retval['type']		= "message";
@@ -1158,8 +1205,99 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		fclose($fh);
 	}
 
-	public function __destruct() {
+	public function getGridStatus() {
+		if(!$this->_osgrid_db) {
+			$returnvalue['statusmsg'] = "<span style='color:#".$this->_settingsData['loginscreen_offline_color']."'>".JText::_('OFFLINE')."</span>";
+		} else {
+			$zeroUID		= "00000000-0000-0000-0000-000000000000";
+			$lastDays		= $this->_settingsData['loginscreen_xdays'];
+			$offlinecolor	= $this->_settingsData['loginscreen_offline_color'];
+			$onlinecolor	= $this->_settingsData['loginscreen_online_color'];
+			$returnvalue = array();
+
+			$this->_osgrid_db->setQuery("SELECT uuid FROM regions");
+			$regions = $this->_osgrid_db->loadColumn();
+			if(intval($this->_settingsData['hiddenregions']) == 0) {
+				$db = JFactory::getDbo();
+				$query = "SELECT #__opensim_mapinfo.regionUUID FROM #__opensim_mapinfo WHERE #__opensim_mapinfo.hidemap = 1";
+				$db->setQuery($query);
+				$hiddenregions = $db->loadColumn();
+				if(is_array($hiddenregions)) {
+					$numrows = count($hiddenregions);
+				} else {
+					$numrows = 0;
+				}
+				$this->_settingsData['debug1'] = $numrows;
+				if($numrows > 0) {
+					$db->setQuery($query);
+					$this->_settingsData['debug2'] = $hiddenregions;
+					foreach($hiddenregions AS $hiddenregion) {
+						$ishidden = array_search($hiddenregion,$regions);
+						if($ishidden === FALSE) continue;
+						else unset($regions[$ishidden]);
+					}
+				}
+			}
+			$returnvalue['totalregions'] = count($regions);
+
+			if($this->_settingsData['loginscreen_gridstatus'] == -1) $returnvalue['status'] = "offline";
+			elseif($this->_settingsData['loginscreen_gridstatus'] == 1) $returnvalue['status'] = "online";
+			else {
+				if($returnvalue['totalregions'] > 0)  $returnvalue['status'] = "online"; // Online Server needs more than 0 regions
+				else  $returnvalue['status'] = "offline";
+			}
+
+			if($returnvalue['status'] == "online") $returnvalue['statusmsg'] = "<span class='jopensim_gridstatus' style='color:".$onlinecolor.";'>".JText::_('ONLINE')."</span>";
+			else $returnvalue['statusmsg'] = "<span class='jopensim_gridstatus' style='color:".$offlinecolor."'>".JText::_('OFFLINE')."</span>";
+
+			if(!$lastDays) $lastDays = $this->_settingsData['loginscreen_xdays'];
+			$returnvalue['days'] = $lastDays;
+
+			$this->_osgrid_db->setQuery(sprintf("SELECT COUNT(*) FROM Presence WHERE RegionID != '%s'",$zeroUID));
+			$returnvalue['online'] = $this->_osgrid_db->loadResult();
+
+			$tage = sprintf("%d",$lastDays);
+			$jetzt = time();
+			$lastloggedin = $jetzt - 60*60*24*$tage;
+			$this->_osgrid_db->setQuery("SELECT COUNT(*) FROM GridUser WHERE Login > '$lastloggedin' OR Logout > '$lastloggedin'");
+			$returnvalue['lastonline']		= $this->_osgrid_db->loadResult();
+
+			$returnvalue['loginscreen_show_status']			= $this->_settingsData['loginscreen_show_status'];
+			$returnvalue['loginscreen_show_regions']		= $this->_settingsData['loginscreen_show_regions'];
+			$returnvalue['loginscreen_show_uniquevisitors']	= $this->_settingsData['loginscreen_show_uniquevisitors'];
+			$returnvalue['loginscreen_show_totalusers']		= $this->_settingsData['loginscreen_show_totalusers'];
+			$returnvalue['loginscreen_show_onlinenow']		= $this->_settingsData['loginscreen_show_onlinenow'];
+			$returnvalue['hiddenregions']					= $this->_settingsData['hiddenregions'];
+		}
+		return $returnvalue;
+	} //end getStatus
+
+	public function getLoginscreenPositions() {
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select('#__opensim_loginscreen.*');
+		$query->from($db->quoteName('#__opensim_loginscreen'));
+		$query->where($db->quoteName('#__opensim_loginscreen.active').' = 1');
+		$db->setQuery($query);
+		$positions = $db->loadAssocList();
+		if(count($positions) > 0) {
+			foreach($positions AS $key => $position) {
+				$query	= $db->getQuery(true);
+				$query->select($db->quoteName('#__modules.id'));
+				$query->select($db->quoteName('#__modules.title'));
+				$query->select($db->quoteName('#__modules.module'));
+				$query->select($db->quoteName('#__modules.published'));
+				$query->from($db->quoteName('#__modules'));
+				$query->where($db->quoteName('#__modules.position').' = '.$db->quote($position['positionname']));
+				$db->setQuery($query);
+				$positions[$key]['modules'] = $db->loadAssocList();
+			}
+		}
+		return $positions;
 	}
 
+	public function __destruct() {
+	}
 }
 ?>

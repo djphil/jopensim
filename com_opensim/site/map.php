@@ -8,6 +8,7 @@
 define( '_JEXEC', 1 );
 define('JPATH_BASE', dirname(realpath("../../index.php")));
 define('JPATH_COMPONENT_ADMINISTRATOR', dirname("../../index.php").DIRECTORY_SEPARATOR.'administrator'.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim');
+define('JPATH_COMPONENT_SITE', dirname("../../index.php").DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim');
 define( 'DS', DIRECTORY_SEPARATOR );
 
 // For JED

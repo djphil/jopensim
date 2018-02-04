@@ -142,14 +142,30 @@ class com_opensimInstallerScript {
 		  PRIMARY KEY (`joomlaID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.0.0';";
 
+		$createquery[] = "
+		CREATE TABLE IF NOT EXISTS `#__opensim_loginscreen` (
+		  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+		  `positionname` varchar(255) DEFAULT NULL,
+		  `module` int(11) DEFAULT NULL,
+		  `alignH` enum('left','right') DEFAULT NULL,
+		  `alignV` enum('top','bottom') DEFAULT NULL,
+		  `posX` int(11) DEFAULT NULL,
+		  `posY` int(11) DEFAULT NULL,
+		  `active` tinyint(4) DEFAULT '0',
+		  `zindex` int(11) DEFAULT '100',
+		  PRIMARY KEY (`id`)
+		) DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.1.2';";
+
+
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_mapinfo` (
 		  `regionUUID`  varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' ,
 		  `articleId`  int(11) UNSIGNED NULL DEFAULT NULL ,
 		  `hidemap` tinyint(1) unsigned NOT NULL DEFAULT '0',
 		  `public` tinyint(1) unsigned NOT NULL DEFAULT '0',
+		  `guide` tinyint(1) NOT NULL DEFAULT '0',
 		  PRIMARY KEY (`regionUUID`),
 		  INDEX `articleId` USING BTREE (`articleId`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.0.0';";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.0.17';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_money_customfees` (
 		  `PrincipalID` char(36) NOT NULL,
@@ -160,10 +176,11 @@ class com_opensimInstallerScript {
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_moneybalances` (
 		  `user` varchar(128) NOT NULL,
+		  `homeurl` varchar(255) NOT NULL DEFAULT 'local',
 		  `balance` int(10) NOT NULL,
 		  `status` tinyint(2) DEFAULT NULL,
-		  PRIMARY KEY (`user`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.0';";
+		  PRIMARY KEY (`user`,`homeurl`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.17';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_moneygridbalance` (
 		  `timestamp` int(11) NOT NULL,
@@ -211,7 +228,7 @@ class com_opensimInstallerScript {
 		  `updated` datetime DEFAULT NULL,
 		  `status` tinyint(2) NOT NULL DEFAULT '0',
 		  PRIMARY KEY (`from`,`to`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='jOpenSim Rev. 0.3.0.0';";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.17';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_search_allparcels` (
 		  `regionUUID` varchar(255) NOT NULL,
@@ -476,7 +493,11 @@ class com_opensimInstallerScript {
 
 	public function update($parent) {
 		$this->redirect2opensim = "index.php?option=com_opensim";
+		$this->newfields();
+		$this->changefields();
+		$this->oldfields();
 		$this->updatePrimary();
+		$this->changeIndexes();
 		$this->install($parent);
 	}
 
@@ -531,6 +552,7 @@ class com_opensimInstallerScript {
 
 		$newfields['opensim_mapinfo'][]				= array('name' => 'hidemap',		'args' => 'tinyint(1) unsigned NOT NULL DEFAULT 0 AFTER `articleId`');
 		$newfields['opensim_mapinfo'][]				= array('name' => 'public',			'args' => 'tinyint(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `hidemap`');
+		$newfields['opensim_mapinfo'][]				= array('name' => 'guide',			'args' => 'tinyint(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `public`');
 
 		$newfields['opensim_usersettings'][]		= array('name' => 'timezone',		'args' => 'varchar(150) NOT NULL AFTER `visible`');
 
@@ -540,6 +562,8 @@ class com_opensimInstallerScript {
 		$newfields['opensim_search_events'][]		= array('name' => 'parcelUUID',		'args' => 'char(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `simname`');
 		$newfields['opensim_search_events'][]		= array('name' => 'parcelName',		'args' => 'varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL AFTER `parcelUUID`');
 		$newfields['opensim_search_events'][]		= array('name' => 'landingpoint',	'args' => 'varchar(35) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL AFTER `parcelName`');
+
+		$newfields['opensim_moneybalances'][]		= array('name' => 'homeurl',		'args' => 'varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT \'local\' AFTER `user`');
 
 		// are there any new fields? lets add them
 		foreach($newfields AS $table => $tablenewfields) {
@@ -553,6 +577,24 @@ class com_opensimInstallerScript {
 					$db->execute();
 				}
 			}
+		}
+	}
+
+	// is there any index not up2date?
+	public function changeIndexes() {
+		$db = JFactory::getDBO();
+		// #__opensim_moneybalances has a new primary since 0.3.0.17 due to HG implementation
+		$query = "SHOW INDEX FROM #__opensim_moneybalances";
+		$db->setQuery($query);
+		$db->execute();
+		$tableindex = $db->loadAssocList();
+		if(count($tableindex) < 2) { // still sindle row primary key, we need to change this
+			$query = "ALTER TABLE #__opensim_moneybalances DROP PRIMARY KEY";
+			$db->setQuery($query);
+			$db->execute();
+			$query = "ALTER TABLE #__opensim_moneybalances ADD PRIMARY KEY (`user`, `homeurl`)";
+			$db->setQuery($query);
+			$db->execute();
 		}
 	}
 
@@ -571,7 +613,7 @@ class com_opensimInstallerScript {
 		$changefields['opensim_userprofile'][]		= array('name' => 'languagesText',	'args' => '`languages`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `skillstext`');
 
 		$changefields['opensim_search_events'][]	= array('name' => 'eventid',		'args' => '`eventid`  int(11) NOT NULL AUTO_INCREMENT FIRST');
-		$changefields['opensim_search_events'][]	= array('name' => 'globalPos',		'args' => '`globalPos`  varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `simname`');
+		$changefields['opensim_search_events'][]	= array('name' => 'globalPos',		'args' => '`globalPos`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `simname`');
 
 		foreach($changefields AS $table => $changefield) {
 			$query = "DESCRIBE #__".$table;
@@ -719,46 +761,35 @@ class com_opensimInstallerScript {
 				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim");
 			}
 		}
+		$this->createFolder("avatars");
+		$this->createFolder("classifieds");
+		$this->createFolder("profiles");
+		$this->createFolder("regions");
+	}
 
-		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars")) {
+	public function createFolder($folder) {
+		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR.$folder)) {
 			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
 				$application = JFactory::getApplication();
 				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars"), 'warning');
+				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR.$folder), 'warning');
 			} else {
-				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars");
-			}
-		}
-
-		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."profiles")) {
-			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
-				$application = JFactory::getApplication();
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars"), 'warning');
-			} else {
-				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."profiles");
-			}
-		}
-
-		if(!is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions")) {
-			if(!is_writable(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim")) {
-				$application = JFactory::getApplication();
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_WRITABLE_ERROR',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim"), 'warning');
-				$application->enqueueMessage(JText::sprintf('JOPENSIM_COULDNT_CREATE_FOLDER',JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions"), 'warning');
-			} else {
-				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions");
+				mkdir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR.$folder);
 			}
 		}
 	}
 
 	public function removeFolders() {
-		if(is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions")) {
-			$this->rmdirr(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."regions");
+		$this->removeFolder("avatars");
+		$this->removeFolder("classifieds");
+		$this->removeFolder("profiles");
+		$this->removeFolder("regions");
+	}
+
+	public function removeFolder($folder) {
+		if(is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR.$folder)) {
+			$this->rmdirr(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR.$folder);
 		}
-		if(is_dir(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars")) {
-			$this->rmdirr(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim".DIRECTORY_SEPARATOR."avatars");
-		}
-		$this->rmdirr(JPATH_SITE.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."jopensim");
 	}
 
 	public function rmdirr($dirname) {

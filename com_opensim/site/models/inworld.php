@@ -6,7 +6,7 @@
  */
 defined('_JEXEC') or die();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
 
 
 class opensimModelinworld extends OpenSimModelOpenSim {
@@ -26,8 +26,8 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function opensimGetInworldIdent() { // returns the ident string if user has applied for inworld identification or FALSE if not
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT inworldIdent FROM #__opensim_inworldident WHERE joomlaID = '%d'",$user->id);
 		$db->setQuery($query);
 		$ident = $db->loadResult();
@@ -37,24 +37,24 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 
 	public function opensimSetInworldIdent() { // creates an inworld ident string for the user
 		$identstring = $this->getUUID();
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 		$query = sprintf("INSERT INTO #__opensim_inworldident (joomlaID,inworldIdent,created) VALUES ('%d','%s',NOW())",$user->id,$identstring);
 		$db->setQuery($query);
 		$db->query();
 	}
 
 	public function opensimCancelInworldIdent() { // creates an inworld ident string for the user
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 		$query = sprintf("DELETE FROM #__opensim_inworldident WHERE joomlaID = '%d'",$user->id);
 		$db->setQuery($query);
 		$db->query();
 	}
 
 	public function setUserRelation($opensimid) {
-		$user =& JFactory::getUser();
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
 		$query = sprintf("INSERT INTO #__opensim_userrelation (joomlaID,opensimID) VALUES ('%d','%s')",$user->id,$opensimid);
 		$db->setQuery($query);
 		$db->query();
@@ -104,7 +104,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function createJuserData($uuid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT COUNT(*) FROM #__opensim_usersettings WHERE uuid = '%s'",$uuid);
 		$db->setQuery($query);
 		$count = $db->loadResult();
@@ -116,7 +116,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function getUUID() {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT UUID()";
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
@@ -168,7 +168,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function updateJuserData($uuid,$name,$value,$type = "default") { // Update settings from Joomlas DB
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$this->createJuserData($uuid); // ensure that the line already exists
 		switch($type) {
 			case "boolean_true":
@@ -209,7 +209,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 
 	public function messagelist($uuid) {
 		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT sorteddata.* FROM (
 							SELECT
 								#__opensim_offlinemessages.imSessionID,
@@ -238,7 +238,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 
 	public function messagedetail($imSessionID,$fromAgentID) {
 		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT
 						imSessionID,
 						fromAgentID,
@@ -328,7 +328,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function getnotices($groupid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT * FROM #__opensim_groupnotice WHERE GroupID = '%s' ORDER BY Timestamp DESC",$groupid);
 		$db->setQuery($query);
 		$groupnotices = $db->loadAssocList();
@@ -346,7 +346,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 
 	public function group_power($userid,$groupid) {
 		$grouppowers = $this->grouppowerbits();
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT
 								BIT_OR(#__opensim_grouprole.Powers) AS allpowers,
 								IF((BIT_OR(#__opensim_grouprole.Powers) & %3\$d)=%3\$d,1,0) AS power_eject,
@@ -378,7 +378,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	public function isowner($userid,$groupid) {
 		$membersVisibleTo = "Owner";
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT
 							CASE WHEN MIN(#__opensim_grouprolemembership.AgentID) IS NOT NULL THEN 1 ELSE 0 END AS IsOwner
 						FROM
@@ -410,7 +410,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function removeFromGroup($groupid,$userid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("DELETE FROM #__opensim_grouprolemembership WHERE GroupID = '%s' AND AgentID = '%s'",$groupid,$userid);
 		$db->setQuery($query);
 		$db->query();
@@ -442,7 +442,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 		if(!isset($grouppowers['RoleMembersVisible'])) $grouppowers['RoleMembersVisible'] = FALSE;
 		if(!$grouppowers['RoleMembersVisible'] && !$this->isowner($userid,$groupid)) return FALSE; // no permission to view memberlist
 		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT
 							#__opensim_grouprolemembership.AgentID,
 							GROUP_CONCAT(DISTINCT(#__opensim_grouprole.`Name`)) AS roles,
@@ -473,7 +473,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function divorcefrom($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
 			$db =& JFactory::getDBO();
@@ -494,7 +494,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function sendpartnerrequest($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
 			if($this->opensimCreated($partneruuid) === TRUE) {
@@ -519,7 +519,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 		$retval					= array();
 		$retval['status']		= null;
 		$retval['partneruuid']	= null;
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
 			$db =& JFactory::getDBO();
@@ -549,10 +549,10 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function deletepartnerrequest($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("DELETE FROM #__opensim_partnerrequests WHERE (#__opensim_partnerrequests.`from` = %1\$s AND #__opensim_partnerrequests.`to` = %2\$s) OR (#__opensim_partnerrequests.`from` = %2\$s AND #__opensim_partnerrequests.`to` = %1\$s)",
 								$db->quote($opensimUUID),
 								$db->quote($partneruuid));
@@ -567,10 +567,10 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function denypartnerrequest($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("DELETE FROM #__opensim_partnerrequests WHERE #__opensim_partnerrequests.`to` = %s AND #__opensim_partnerrequests.`from` = %s",
 								$db->quote($opensimUUID),
 								$db->quote($partneruuid));
@@ -585,7 +585,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function ignorepartnerrequest($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
 			$db =& JFactory::getDBO();
@@ -605,10 +605,10 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function getIgnoreStatus($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("SELECT #__opensim_partnerrequests.* FROM #__opensim_partnerrequests WHERE #__opensim_partnerrequests.`from` = %s AND #__opensim_partnerrequests.`to` = %s AND #__opensim_partnerrequests.`status`= -1",
 								$db->quote($opensimUUID),
 								$db->quote($partneruuid));
@@ -636,7 +636,7 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 	}
 
 	public function partnership($partneruuid) {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$opensimUUID = $this->opensimRelation($user->id);
 		if($opensimUUID) {
 			if($this->opensimCreated($partneruuid) === TRUE) {

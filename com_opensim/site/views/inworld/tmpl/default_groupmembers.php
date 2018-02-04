@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <?php if($this->settings['addons_groups'] == 1): ?>
-<h2><a href='index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component'><?php echo $this->grouplist['groupname']; ?></a> <?php echo JText::_('GROUPMEMBERS'); ?></h2>
+<h3><a href='index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component'><?php echo $this->grouplist['groupname']; ?></a> <?php echo JText::_('GROUPMEMBERS'); ?></h3>
 
 <?php if($this->grouplist['power']['power_rolemembersvisible'] == 1 || $this->grouplist['power']['isowner'] == 1): ?>
 <table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>

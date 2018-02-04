@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -62,7 +62,7 @@ jimport('joomla.html.html');
 					<hr class="hr-condensed">
 					
 					<dt><?php echo JText::_('JOPENSIM_OSINFO');?>:</dt>
-					<dd>Running on <?php if(1 << 32 == 1) echo "32Bit"; elseif(1 << 64 == 1) echo "64Bit"; else echo "unknown"; ?> System</dd>
+					<dd>Running on <?php if(PHP_INT_SIZE == 4) echo "32Bit"; elseif(PHP_INT_SIZE == 8) echo "64Bit"; else echo "unknown (".PHP_INT_SIZE.")"; ?> System</dd>
 					<hr class="hr-condensed">
 					
 					<dt><?php echo JText::_('JOPENSIM_UPDATE');?>:</dt>
@@ -80,7 +80,8 @@ jimport('joomla.html.html');
 					<hr class="hr-condensed">
 					
 					<dt><?php echo JText::_('JOPENSIM_MOREINFO');?>:</dt>
-					<dd><a href="http://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
+					<dd><a href="https://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
+					</dl>
 			    </div>
 			    <div class="well well-small">
 
@@ -88,10 +89,11 @@ jimport('joomla.html.html');
 					<hr class="hr-condensed">
 					<dd><?php echo JText::_('JOPENSIM_CREDITS_DESC');?>:</dd>
 					<hr class="hr-condensed">
+					<dl>
 					<dd>
 					<p>
 					<ul>
-						<li><i class="icon-thumbs-up"></i><span class='jopensimcontributors'>dj phil</span>French Translation and design face lifting</li>
+						<li><i class="icon-thumbs-up"></i><span class='jopensimcontributors'><a href="http://digigrids.free.fr/" target="_blank">dj phil</a></span>French Translation and design face lifting</li>
 						<li><i class="icon-thumbs-up"></i><span class='jopensimcontributors'><a href="http://www.clonelife.eu" target="_blank">Druskus War</a></span>Italian Translation</li>
 						<li><i class="icon-thumbs-up"></i><span class='jopensimcontributors'><a href="http://3dlifz.com/" target="_blank">Roaming Sim</a></span>Documentation / Wiki</li>
 					</ul>
@@ -106,8 +108,6 @@ jimport('joomla.html.html');
 			
 		</div>
 	</section>
-
-
 	
 	<?php if ($this->settings['jopensim_debug_settings'] == true): ?>
 	<a class="btn btn-default btn-primary icon-download" style="width:auto;" href='index.php?option=com_opensim&view=opensim&task=exportsettings' title='<?php echo JText::_('JOPENSIM_EXPORT_DESC'); ?>'>&nbsp;<?php echo JText::_('JOPENSIM_EXPORT'); ?></a>

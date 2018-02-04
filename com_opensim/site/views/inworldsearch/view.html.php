@@ -24,6 +24,14 @@ class opensimViewinworldsearch extends JViewLegacy {
 		$this->settingsdata		= $model->getSettingsData();
 		$this->itemid			= JFactory::getApplication()->input->get('Itemid');
 
+		$menu							= JFactory::getApplication()->getMenu();
+		$active							= $menu->getActive($this->Itemid);
+		if (is_object($active)) {
+			$this->pageclass_sfx		= $active->params->get('pageclass_sfx');
+		} else {
+			$this->pageclass_sfx		= "";
+		}
+
 		$this->searchquery		= JFactory::getApplication()->input->get('q');
 		if(!$this->searchquery) {
 			$this->showcase		= TRUE; // disabled this message in default.php currently completely since it will take still a while
@@ -41,7 +49,10 @@ class opensimViewinworldsearch extends JViewLegacy {
 			case "viewersearch":
 				$searchform		= TRUE;
 				$tmpl			= TRUE;
-				JHTML::stylesheet( 'opensim_inworldsearch.css', 'components/com_opensim/assets/' );
+				$this->assetpath	= JUri::base(true)."/components/com_opensim/assets/";
+				$doc				= JFactory::getDocument();
+				$doc->addStyleSheet($this->assetpath.'opensim_inworldsearch.css');
+//				JHTML::stylesheet( 'opensim_inworldsearch.css', 'components/com_opensim/assets/' );
 			break;
 			default:
 				$tmpl			= FALSE;

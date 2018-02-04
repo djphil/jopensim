@@ -101,13 +101,14 @@ class opensimViewsearch extends JViewLegacy {
 		JToolBarHelper::title(JText::_('JOPENSIM_NAME')." ".JText::_('JOPENSIM_SEARCH'),'32-search');
 
 		switch($tpl) {
-			case "blabla":
-			break;
 			default:
 				JToolBarHelper::apply('applysearch');	
 				JToolBarHelper::save('savesearch');
 				JToolBarHelper::cancel('cancel','JCANCEL');
 			break;
+		}
+		if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+			JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 		}
 		JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_SEARCH'));
 	}

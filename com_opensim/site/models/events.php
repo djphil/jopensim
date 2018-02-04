@@ -7,7 +7,7 @@
 defined('_JEXEC') or die();
 
 /*jimport('joomla.application.component.model');*/
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
 
 class opensimModelEvents extends OpenSimModelOpenSim {
 

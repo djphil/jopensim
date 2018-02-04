@@ -107,6 +107,9 @@ class opensimViewmoney extends JViewLegacy {
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_USER_MONEY'));
 			break;
 			default:
+				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
+					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
+				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_MONEY'));
 			break;
 		}

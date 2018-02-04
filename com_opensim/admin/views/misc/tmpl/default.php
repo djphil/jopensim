@@ -12,10 +12,11 @@ defined('_JEXEC') or die('Restricted access');
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
+
 <div id="j-main-container" class="span10">
 <p class="text-info">
 	<?php echo JText::_('JOPENSIM_MISC_DESC'); ?>
-	<a class="hasTooltip" href='http://wiki.jopensim.com/index.php/Com_opensim#Remote_Admin' title="More info ..." target='_blank'>More info ...</a>
+	<a class="hasTooltip" href='http://wiki.jopensim.com/index.php/Com_opensim#Remote_Admin' title="<?php echo JText::_('JOPENSIM_MOREINFO'); ?> ..." target='_blank'><?php echo JText::_('JOPENSIM_MOREINFO'); ?> ...</a>
 </p>
 
 <?php if(is_array($this->misclinks)): ?>

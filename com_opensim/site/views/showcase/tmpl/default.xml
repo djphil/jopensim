@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Showcase">
+		<message>show regions, classified to your web users</message>
+	</layout>
+	<fields name="params" addfieldpath="/administrator/components/com_opensim/models/fields">
+		<fieldset name="JOPENSIM_SHOWCASE_SETTINGS">
+			<field
+				name="jopensim_showcase_title"
+				type="text"
+				label="JOPENSIM_SHOWCASE_TITLE"
+			/>
+			<field
+				name="jopensim_showcase_titleformat"
+				type="list"
+				default="h1"
+				label="JOPENSIM_SHOWCASE_TITLEFORMAT">
+				<option value="h1">h1</option>
+				<option value="h2">h2</option>
+				<option value="h3">h3</option>
+				<option value="h4">h4</option>
+				<option value="h5">h5</option>
+				<option value="h6">h6</option>
+			</field>				
+			<field
+				name="jopensim_showcase_regions"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_REGIONS"
+				description="JOPENSIM_SHOWCASE_REGIONS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcase_regionintro"
+				type="textarea"
+				rows="3"
+				cols="30"
+				showon="jopensim_showcase_regions:1"
+				label="JOPENSIM_SHOWCASE_REGIONINTRO"
+				description="JOPENSIM_SHOWCASE_REGIONINTRO_DESC"
+			/>
+			<field
+				name="jopensim_showcase_classified"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_CLASSIFIED"
+				description="JOPENSIM_SHOWCASE_CLASSIFIED_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcase_classifiedhideunavailable"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				showon="jopensim_showcase_classified:1"
+				label="JOPENSIM_SHOWCASE_CLASSIFIED_HIDEUNAVAILABLE"
+				description="JOPENSIM_SHOWCASE_CLASSIFIED_HIDEUNAVAILABLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcase_classifiedintro"
+				type="textarea"
+				rows="3"
+				cols="30"
+				showon="jopensim_showcase_classified:1"
+				label="JOPENSIM_SHOWCASE_CLASSIFIEDINTRO"
+				description="JOPENSIM_SHOWCASE_CLASSIFIEDINTRO_DESC"
+			/>
+			<field
+				name="jopensim_showcase_imagesize"
+				type="number"
+				default="150"
+				min="10"
+				max="256"
+				step="1"
+				label="JOPENSIM_SHOWCASE_IMAGESIZE"
+				description="JOPENSIM_SHOWCASE_IMAGESIZE_DESC"
+			/>
+			<field
+				name="showcase_spacer1"
+				type="jopensimshowcaselinknote1"
+				label="JOPENSIM_SHOWCASE_LINKING"
+				description="JOPENSIM_SHOWCASE_LINKING_DESC"
+			/>
+			<field
+				name="jopensim_showcase_mainlink"
+				type="list"
+				default="web"
+				label="JOPENSIM_SHOWCASE_MAINLINK"
+				description="JOPENSIM_SHOWCASE_MAINLINK_DESC">
+				<option value="no">JOPENSIM_SHOWCASE_MAINLINK_NO</option>
+				<option value="web">JOPENSIM_SHOWCASE_MAINLINK_WEB</option>
+				<option value="local">JOPENSIM_SHOWCASE_MAINLINK_LOCAL</option>
+				<option value="hg">JOPENSIM_SHOWCASE_MAINLINK_HG</option>
+				<option value="hgv3">JOPENSIM_SHOWCASE_MAINLINK_HGV3</option>
+				<option value="hop">JOPENSIM_SHOWCASE_MAINLINK_HOP</option>
+			</field>				
+			<field
+				name="showcase_spacer2"
+				type="jopensimshowcaselinknote2"
+				label="JOPENSIM_SHOWCASE_LINKING2"
+				description="JOPENSIM_SHOWCASE_LINKING2_DESC"
+			/>
+			<field
+				name="jopensim_showcaselink_local"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_MAINLINK_LOCAL"
+				description="JOPENSIM_SHOWCASE_MAINLINK_LOCAL_DESC"
+				showon="jopensim_showcase_mainlink!:local">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcaselink_hg"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_MAINLINK_HG"
+				description="JOPENSIM_SHOWCASE_MAINLINK_HG_DESC"
+				showon="jopensim_showcase_mainlink!:hg">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcaselink_hgv3"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_MAINLINK_HGV3"
+				description="JOPENSIM_SHOWCASE_MAINLINK_HGV3_DESC"
+				showon="jopensim_showcase_mainlink!:hgv3">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_showcaselink_hop"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_SHOWCASE_MAINLINK_HOP"
+				description="JOPENSIM_SHOWCASE_MAINLINK_HOP_DESC"
+				showon="jopensim_showcase_mainlink!:hop">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

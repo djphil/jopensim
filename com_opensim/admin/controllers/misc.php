@@ -36,7 +36,7 @@ class OpenSimControllermisc extends OpenSimController {
 			$message .= implode(",",$messages).")";
 			JFactory::getApplication()->enqueueMessage($message,"message");
 		}
-		$this->setRedirect('index.php?option=com_opensim&view=misc');
+		$this->setRedirect('index.php?option=com_opensim&view=misc&task=sendmessage');
 	}
 
 	public function createregionsend() {
@@ -86,6 +86,49 @@ class OpenSimControllermisc extends OpenSimController {
 		}
 		$this->setRedirect('index.php?option=com_opensim&view=misc');
 	}
+
+    // Remote Admin Get Opensim Version
+    public function getopensimulatorversion()
+    {
+        $data = JFactory::getApplication()->input->request->getArray();;
+        $model = $this->getModel('misc');
+        $settings = $model->getSettingsData();
+
+        $opensim = $model->opensim;
+        $opensim->RemoteAdmin($settings['remotehost'],$settings['remoteport'],$settings['remotepasswd']);
+
+        $command = "admin_get_opensim_version";
+        $params = array('');
+        $returnvalue = $opensim->SendCommand($command, $params);
+
+        if (!is_array($returnvalue))
+        {
+			JFactory::getApplication()->enqueueMessage(JText::_('REMOTEADMIN_NORESPONSE'), "error");
+		}
+        
+        else if (array_key_exists("error", $returnvalue) && $returnvalue['error'])
+        {
+			$message = JText::_('REMOTEADMIN_ERROR').": ".$returnvalue['error'];
+			JFactory::getApplication()->enqueueMessage($message, "error");
+		}
+        
+        else
+        {
+			$messages = array();
+			$message = JText::_('REMOTEADMIN_RESPONDED').": ";
+
+			foreach($returnvalue AS $key => $val)
+            {
+                $messages[] = $key."=".$val;
+			}
+
+			$message .= implode("<br />", $messages)."";
+			JFactory::getApplication()->enqueueMessage($message, "message");
+		}
+
+		$this->setRedirect('index.php?option=com_opensim&view=misc&task=getopensimversion');
+	}
+
 	public function savewelcomemessage() {
 		$model = $this->getModel('misc');
 		$model->updateWelcome();

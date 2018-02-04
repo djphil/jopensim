@@ -48,9 +48,16 @@ defined('_JEXEC') or die('Restricted access');
 	</li>
 	<li>
 	    <span class="icon-info"></span>
+		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=dinfo' title='<?php echo JText::_('JOPENSIM_ADDONS_GUIDE_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_SEARCH_INFO'); ?>'><?php echo JText::_('JOPENSIM_ADDONS_GUIDE'); ?></a>
+	</li>
+	<li>
+	    <span class="icon-info"></span>
 		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=minfo' title='<?php echo JText::_('JOPENSIM_ADDONS_MONEY_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_MONEY_INFO'); ?>'><?php echo JText::_('JOPENSIM_MONEY'); ?></a>
 	</li>
-	<!-- <li><span class="icon-info"></span><a href='index.php?option=com_opensim&view=addons&task=iaiinfo' title='<?php // echo JText::_('JOPENSIM_ADDONS_IAI_INFO'); ?>' alt='<?php // echo JText::_('JOPENSIM_ADDONS_IAI_INFO'); ?>'><?php // echo JText::_('JOPENSIM_ADDONS_INWORLD_IDENT'); ?></li>-->
+	<li>
+	    <span class="icon-info"></span>
+		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=rainfo' title='<?php echo JText::_('JOPENSIM_ADDONS_REMOTE_ADMIN_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_REMOTE_ADMIN_INFO'); ?>'><?php echo JText::_('JOPENSIM_REMOTE_ADMIN'); ?></a>
+	</li>
 </ul>
 </div>
 
