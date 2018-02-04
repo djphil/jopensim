@@ -1,17 +1,13 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT.DS.'models'.DS.'jopensimpaypal.php');
+require_once(JPATH_COMPONENT.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'jopensimpaypal.php');
 
 class jOpenSimPayPalModelpaypal extends jOpenSimPayPalModeljOpenSimPayPal {
 	public $filename		= "paypal.php";
@@ -65,7 +61,7 @@ class jOpenSimPayPalModelpaypal extends jOpenSimPayPalModeljOpenSimPayPal {
 				return null;
 			break;
 		}
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$limit = $db->loadResult();
 		return intval($limit);

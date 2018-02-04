@@ -1,22 +1,15 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
-// no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
  
 class jOpenSimPayPalViewpayout extends JViewLegacy {
 	public function display($tpl = null) {
-//		JHTML::stylesheet( 'jopensimpaypal.css', 'administrator/components/com_jopensimpaypal/assets/' );
-//		JHTML::_('behavior.modal');
 		$this->sidebar	= JHtmlSidebar::render();
 
 		$this->assetpath = JUri::base(true)."/components/com_jopensimpaypal/assets/";

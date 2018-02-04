@@ -1,18 +1,11 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
-
 defined('_JEXEC') or die('Restricted access'); 
 ?>
-
-<!-- <h1><?php // echo JText::_('COM_JOPENSIMPAYPAL_MENU_OVERVIEW'); ?></h1> -->
 
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -99,7 +92,7 @@ defined('_JEXEC') or die('Restricted access');
 					<hr class="hr-condensed">
 					<ul class="">
 						<li><i class="icon icon-question"></i><a class="hasTooltip" href="http://wiki.jopensim.com/index.php/jOpenSimPayPal" title="Wiki" target="_blank"><?php echo JText::_('COM_JOPENSIMPAYPAL_FAQ'); ?>: Wiki</a></li>
-						<li><i class="icon icon-question"></i><a class="hasTooltip" href="http://www.jopensim.com/forum/index.html" title="Forum" target="_blank"><?php echo JText::_('COM_JOPENSIMPAYPAL_FAQ'); ?>: Forum</a></li>
+						<li><i class="icon icon-question"></i><a class="hasTooltip" href="https://www.jopensim.com/forum/index.html" title="Forum" target="_blank"><?php echo JText::_('COM_JOPENSIMPAYPAL_FAQ'); ?>: Forum</a></li>
 						<li><i class="icon icon-question"></i><a class="hasTooltip" href="http://mantis.jopensim.com" title="Mantis" target="_blank"><?php echo JText::_('COM_JOPENSIMPAYPAL_FAQ'); ?>: Mantis</a></li>
 					</ul>
 					<div class="clearfix"></div>
@@ -127,7 +120,7 @@ defined('_JEXEC') or die('Restricted access');
 					<hr class="hr-condensed">
 					
 					<dt>More Info:</dt>
-					<dd><a href="http://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
+					<dd><a href="https://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
 					<hr class="hr-condensed">
 					</dl>
 				</div>

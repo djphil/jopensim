@@ -1,15 +1,9 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
-// No direct access
- 
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport('joomla.application.component.controller');
@@ -38,7 +32,6 @@ class jOpenSimPayPalController extends JControllerLegacy {
 	}
 
 	public function display() {
-//		$this->jopensimmenue();
 		$view	= JFactory::getApplication()->input->get('view');
 		$this->jopensimpaypalmenue($view);
 		parent::display();
@@ -48,14 +41,6 @@ class jOpenSimPayPalController extends JControllerLegacy {
 		$result		= $this->model->changePayout();
 		$redirect	= "index.php?option=com_jopensimpaypal&view=payout&noadd=1";
 		$this->setRedirect($redirect,$result['message'],$result['type']);
-
-/*
-		echo "<pre>\n";
-		var_dump($_REQUEST);
-		echo "</pre>\n";
-		exit;
-
-*/
 	}
 
 	public function jopensimpaypalmenue($vName) {

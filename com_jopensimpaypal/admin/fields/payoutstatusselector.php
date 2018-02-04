@@ -1,14 +1,15 @@
 <?php
-// No direct access to this file
+/*
+ * @component jOpenSimPayPal
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
+ */
 defined('_JEXEC') or die;
  
 // import the list field type
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
  
-/**
- * HelloWorld Form Field class for the HelloWorld component
- */
 class JFormFieldpayoutstatusselector extends JFormFieldList {
 	/**
 	* The field type.

@@ -1,11 +1,7 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -140,7 +136,7 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 	}
 
 	public function getUUID($userid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT #__opensim_userrelation.opensimID FROM #__opensim_userrelation WHERE #__opensim_userrelation.joomlaID = '%s'",$userid);
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
@@ -148,7 +144,7 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 	}
 
 	public function getBalance($uuid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT #__opensim_moneybalances.balance FROM #__opensim_moneybalances WHERE #__opensim_moneybalances.user = '%s'",$uuid);
 		$db->setQuery($query);
 		$balance = $db->loadResult();

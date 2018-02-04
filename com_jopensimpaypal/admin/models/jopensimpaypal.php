@@ -1,20 +1,15 @@
 <?php
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
-if(!defined('DS')) define( 'DS', DIRECTORY_SEPARATOR );
 jimport('joomla.application.component.modellist');
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_opensim'.DS.'xmlrpc'.DS.'xmlrpc.inc'); // get the xmlrpc library from FlotSam
-require_once(JPATH_SITE.DS.'components'.DS.'com_opensim'.DS.'xmlrpc'.DS.'xmlrpcs.inc');
-require_once(JPATH_SITE.DS.'components'.DS.'com_opensim'.DS.'includes'.DS.'functions_currency.php');
+require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpc.inc'); // get the xmlrpc library from FlotSam
+require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpcs.inc');
+require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'functions_currency.php');
 
 class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	public $_moneySettingsData;

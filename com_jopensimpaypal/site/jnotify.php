@@ -1,18 +1,14 @@
 <?php
-error_reporting(0);
+$xmlrpcerrorlevel = 0;
+error_reporting($xmlrpcerrorlevel);
 /*
- * @package Joomla 2.5
- * @copyright Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html, see LICENSE.php
- *
  * @component jOpenSimPayPal (Communication Interface with PayPal)
- * @copyright Copyright (C) 2013 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 /* Initialize Joomla framework */
 define( '_JEXEC', 1 );
 define('JPATH_BASE', dirname(realpath("../../index.php")));
-define( 'DS', DIRECTORY_SEPARATOR );
 
 /*
  * optional 
@@ -25,12 +21,18 @@ define( 'DS', DIRECTORY_SEPARATOR );
 $paypaldebug = TRUE;
 
 /* Required Files */
-require_once ( JPATH_BASE .DS.'configuration.php' );
-require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'configuration.php' );
+require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php' );
+require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'framework.php' );
 
+$jversion	= new JVersion();
+$version	= $jversion->getShortVersion();
 /* To use Joomla's Database Class */
-require_once ( JPATH_ROOT .DS.'libraries'.DS.'joomla'.DS.'factory.php' );
+if(version_compare("3.7.5",$version)) {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+} else {
+	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+}
 
 /* Create the Application */
 $mainframe =& JFactory::getApplication('site');
@@ -56,10 +58,10 @@ if(!class_exists("jxmlrpc_server")) {
 	}
 }
 // we need the model of jOpenSimPayPal
-require_once(JPATH_BASE .DS.'components'.DS.$extension.DS.'models'.DS.'jopensimpaypal.php');
+require_once(JPATH_BASE .DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.$extension.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'jopensimpaypal.php');
 $model = new jOpenSimPayPalModeljOpenSimPayPal();
 // and we need the currency functions from jOpenSim
-require_once(JPATH_BASE .DS.'components'.DS.'com_opensim'.DS.'includes'.DS.'functions_currency.php');
+require_once(JPATH_BASE .DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'functions_currency.php');
 
 
 // get the components parameters
@@ -93,7 +95,7 @@ $notifyemail		= $model->getParam('notifyemail');
 
 // some required values
 $logpath		= $model->getParam('logpath');
-if(substr($logpath,-1) != DS) $logpath .= DS;
+if(substr($logpath,-1) != DIRECTORY_SEPARATOR) $logpath .= DIRECTORY_SEPARATOR;
 $paypallogfile	= "jopensimpaypal.log";
 $logsetting		= $model->getParam('log2file');
 if(($logsetting & 2) == 2) $log2file		= TRUE; // log everything
