@@ -7,6 +7,9 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+if (!is_array($events) || count($events) == 0) {
+	return null;
+}
 
 echo "<".$moduleTag ." class='mod_opensim_events_table table-responsive '>\n";
 
@@ -71,4 +74,4 @@ if (is_array($events) && count($events) > 0)
 </table>
 
 <?php if ($params->get('showextratitle') == 1) {echo "</div>";} ?>
-<?php echo "</".$moduleTag .">"; } ?>
+<?php } echo "</".$moduleTag .">"; ?>

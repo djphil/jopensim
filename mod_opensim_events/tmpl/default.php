@@ -7,11 +7,12 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+if (!is_array($events) || count($events) == 0) {
+	return null;
+}
 echo "<".$moduleTag ." class='mod_opensim_events_table table-responsive '>\n";
 
-if (is_array($events) && count($events) > 0)
-{
+if (is_array($events) && count($events) > 0) {
     if ($params->get('showextratitle') == 1)
     {
         echo "<div class='well jmoddiv jmodinside ".$moduleclass_sfx."'>\n";
@@ -72,5 +73,12 @@ if (is_array($events) && count($events) > 0)
 </tbody>
 </table>
 
-<?php if ($params->get('showextratitle') == 1) {echo "</div>";} ?>
-<?php echo "</".$moduleTag .">"; } ?>
+<?php
+	if ($params->get('showextratitle') == 1) {
+		echo "\n</div>";
+	}
+} else {
+	echo "no events found";
+}
+?>
+<?php echo "</".$moduleTag .">"; ?>

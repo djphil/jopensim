@@ -6,12 +6,12 @@
 	method="upgrade">
 	<name>jOpenSim Events Module</name>
 	<author>FoTo50</author>
-	<creationDate>2016-04-25</creationDate>
-	<copyright>All rights reserved by FoTo50 2016</copyright>
+    <creationDate>2018-02-04</creationDate>
+	<copyright>All rights reserved by FoTo50 2018</copyright>
 	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.10</version>
+	<version>0.3.1.2</version>
 	<description>MOD_OPENSIM_EVENTS_DESC</description>
 
 	<files>
@@ -192,6 +192,6 @@
 
     <scriptfile>mod_opensim_installerscript.php</scriptfile>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+		<server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
