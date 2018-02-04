@@ -14,7 +14,7 @@ if ($params->get('stylebold')) $stylebold = " text-bold";
 
 <?php if ($values['gridboxlines'] > 0): ?>
     <div class='jOpenSim_gridstatus'>
-        <table class="table table-striped table-condensed table-hover">
+        <table class="table<?php if($parameter['striped']) echo " table-striped"; ?> table-condensed table-hover">
         <tbody>
             <?php if ($values['gridboxlines'] & 1): ?>
             <tr>

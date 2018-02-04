@@ -7,12 +7,12 @@
     <name>MOD_OPENSIM_GRIDSTATUS</name>
     <title>MOD_OPENSIM_GRIDSTATUS</title>
     <author>FoTo50</author>
-    <creationDate>2017-10-11</creationDate>
-    <copyright>All rights reserved by FoTo50 2017</copyright>
+    <creationDate>2018-02-04</creationDate>
+    <copyright>All rights reserved by FoTo50 2018</copyright>
     <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
     <authorEmail>foto50@jopensim.com</authorEmail>
     <authorUrl>http://www.jopensim.com</authorUrl>
-    <version>0.3.0.17</version>
+    <version>0.3.1.2</version>
     <description>MOD_OPENSIM_GRIDSTATUS_DESC</description>
 
     <files>
@@ -222,6 +222,17 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
+
+                <field
+                    name="striped"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_GRIDSTATUS_STRIPED_TABLE"
+                    description="MOD_OPENSIM_GRIDSTATUS_STRIPED_TABLE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
             </fieldset>
 
             <fieldset name="advanced">
@@ -236,15 +247,6 @@
                     type="textarea" rows="3"
                     label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
                     description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
-                <field
-                    name="cache"
-                    type="list"
-                    default="0"
-                    label="COM_MODULES_FIELD_CACHING_LABEL"
-                    description="COM_MODULES_FIELD_CACHING_DESC">
-                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-                </field>
             </fieldset>
         </fields>
     </config>
