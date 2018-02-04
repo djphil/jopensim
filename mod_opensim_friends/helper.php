@@ -1,7 +1,7 @@
 <?php
 /**
  * @module      OpenSim Friends (mod_opensim_friends)
- * @copyright   Copyright (C) 2015 FoTo50 http://www.jopensim.com
+ * @copyright   Copyright (C) 2017 FoTo50 http://www.jopensim.com
  * @license     GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
 **/
 
@@ -15,8 +15,8 @@ class ModOpenSimFriendsHelper {
 	public $_osgrid_db;		// OpenSim Database Object
 	public $currentuser;	// the current logged in user
 	public $opensim;
-	public $onlinecolor		= "#00FF00"; // Default online color
-	public $offlinecolor	= "#FF0000"; // Default offline color
+	public $onlinecolor		= "#00BD00"; // Default online color
+	public $offlinecolor	= "#BD0000"; // Default offline color
 	public $namelength		= 0;
 	public $opensimmodel;
 
@@ -25,14 +25,14 @@ class ModOpenSimFriendsHelper {
 		$this->getSettings();						// fetch the general Settings from the component at the beginning
 		$this->initOpenSim();						// generate the opensim object
 		$this->_osgrid_db	= $this->getOSdb();		// load the external DB in an object
-		$this->currentuser	=& JFactory::getUser();	// who is here now?
+		$this->currentuser	= JFactory::getUser();	// who is here now?
 		$this->getUIDfromUser();					// and is he/she registered in OpenSim?
 		$this->initFriendsList();					// Fill up the FriendList (if applicable)
 	}
 
 	public function getSettings() {
 		jimport('joomla.application.component.model');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_opensim/models');
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_opensim/models');
 		$this->opensimmodel	= JModelLegacy::getInstance('opensim','OpenSimModel');
 		$this->os_settings = $this->opensimmodel->getSettingsData();
 	}
@@ -46,10 +46,10 @@ class ModOpenSimFriendsHelper {
 	}
 
 	public function getUIDfromUser() {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$this->currentuser->id);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$this->currentuser->id);
 		$db->setQuery($query);
-		$uuid = $db->loadResult();
+		$uuid	= $db->loadResult();
 		if(!$uuid) $this->os_uid = FALSE;
 		else $this->os_uid = $uuid;
 	}
@@ -64,6 +64,8 @@ class ModOpenSimFriendsHelper {
 			$friends[0] = array();
 			$friends[1] = array();
 			foreach($this->friendlist AS $key => $friend) {
+				$sourcegrid	= "local";
+				$nametitle	= "";
 				$onlinestatus = $this->opensim->getUserPresence($friend['friendid']);
 				$friendnamequery = $this->opensim->getUserNameQuery($friend['friendid']);
 				$this->_osgrid_db->setQuery($friendnamequery);
@@ -75,14 +77,18 @@ class ModOpenSimFriendsHelper {
 						$friendname['firstname'] = $hgtest[2];
 						$hghost = parse_url($hgtest[1]);
 						$friendname['lastname'] = (array_key_exists("host",$hghost)) ? "@".$hghost['host']:"@".$hgtest[1];
+						$sourcegrid = "hg";
+						$nametitle	= JText::sprintf('MOD_OPENSIM_FRIENDS_HGFRIEND_NOPROFILE',$hghost['host']);
 					} else {
 						// this UUID seems not to exists anymore, lets ignore it
 						continue;
 					}
 				}
 				$count = count($friends[$onlinestatus]);
-				$friends[$onlinestatus][$count]['name']	= $this->prepareName($friendname['firstname']." ".$friendname['lastname']);
-				$friends[$onlinestatus][$count]['uid']	= $friend['friendid'];
+				$friends[$onlinestatus][$count]['name']			= $this->prepareName($friendname['firstname']." ".$friendname['lastname']);
+				$friends[$onlinestatus][$count]['uid']			= $friend['friendid'];
+				$friends[$onlinestatus][$count]['sourcegrid']	= $sourcegrid;
+				$friends[$onlinestatus][$count]['nametitle']	= $nametitle;
 			}
 		}
 		if(is_array($friends[0])) sort($friends[0]);

@@ -1,161 +1,216 @@
 <?xml version="1.0"	encoding="utf-8"?>
 <extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
-	<name>MOD_OPENSIM_FRIENDS</name>
-	<author>FoTo50</author>
-	<creationDate>2017-09-03</creationDate>
-	<copyright>All rights reserved by FoTo50 2017</copyright>
-	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
-	<authorEmail>foto50@jopensim.com</authorEmail>
-	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.15</version>
-	<description>MOD_OPENSIM_FRIENDS_DESC</description>
+    type="module"
+    version="3.1"
+    client="site"
+    method="upgrade">
+    <name>MOD_OPENSIM_FRIENDS</name>
+    <author>FoTo50</author>
+    <creationDate>2018-02-04</creationDate>
+    <copyright>All rights reserved by FoTo50 2018</copyright>
+    <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <version>0.3.1.2</version>
+    <description>MOD_OPENSIM_FRIENDS_DESC</description>
 
-	<files>
-		<filename module="mod_opensim_friends">mod_opensim_friends.php</filename>
-		<folder>assets</folder>
+    <files>
+        <filename module="mod_opensim_friends">mod_opensim_friends.php</filename>
+        <folder>assets</folder>
         <folder>language</folder>
-		<folder>tmpl</folder>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
+        <folder>tmpl</folder>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
         <filename>mod_opensim_installerscript.php</filename>
     </files>
 
     <languages>
-		<language tag="en-GB">language/en-GB.mod_opensim_friends.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_friends.ini</language>
         <language tag="en-GB">language/en-GB.mod_opensim_friends.sys.ini</language>
         <language tag="fr-FR">language/fr-FR.mod_opensim_friends.ini</language>
         <language tag="fr-FR">language/fr-FR.mod_opensim_friends.sys.ini</language>
         <language tag="it-IT">language/it-IT.mod_opensim_friends.ini</language>
         <language tag="it-IT">language/it-IT.mod_opensim_friends.sys.ini</language>
-	</languages>
+    </languages>
 
     <help url="MOD_OPENSIM_FRIENDS_HELP_URL" key="" />
 
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="linkprofile"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_FRIENDS_LINKPROFILE"
-					description="MOD_OPENSIM_FRIENDS_LINKPROFILE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="nofollow"
-					type="radio"
-					showon="linkprofile:1"
-					class="btn-group btn-group-yesno"
-					default="1"
-					label="MOD_OPENSIM_FRIENDS_NOFOLLOWLINK"
-					description="MOD_OPENSIM_FRIENDS_NOFOLLOWLINK_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="namelength"
-					type="number"
-					default="0"
-					size="7"
-					label="MOD_OPENSIM_FRIENDS_NAMELENGTH"
-					description="MOD_OPENSIM_FRIENDS_NAMELENGTH_DESC" />
-
-			</fieldset>
-
-			<fieldset
-				name="FRIENDS_CUSTOMIZED">
-				<field
-					name="offlineColor"
-					type="color"
-					default="#FF0000"
-					size="7"
-					label="MOD_OPENSIM_FRIENDS_OFFLINECOLOR"
-					description="MOD_OPENSIM_FRIENDS_OFFLINECOLOR_DESC" />
-
-				<field
-					name="onlineColor"
-					type="color"
-					default="#00FF00"
-					size="7"
-					label="MOD_OPENSIM_FRIENDS_ONLINECOLOR"
-					description="MOD_OPENSIM_FRIENDS_ONLINECOLOR_DESC" />
+                <field
+                    name="linkprofile"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_FRIENDS_LINKPROFILE"
+                    description="MOD_OPENSIM_FRIENDS_LINKPROFILE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
                 <field
-					name="stylebold"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_FRIENDS_STYLEBOLD"
-					description="MOD_OPENSIM_FRIENDS_STYLEBOLD_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
+                    name="nofollow"
+                    type="radio"
+                    showon="linkprofile:1"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_FRIENDS_NOFOLLOWLINK"
+                    description="MOD_OPENSIM_FRIENDS_NOFOLLOWLINK_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
                 <field
-					name="accordionstyle"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE"
-					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
+                    name="namelength"
+                    type="number"
+                    default="0"
+                    size="7"
+                    label="MOD_OPENSIM_FRIENDS_NAMELENGTH"
+                    description="MOD_OPENSIM_FRIENDS_NAMELENGTH_DESC" />
 
-				<field
-					name="accordionstyle_initheight"
-					type="number"
-					showon="accordionstyle:1"
-					value=""
-					default="300"
-					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT"
-					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT_DESC" />
+            </fieldset>
 
-				<field
-					name="accordionstyle_duration"
-					type="number"
-					showon="accordionstyle:1"
-					value=""
-					default="500"
-					label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION"
-					description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION_DESC" />
+            <fieldset name="FRIENDS_CUSTOMIZED">
+                <field
+                    name="offlineColor"
+                    type="color"
+                    default="#FF0000"
+                    size="7"
+                    label="MOD_OPENSIM_FRIENDS_OFFLINECOLOR"
+                    description="MOD_OPENSIM_FRIENDS_OFFLINECOLOR_DESC" />
 
-			</fieldset>
+                <field
+                    name="onlineColor"
+                    type="color"
+                    default="#00FF00"
+                    size="7"
+                    label="MOD_OPENSIM_FRIENDS_ONLINECOLOR"
+                    description="MOD_OPENSIM_FRIENDS_ONLINECOLOR_DESC" />
 
-			<fieldset
-				name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+                <field
+                    name="stylebold"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_FRIENDS_STYLEBOLD"
+                    description="MOD_OPENSIM_FRIENDS_STYLEBOLD_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 
-				<field
-					name="moduleclass_sfx"
-					type="textarea" rows="3"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-			</fieldset>
-		</fields>
-	</config>
+                <field
+                    name="useaccordion"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="accordionstyle_initheight"
+                    type="number"
+                    value=""
+                    default="25"
+                    showon="useaccordion:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_INITHEIGHT_DESC" />
+
+                <field
+                    name="accordionstyle_duration"
+                    type="number"
+                    value=""
+                    default="500"
+                    showon="useaccordion:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONSTYLE_DURATION_DESC" />
+
+                <field
+                    name="accordionstyle"
+                    type="list"
+                    default="1"
+                    showon="useaccordion:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORIONSTYLE_LABEL"
+                    description="MOD_OPENSIM_FRIENDS_ACCORIONSTYLE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <field
+                    name="accordionblock"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    showon="useaccordion:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORIONBLOCK_LABEL"
+                    description="MOD_OPENSIM_FRIENDS_ACCORIONBLOCK_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="accordionicon"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="useaccordion:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONICON_LABEL"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONICON_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="accordioniconup"
+                    type="textarea"
+                    filter="safehtml"
+                    cols="30"
+                    rows="1"
+                    default="icon-chevron-up"
+                    showon="useaccordion:1[AND]accordionicon:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONICONUP_LABEL"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONICONUP_LABEL_DESC" />
+
+                <field
+                    name="accordionicondown"
+                    type="textarea"
+                    filter="safehtml"
+                    cols="30"
+                    rows="1"
+                    default="icon-chevron-down"
+                    showon="useaccordion:1[AND]accordionicon:1"
+                    label="MOD_OPENSIM_FRIENDS_ACCORDIONICONDOWN_LABEL"
+                    description="MOD_OPENSIM_FRIENDS_ACCORDIONICONDOWN_LABEL_DESC" />
+
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea" rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+            </fieldset>
+        </fields>
+    </config>
 
     <scriptfile>mod_opensim_installerscript.php</scriptfile>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+        <server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
