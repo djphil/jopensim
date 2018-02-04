@@ -1,0 +1,578 @@
+<?xml version="1.0"	encoding="utf-8"?>
+<extension
+    type="module"
+    version="3.1"
+    client="site"
+    method="upgrade">
+    <name>MOD_OPENSIM_BALANCE</name>
+    <author>FoTo50</author>
+    <creationDate>2017-10-24</creationDate>
+    <copyright>All rights reserved by FoTo50 2017</copyright>
+    <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <version>0.3.1.1</version>
+    <description>MOD_OPENSIM_BALANCE_DESC</description>
+
+    <files>
+        <filename module="mod_opensim_balance">mod_opensim_balance.php</filename>
+        <folder>assets</folder>
+        <folder>elements</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_opensim_balance.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_balance.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_balance.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_balance.sys.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_balance.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_balance.sys.ini</language>
+    </languages>
+
+    <help url="MOD_OPENSIM_BALANCE_HELP_URL" key="" />
+
+    <config>
+        <fields name="params" addfieldpath="/modules/mod_opensim_balance/elements/">
+			<fieldset name="basic">
+                <!--DISPLAY BALANCE SECTION-->
+				<field
+					name="showbalance"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_BALANCE_SHOWBALANCE"
+					description="MOD_OPENSIM_BALANCE_SHOWBALANCE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="showbalanceword"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="showbalance:1"
+					label="MOD_OPENSIM_BALANCE_SHOWBALANCEWORD"
+					description="MOD_OPENSIM_BALANCE_SHOWBALANCEWORD_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+                <!--DISPLAY LINK SECTION-->
+				<field
+					name="showbuylink"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_BALANCE_SHOWBUYLINK"
+					description="MOD_OPENSIM_BALANCE_SHOWBUYLINK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="buylink"
+					type="menuitem"
+                    showon="showbuylink:1"
+					label="MOD_OPENSIM_BALANCE_BUYLINK"
+					description="MOD_OPENSIM_BALANCE_BUYLINK_DESC" />
+
+				<field
+					name="showselllink"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_BALANCE_SHOWSELLLINK"
+					description="MOD_OPENSIM_BALANCE_SHOWSELLLINK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="selllink"
+					type="menuitem"
+                    showon="showselllink:1" 
+					label="MOD_OPENSIM_BALANCE_SELLLINK"
+					description="MOD_OPENSIM_BALANCE_SELLLINK_DESC" />
+
+				<field
+					name="showdisplaylink"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_BALANCE_SHOWDISPLAYLINK"
+					description="MOD_OPENSIM_BALANCE_SHOWDISPLAYLINK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="displaylink"
+					type="menuitem"
+                    showon="showdisplaylink:1"
+					label="MOD_OPENSIM_BALANCE_DISPLAYLINK"
+					description="MOD_OPENSIM_BALANCE_DISPLAYLINK_DESC" />
+            </fieldset>
+
+            <fieldset name="OPENSIM_BALANCE_CUSTOMIZED">
+                <!--BALANCE BEGIN HERE-->
+                <field 
+                    name="balancesection" 
+                    type="note" 
+                    showon="showbalance:1"
+                    label="MOD_OPENSIM_BALANCE_SECTION_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_SECTION_LABEL_DESC" 
+                    class="" />
+                
+                <!--NO MORE CUSTUMISED-->
+                <field 
+                    name="customisedinfobalance" 
+                    type="note" 
+                    showon="showbalance:0"
+                    label="MOD_OPENSIM_BALANCE_CUSTOMISEDINFOBALANCE_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_CUSTOMISEDINFOBALANCE_LABEL_DESC" 
+                    class="alert alert-default" />
+
+                <field
+                    name="balanceposition"
+                    type="radio"
+                    class="btn-group btn-group-yesno test"
+                    default="ontop"
+                    showon="showbalance:1"
+                    label="MOD_OPENSIM_BALANCE_BALANCEPOSITION_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BALANCEPOSITION_LABEL_DESC">
+					<option value="ontop">MOD_OPENSIM_BALANCE_BALANCEPOSITION_ONTOP</option>
+					<option value="onbottom" >MOD_OPENSIM_BALANCE_BALANCEPOSITION_ONBOTTOM</option>
+                </field>
+
+                <field
+                    name="balancealign"
+                    type="radio"
+                    class="btn-group btn-group-yesno test"
+                    default="left"
+                    showon="showbalance:1[AND]showbalanceword:1"
+                    label="MOD_OPENSIM_BALANCE_BALANCEALIGN_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BALANCEALIGN_LABEL_DESC">
+					<option value="left">MOD_OPENSIM_BALANCE_BALANCEALIGN_LEFT</option>
+					<option value="right" >MOD_OPENSIM_BALANCE_BALANCEALIGN_RIGHT</option>
+                </field>
+
+                <field
+                    name="balanceintable"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showbalance:1"
+                    label="MOD_OPENSIM_BALANCE_BALANCEINTABLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BALANCEINTABLE_LABEL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+                </field>
+
+				<field
+					name="showcurrency"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+                    showon="showbalance:1"
+					label="MOD_OPENSIM_BALANCE_SHOWCURRENCY"
+					description="MOD_OPENSIM_BALANCE_SHOWCURRENCY_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="currencyposition"
+					type="radio"
+					class="btn-group btn-group-yesno test"
+					default="before"
+                    showon="showbalance:1[AND]showcurrency:1"
+					label="MOD_OPENSIM_BALANCE_CURRENCYPOSITION"
+					description="MOD_OPENSIM_BALANCE_CURRENCYPOSITION_DESC">
+					<option value="before">MOD_OPENSIM_BALANCE_CURRENCYPOSITION_BEFORE</option>
+					<option value="after">MOD_OPENSIM_BALANCE_CURRENCYPOSITION_AFTER</option>
+				</field>
+
+                <field
+                    name="currencytype"
+                    type="list"
+                    default="0"
+                    showon="showbalance:1"
+                    label="MOD_OPENSIM_BALANCE_CURRENCYTYPE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_CURRENCYTYPE_LABEL_DESC">
+                    <option value="0">Text</option>
+                    <option value="1">Badge</option>
+                    <option value="2">Label</option>
+                </field>
+
+                <field
+                    name="currencytexttype"
+                    type="list"
+                    default="0"
+                    showon="showbalance:1[AND]currencytype:0"
+                    label="MOD_OPENSIM_BALANCE_CURRENCYTEXTTYPE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_CURRENCYTEXTTYPE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Muted</option>
+                    <option value="8">Inverse</option>                   
+                </field>
+
+                <field
+                    name="currencytextbold"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showbalance:1[AND]currencytype:0"
+                    label="MOD_OPENSIM_BALANCE_CURRENCYBOLDSTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_CURRENCYBOLDSTYLE_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="currencybadgestyle"
+                    type="list"
+                    default="0"
+                    showon="showbalance:1[AND]currencytype:1"
+                    label="MOD_OPENSIM_BALANCE_CURRENCYBADGESTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_CURRENCYBADGESTYLE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <field
+                    name="currencylabelstyle"
+                    type="list"
+                    default="0"
+                    showon="showbalance:1[AND]currencytype:2"
+                    label="MOD_OPENSIM_BALANCE_CURRENCYLABELSTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_CURRENCYSTYLEBOLD_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <!--LINKS BEGIN HERE-->
+                <field 
+                    name="balancelinksection" 
+                    type="note" 
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_LINKSECTION_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_LINKSECTION_LABEL_DESC" 
+                    class="" />
+
+                <field
+                    name="linktype"
+                    type="list"
+                    default="0"
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_LINKTYPE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_LINKTYPE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Link</option>
+                    <option value="2">Button</option>
+                    <option value="3">Disabled</option>
+                </field>
+
+                <field
+                    name="linkalign"
+                    type="list"
+                    default="2"
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_LINKALIGN_LABEL"
+                    description="MOD_OPENSIM_BALANCE_LINKALIGN_LABEL_DESC">
+                    <option value="0">MOD_OPENSIM_BALANCE_LINKALIGN_LEFT</option>
+                    <option value="1">MOD_OPENSIM_BALANCE_LINKALIGN_RIGHT</option>
+                    <option value="2">MOD_OPENSIM_BALANCE_LINKALIGN_CENTER</option>
+                </field>
+
+                <field
+                    name="showseparator"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_SHOWSEPARATOR_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SHOWSEPARATOR_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="separator"
+                    type="text"
+                    default=""
+                    size="10"
+                    showon="showseparator:1"
+                    label="MOD_OPENSIM_BALANCE_SEPARATOR_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SEPARATOR_LABEL_DESC" />
+
+                <field
+                    name="separatorbold"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showseparator:1"
+                    label="MOD_OPENSIM_BALANCE_SEPARATORBOLD_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SEPARATORBOLD_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="buttonsize"
+                    type="list"
+                    default="0"
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_BUTTONSIZE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BUTTONSIZE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Mini</option>
+                    <option value="2">Maxi</option>
+                </field>
+
+                <field
+                    name="buttonblock"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="linktype:2"
+                    label="MOD_OPENSIM_BALANCE_BUTTONBLOCK_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BUTTONBLOCK_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="showicons"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showbuylink:1[OR]showselllink:1[OR]showdisplaylink:1"
+                    label="MOD_OPENSIM_BALANCE_SHOWICONS_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SHOWICONS_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="iconsonly"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showicons:1"
+                    label="MOD_OPENSIM_BALANCE_ICONSONLY_LABEL"
+                    description="MOD_OPENSIM_BALANCE_ICONSONLY_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="iconsonlytooltip"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    showon="showicons:1[AND]iconsonly:1"
+                    label="MOD_OPENSIM_BALANCE_ICONSONLYTOOLTIP_LABEL"
+                    description="MOD_OPENSIM_BALANCE_ICONSONLYTOOLTIP_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="iconposition"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="before"
+                    showon="showicons:1[AND]iconsonly:0"
+                    label="MOD_OPENSIM_BALANCE_ICONSPOSITION_LABEL"
+                    description="MOD_OPENSIM_BALANCE_ICONSPOSITION_LABEL_DESC">
+                    <option value="before">MOD_OPENSIM_BALANCE_ICONSPOSITION_BEFORE</option>
+                    <option value="after">MOD_OPENSIM_BALANCE_ICONSPOSITION_AFTER</option>
+                </field>
+
+                <!--NO MORE CUSTUMISED-->
+                <field 
+                    name="customisedinfolinks" 
+                    type="note" 
+                    showon="showbuylink:0[AND]showselllink:0[AND]showdisplaylink:0"
+                    label="MOD_OPENSIM_BALANCE_CUSTOMISEDINFOLINKS_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_CUSTOMISEDINFOLINKS_LABEL_DESC" 
+                    class="alert alert-default" />
+
+                <!--INDIVIDUAL BUY BUTTON SECTION-->
+                <field 
+                    name="buylinksection" 
+                    type="note" 
+                    showon="showbuylink:1[AND]linktype:2[OR]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_BUYLINKSECTION_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_BUYLINKSECTION_LABEL_DESC" 
+                    class="" />
+
+                <field
+                    name="buybuttonstyle"
+                    type="list"
+                    default="0"
+                    showon="showbuylink:1[AND]linktype:2"
+                    label="MOD_OPENSIM_BALANCE_BUYBUTTONSTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_BUYBUTTONSTYLE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <field
+                    name="buyiconclass"
+                    type="textarea"
+                    filter="safehtml"
+                    cols="30"
+                    rows="1"
+                    default="icon-credit"
+                    showon="showbuylink:1[AND]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_SHOWBUYICONCLASS_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SHOWBUYICONCLASS_LABEL" />
+
+                <!--INDIVIDUAL SELL LINK SECTION-->
+                <field 
+                    name="selllinksection" 
+                    type="note" 
+                    showon="showselllink:1[AND]linktype:2[OR]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_SELLLINKSECTION_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_SELLLINKSECTION_LABEL_DESC" 
+                    class="" />
+
+                <field
+                    name="sellbuttonstyle"
+                    type="list"
+                    default="0"
+                    showon="showselllink:1[AND]linktype:2"
+                    label="MOD_OPENSIM_BALANCE_SELLBUTTONSTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SELLBUTTONSTYLE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <field
+                    name="selliconclass"
+                    type="textarea"
+                    filter="safehtml"
+                    cols="30"
+                    rows="1"
+                    default="icon-credit-2"
+                    showon="showselllink:1[AND]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_SHOWSELLICONCLASS_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SHOWSELLICONCLASS_LABEL_DESC" />
+
+                <!--INDIVIDUAL DISPLAY LINK SECTION-->
+                <field 
+                    name="displaylinksection" 
+                    type="note" 
+                    showon="showdisplaylink:1[AND]linktype:2[OR]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_DISPLAYLINKSECTION_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_DISPLAYLINKSECTION_LABEL_DESC" 
+                    class="" />
+
+                <field
+                    name="displaybuttonstyle"
+                    type="list"
+                    default="0"
+                    showon="showdisplaylink:1[AND]linktype:2"
+                    label="MOD_OPENSIM_BALANCE_DISPLAYBUTTONSTYLE_LABEL"
+                    description="MOD_OPENSIM_BALANCE_DISPLAYBUTTONSTYLE_LABEL_DESC">
+                    <option value="0">Default</option>
+                    <option value="1">Primary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Info</option>
+                    <option value="4">Success</option>
+                    <option value="5">Warning</option>
+                    <option value="6">Danger</option>
+                    <option value="7">Inverse</option>
+                </field>
+
+                <field
+                    name="displayiconclass"
+                    type="textarea"
+                    filter="safehtml"
+                    cols="30"
+                    rows="1"
+                    default="icon-credit"
+                    showon="showdisplaylink:1[AND]showicons:1"
+                    label="MOD_OPENSIM_BALANCE_SHOWDISPLAYICONCLASS_LABEL"
+                    description="MOD_OPENSIM_BALANCE_SHOWDISPLAYICONCLASS_LABEL_DESC" />
+
+                <!--HELP FOR ICOMOON-->
+                <field 
+                    name="inconhelp" 
+                    type="note" 
+                    showon="showicons:1"
+                    label="MOD_OPENSIM_BALANCE_INCONHELP_LABEL" 
+                    description="MOD_OPENSIM_BALANCE_INCONHELP_LABEL_DESC" 
+                    class="text-info" />
+
+                <!--this is the custom admin css loader-->
+                <field name="cssloader" type="loadcss" />
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea" rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                    name="cache"
+                    type="list"
+                    default="0"
+                    label="COM_MODULES_FIELD_CACHING_LABEL"
+                    description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
+    </updateservers>
+</extension>

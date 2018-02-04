@@ -1,0 +1,46 @@
+/**
+ * @module      OpenSim balance (mod_opensim_balance)
+ * @copyright   Copyright (C) djphil 2017, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later.
+ * @creative    CC-BY-NC-SA 4.0
+**/
+
+/*input[type="loadcss"] {;}*/
+
+/*blue style info*/
+[for="jform_params_balanceposition0"].active,
+[for="jform_params_balancealign0"].active,
+[for="jform_params_currencyposition0"].active,
+[for="jform_params_iconposition0"].active  {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    color: #ffffff;
+}
+
+[for="jform_params_balanceposition0"].active:hover,
+[for="jform_params_balancealign0"].active:hover,
+[for="jform_params_currencyposition0"].active:hover,
+[for="jform_params_iconposition0"].active:hover {
+    background-color: #cd6600;
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+/*orange style warning*/
+[for="jform_params_balanceposition1"].active,
+[for="jform_params_balancealign1"].active,
+[for="jform_params_currencyposition1"].active,
+[for="jform_params_iconposition1"].active {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    color: #ffffff;
+}
+
+[for="jform_params_balanceposition1"].active:hover,
+[for="jform_params_balancealign1"].active:hover,
+[for="jform_params_currencyposition1"].active:hover,
+[for="jform_params_iconposition1"].active:hover {
+    background-color: #269abc;
+    border-color: #1b6d85;
+    color: #ffffff;
+}

@@ -1,0 +1,13 @@
+/**
+ * @module      OpenSim balance (mod_opensim_balance)
+ * @copyright   Copyright (C) djphil 2017, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later.
+ * @creative    CC-BY-NC-SA 4.0
+**/
+
+.mod_opensim_balance {;}
+.mod_opensim_balance .text-bold {font-weight: bold;}
+.mod_opensim_balance .clearfix {clear: both;}
+.mod_opensim_balance .spacer {margin: 10px 0px 0px 0px;}
+.mod_opensim_balance .btn {margin-bottom: 2.5px;}
+.mod_opensim_balance_currency {;}
