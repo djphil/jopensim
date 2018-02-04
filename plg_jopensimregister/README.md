@@ -1,2 +1,2 @@
 # jopensim
-plg_jopensim_register v0.3.0.17
+plg_jopensim_register v0.3.1.2

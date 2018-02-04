@@ -158,7 +158,7 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		$readonly  = $this->readonly;
 
 		// Start the radio field output.
-		// $html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
+		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' style="padding-left: 0px; margin: 0px;" >';
 
 		// Get the field options.
 		$options = $this->getOptions();
@@ -168,7 +168,7 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		// Build the radio field output.
 		foreach ($options as $i => $option) {
 
-			$html[] = '<fieldset id="'.$this->id.'" class="jform_jopensimregister_jopensimavatar " '.$required . $autofocus . $disabled.'>';
+			$html[] = '<fieldset id="'.$option->value.'" class="jform_jopensimregister_jopensimavatar ">';
 			$html[] = '<div class="text-center btn btn-default ">';
 
 			// Initialize some option attributes.
@@ -185,8 +185,8 @@ class JFormFieldAvatar extends JFormFieldRadio {
 				.JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)).'</label>';
 
 			// Avatar radio select
-			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$checked." ".$class." ".$required." ".$onclick." ".$onchange." ".$disabled. '" />';
+			$html[] = '<input type="radio" style="float:none;margin-left:0px;" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
+				.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$checked." ".$class." ".$required." ".$onclick." ".$onchange." ".$disabled. ' />';
 
 			$required = '';
 
@@ -199,6 +199,8 @@ class JFormFieldAvatar extends JFormFieldRadio {
 				$html[] = "<div class='clearfix'></div>";
 			}
 		}
+		$html[] = '</fieldset>';
+
 		return implode($html);
 	}
 }
