@@ -1,5 +1,5 @@
 # jopensim
-jOpenSim Full Pack v0.3.0.16
+jOpenSim Full Pack v0.3.1.2
 
 ## Joomla compatibility
 This version is compatible with Joomla v3.8.x
