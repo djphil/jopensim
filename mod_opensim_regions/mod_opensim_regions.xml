@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+    <name>MOD_OPENSIM_REGIONS</name>
+    <title>MOD_OPENSIM_REGIONS</title>
+    <author>FoTo50</author>
+    <creationDate>2018-02-04</creationDate>
+    <copyright>All rights reserved by FoTo50 2018</copyright>
+    <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <authorEmail>foto50@jopensim.com</authorEmail>
+    <authorUrl>http://www.jopensim.com</authorUrl>
+    <version>0.3.1.2</version>
+    <description>MOD_OPENSIM_REGIONS_DESC</description>
+
+    <files>
+        <filename module="mod_opensim_regions">mod_opensim_regions.php</filename>
+        <folder>assets</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_opensim_regions.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_regions.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_regions.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_regions.sys.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_regions.ini</language>
+        <language tag="it-IT">language/it-IT.mod_opensim_regions.sys.ini</language>
+    </languages>
+
+    <help url="MOD_OPENSIM_REGIONS_HELP_URL" key="" />
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="showhiddenregions"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_REGIONS_SHOWHIDDEN"
+                    description="MOD_OPENSIM_REGIONS_SHOWHIDDEN_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                    name="tableclass"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="condensed"
+                    label="MOD_OPENSIM_REGIONS_TABLECLASS"
+                    description="MOD_OPENSIM_REGIONS_TABLECLASS_DESC">
+                    <option value="condensed">condensed</option>
+                    <option value="none">JNONE</option>
+                </field>
+                <field
+                	name="maxheight"
+                	type="number"
+                	default="0"
+                	label="MOD_OPENSIM_REGIONS_MAXHEIGHT"
+                	description="MOD_OPENSIM_REGIONS_MAXHEIGHT_DESC"
+                />
+			</fieldset>
+        </fields>
+    </config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
+    </updateservers>
+</extension>
