@@ -14,34 +14,34 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 ?>
 
-    <?php if (is_array($regions) && count($regions) > 0): ?>
-            <div class='welcomebox_regions_content'<?php if($params->get('maxheight',0) > 0) echo ' style="max-height:'.$params->get('maxheight').'px; overflow-y:auto; overflow-x:hidden;padding-right:20px;"'; ?>>
-                <table<?php if($params->get('tableclass','condensed') == "condensed") echo ' class="table-condensed"'; ?>>
-                <thead>
-                <tr>
-                    <th>
-                        <span class="label label-default">
-                            <?php echo JText::_('MOD_OPENSIM_REGIONS_NAME'); ?>:
-                        <span>
-                    </th>
-                    <th><span class="label label-success">Loc X:<span></th>
-                    <th><span class="label label-danger">Loc Y:<span></th>
-                </tr>
-                </thead>
+<?php if (is_array($regions) && count($regions) > 0): ?>
+	<div class='welcomebox_regions_content'<?php if($params->get('maxheight',0) > 0) echo ' style="max-height:'.$params->get('maxheight').'px; overflow-y:auto; overflow-x:hidden;padding-right:20px;"'; ?>>
+		<table <?php if($params->get('tableclass','condensed') == "condensed") echo 'class="table-condensed"'; ?>>
+		<thead>
+		<tr>
+			<th>
+				<span class="label label-default">
+					<?php echo JText::_('MOD_OPENSIM_REGIONS_NAME'); ?>:
+				<span>
+			</th>
+			<th><span class="label label-danger">Loc X:<span></th>
+			<th><span class="label label-success">Loc Y:<span></th>
+		</tr>
+		</thead>
 
-                <tbody>
-                <?php foreach($regions AS $key => $region): ?>
-                <tr>
-                    <td>
-                        <a class="<?php echo $stylebold; ?>" href="secondlife://<?php echo rawurlencode($region['regionName']); ?>">
-                            <?php echo $region['regionName']; ?>
-                        </a>
-                    </td>
-                    <td><?php echo round($region['posX']); ?></td>
-                    <td><?php echo round($region['posY']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-                </tbody>
-                </table>
-            </div>
-    <?php endif; ?>
+		<tbody>
+		<?php foreach($regions AS $key => $region): ?>
+		<tr>
+			<td>
+				<a class="<?php echo $stylebold; ?>" href="secondlife://<?php echo rawurlencode($region['regionName']); ?>">
+					<?php echo $region['regionName']; ?>
+				</a>
+			</td>
+			<td><?php echo round($region['posX']); ?></td>
+			<td><?php echo round($region['posY']); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		</tbody>
+		</table>
+	</div>
+<?php endif; ?>
