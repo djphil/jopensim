@@ -11,3 +11,6 @@ This version is compatible with OpenSimulator v0.9.0.x
 en-GB<br />
 fr-FR<br />
 it-IT
+
+## Official Website
+www.jopensim.com
