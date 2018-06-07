@@ -91,7 +91,7 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		$options = array();
 		$avatars = array();
 
-		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
 		$avatarlist				= $this->params->get('plgJopensimRegisterAvatar');
 

@@ -9,7 +9,7 @@
 * Email: foto50@jopensim.com
 * Url: http://www.jopensim.com
 * ===================================================
-* @copyright (C) 2017 FoTo50, (www.jopensim.com). All rights reserved.
+* @copyright (C) 2018 FoTo50, (www.jopensim.com). All rights reserved.
 * @license see http://www.gnu.org/licenses/gpl-2.0.html  GNU/GPL.
 * You can use, redistribute this file and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ class plgUserjOpensimRegister extends JPlugin {
 	public $_settingsData	= null;
 	public $doredirect		= null;
 	public $redirectafter	= "";
+	public $handleauthorize	= 0;
 	public $configvalues	= array("lastnametype",
 									"lastnamelist",
 									"defaulthome",
@@ -52,6 +53,9 @@ class plgUserjOpensimRegister extends JPlugin {
 		$this->admin_model		= JModelLegacy::getInstance( 'ModelOpenSim','OpenSim' );
 		$this->doredirect		= $this->params->get('plgJopensimDoRedirect');
 		$this->redirectafter	= $this->params->get('plgJopensimRedirectAfter');
+		$this->handleauthorize	= $this->params->get('plgJopensimRegisterAgeverification');
+		$this->useactivation	= $this->params->get('plgJopensimRegisterActivation',0);
+		$this->activationlevel	= $this->params->get('plgJopensimRegisterActivationLevel',0);
 	}
 
 	public function onContentPrepareForm($form, $data) {
@@ -152,7 +156,9 @@ class plgUserjOpensimRegister extends JPlugin {
 
 	// before saving, check if First Name/Last Name is free and if Last Name is allowed due to jOpenSim settings
 	public function onUserBeforeSave($user,$isnew,$new) {
-		if(!$isnew) return TRUE; // Existing users are not needed here
+		if(!$isnew) {
+			return TRUE; // Existing users are not needed here
+		}
 
 		$firstname	= JArrayHelper::getValue($new['jopensimregister'], 'firstname', null, 'string');
 		$lastname	= JArrayHelper::getValue($new['jopensimregister'], 'lastname', null, 'string');
@@ -163,7 +169,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		$view					= JFactory::getApplication()->input->get('view','','method','string');
 		$task					= JFactory::getApplication()->input->get('task','','method','string');
 		$retval					= FALSE;
-		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$registerForms = $this->getEnabledForms();
 
 		if($option == "com_users" && $task == "register") {
@@ -173,13 +179,20 @@ class plgUserjOpensimRegister extends JPlugin {
 		if($option == "com_comprofiler" && $task == "saveregisters" && $registerForms['cb'] == "yes") {
 			$retval = $this->checkUser($firstname,$lastname);
 		}
+		if($option == "com_users" && $task == "apply") {
+			$retval = TRUE;
+		}
 		return $retval;
 	}
 
 	public function onUserAfterSave($user, $isnew, $result, $error) {
+		$jopensimsettings = $this->getSettings();
 		$userId	= JArrayHelper::getValue($user, 'id', 0, 'int');
+		$this->getOpenSimGridDB();
+		$this->getSettings();
 		if ($userId && $result && isset($user['jopensimregister']) && (count($user['jopensimregister']))) {
-			if(!$isnew) return TRUE; // Existing users are not needed here
+			if(!$isnew) {
+			}
 			$firstname	= JArrayHelper::getValue($user['jopensimregister'], 'firstname', null, 'string');
 			$lastname	= JArrayHelper::getValue($user['jopensimregister'], 'lastname', null, 'string');
 			if(isset($user['jopensimregister']['jopensimavatar'])) {
@@ -190,7 +203,7 @@ class plgUserjOpensimRegister extends JPlugin {
 
 			$option					= JFactory::getApplication()->input->get('option','','method','string');
 			$task					= JFactory::getApplication()->input->get('task','','method','string');
-			$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+			$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 			$registerForms = $this->getEnabledForms();
 
 			// Check out, from that form we get data
@@ -201,8 +214,6 @@ class plgUserjOpensimRegister extends JPlugin {
 
 				// seems everything went ok, lets save the user in the grid DB
 				// now we need to look into the opensim database
-				$this->getOpenSimGridDB();
-				$this->getSettings();
 
 				$newuser['firstname'] = $firstname;
 				$newuser['lastname'] = $lastname;
@@ -228,7 +239,7 @@ class plgUserjOpensimRegister extends JPlugin {
 					$query = sprintf("INSERT INTO #__opensim_userrelation (opensimID,joomlaID) VALUES ('%s','%d')",$opensimUID,$user['id']);
 					$db->setQuery($query);
 					$db->execute();
-					$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
+					$plgRegisterjOpenSim = JPluginHelper::getPlugin('user', 'jopensimregister');
 					$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
 					$autojoingroup	= $this->params->get('plgJopensimGroupJoin',-1);
 					if($autojoingroup != -1) { // join a group
@@ -256,6 +267,27 @@ class plgUserjOpensimRegister extends JPlugin {
 					}
 				}
 			}
+		} else {
+			$opensimUID = $this->admin_model->opensimRelation($userId);
+		}
+		if ($this->handleauthorize == 1) {
+			$dob	= JArrayHelper::getValue($user['profile'], 'dob', null, 'string');
+			if($dob) {
+				$currentTime	= new JDate('now -'.$jopensimsettings['auth_minage'].' year'); // age verified date and time
+				$agetimestamp	= $currentTime->format('U');
+				$birthday		= new JDate($dob);
+				$birthtimestamp	= $birthday->format('U');
+				if($birthtimestamp < $agetimestamp) {
+					$this->opensim->setAgeVerified($opensimUID);
+				}
+			}
+		}
+
+		// maybe need to activate user?
+		$task			= JFactory::getApplication()->input->get('task','','method','string');
+		if($this->useactivation == 1 && $task == "activate" && $result === TRUE) {
+			$userlevel = $this->activationlevel;
+			$this->opensim->setUserLevel($opensimUID,$userlevel);
 		}
 		return TRUE;
 	}
@@ -265,7 +297,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		$view			= JFactory::getApplication()->input->get('view','','method','string');
 		$task			= JFactory::getApplication()->input->get('task','','method','string');
 
-		$plgRegisterjOpenSim =& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$plgRegisterjOpenSim = JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params   	= new JRegistry($plgRegisterjOpenSim->params);
 		$deleteOpensim		= $this->params->get('plgJopensimDeleteUser');
 		if($deleteOpensim == "1") { // if set, delete the opensim account
@@ -329,7 +361,7 @@ class plgUserjOpensimRegister extends JPlugin {
 		// now we need to look into the opensim database
 		$this->getOpenSimGridDB();
 
-		$plgRegisterjOpenSim	=& JPluginHelper::getPlugin('user', 'jopensimregister');
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params   		= new JRegistry($plgRegisterjOpenSim->params);
 		$usertype				= $this->params->get('plgJopensimRegisterUser');
 
@@ -345,7 +377,8 @@ class plgUserjOpensimRegister extends JPlugin {
 		if(($usertype == "required" || $usertype == "optional") && $firstname && $lastname) {
 			$valid = $this->checkValidName($firstname,$lastname);
 			if($valid === FALSE) {
-				return FALSE;
+				$this->returnError(JTEXT::_('PLG_JOPENSIMREGISTER_ERROR_INVALIDNAME'));
+//				return FALSE;
 			}
 		}
 
@@ -435,6 +468,10 @@ class plgUserjOpensimRegister extends JPlugin {
 	}
 
 	public function insertuser($newuser) {
+		$task	= JFactory::getApplication()->input->get('task','','method','string');
+		if($task == "apply") { // this is the regular admin user form, dont create a user
+			return null;
+		}
 		if(empty($this->_osgrid_db)) $this->getOpenSimGridDB();
 		if(!$this->_osgrid_db) return FALSE;
 		if(!isset($newuser['uuid']) || !$newuser['uuid']) $newuser['uuid'] = $this->getUUID();
@@ -444,6 +481,9 @@ class plgUserjOpensimRegister extends JPlugin {
 		$opensim = $this->opensim;
 		$newuser['passwordSalt'] = md5(time());
 		$newuser['passwordHash'] = md5(md5($newuser['password']).":".$newuser['passwordSalt']);
+		if($this->useactivation == 1) { // we use Joomla activation, disable login for now for this user
+			$newuser['UserLevel'] = "-1";
+		}
 		$insertquery = $opensim->getInsertUserQuery($newuser);
 		$this->_osgrid_db->setQuery($insertquery['user']);
 		$retval = $this->_osgrid_db->execute();

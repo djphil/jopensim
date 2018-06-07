@@ -2,12 +2,12 @@
 <extension method="upgrade" version="3.1" type="plugin" group="user">
 	<name>User - jOpenSimRegister</name>
 	<author>FoTo50</author>
-    <creationDate>2018-02-04</creationDate>
+    <creationDate>2018-06-03</creationDate>
 	<copyright>(C) 2018 - FoTo50</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com/</authorUrl>
-	<version>0.3.1.2</version>
+	<version>0.3.1.4</version>
 	<description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
 	<scriptfile>script.jopensimregister.php</scriptfile>
 	<languages folder="language">
@@ -17,6 +17,8 @@
 	</languages>
 	<files>
 		<filename plugin="jopensimregister">jopensimregister.php</filename>
+		<filename>CHANGELOG.txt</filename>
+		<filename>script.jopensimregister.php</filename>
 		<folder>fields</folder>
 		<folder>language</folder>
 		<folder>layout</folder>
@@ -137,6 +139,48 @@
 					label="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE"
 					description="PLG_JOPENSIMREGISTER_AVATAR_COLUMNSPACE_DESC"
 					showon="plgJopensimRegisterAvatarSelect:1" />
+			</fieldset>
+			<fieldset name="PLG_JOPENSIMREGISTER_ADVANCED" addfieldpath="/plugins/user/jopensimregister/fields">
+				<field
+					name="plgjOpenSimRegisterNote1"
+					type="note"
+					label="PLG_JOPENSIMREGISTER_ACTIVATIONNOTE"
+				/>
+				<field
+					name="plgJopensimRegisterActivation"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_ACTIVATION"
+					description="PLG_JOPENSIMREGISTER_ACTIVATION_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="plgJopensimRegisterActivationLevel"
+					type="list"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL"
+					description="PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_DESC"
+					showon="plgJopensimRegisterActivation:1">
+						<option value="0">PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_REGULAR</option>
+						<option value="100">PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_MAINTENANCE</option>
+				</field>
+				<field
+					name="plgjOpenSimRegisterNote1"
+					type="note"
+					label="PLG_JOPENSIMREGISTER_UPDATES"
+				/>
+				<field
+					name="plgJopensimRegisterAgeverification"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_AGEVERIFICATION"
+					description="PLG_JOPENSIMREGISTER_AGEVERIFICATION_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
