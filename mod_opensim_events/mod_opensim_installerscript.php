@@ -76,8 +76,7 @@ class mod_opensim_eventsInstallerScript {
 	}
 
 	public function description() {
-		echo "<p>This module will show ...</p>\n";
-		echo "<p>Additionnal information ...</p>\n";
+		echo JText::_('MOD_OPENSIM_EVENTS_DESC');
 	}
 }
 ?>

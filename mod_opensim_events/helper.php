@@ -1,7 +1,7 @@
 <?php
 /**
  * @module OpenSim Events
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
 **/
 
@@ -35,7 +35,7 @@ class ModOpenSimEventsHelper {
 		$this->progressColor		= $params->get('progressColor');
 		$this->guesttimezone		= $params->get('guesttimezone');
 		$this->usertimezone			= $params->get('guesttimezone');
-		$this->showmature			= $params->get('showmature');
+		$this->showmature			= $params->get('showmature',0);
 		$this->showdesc				= $params->get('showdesc');
 		$this->truncatedesc			= $params->get('truncatedesc');
 		$this->dateformat			= $params->get('eventdateformat');
@@ -47,8 +47,8 @@ class ModOpenSimEventsHelper {
 		$timestamp			        = time();
 		$timeCompound		        = date("Y-m-d H:i:s",$timestamp);
 		$dateTimeZone		        = new DateTimeZone(date_default_timezone_get());
-		$this->dTZ_utc = $dateTimeZoneUTC	= new DateTimeZone('UTC');
-	
+		$this->dTZ_utc = $dateTimeZoneUTC = new DateTimeZone('UTC');
+
 		$this->dateobject           = $dateTimeUTC = new DateTime($timeCompound);
 		$this->timeoffset	        = $dateTimeZone->getOffset($dateTimeUTC);
 		$this->utcstamp		        = time() - $this->timeoffset;
@@ -98,21 +98,30 @@ class ModOpenSimEventsHelper {
 		$query->select("IF(".$db->quoteName('#__opensim_search_events.dateUTC')." < ".$this->utcstamp.",1,0) AS inprogress");
 		$query->select('#__opensim_search_events.*');
 		$query->from($db->quoteName('#__opensim_search_events'));
+
+		if($this->showmature == 0) {
+			$query->where($db->quoteName('#__opensim_search_events.mature')." = 'false'");
+		}
+
 		if($this->eventsinadvanceseconds == -1) { // show all
 			$query->where($db->quoteName('#__opensim_search_events.dateUTC')." > ".$this->utcstamp);
 		} else {
 			$query->where("(".$db->quoteName('#__opensim_search_events.dateUTC')." > ".$this->utcstamp." AND ".$db->quoteName('#__opensim_search_events.dateUTC')." < ".$this->eventsinadvanceseconds.")","OR");
 		}
+
 		if($this->showeventinprogress) {
 			$query->where("(".$db->quoteName('#__opensim_search_events.dateUTC')." < ".$this->utcstamp." AND (".$db->quoteName('#__opensim_search_events.dateUTC')." + (".$db->quoteName('#__opensim_search_events.duration')." * 60) > ".$this->utcstamp."))");
 		}
+
 		if($this->numberevents > 0) {
 			$query->setLimit($this->numberevents);
 		}
+		
 		$query->order($db->quoteName('#__opensim_search_events.dateUTC'));
 		$db->setQuery($query);
 		$db->execute();
-//		$this->events = $db->loadObjectList();
+
+        // $this->events = $db->loadObjectList();
 		$this->events = $db->loadAssocList();
 		if(count($this->events) > 0) {
 			foreach($this->events AS $key => $event) {
@@ -136,9 +145,9 @@ class ModOpenSimEventsHelper {
 		$query->select($db->quoteName('#__opensim_clientinfo.userName'));
 		$query->from($db->quoteName('#__opensim_clientinfo'));
 		$query->where($db->quoteName('#__opensim_clientinfo.PrincipalID')." = ".$db->quote($uuid));
-
 		$db->setQuery($query);
 		$db->execute();
+
 		if($db->getNumRows() == 1) {
 			return $db->loadResult();
 		} else {
@@ -178,8 +187,8 @@ class ModOpenSimEventsHelper {
 	}
 
 	public function getUserTime($userid) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT #__opensim_usersettings.* FROM #__opensim_userrelation LEFT JOIN #__opensim_usersettings ON #__opensim_userrelation.opensimID = #__opensim_usersettings.uuid WHERE #__opensim_userrelation.joomlaID = '%d'",$userid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT #__opensim_usersettings.* FROM #__opensim_userrelation LEFT JOIN #__opensim_usersettings ON #__opensim_userrelation.opensimID = #__opensim_usersettings.uuid WHERE #__opensim_userrelation.joomlaID = '%d'",$userid);
 		$db->setQuery($query);
 		$db->execute();
 		$num_rows = $db->getNumRows();
@@ -234,13 +243,46 @@ class ModOpenSimEventsHelper {
 		return $retval;
 	}
 
+	public function getComponentParameter($paramname) {
+		$params = JComponentHelper::getParams('com_opensim');
+		return $params->get($paramname);
+//		$parameter['osgriddbhost']      = $params->get('opensimgrid_dbhost');
+//		$parameter['osgriddbuser']      = $params->get('opensimgrid_dbuser');
+//		$parameter['osgriddbpasswd']    = $params->get('opensimgrid_dbpasswd');
+//		$parameter['osgriddbname']      = $params->get('opensimgrid_dbname');
+//		$parameter['osgriddbport']      = $params->get('opensimgrid_dbport');
+//		$this->connectparams            = $parameter;
+	}
+
+//	public function getGlobalSettings()
+//    {
+//		$db = JFactory::getDBO();
+//		$query = $db->getQuery(true);
+//
+//		$query->select($db->quoteName('#__extensions.params'));
+//		$query->from($db->quoteName('#__extensions'));
+//		$query->where($db->quoteName('#__extensions.name')." = 'COM_OPENSIM'");
+//		$db->setQuery($query);
+//		$db->execute();
+//
+//		if ($db->getNumRows() == 1)
+//        {
+//			return $db->loadResult();
+//		}
+//
+//        else
+//        {
+//			return FALSE;
+//		}
+//	}
+
 	public function getEventIcons()
     {
-		$basepath   = JURI::base( true ).'/modules/mod_opensim_events/assets/';
-		$icon[0]	= '<span class="label label-default">PG</span>';    // $basepath."icon_event.png";
-		$icon[1]	= '<span class="label label-info">M</span>';        // $basepath."icon_event_mature.png";
-		$icon[2]	= '<span class="label label-danger">A</span>';      // $basepath."icon_event_adult.png";
+		// $basepath   = JURI::base( true ).'/modules/mod_opensim_events/assets/';
+		$icon[0]	= '<span class="label label-info">G</span>';    // $basepath."icon_event.png";
+		$icon[1]	= '<span class="label label-default">M</span>'; // $basepath."icon_event_mature.png";
+		$icon[2]	= '<span class="label label-danger">A</span>';  // $basepath."icon_event_adult.png";
 		return $icon;
 	}
-} //end ModOpenSimEventsHelper
+}
 ?>

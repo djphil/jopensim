@@ -6,16 +6,17 @@
 	method="upgrade">
 	<name>jOpenSim Events Module</name>
 	<author>FoTo50</author>
-    <creationDate>2018-02-04</creationDate>
+    <creationDate>2018-06-03</creationDate>
 	<copyright>All rights reserved by FoTo50 2018</copyright>
 	<license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.1.2</version>
+	<version>0.3.1.4</version>
 	<description>MOD_OPENSIM_EVENTS_DESC</description>
 
 	<files>
 		<filename module="mod_opensim_events">mod_opensim_events.php</filename>
+		<filename>CHANGELOG.txt</filename>
 		<folder>assets</folder>
         <folder>language</folder>
 		<folder>tmpl</folder>
@@ -67,10 +68,8 @@
 					default="1"
 					label="MOD_OPENSIM_EVENTS_INPROGRESS"
 					description="MOD_OPENSIM_EVENTS_INPROGRESS_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -80,6 +79,17 @@
 					label="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTS"
 					description="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTS_DESC">
 					<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
+				</field>
+
+				<field
+					name="showguesthint"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTHINT"
+					description="MOD_OPENSIM_EVENTS_TIMEZONE_GUESTHINT_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -105,10 +115,8 @@
 					default="1"
 					label="MOD_OPENSIM_EVENTS_MATURE"
 					description="MOD_OPENSIM_EVENTS_MATURE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -118,10 +126,8 @@
 					default="1"
 					label="MOD_OPENSIM_EVENTS_ICON"
 					description="MOD_OPENSIM_EVENTS_ICON_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -131,10 +137,18 @@
 					default="1"
 					label="MOD_OPENSIM_EVENTS_SHOWTITLE"
 					description="MOD_OPENSIM_EVENTS_SHOWTITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hidewhenempty"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_HIDEEMPTY"
+					description="MOD_OPENSIM_EVENTS_HIDEEMPTY_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -144,10 +158,8 @@
 					default="1"
 					label="MOD_OPENSIM_EVENTS_SHOWDESC"
 					description="MOD_OPENSIM_EVENTS_SHOWDESC_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -159,10 +171,78 @@
 					label="MOD_OPENSIM_EVENTS_TRUNCATEDESC"
 					description="MOD_OPENSIM_EVENTS_TRUNCATEDESC_DESC" />
 
-			</fieldset>
+				<field
+					name="showtpbtn"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_SHOWTPBTN"
+					description="MOD_OPENSIM_EVENTS_SHOWTPBTN_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tplocal"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="showtpbtn:1"
+					label="MOD_OPENSIM_EVENTS_SHOWTPLOCAL"
+					description="MOD_OPENSIM_EVENTS_SHOWTPLOCAL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphg"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="showtpbtn:1"
+					label="MOD_OPENSIM_EVENTS_SHOWTPHG"
+					description="MOD_OPENSIM_EVENTS_SHOWTPHG_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphgv3"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="showtpbtn:1"
+					label="MOD_OPENSIM_EVENTS_SHOWTPHGV3"
+					description="MOD_OPENSIM_EVENTS_SHOWTPHGV3_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="tphop"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    showon="showtpbtn:1"
+					label="MOD_OPENSIM_EVENTS_SHOWTPHOP"
+					description="MOD_OPENSIM_EVENTS_SHOWTPHOP_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="locaslink"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_OPENSIM_EVENTS_LOCASLINK"
+					description="MOD_OPENSIM_EVENTS_LOCASLINK_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+            </fieldset>
             
-			<fieldset
-				name="EVENTS_CUSTOMIZED">
+			<fieldset name="EVENTS_CUSTOMIZED">
 				<field
 					name="progressColor"
 					type="color"
@@ -172,8 +252,7 @@
 					description="MOD_OPENSIM_EVENTS_INPROGRESS_COLOR_DESC" />
 			</fieldset>
 
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
@@ -185,13 +264,14 @@
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
 			</fieldset>
 		</fields>
 	</config>
 
     <scriptfile>mod_opensim_installerscript.php</scriptfile>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
+		<server type="collection" priority="1" name="jOpenSim Update Site">
+            https://update.jopensim.com/jopensim_list.xml
+        </server>
     </updateservers>
 </extension>
