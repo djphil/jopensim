@@ -18,7 +18,23 @@ class OpenSimControllermisc extends OpenSimController {
 		$model = $this->getModel('misc');
 		$settings = $model->getSettingsData();
 		$opensim = $model->opensim;
-		$opensim->RemoteAdmin($settings['remotehost'],$settings['remoteport'],$settings['remotepasswd']);
+		if($data['radminsystem'] == "multiple") {
+			$simulator = $model->getSimulator($data['simulator']);
+			if($simulator) {
+				$remotehost 	= $this->getHostFrom($data['simulator']);
+				$remoteport 	= ($simulator['radminport']) ? $simulator['radminport']:$this->getPortFrom($data['simulator']);
+				$remotepasswd	= ($simulator['radminpwd']) ? $simulator['radminpwd']:$settings['remotepasswd'];
+			} else {
+				$remotehost 	= $this->getHostFrom($data['simulator']);
+				$remoteport 	= $this->getPortFrom($data['simulator']);
+				$remotepasswd	= $settings['remotepasswd'];
+			}
+		} else {
+			$remotehost 		= $settings['remotehost'];
+			$remoteport 		= $settings['remoteport'];
+			$remotepasswd		= $settings['remotepasswd'];
+		}
+		$opensim->RemoteAdmin($remotehost,$remoteport,$remotepasswd);
 		$command = "admin_broadcast";
 		$params = array('message' => $message);
 		$returnvalue = $opensim->SendCommand($command,$params);
@@ -44,7 +60,7 @@ class OpenSimControllermisc extends OpenSimController {
 		$region_name		= $data['region_name'];
 		$listen_ip			= $data['listen_ip'];
 		$listen_port		= $data['listen_port'];
-		$external_address	= $data['external_address'];
+//		$external_address	= $data['external_address'];
 		$region_x			= intval($data['region_x']);
 		$region_y			= intval($data['region_y']);
 		$public				= $data['public'];
@@ -56,7 +72,26 @@ class OpenSimControllermisc extends OpenSimController {
 		$settings			= $model->getSettingsData();
 		$opensim			= $model->opensim;
 
-		$opensim->RemoteAdmin($settings['remotehost'],$settings['remoteport'],$settings['remotepasswd']);
+		if($data['radminsystem'] == "multiple") {
+			$simulator = $model->getSimulator($data['simulator']);
+			if($simulator) {
+				$remotehost 		= $this->getHostFrom($data['simulator']);
+				$external_address	= $remotehost;
+				$remoteport 		= ($simulator['radminport']) ? $simulator['radminport']:$this->getPortFrom($data['simulator']);
+				$remotepasswd		= ($simulator['radminpwd']) ? $simulator['radminpwd']:$settings['remotepasswd'];
+			} else {
+				$remotehost 		= $this->getHostFrom($data['simulator']);
+				$remoteport 		= $this->getPortFrom($data['simulator']);
+				$remotepasswd		= $settings['remotepasswd'];
+				$external_address	= $remotehost;
+			}
+		} else {
+			$remotehost 			= $settings['remotehost'];
+			$remoteport 			= $settings['remoteport'];
+			$remotepasswd			= $settings['remotepasswd'];
+			$external_address	= $remotehost;
+		}
+		$opensim->RemoteAdmin($remotehost,$remoteport,$remotepasswd);
 		$command		= "admin_create_region";
 		$params			= array('region_name' => $region_name,
 							'listen_ip' => $listen_ip,
@@ -65,11 +100,13 @@ class OpenSimControllermisc extends OpenSimController {
 							'region_x' => $region_x,
 							'region_y' => $region_y,
 							'public' => $public,
-							'enable_voice' => $voice,
+							'enable_voice' => $voice_enabled,
 							'persist' => $persist,
 							'region_file' => 'jOpenSim.ini',
 							'estate_name' => $estate_name);
 		$returnvalue	= $opensim->SendCommand($command,$params);
+		$debug			= var_export($returnvalue,TRUE);
+		error_log("Zeile ".__LINE__.": ".$debug);
 		if(!is_array($returnvalue)) {
 			JFactory::getApplication()->enqueueMessage(JText::_('REMOTEADMIN_NORESPONSE'),"error");
 		} elseif(array_key_exists("error",$returnvalue) && $returnvalue['error']) {
@@ -84,42 +121,64 @@ class OpenSimControllermisc extends OpenSimController {
 			$message .= implode(",",$messages).")";
 			JFactory::getApplication()->enqueueMessage($message,"message");
 		}
+		if($settings['jopensim_maps_visibility'] == 0) { // new region must be set to invisible
+			if(array_key_exists("region_id",$returnvalue)) {
+				$regionuuid		= $returnvalue['region_id'];
+				$mapmodel		= $this->getModel('map');
+				$mapmodel->setVisible($regionuuid,1);
+			}
+		}
 		$this->setRedirect('index.php?option=com_opensim&view=misc');
 	}
 
-    // Remote Admin Get Opensim Version
-    public function getopensimulatorversion()
-    {
-        $data = JFactory::getApplication()->input->request->getArray();;
-        $model = $this->getModel('misc');
-        $settings = $model->getSettingsData();
+	// Remote Admin Get Opensim Version
+	public function getopensimulatorversion() {
+		$data = JFactory::getApplication()->input->request->getArray();;
+		$model = $this->getModel('misc');
+		$settings = $model->getSettingsData();
+		$opensim = $model->opensim;
 
-        $opensim = $model->opensim;
-        $opensim->RemoteAdmin($settings['remotehost'],$settings['remoteport'],$settings['remotepasswd']);
+		if($data['radminsystem'] == "multiple") {
+			$simulator = $model->getSimulator($data['simulator']);
+			if($simulator) {
+				$remotehost 	= $this->getHostFrom($data['simulator']);
+				$remoteport 	= ($simulator['radminport']) ? $simulator['radminport']:$this->getPortFrom($data['simulator']);
+				$remotepasswd	= ($simulator['radminpwd']) ? $simulator['radminpwd']:$settings['remotepasswd'];
+			} else {
+				$remotehost 	= $this->getHostFrom($data['simulator']);
+				$remoteport 	= $this->getPortFrom($data['simulator']);
+				$remotepasswd	= $settings['remotepasswd'];
+			}
+		} else {
+			$remotehost 		= $settings['remotehost'];
+			$remoteport 		= $settings['remoteport'];
+			$remotepasswd		= $settings['remotepasswd'];
+		}
+		$opensim->RemoteAdmin($remotehost,$remoteport,$remotepasswd);
 
-        $command = "admin_get_opensim_version";
-        $params = array('');
-        $returnvalue = $opensim->SendCommand($command, $params);
+		$command = "admin_get_opensim_version";
+		$params = array('');
+		$returnvalue = $opensim->SendCommand($command, $params);
 
-        if (!is_array($returnvalue))
-        {
+		if (!is_array($returnvalue))
+		{
 			JFactory::getApplication()->enqueueMessage(JText::_('REMOTEADMIN_NORESPONSE'), "error");
 		}
-        
-        else if (array_key_exists("error", $returnvalue) && $returnvalue['error'])
-        {
+		
+		else if (array_key_exists("error", $returnvalue) && $returnvalue['error'])
+		{
 			$message = JText::_('REMOTEADMIN_ERROR').": ".$returnvalue['error'];
 			JFactory::getApplication()->enqueueMessage($message, "error");
 		}
-        
-        else
-        {
+		
+		else
+		{
 			$messages = array();
 			$message = JText::_('REMOTEADMIN_RESPONDED').": ";
 
 			foreach($returnvalue AS $key => $val)
-            {
-                $messages[] = $key."=".$val;
+			{
+				$messages[] = $key."=".$val;
 			}
 
 			$message .= implode("<br />", $messages)."";
@@ -127,6 +186,14 @@ class OpenSimControllermisc extends OpenSimController {
 		}
 
 		$this->setRedirect('index.php?option=com_opensim&view=misc&task=getopensimversion');
+	}
+
+	public function getHostFrom($url) {
+		return parse_url($url, PHP_URL_HOST);
+	}
+
+	public function getPortFrom($url) {
+		return parse_url($url, PHP_URL_PORT);
 	}
 
 	public function savewelcomemessage() {
@@ -168,6 +235,27 @@ class OpenSimControllermisc extends OpenSimController {
 		$model = $this->getModel('misc');
 		$model->removeTerminal($terminalArray);
 		$this->setRedirect('index.php?option=com_opensim&view=misc&task=terminals',JText::_('TERMINALREMOVED'));
+	}
+
+	public function saveSimulators() {
+		$model = $this->getModel('misc');
+		$model->saveSimulators();
+		$this->setRedirect('index.php?option=com_opensim&view=misc');
+	}
+
+	public function saveSimulatorOrderAjax() {
+		$model = $this->getModel('misc');
+		$model->saveSimulatorOrder();
+	}
+
+	public function cancelSimulators() {
+		$this->setRedirect('index.php?option=com_opensim&view=misc');
+	}
+
+	public function deleteSimulator() {
+		$model = $this->getModel('misc');
+		$model->removeSimulators();
+		$this->setRedirect('index.php?option=com_opensim&view=misc&task=managesimulators');
 	}
 }
 ?>

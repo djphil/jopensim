@@ -30,7 +30,7 @@ class opensimViewevents extends JViewLegacy {
 		$this->Itemid			= $app->input->get('Itemid');
 		$task					= $app->input->get('task');
 
-		$eventparams			= &JComponentHelper::getParams('com_opensim');
+		$eventparams			= JComponentHelper::getParams('com_opensim');
 
 //		$menu		= JSite::getMenu();
 		$menu					= $app->getMenu();
@@ -57,7 +57,7 @@ class opensimViewevents extends JViewLegacy {
 		$duration				= $model->getDurations();
 		$this->duration			= $duration;
 
-		$user					=& JFactory::getUser();
+		$user					= JFactory::getUser();
 		$created				= $model->opensimIsCreated(); // check if this user has already a related OpenSim account
 		$osdata					= $model->getUserData($created);
 		$osdata['access_level']	= $access_level;

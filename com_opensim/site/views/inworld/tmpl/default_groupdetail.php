@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -14,18 +14,18 @@ defined('_JEXEC') or die('Restricted access');
 <?php if($this->settings['addons_groups'] == 1): ?>
 <table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>
 <tr>
-	<th><?php echo JText::_('NAME'); ?></th>
-	<th><?php echo JText::_('CHARTER'); ?></th>
+	<th><?php echo JText::_('JOPENSIM_GROUPNAME'); ?></th>
+	<th><?php echo JText::_('JOPENSIM_GROUPCHARTER'); ?></th>
 
 	<?php if($this->grouplist['acceptnotices'] == 1 && $this->grouplist['power']['power_receivenotice'] == 1 && $this->grouplist['hasnotices'] > 0): ?>	
-	<th><?php echo JText::_('NOTICE'); ?></th>
+	<th><?php echo JText::_('JOPENSIM_GROUPNOTICE'); ?></th>
 	<?php endif; ?>
 	
 	<?php if($this->grouplist['power']['power_rolemembersvisible'] == 1 || $this->grouplist['power']['isowner'] == 1): ?>
-	<th><?php echo JText::_('MEMBERS'); ?></th>
+	<th><?php echo JText::_('JOPENSIM_GROUPMEMBERS'); ?></th>
 	<?php endif; ?>
 	
-	<th><?php echo JText::_('LEAVE'); ?></th>
+	<th><?php echo JText::_('JOPENSIM_GROUPLEAVE'); ?></th>
 </tr>
 <tr>
 	<td><?php echo $this->grouplist['groupname']; ?></td>

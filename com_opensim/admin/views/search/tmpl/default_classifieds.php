@@ -15,11 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_CREATOR'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_CREATIONDATE'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_EXPIRATIONDATE'); ?></th>
+	<th>&nbsp;</th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_SNAPSHOT'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_REGION'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_SURL'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_FLAGS'); ?></th>
 	<th><?php echo JText::_('JOPENSIM_SEARCH_CLASSIFIED_LISTINGPRICE'); ?></th>
+	<th>&nbsp;</th>
 </tr>
 </thead>
 <tbody>
@@ -30,7 +32,16 @@ defined('_JEXEC') or die('Restricted access');
 	<td><?php echo $classified['description']; ?></td>
 	<td><?php echo $classified['creatorName']; ?></td>
 	<td><?php echo JFactory::getDate($classified['creationdate']); ?></td>
-	<td><?php echo JFactory::getDate($classified['expirationdate']); ?></td>
+	<td><?php echo JFactory::getDate($classified['expirationdate']); ?> (<?php echo $classified['isexpired']; ?>)</td>
+	<td>
+	<?php if($this->canDo->get('core.edit') && $classified['isexpired'] === TRUE): ?>
+	<a class="btn btn-default btn-success icon-loop hasTooltip" href='index.php?option=com_opensim&view=search&task=renewclassified&classifieduuid=<?php echo $classified['classifieduuid']; ?>' onClick='return confirm("<?php echo JText::_('JOPENSIM_CLASSIFIED_RENEWSURE'); ?>");' title="<?php echo JText::_('JOPENSIM_CLASSIFIED_RENEW'); ?>">
+		<i class="hasTooltip" title="<?php echo JText::_('JOPENSIM_CLASSIFIED_RENEW'); ?>"></i>
+	</a>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
+	</td>
 	<td>
 	<?php if(($this->settings['getTextureEnabled'] == 1) && $classified['snapshotuuid'] && $classified['snapshotuuid'] != $this->zerouuid): ?>
 	<a href='index.php?option=com_opensim&view=opensim&task=gettexture&textureid=<?php echo $classified['snapshotuuid']; ?>&tmpl=component' title="<?php echo JText::_('JOPENSIM_CLASSIFIED_PREVIEWINSIGNIA'); ?>">
@@ -42,13 +53,29 @@ defined('_JEXEC') or die('Restricted access');
 	</td>
 	<td><?php echo $classified['simname']; ?></td>
 	<td><?php echo $classified['surl']; ?></td>
-	<td><?php echo $classified['classifiedflags']; ?></td>
+	<td><nobr>
+	<?php if(($classified['classifiedflags'] & 8) == 8): ?>
+	<span class="label label-info" title="<?php echo JText::_('JOPENSIM_MATURE'); ?>">M</span>
+	<?php else: ?>
+	<span class="label label-default" title="<?php echo JText::_('JOPENSIM_GENERAL'); ?>">G</span>
+	<?php endif; ?>
+	<?php if(($classified['classifiedflags'] & 32) == 32): ?>
+	<span class="label label-success" title="<?php echo JText::_('JOPENSIM_CLASSIFIED_AUTORENEW'); ?>"><i class="icon-loop" style="width:auto;margin-right:0px;"></i></span>
+	<?php endif; ?>
+	</nobr></td>
 	<td><?php echo $classified['priceforlisting']; ?></td>
+	<td>
+	<?php if($this->canDo->get('core.delete')): ?>
+	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=deleteclassified&classifieduuid=<?php echo $classified['classifieduuid']; ?>' onClick='return confirm("<?php echo JText::_('JOPENSIM_CLASSIFIED_DELETESURE'); ?>");' title="<?php echo JText::_('JOPENSIM_CLASSIFIED_DELETE'); ?>"></a>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
+	</td>
 </tr>
 <?php endforeach; ?>
 <?php else: ?>
 <tr>
-	<td colspan='6'><?php echo JText::_('JOPENSIM_SEARCH_ERROR_NOCLASSIFIEDS'); ?></td>
+	<td colspan='8'><?php echo JText::_('JOPENSIM_SEARCH_ERROR_NOCLASSIFIEDS'); ?></td>
 </tr>
 <?php endif; ?>
 </tbody>

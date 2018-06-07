@@ -37,7 +37,7 @@ class opensimModelRegions extends JModelLegacy {
 		parent::__construct($config);
 		$input = JFactory::getApplication()->input;
 
-		$app =& JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$limitstart	= $app->getUserStateFromRequest( 'regions_limitstart', 'limitstart', 0, 'int' );
 		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
 		$orderby	= $app->getUserStateFromRequest( 'regions_filter_order', 'filter_order', 'regions.regionName', 'STR' );
@@ -50,7 +50,7 @@ class opensimModelRegions extends JModelLegacy {
 		$this->setState('regions_filter_order_Dir', $input->get('filter_order_Dir',$orderdir,'STR'));
 		$this->setState('regions_filter_search', $input->get('filter_search',$search,'STR'));
 
-		$params			= &JComponentHelper::getParams('com_opensim');
+		$params		= JComponentHelper::getParams('com_opensim');
 
 		$this->osdbhost			= $params->get('opensim_dbhost');
 		$this->osdbuser			= $params->get('opensim_dbuser');

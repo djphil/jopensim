@@ -9,8 +9,8 @@ defined('_JEXEC') or die();
 
 class OpenSimControllerLoginscreen extends OpenSimController {
 	public function __construct() {
-		$this->model	= $this->getModel('loginscreen');
 		parent::__construct();
+		$this->model	= $this->getModel();
 	}
 
 	public function insertposition() {

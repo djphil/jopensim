@@ -21,18 +21,15 @@ class OpenSimControlleruser extends OpenSimController {
 	}
 
 	public function saveuseredit() {
-		$model = $this->getModel('user');
-		$opensim =& $model->opensim;
+		$model		= $this->getModel('user');
+		$opensim	= $model->opensim;
 
 		$data = JFactory::getApplication()->input->request->getArray();
 
 		if(!array_key_exists("jopensim_usersetting_flag3",$data)) $data['jopensim_usersetting_flag3']	= 0;
 		if(!array_key_exists("jopensim_usersetting_flag4",$data)) $data['jopensim_usersetting_flag4']	= 0;
 		if(!array_key_exists("jopensim_usersetting_flag5",$data)) $data['jopensim_usersetting_flag5']	= 0;
-		if(!array_key_exists("jopensim_usersetting_flag9",$data)) $data['jopensim_usersetting_flag9']	= 0;
-		if(!array_key_exists("jopensim_usersetting_flag10",$data)) $data['jopensim_usersetting_flag10']	= 0;
-		if(!array_key_exists("jopensim_usersetting_flag11",$data)) $data['jopensim_usersetting_flag11']	= 0;
-		if(!array_key_exists("jopensim_usersetting_flag12",$data)) $data['jopensim_usersetting_flag12']	= 0;
+		if(!array_key_exists("jopensim_usersetting_flag6",$data)) $data['jopensim_usersetting_flag6']	= 0;
 
 		$data['PrincipalID']= trim($data['userid']);
 		$data['FirstName']	= trim($data['firstname']);
@@ -43,10 +40,8 @@ class OpenSimControlleruser extends OpenSimController {
 		$data['UserFlags']	= trim($data['jopensim_usersetting_flag3'])
 							+ trim($data['jopensim_usersetting_flag4'])
 							+ trim($data['jopensim_usersetting_flag5'])
-							+ trim($data['jopensim_usersetting_flag9'])
-							+ trim($data['jopensim_usersetting_flag10'])
-							+ trim($data['jopensim_usersetting_flag11'])
-							+ trim($data['jopensim_usersetting_flag12']);
+							+ trim($data['jopensim_usersetting_flag6'])
+							+ trim($data['jopensim_usersetting_accounttype']);
 		$pwd1				= trim($data['pwd1']);
 		$pwd2				= trim($data['pwd2']);
 
@@ -97,8 +92,8 @@ class OpenSimControlleruser extends OpenSimController {
 	}
 
 	public function insertuser() {
-		$model = $this->getModel('user');
-		$opensim =& $model->opensim;
+		$model		= $this->getModel('user');
+		$opensim	= $model->opensim;
 
 		$firstname	= trim(JFactory::getApplication()->input->get('firstname'));
 		$lastname	= trim(JFactory::getApplication()->input->get('lastname'));

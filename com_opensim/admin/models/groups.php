@@ -20,7 +20,7 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 
 		$input = JFactory::getApplication()->input;
 
-		$app		=& JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$limitstart	= $app->getUserStateFromRequest( 'groups_limitstart', 'limitstart', 0, 'int' );
 		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
 		$orderby	= $app->getUserStateFromRequest( 'groups_filter_order', 'filter_order', '#__opensim_group.Name', 'STR' );
@@ -36,7 +36,10 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 
 	public function getGroupDetails($groupID = null) {
 		$opensim = $this->opensim;
-		$db		=& JFactory::getDBO();
+		$db		= JFactory::getDBO();
+		$query = "SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+		$db->setQuery($query);
+		$db->execute();
 		$query	= $db->getQuery(true);
 		$query->select("COUNT(DISTINCT(#__opensim_grouprolemembership.AgentID)) AS owners");
 		$query->select("COUNT(DISTINCT(#__opensim_groupmembership.AgentID)) AS members");
@@ -81,7 +84,7 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 	}
 
 	public function getTotal() {
-		$db		=& JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select("#__opensim_group.*");
 		$query->from("#__opensim_group");
@@ -101,7 +104,7 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 
 	public function getGroupDetails_old($groupID = null) {
 		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if($groupID) $groupWhere = sprintf("WHERE #__opensim_group.GroupID = '%s'",$groupID);
 		else $groupWhere = "";
 		$query = sprintf("SELECT
@@ -134,9 +137,9 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 	}
 
 	public function getGroupMembers($groupID) {
-		$opensim = $this->opensim;
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT * FROM #__opensim_groupmembership WHERE GroupID = '%s'",$groupID);
+		$opensim	= $this->opensim;
+		$db			= JFactory::getDBO();
+		$query		= sprintf("SELECT * FROM #__opensim_groupmembership WHERE GroupID = '%s'",$groupID);
 		$db->setQuery($query);
 		$memberList = $db->loadAssocList();
 		// get the Founders Name
@@ -154,10 +157,10 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 	}
 
 	public function assignOwner($groupID,$roleID,$memberID) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("INSERT INTO #__opensim_grouprolemembership (GroupID,RoleID,AgentID) VALUES ('%s','%s','%s')",$groupID,$roleID,$memberID);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("INSERT INTO #__opensim_grouprolemembership (GroupID,RoleID,AgentID) VALUES ('%s','%s','%s')",$groupID,$roleID,$memberID);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return $db->getAffectedRows();
 	}
 
@@ -171,28 +174,28 @@ class OpenSimModelGroups extends OpenSimModelOpenSim {
 	}
 
 	public function deleteGroup($group) { // deletes the single group $group and returns the affectedRows at success
-		$db =& JFactory::getDBO();
-		$query = sprintf("DELETE FROM #__opensim_grouprolemembership WHERE GroupID = '%s'",$group);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("DELETE FROM #__opensim_grouprolemembership WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("DELETE FROM #__opensim_grouprole WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("DELETE FROM #__opensim_groupnotice WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("DELETE FROM #__opensim_groupmembership WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("DELETE FROM #__opensim_groupinvite WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("UPDATE #__opensim_groupactive SET #__opensim_groupactive.ActiveGroupID = '00000000-0000-0000-0000-000000000000' WHERE #__opensim_groupactive.ActiveGroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$query = sprintf("DELETE FROM #__opensim_group WHERE GroupID = '%s'",$group);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return $db->getAffectedRows();
 	}
 

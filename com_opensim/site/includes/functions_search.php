@@ -4,7 +4,7 @@
 xmlrpc functions for search handling
 
  * @component jOpenSim (Communication Interface with the OpenSim Server)
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
 
  * based on ossearch from Melanie Thielker (http://opensimulator.org/)
@@ -65,7 +65,7 @@ function searchDataUpdate($parameter) {
 
 function checkhost($host,$port) {
 	$fp = fsockopen ($host,$port,$errno,$errstr, 10);
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	if(!$fp) {
 		//Setting a "fake" update time so this host will have time to get back online
 		$next = time() + 600; // 5 mins, so we don't get stuck
@@ -346,7 +346,7 @@ function parseData($host,$port) {
 
 function isregistered($host) {
 	$query = sprintf("SELECT * FROM #__opensim_search_hostsregister WHERE host = '%s' AND port = '%s'",$host['host'],$host['port']);
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
 	$db->execute();
 	$num_rows = $db->getNumRows();
@@ -401,7 +401,7 @@ function dir_places_query($parameter) {
 			$limit);
 	}
 
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
 	$searchresult = $db->loadAssocList();
 
@@ -528,8 +528,10 @@ function dir_events_query($parameter) {
 
 	if($day == "u") {
 		$stampadd = 0; // today
+		$timestampSearchAdd = " + (duration * 60)";
 	} else {
 		$stampadd = 24*60*60*intval($day); // seconds of days in future
+		$timestampSearchAdd = "";
 	}
 
 	$timestamp			= time();
@@ -580,9 +582,12 @@ function dir_events_query($parameter) {
 					FROM
 						#__opensim_search_events LEFT JOIN #__opensim_search_allparcels USING(parcelUUID)
 					WHERE
-						dateUTC >= '%d'
-					%s%s",$timestampSearch,$categorywhere,$searchwhere);
+						dateUTC%s >= '%d'
+					%s%s
+					GROUP BY
+						#__opensim_search_events.eventid",$timestampSearchAdd,$timestampSearch,$categorywhere,$searchwhere);
 	$db->setQuery($query);
+
 	$searchresult = $db->loadAssocList();
 
 	$data = array();
@@ -683,7 +688,7 @@ function event_info_query($parameter) {
 function timezonecalc($parameter) {
 	$retval				= array();
 	$retval['timezone']	= "";
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$query = sprintf("SELECT timezone FROM #__opensim_usersettings WHERE `uuid`= '%s'",$parameter['avatar_id']);
 	$db->setQuery($query);
 	$db->execute();
@@ -835,7 +840,7 @@ function classifieds_info_query($parameter) {
 		$retval['errorMessage']	= "Invalid search terms for function classifieds_info_query";
 	} else {
 		$classifiedID = $parameter['classifiedID'];
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT #__opensim_userclassifieds.* FROM #__opensim_userclassifieds WHERE #__opensim_userclassifieds.classifieduuid = '%s'",$classifiedID);
 		$db->setQuery($query);
 		$db->execute();

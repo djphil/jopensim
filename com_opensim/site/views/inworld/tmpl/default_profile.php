@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -40,7 +40,7 @@ JHTML::_('behavior.modal');
 		<td><label><?php echo JText::_('JOPENSIM_PROFILE_PARTNER'); ?>:</label></td>
 		<td>
 		    <?php echo $this->profiledata['partnername']; ?>
-			<a class='btn btn-default btn-primary pull-right modal' id='partnerwindow' href='<?php echo JRoute::_("&option=com_opensim&view=inworld&task=".$this->newtask."&tmpl=component&Itemid=".$this->Itemid); ?>' rel="{handler: 'iframe', size: {x: <?php echo $this->modalwidth; ?>, y: <?php echo $this->modalheight; ?>}, overlayOpacity: 0.3}" style="position:relative;">
+			<a class='btn btn-primary pull-right modal' id='partnerwindow' href='<?php echo JRoute::_("&option=com_opensim&view=inworld&task=".$this->newtask."&tmpl=component&Itemid=".$this->Itemid); ?>' rel="{handler: 'iframe', size: {x: <?php echo $this->modalwidth; ?>, y: <?php echo $this->modalheight; ?>}, overlayOpacity: 0.3}" style="position:relative;">
 			    <img class="jopensim_partner" src='<?php echo $this->assetpath; ?>images/<?php echo $this->partnerimage; ?>' alt='<?php echo $this->partnerimgtitle; ?>' title='<?php echo $this->partnerimgtitle; ?>' />
 			</a>
 			
@@ -145,7 +145,7 @@ JHTML::_('behavior.modal');
 	<tr>
 		<td colspan='2'>
 		    <!-- <span class="icon-save"></span> -->
-		    <button type='submit' class="btn btn-default btn-primary"/><?php echo JText::_('JOPENSIM_SAVECHANGES'); ?></button>
+		    <button type='submit' class="btn btn-primary"/><?php echo JText::_('JOPENSIM_SAVECHANGES'); ?></button>
 		</td>
 	</tr>
 	</table>

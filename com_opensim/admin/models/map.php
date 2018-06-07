@@ -11,27 +11,29 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTOR
 
 class opensimModelMap extends OpenSimModelOpenSim {
 
-	var $_data;
-	var $_data_ext;
-	var $_regiondata = null;
-	var $_settingsData;
-	var $filename = "map.php";
-	var $view = "map";
-	var $_os_db;
-	var $_osgrid_db;
-	var $_db;
-	var $mapquery;
+	public $_data;
+	public $_data_ext;
+	public $_regiondata = null;
+	public $_settingsData;
+	public $filename = "map.php";
+	public $view = "map";
+	public $_os_db;
+	public $_osgrid_db;
+	public $_db;
+	public $mapquery;
+	public $regionstart = 0;
+	public $regionlimit = 20;
 
 	/**
 	 * Pagination object
 	 * @var object
 	 */
-	var $_pagination = null;
+	public $_pagination = null;
 	/**
 	 * Items total
 	 * @var integer
 	 */
-	var $_total = null;
+	public $_total = null;
 
 	public function __construct() {
 		global $mainframe, $option;
@@ -77,10 +79,11 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		if(!$this->_osgrid_db) return FALSE;
 		// Load the content if it doesn't already exist
 		if (empty($this->_total)) {
-			$this->_osgrid_db->setQuery($this->opensim->getAllRegionsQuery());
-			$this->_osgrid_db->query();
-			if($this->_osgrid_db->getErrorNum() > 0) {
-				$errormsg = $this->_osgrid_db->getErrorNum().": ".stristr($this->_osgrid_db->getErrorMsg(),"sql=",TRUE)." in ".__FILE__." at line ".__LINE__;
+			try {
+				$this->_osgrid_db->setQuery($this->opensim->getAllRegionsQuery());
+				$this->_osgrid_db->execute();
+			} catch(Exception $e) {
+				$errormsg = $e->getMessage();
 				JFactory::getApplication()->enqueueMessage($errormsg,"error");
 			}
 			$this->_total = $this->_osgrid_db->getNumRows();
@@ -93,12 +96,15 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		global $mainframe,$option;
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_settingsData )) $this->getSettingsData();
-		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db) {
 			return FALSE;
 		}
 
-		$lim   = $mainframe->getUserStateFromRequest("global.list.limit", 'limit', $mainframe->getCfg('list_limit'), 'int', FALSE);
-		$lim0  = JFactory::getApplication()->input->get('limitstart', 0, '', 'int');
+//		$lim   = $mainframe->getUserStateFromRequest("global.list.limit", 'limit', $mainframe->getCfg('list_limit'), 'int', FALSE);
+//		$lim0  = JFactory::getApplication()->input->get('limitstart', 0, '', 'int');
+
+		$lim	= $this->regionlimit;
+		$lim0	= $this->regionstart;
 
 		$retval['settings'] = $this->_settingsData; // settings has only one line
 
@@ -253,32 +259,6 @@ class opensimModelMap extends OpenSimModelOpenSim {
 		return true;
 	}
 
-	public function getMapInfo($regionUUID) {
-		if(is_array($regionUUID)) {
-			$region = $regionUUID[0];
-		} else {
-			$region = $regionUUID;
-		}
-		$retval = array();
-		$query = sprintf("SELECT #__opensim_mapinfo.* FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$region);
-		$db =& JFactory::getDBO();
-		$db->setQuery($query);
-		$db->query();
-		if($db->getNumRows() == 1) {
-			$retval = $db->loadAssoc();
-			if($retval['articleId'] && $retval['articleId'] > 0) $retval['articleTitle'] = $this->getContentTitleFromId($retval['articleId']);
-			else $retval['articleTitle'] = "";
-		} else {
-			$retval['regionUUID']	= $region;
-			$retval['articleId']	= null;
-			$retval['articleTitle'] = "";
-			$retval['hidemap']		= 0;
-			$retval['public']		= 0;
-			$retval['guide']		= 0;
-		}
-		return $retval;
-	}
-
 	public function setMapInfo($data) {
 		$query = sprintf("INSERT INTO #__opensim_mapinfo (regionUUID,articleId,hidemap,`public`,guide) VALUES ('%1\$s','%2\$d','%3\$d','%4\$d','%5\$d')
 								ON DUPLICATE KEY UPDATE
@@ -293,14 +273,14 @@ class opensimModelMap extends OpenSimModelOpenSim {
 					$data['mapguide']);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function removeMapArticle($regionUUID) {
 		$query = sprintf("UPDATE #__opensim_mapinfo SET articleId = NULL WHERE regionUUID = '%s'",$regionUUID);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function setVisible($regionUUID,$status) {
@@ -311,7 +291,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 					$status);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function setPublic($regionUUID,$status) {
@@ -322,7 +302,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 					$status);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function setGuide($regionUUID,$status) {
@@ -333,7 +313,7 @@ class opensimModelMap extends OpenSimModelOpenSim {
 					$status);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function updateMapconfig($data) {
@@ -380,9 +360,9 @@ class opensimModelMap extends OpenSimModelOpenSim {
 						categorytitle,
 						#__content.ordering";
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if($db->getNumRows() > 0) {
 			$retval = $db->loadAssocList();

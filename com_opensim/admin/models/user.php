@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -36,7 +36,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 
 		$input = JFactory::getApplication()->input;
 
-		$app =& JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$limitstart	= $app->getUserStateFromRequest( 'users_limitstart', 'limitstart', 0, 'int' );
 		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
 		$orderby	= $app->getUserStateFromRequest( 'users_filter_order', 'filter_order', 'UserAccounts.Created', 'STR' );
@@ -51,7 +51,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 
 		$this->getSettingsData();
 
-		$this->_osgrid_db =& $this->getOpenSimGridDB();
+		$this->_osgrid_db = $this->getOpenSimGridDB();
 
 		if($this->_osgrid_db) {
 			$opensim = $this->opensim;
@@ -74,7 +74,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 				$this->_osgrid_db->execute();
 				$this->_total = $this->_osgrid_db->getNumRows();
 			} catch(Exception $e) {
-				$errormsg = $e."(".$this->_osgrid_db->getErrorNum()."): ".stristr($this->_osgrid_db->getErrorMsg(),"sql=",TRUE)." in ".__FILE__." at line ".__LINE__;
+				$errormsg = $e->getMessage();
 				JFactory::getApplication()->enqueueMessage($errormsg,"error");
 				$this->_total = 0;
 			}
@@ -88,7 +88,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		$opensim = $this->opensim;
 		$checkquery = $opensim->getCheckQuery($firstname,$lastname,$uid);
 		$this->_osgrid_db->setQuery($checkquery);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$existing = $this->_osgrid_db->getNumRows();
 		if($existing > 0) {
 			return TRUE;
@@ -98,24 +98,24 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 	}
 
 	public function getUUID() {
-		$db =& JFactory::getDBO();
-		$query = "SELECT UUID()";
+		$db		= JFactory::getDBO();
+		$query	= "SELECT UUID()";
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
 		return $uuid;
 	}
 
 	public function getUserRelation($userid) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$userid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$userid);
 		$db->setQuery($query);
 		$relations = $db->loadRow();
 		return $relations;
 	}
 
 	public function getAllUserRelation() {
-		$db =& JFactory::getDBO();
-		$query = "SELECT joomlaID FROM #__opensim_userrelation";
+		$db		= JFactory::getDBO();
+		$query	= "SELECT joomlaID FROM #__opensim_userrelation";
 		$db->setQuery($query);
 		$relations = $db->loadRowList();
 		foreach($relations AS $relation) { // I want them in a simple array
@@ -152,18 +152,18 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		$insertquery = $opensim->getInsertUserQuery($newuser);
 		$debug[] = $insertquery;
 		$this->_osgrid_db->setQuery($insertquery['user']);
-		$retval = $this->_osgrid_db->query();
+		$retval = $this->_osgrid_db->execute();
 		$this->_osgrid_db->setQuery($insertquery['auth']);
-		$retval = $this->_osgrid_db->query();
+		$retval = $this->_osgrid_db->execute();
 		if($this->regionExists($newuser['homeregion'])) { // only add home region if set already
 			$this->_osgrid_db->setQuery($insertquery['grid']);
-			$retval = $this->_osgrid_db->query();
+			$retval = $this->_osgrid_db->execute();
 		}
 		$inventoryqueries = $opensim->getinventoryqueries($newuser['uuid']);
 		if(is_array($inventoryqueries)) {
 			foreach($inventoryqueries AS $query) {
 				$this->_osgrid_db->setQuery($query);
-				$this->_osgrid_db->query();
+				$this->_osgrid_db->execute();
 			}
 		}
 		return $retval;
@@ -177,7 +177,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		if(is_array($updatequery) && count($updatequery) > 0) {
 			foreach($updatequery AS $query) {
 				$this->_osgrid_db->setQuery($query);
-				$this->_osgrid_db->query();
+				$this->_osgrid_db->execute();
 			}
 			$this->repopulateavatars();
 			return TRUE;
@@ -244,7 +244,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 		$opensim = $this->opensim;
 		$query = $opensim->getOnlineStatusQuery($userid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$num_rows = $this->_osgrid_db->getNumRows();
 		if($num_rows == 1) return TRUE;
 		else return FALSE;
@@ -278,7 +278,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 
 	public function userrelation($opensimid,$joomlaid,$method) {
 		if($joomlaid == 0) return FALSE; // no Joomla User? no change!
-		$db =& JFactory::getDBO();
+		$db	= JFactory::getDBO();
 		switch($method) {
 			case "insert":
 				$query = sprintf("INSERT INTO #__opensim_userrelation (joomlaID,opensimID) VALUES ('%d','%s')",$joomlaid,$opensimid);
@@ -315,7 +315,7 @@ class OpenSimModelUser extends OpenSimModelOpenSim {
 	}
 
 	public function getUserLevels() {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if($this->moneyEnabled === TRUE) $query = "SELECT #__opensim_userlevel.* FROM #__opensim_userlevel ORDER BY #__opensim_userlevel.userlevel ASC";
 		else  $query = "SELECT #__opensim_userlevel.* FROM #__opensim_userlevel WHERE #__opensim_userlevel.userlevel != -2 ORDER BY #__opensim_userlevel.userlevel ASC";
 		$db->setQuery($query);

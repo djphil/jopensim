@@ -146,11 +146,11 @@ class OpenSimControllerMaps extends OpenSimController {
 		$this->setRedirect( 'index.php?option=com_opensim&view=maps');
 	}
 
-	public function cancel() {
+	public function cancel($key = NULL) {
 		$this->setRedirect( 'index.php?option=com_opensim&view=maps');
 	}
 
-	public function display() {
+	public function display($cachable = false, $urlparams = array()) {
 		$view	= $this->getView( 'maps', 'html' );
 		$view->setModel($this->getModel('regions'),true);
 		$view->setModel($this->model);

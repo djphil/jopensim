@@ -1,13 +1,14 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
 
 class opensimViewuser extends JViewLegacy {
 	public function display($tpl = null) {
@@ -23,6 +24,8 @@ class opensimViewuser extends JViewLegacy {
 		$this->limit			= $model->getUserState('limit');
 		$this->limitstart		= $model->getUserState('users_limitstart');
 		$zusatztext				= "";
+
+		$this->canDo			= jOpenSimHelper::getActions();
 
 		if(!$model->_osgrid_db) {
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('ERROR_NOSIMDB',JText::_('OPENSIMGRIDDB')),"error");
@@ -62,6 +65,7 @@ class opensimViewuser extends JViewLegacy {
 					$this->userlevel		= $userdata['userlevel'];
 					$this->userparams		= $userparams;
 					$tpl					= "edituser";
+					JHTML::_('behavior.tooltip');
 					$usertitle				= JHTML::tooltip(JText::_('JOPENSIM_USERSETTING_TITLE_DESC'),JText::_('JOPENSIM_USERSETTING_TITLE'),'',JText::_('JOPENSIM_USERSETTING_TITLE'));
 					$this->usertitle		= $usertitle;
 				break;
@@ -101,7 +105,7 @@ class opensimViewuser extends JViewLegacy {
 					}
 					$filter					= JFactory::getApplication()->input->get('search');
 			 		$this->filter			= $filter;
-			 		$pagination				=& $this->get('Pagination');
+			 		$pagination				= $this->get('Pagination');
 					$this->pagination		= $pagination;
 				break;
 			}
@@ -133,14 +137,19 @@ class opensimViewuser extends JViewLegacy {
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_USER_EDIT'));
 			break;
 			default:
-				JToolBarHelper::deleteList(JText::_('DELETEUSERSURE'),"deleteuser",JText::_('DELETEUSER'));
 				$model = $this->getModel('user');
-				$os_settings = $model->getSettingsData();
-				JToolBarHelper::addNew("newuser",JText::_('ADDNEWUSER'));
-				JToolBarHelper::editList("edituser",JText::_('JOPENSIM_EDITUSER'));
-				JToolBarHelper::custom("attachUser","joomla2opensim","opensim",JText::_('ATTACHJOOMLA2OPENSIM'),true,false);
+				if($this->canDo->get('core.delete')) {
+					JToolBarHelper::deleteList(JText::_('DELETEUSERSURE'),"deleteuser",JText::_('DELETEUSER'));
+				}
+				if($this->canDo->get('core.create')) {
+					JToolBarHelper::addNew("newuser",JText::_('ADDNEWUSER'));
+				}
+				if($this->canDo->get('core.edit')) {
+					JToolBarHelper::editList("edituser",JText::_('JOPENSIM_EDITUSER'));
+					JToolBarHelper::custom("attachUser","joomla2opensim","opensim",JText::_('ATTACHJOOMLA2OPENSIM'),true,false);
+				}
 				JToolBarHelper::custom("repairUserStatus","userrepair","opensim",JText::_('REPAIRUSERSTATUS'),false,false);
-				if($model->moneyEnabled === TRUE) {
+				if($model->moneyEnabled === TRUE && $this->canDo->get('core.jmoney')) {
 					JToolBarHelper::custom("userMoney","usermoney","opensim",JText::_('JOPENSIMUSERMONEY'),true,false);
 				}
 				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {

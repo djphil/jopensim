@@ -14,7 +14,7 @@ class OpenSimControllerMoney extends OpenSimController {
 		parent::__construct($config);
 	}
 
-	public function cancel() {
+	public function cancel($key = NULL) {
 		$this->setRedirect('index.php?option=com_opensim&view=opensim');
 	}
 
@@ -22,7 +22,7 @@ class OpenSimControllerMoney extends OpenSimController {
 		$this->save();
 	}
 
-	public function save() {
+	public function save($key = NULL, $urlVar = NULL) {
 		$model = $this->getModel('money');
 		$model->storeMoneySettings();
 		$this->setRedirect('index.php?option=com_opensim&view=money',JText::_('SETTINGSSAVEDOK'));

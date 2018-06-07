@@ -27,19 +27,22 @@ class opensimModelShowcase extends OpenSimModelOpenSim {
 		$this->_osgrid_db = $this->getOpenSimGridDB();
 	}
 
-	public function getClassifieds($classifiedid = null) {
+	public function getClassifieds($classifiedid = null,$mature = 0) {
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
+		$nowUTC = date("U");
 		$query->select($db->quoteName('#__opensim_userclassifieds').".*");
 		$query->from($db->quoteName('#__opensim_userclassifieds'));
 		if($this->_settingsData['classified_hide'] > 0) {
-			$query->where("FROM_UNIXTIME(".$db->quoteName('#__opensim_userclassifieds.creationdate').") + ".$this->_settingsData['classified_hide']." > NOW()");
+//			$query->where("FROM_UNIXTIME(".$db->quoteName('#__opensim_userclassifieds.creationdate').") + ".$this->_settingsData['classified_hide']." > NOW()");
+			$query->where($db->quoteName('#__opensim_userclassifieds.expirationdate')." >= ".$db->quote($nowUTC));
 		}
 		if($classifiedid) {
 			$query->where($db->quoteName('#__opensim_userclassifieds.classifieduuid')." = ".$db->quote($classifiedid));
 		}
-//		error_log("sort by: ".$this->_settingsData['classified_sort']);
-//		error_log("sorting: ".$this->_settingsData['classified_order']);
+		if($mature == 0) {
+			$query->where($db->quoteName('#__opensim_userclassifieds.classifiedflags')." & 8 = 0");
+		}
 		$query->order($db->quoteName('#__opensim_userclassifieds.'.$this->_settingsData['classified_sort'])." ".$this->_settingsData['classified_order']);
 		$db->setQuery($query);
 		$db->execute();

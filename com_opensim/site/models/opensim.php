@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -84,11 +84,15 @@ class opensimModelOpensim extends JModelItem {
 			$settings['loginscreen_msgbox_color']				= $params->get('jopensim_loginscreen_color_background_box');
 			$settings['loginscreen_text_color']					= $params->get('jopensim_loginscreen_color_text');
 			$settings['loginscreen_xdays']						= $params->get('loginscreen_show_uniquevisitors_days');
-
 			$settings['loginscreen_layout']         			= $params->get('loginscreen_layout','classic');
+
+			$settings['jopensim_loginscreen_matrix_fx']         = $params->get('jopensim_loginscreen_matrix_fx', '0');
+			$settings['jopensim_loginscreen_table_optimize']    = $params->get('jopensim_loginscreen_table_optimize', '1');
+
 			$settings['loginscreen_box_padding']         		= $params->get('loginscreen_box_padding',0);
 			$settings['loginscreen_box_radius']         		= $params->get('loginscreen_box_radius',0);
-			$settings['loginscreen_title_padding']         		= $params->get('loginscreen_title_padding',0);
+			$settings['loginscreen_title_padding_horizontal']   = $params->get('loginscreen_title_padding_horizontal', 0);
+            $settings['loginscreen_title_padding_vertical']     = $params->get('loginscreen_title_padding_vertical', 0);
 			$settings['loginscreen_title_radius']         		= $params->get('loginscreen_title_radius',0);
 			$settings['jopensim_loginscreen_customcss']         = $params->get('jopensim_loginscreen_customcss','');
 
@@ -123,173 +127,259 @@ class opensimModelOpensim extends JModelItem {
 
 
 	public function getAdminSettingsData() {
-			$settings = array();
+		$settings = array();
 
-			$params								= JComponentHelper::getParams('com_opensim');
-			$this->params						= $params;
+		$params								= JComponentHelper::getParams('com_opensim');
+		$this->params						= $params;
 
-			$settings['opensim_host']			= $params->get('opensim_host');
-			$settings['robust_port']			= $params->get('robust_port');
-			$settings['getTextureEnabled']		= $params->get('getTextureEnabled');
-			$settings['getTextureFormat']		= $params->get('getTextureFormat','png');
+		$settings['opensim_host']			= $params->get('opensim_host');
+		$settings['robust_port']			= $params->get('robust_port');
+		$settings['getTextureEnabled']		= $params->get('getTextureEnabled');
+		$settings['getTextureFormat']		= $params->get('getTextureFormat','png');
 
-			$settings['oshost']					= $params->get('opensim_host');
-			$settings['osport']					= $params->get('opensim_port');
+		$settings['oshost']					= $params->get('opensim_host');
+		$settings['osport']					= $params->get('opensim_port');
 
-			$settings['osdbhost']				= $params->get('opensimgrid_dbhost');
-			$settings['osdbuser']				= $params->get('opensimgrid_dbuser');
-			$settings['osdbpasswd']				= $params->get('opensimgrid_dbpasswd');
-			$settings['osdbname']				= $params->get('opensimgrid_dbname');
-			$settings['osdbport']				= $params->get('opensimgrid_dbport',3306);
+		$settings['osdbhost']				= $params->get('opensimgrid_dbhost');
+		$settings['osdbuser']				= $params->get('opensimgrid_dbuser');
+		$settings['osdbpasswd']				= $params->get('opensimgrid_dbpasswd');
+		$settings['osdbname']				= $params->get('opensimgrid_dbname');
+		$settings['osdbport']				= $params->get('opensimgrid_dbport',3306);
 
-			$settings['loginscreen_layout']		= $params->get('loginscreen_layout','classic');
+		$settings['loginscreen_layout']		= $params->get('loginscreen_layout','classic');
 
-			$settings['enableremoteadmin']		= $params->get('enableremoteadmin');
-			$settings['remotehost']				= $params->get('remotehost');
-			$settings['remoteport']				= $params->get('remoteport');
-			$settings['remotepasswd']			= $params->get('remotepasswd');
+		$settings['enableremoteadmin']		= $params->get('enableremoteadmin');
+		$settings['remotehost']				= $params->get('remotehost');
+		$settings['remoteport']				= $params->get('remoteport');
+		$settings['remotepasswd']			= $params->get('remotepasswd');
 
-			$settings['addons_messages']		= $params->get('addons_messages');
-			$settings['addons_profile']			= $params->get('addons_profile');
-			$settings['addons_groups']			= $params->get('addons_groups');
-			$settings['addons_search']			= $params->get('addons_search');
-			$settings['addons_inworldauth']		= $params->get('addons_inworldauth');
-			$settings['addons_terminalchannel']	= $params->get('addons_terminalchannel');
-			$settings['addons_identminutes']	= $params->get('addons_identminutes');
-			$settings['addons_currency']		= $params->get('addons_currency');
-			$settings['addons']					= $settings['addons_messages'] + ($settings['addons_profile']*2) + ($settings['addons_groups']*4) + ($settings['addons_inworldauth']*8) + ($settings['addons_search']*16) + ($settings['addons_currency']*32);
+		$settings['addons_messages']		= $params->get('addons_messages');
+		$settings['addons_profile']			= $params->get('addons_profile');
+		$settings['addons_groups']			= $params->get('addons_groups');
+		$settings['addons_search']			= $params->get('addons_search');
+		$settings['addons_inworldauth']		= $params->get('addons_inworldauth');
+		$settings['addons_terminalchannel']	= $params->get('addons_terminalchannel');
+		$settings['addons_identminutes']	= $params->get('addons_identminutes');
+		$settings['addons_currency']		= $params->get('addons_currency');
+		$settings['addons_authorize']		= $params->get('addons_authorize');
+		$settings['addons_authorizehg']		= $params->get('addons_authorizehg');
+		$settings['addons']					= $settings['addons_messages'] + ($settings['addons_profile']*2) + ($settings['addons_groups']*4) + ($settings['addons_inworldauth']*8) + ($settings['addons_search']*16) + ($settings['addons_currency']*32) + ($settings['addons_authorize']*64);
 
-			$settings['jopensim_userhome_region']		= $params->get('jopensim_userhome_region');
-			$settings['jopensim_userhome_x']			= $params->get('jopensim_userhome_x');
-			$settings['jopensim_userhome_y']			= $params->get('jopensim_userhome_y');
-			$settings['jopensim_userhome_z']			= $params->get('jopensim_userhome_z');
-			$settings['jopensim_defaultuserlevel']		= $params->get('jopensim_defaultuserlevel');
-			$settings['jopensim_usersetting_flag3']		= $params->get('jopensim_usersetting_flag3');
-			$settings['jopensim_usersetting_flag4']		= $params->get('jopensim_usersetting_flag4');
-			$settings['jopensim_usersetting_flag5']		= $params->get('jopensim_usersetting_flag5');
-			$settings['jopensim_usersetting_flag9']		= $params->get('jopensim_usersetting_flag9');
-			$settings['jopensim_usersetting_flag10']	= $params->get('jopensim_usersetting_flag10');
-			$settings['jopensim_usersetting_flag11']	= $params->get('jopensim_usersetting_flag11');
-			$settings['jopensim_usersetting_flag12']	= $params->get('jopensim_usersetting_flag12');
-			$settings['jopensim_usersetting_flags']		= $settings['jopensim_usersetting_flag3'] +
-														  $settings['jopensim_usersetting_flag4'] +
-														  $settings['jopensim_usersetting_flag5'] +
-														  $settings['jopensim_usersetting_flag9'] +
-														  $settings['jopensim_usersetting_flag10'] +
-														  $settings['jopensim_usersetting_flag11'] +
-														  $settings['jopensim_usersetting_flag12'];
-			$settings['jopensim_usersetting_title']		= $params->get('jopensim_usersetting_title');
+		$settings['auth_minage']			= $params->get('auth_minage');
+		$settings['auth_link']				= $params->get('auth_link');
 
-			$settings['jopensim_maps_cacheage']			= $params->get('jopensim_maps_cacheage',0);
-			$settings['jopensim_maps_width']			= $params->get('jopensim_maps_width',600);
-			$settings['jopensim_maps_width_style']		= $params->get('jopensim_maps_width_style','px');
-			$settings['jopensim_maps_height']			= $params->get('jopensim_maps_height',400);
-			$settings['jopensim_maps_height_style']		= $params->get('jopensim_maps_height_style','px');
-			$settings['jopensim_maps_homename']			= $params->get('jopensim_maps_homename',JText::_('JOPENSIM_MAPS_DEFAULTNAME'));
-			$settings['jopensim_maps_copyright']		= $params->get('jopensim_maps_copyright');
-			$settings['jopensim_maps_homex']			= $params->get('jopensim_maps_homex',1000);
-			$settings['jopensim_maps_homey']			= $params->get('jopensim_maps_homey',1000);
-			$settings['jopensim_maps_offsetx']			= $params->get('jopensim_maps_offsetx',0);
-			$settings['jopensim_maps_offsety']			= $params->get('jopensim_maps_offsety',0);
-			$settings['jopensim_maps_zoomstart']		= $params->get('jopensim_maps_zoomstart',8);
-			$settings['jopensim_maps_bubble_bgcolor']	= $params->get('jopensim_maps_bubble_bgcolor','#000000');
-			$settings['jopensim_maps_bubble_alpha']		= $params->get('jopensim_maps_bubble_alpha','50');
-			$settings['jopensim_maps_bubble_textcolor']	= $params->get('jopensim_maps_bubble_textcolor','#ffffff');
-			$settings['jopensim_maps_bubble_linkcolor']	= $params->get('jopensim_maps_bubble_linkcolor','#ffffff');
-			$settings['jopensim_maps_bubble_color']		= $this->convert2rgba($settings['jopensim_maps_bubble_bgcolor'],($settings['jopensim_maps_bubble_alpha']/100));
-			$settings['jopensim_maps_showteleport']		= $params->get('jopensim_maps_showteleport',1);
-			$settings['jopensim_maps_showcoords']		= $params->get('jopensim_maps_showcoords',0);
-			$settings['jopensim_maps_link2article']		= $params->get('jopensim_maps_link2article',1);
-			$settings['jopensim_maps_link2article_icon']= $params->get('jopensim_maps_link2article_icon',1);
-			$settings['jopensim_maps_water']			= $params->get('jopensim_maps_water');
-			if(!$settings['jopensim_maps_water']) {
-				$settings['jopensim_maps_water']		= JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
-				$settings['jopensim_maps_displaytype']	= "auto";
-				$settings['jopensim_maps_displayrepeat']= 1;
-			} else {
-				$settings['jopensim_maps_water']		= JUri::base(true)."/".$settings['jopensim_maps_water'];
-				$settings['jopensim_maps_displaytype']	= $params->get('jopensim_maps_displaytype');
-				$settings['jopensim_maps_displayrepeat']= $params->get('jopensim_maps_displayrepeat');
-			}
+		$settings['jopensim_userhome_region']		= $params->get('jopensim_userhome_region');
+		$settings['jopensim_userhome_x']			= $params->get('jopensim_userhome_x');
+		$settings['jopensim_userhome_y']			= $params->get('jopensim_userhome_y');
+		$settings['jopensim_userhome_z']			= $params->get('jopensim_userhome_z');
+		$settings['jopensim_defaultuserlevel']		= $params->get('jopensim_defaultuserlevel');
+		$settings['jopensim_usersetting_flag3']		= $params->get('jopensim_usersetting_flag3');
+		$settings['jopensim_usersetting_flag4']		= $params->get('jopensim_usersetting_flag4');
+		$settings['jopensim_usersetting_flag5']		= $params->get('jopensim_usersetting_flag5');
+		$settings['jopensim_usersetting_flag6']		= $params->get('jopensim_usersetting_flag6');
+		$settings['jopensim_defaultusertype']		= $params->get('jopensim_defaultusertype');
+		$settings['jopensim_usersetting_flags']		= $settings['jopensim_usersetting_flag3'] +
+													  $settings['jopensim_usersetting_flag4'] +
+													  $settings['jopensim_usersetting_flag5'] +
+													  $settings['jopensim_usersetting_flag6'] +
+													  $settings['jopensim_defaultusertype'];
+		$settings['jopensim_usersetting_title']		= $params->get('jopensim_usersetting_title');
 
-			$settings['profile_display']				= $params->get('profile_display');
-			$settings['profile_images']					= $params->get('profile_images');
-			$settings['profile_images_maxwidth']		= $params->get('profile_images_maxwidth',512);
-			$settings['profile_images_maxheight']		= $params->get('profile_images_maxheight',512);
-
-			$settings['jopensimmoney_currencyname']				= $params->get('jopensimmoney_currencyname');
-			$settings['jopensimmoneybanker']					= $params->get('jopensimmoneybanker');
-			$settings['jopensimmoney_bankername']				= $params->get('jopensimmoney_bankername');
-			$settings['jopensimmoney_startbalance']				= $params->get('jopensimmoney_startbalance',0);
-			$settings['jopensimmoney_upload']					= $params->get('jopensimmoney_upload',0);
-			$settings['jopensimmoney_groupcreation']			= $params->get('jopensimmoney_groupcreation',0);
-			$settings['jopensimmoney_groupdividend']			= $params->get('jopensimmoney_groupdividend',0);
-			$settings['jopensimmoney_zerolines']				= $params->get('jopensimmoney_zerolines',3);
-			$settings['jopensimmoney_buycurrency']				= $params->get('jopensimmoney_buycurrency',0);
-			$settings['jopensimmoney_buycurrency_url']			= $params->get('jopensimmoney_buycurrency_url',0);
-			$settings['jopensimmoney_buycurrency_customized']	= $params->get('jopensimmoney_buycurrency_customized',0);
-			$settings['jopensimmoney_buycurrency_custom_url']	= $params->get('jopensimmoney_buycurrency_custom_url',JURI::root());
-			$settings['jopensimmoney_buycurrency_custom_msg']	= $params->get('jopensimmoney_buycurrency_custom_msg',JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG'));
-			$settings['jopensimmoney_sendgridbalancewarning']	= $params->get('jopensimmoney_sendgridbalancewarning',0);
-			$settings['jopensimmoney_warningrecipient']			= $params->get('jopensimmoney_warningrecipient','');
-			$settings['jopensimmoney_warningsubject']			= $params->get('jopensimmoney_warningsubject','Grid Balance Warning');
-
-			$settings['groupMinDividend']						= $params->get('jopensimmoney_groupdividend',0);
-
-			$settings['search_objects']					= $params->get('search_objects');
-			$settings['search_parcels']					= $params->get('search_parcels');
-			$settings['search_parcelsales']				= $params->get('search_parcelsales');
-//			$settings['search_popular']					= $params->get('search_popular');
-			$settings['search_events']					= $params->get('search_events');
-			$settings['search_classified']				= $params->get('search_classified');
-			$settings['search_regions']					= $params->get('search_regions');
-			$settings['events_post_access']				= $params->get('events_post_access');
-			$settings['events_grouppower']				= $params->get('events_grouppower');
-			$settings['eventtimedefault']				= $params->get('eventtimedefault');
-			$settings['listmatureevents']				= $params->get('listmatureevents');
-
-			$settings['classified_hide']				= $params->get('classified_hide',604800);
-			$settings['classified_sort']				= $params->get('classified_sort','creationdate');
-			$settings['classified_order']				= $params->get('classified_order','DESC');
-			$settings['classified_images']				= $params->get('classified_images');
-			$settings['classified_images_maxwidth']		= $params->get('classified_images_maxwidth',512);
-			$settings['classified_images_maxheight']	= $params->get('classified_images_maxheight',512);
-
-			$settings['lastnametype']					= $params->get('lastnametype');
-			$settings['lastnamelist']					= $params->get('lastnamelist');
-			$settings['userchange_firstname']			= $params->get('userchange_firstname');
-			$settings['userchange_lastname']			= $params->get('userchange_lastname');
-			$settings['userchange_email']				= $params->get('userchange_email');
-			$settings['userchange_password']			= $params->get('userchange_password');
-
-			$settings['jopensim_debug_reminder']		= $params->get('jopensim_debug_reminder');
-			$settings['jopensim_debug_access']			= $params->get('jopensim_debug_access');
-			$settings['jopensim_debug_input']			= $params->get('jopensim_debug_input');
-			$settings['jopensim_debug_profile']			= $params->get('jopensim_debug_profile');
-			$settings['jopensim_debug_groups']			= $params->get('jopensim_debug_groups');
-			$settings['jopensim_debug_search']			= $params->get('jopensim_debug_search');
-			$settings['jopensim_debug_messages']		= $params->get('jopensim_debug_messages');
-			$settings['jopensim_debug_currency']		= $params->get('jopensim_debug_currency');
-			$settings['jopensim_debug_other']			= $params->get('jopensim_debug_other');
-			$settings['jopensim_debug_settings']		= $params->get('jopensim_debug_settings');
-
-			$this->_settingsData = $settings;
-
-			return $this->_settingsData;
+		$settings['jopensim_maps_cacheage']			= $params->get('jopensim_maps_cacheage',0);
+		$settings['jopensim_maps_width']			= $params->get('jopensim_maps_width',600);
+		$settings['jopensim_maps_width_style']		= $params->get('jopensim_maps_width_style','px');
+		$settings['jopensim_maps_height']			= $params->get('jopensim_maps_height',400);
+		$settings['jopensim_maps_height_style']		= $params->get('jopensim_maps_height_style','px');
+		$settings['jopensim_maps_homename']			= $params->get('jopensim_maps_homename',JText::_('JOPENSIM_MAPS_DEFAULTNAME'));
+		$settings['jopensim_maps_copyright']		= $params->get('jopensim_maps_copyright');
+		$settings['jopensim_maps_homex']			= $params->get('jopensim_maps_homex',1000);
+		$settings['jopensim_maps_homey']			= $params->get('jopensim_maps_homey',1000);
+		$settings['jopensim_maps_offsetx']			= $params->get('jopensim_maps_offsetx',0);
+		$settings['jopensim_maps_offsety']			= $params->get('jopensim_maps_offsety',0);
+		$settings['jopensim_maps_zoomstart']		= $params->get('jopensim_maps_zoomstart',8);
+		$settings['jopensim_maps_bubble_bgcolor']	= $params->get('jopensim_maps_bubble_bgcolor','#000000');
+		$settings['jopensim_maps_bubble_alpha']		= $params->get('jopensim_maps_bubble_alpha','50');
+		$settings['jopensim_maps_bubble_textcolor']	= $params->get('jopensim_maps_bubble_textcolor','#ffffff');
+		$settings['jopensim_maps_bubble_linkcolor']	= $params->get('jopensim_maps_bubble_linkcolor','#ffffff');
+		$settings['jopensim_maps_bubble_color']		= $this->convert2rgba($settings['jopensim_maps_bubble_bgcolor'],($settings['jopensim_maps_bubble_alpha']/100));
+		$settings['jopensim_maps_showteleport']		= $params->get('jopensim_maps_showteleport',1);
+		$settings['jopensim_maps_showcoords']		= $params->get('jopensim_maps_showcoords',0);
+		$settings['jopensim_maps_link2article']		= $params->get('jopensim_maps_link2article',1);
+		$settings['jopensim_maps_link2article_icon']= $params->get('jopensim_maps_link2article_icon',1);
+		$settings['jopensim_maps_water']			= $params->get('jopensim_maps_water');
+		if(!$settings['jopensim_maps_water']) {
+			$settings['jopensim_maps_water']		= JUri::base(true)."/components/com_opensim/assets/images/water.jpg";
+			$settings['jopensim_maps_displaytype']	= "auto";
+			$settings['jopensim_maps_displayrepeat']= 1;
+		} else {
+			$settings['jopensim_maps_water']		= JUri::base(true)."/".$settings['jopensim_maps_water'];
+			$settings['jopensim_maps_displaytype']	= $params->get('jopensim_maps_displaytype');
+			$settings['jopensim_maps_displayrepeat']= $params->get('jopensim_maps_displayrepeat');
 		}
+		$settings['jopensim_maps_varregions']		= $params->get('jopensim_maps_varregions');
+		$settings['jopensim_maps_visibility']		= $params->get('jopensim_maps_visibility',1);
+
+		$settings['profile_display']				= $params->get('profile_display');
+		$settings['profile_images']					= $params->get('profile_images');
+		$settings['profile_images_maxwidth']		= $params->get('profile_images_maxwidth',512);
+		$settings['profile_images_maxheight']		= $params->get('profile_images_maxheight',512);
+
+		$settings['jopensimmoney_currencyname']				= $params->get('jopensimmoney_currencyname');
+		$settings['jopensimmoneybanker']					= $params->get('jopensimmoneybanker');
+		$settings['jopensimmoney_bankername']				= $params->get('jopensimmoney_bankername');
+		$settings['jopensimmoney_startbalance']				= $params->get('jopensimmoney_startbalance',0);
+		$settings['jopensimmoney_upload']					= $params->get('jopensimmoney_upload',0);
+		$settings['jopensimmoney_groupcreation']			= $params->get('jopensimmoney_groupcreation',0);
+		$settings['jopensimmoney_groupdividend']			= $params->get('jopensimmoney_groupdividend',0);
+		$settings['jopensimmoney_zerolines']				= $params->get('jopensimmoney_zerolines',3);
+		$settings['jopensimmoney_buycurrency']				= $params->get('jopensimmoney_buycurrency',0);
+		$settings['jopensimmoney_buycurrency_url']			= $params->get('jopensimmoney_buycurrency_url',0);
+		$settings['jopensimmoney_buycurrency_customized']	= $params->get('jopensimmoney_buycurrency_customized',0);
+		$settings['jopensimmoney_buycurrency_custom_url']	= $params->get('jopensimmoney_buycurrency_custom_url',JURI::root());
+		$settings['jopensimmoney_buycurrency_custom_msg']	= $params->get('jopensimmoney_buycurrency_custom_msg',JText::_('JOPENSIM_MONEY_BUYCURRENCY_MSG'));
+		$settings['jopensimmoney_sendgridbalancewarning']	= $params->get('jopensimmoney_sendgridbalancewarning',0);
+		$settings['jopensimmoney_warningrecipient']			= $params->get('jopensimmoney_warningrecipient','');
+		$settings['jopensimmoney_warningsubject']			= $params->get('jopensimmoney_warningsubject','Grid Balance Warning');
+
+		$settings['groupMinDividend']						= $params->get('jopensimmoney_groupdividend',0);
+
+		$settings['search_objects']					= $params->get('search_objects');
+		$settings['search_parcels']					= $params->get('search_parcels');
+		$settings['search_parcelsales']				= $params->get('search_parcelsales');
+//		$settings['search_popular']					= $params->get('search_popular');
+		$settings['search_events']					= $params->get('search_events');
+		$settings['search_classified']				= $params->get('search_classified');
+		$settings['search_regions']					= $params->get('search_regions');
+		$settings['events_post_access']				= $params->get('events_post_access');
+		$settings['events_grouppower']				= $params->get('events_grouppower');
+		$settings['eventtimedefault']				= $params->get('eventtimedefault');
+		$settings['listmatureevents']				= $params->get('listmatureevents');
+
+		$settings['classified_hide']				= $params->get('classified_hide',604800);
+		$settings['classified_sort']				= $params->get('classified_sort','creationdate');
+		$settings['classified_order']				= $params->get('classified_order','DESC');
+		$settings['classified_images']				= $params->get('classified_images');
+		$settings['classified_images_maxwidth']		= $params->get('classified_images_maxwidth',512);
+		$settings['classified_images_maxheight']	= $params->get('classified_images_maxheight',512);
+
+		$settings['lastnametype']					= $params->get('lastnametype');
+		$settings['lastnamelist']					= $params->get('lastnamelist');
+		$settings['userchange_firstname']			= $params->get('userchange_firstname');
+		$settings['userchange_lastname']			= $params->get('userchange_lastname');
+		$settings['userchange_email']				= $params->get('userchange_email');
+		$settings['userchange_password']			= $params->get('userchange_password');
+
+		$settings['jopensim_debug_reminder']		= $params->get('jopensim_debug_reminder');
+		$settings['jopensim_debug_access']			= $params->get('jopensim_debug_access');
+		$settings['jopensim_debug_input']			= $params->get('jopensim_debug_input');
+		$settings['jopensim_debug_profile']			= $params->get('jopensim_debug_profile');
+		$settings['jopensim_debug_groups']			= $params->get('jopensim_debug_groups');
+		$settings['jopensim_debug_search']			= $params->get('jopensim_debug_search');
+		$settings['jopensim_debug_messages']		= $params->get('jopensim_debug_messages');
+		$settings['jopensim_debug_currency']		= $params->get('jopensim_debug_currency');
+		$settings['jopensim_debug_other']			= $params->get('jopensim_debug_other');
+		$settings['jopensim_debug_settings']		= $params->get('jopensim_debug_settings');
+
+		$this->_settingsData = $settings;
+
+		return $this->_settingsData;
+	}
+
+	public function getVersion() {
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select($db->quoteName('#__extensions.manifest_cache'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('#__extensions.type').' = '.$db->quote("component"));
+		$query->where($db->quoteName('#__extensions.element').' = '.$db->quote("com_opensim"));
+
+		$db->setQuery($query);
+		$db->execute();
+
+		$foundparams = $db->getNumRows();
+		if($foundparams == 1) {
+			$componentjson = $db->loadResult();
+			$componentInfo = json_decode($componentjson, true);
+			return $componentInfo['version'];
+		} else {
+			return null;
+		}
+	}
+
+	public function getTerminalList($inactive = 0) {
+//		return array(); // temporary disabled
+		$db = JFactory::getDBO();
+		$query = "SELECT
+					#__opensim_terminals.*,
+					CONCAT('secondlife://',region,'/',location_x,'/',location_y,'/',location_z) AS surl
+				FROM
+					#__opensim_terminals";
+		if(!$inactive) $query .= " WHERE active = '1'";
+		$db->setQuery($query);
+		$terminalList = $db->loadAssocList();
+		return $terminalList;
+	}
 
 	public function opensimIsCreated() { // returns the opensim UUID if exists already for the user or FALSE if not
-		$user = JFactory::getUser();
+		$user	= JFactory::getUser();
 		return $this->opensimRelation($user->id);
 	}
 
+	public function checkLastnameAllowed($lastname) {
+		switch($this->_settingsData['lastnametype']) {
+			case 0:
+				return TRUE;
+			break;
+			case -1:
+				if(in_array($lastname,$this->_settingsData['lastnames'])) return FALSE;
+				else return TRUE;
+			break;
+			case 1:
+				if(in_array($lastname,$this->_settingsData['lastnames'])) return TRUE;
+				else return FALSE;
+			break;
+		}
+	}
+
+	public function cleanIdents() { // removes old inworld idents if enabled
+		return; // temporary disabled
+		$identminutes = $this->_settingsData['identminutes'];
+		if($identminutes > 0) {
+			$db = JFactory::getDBO();
+			$query = sprintf("DELETE FROM #__opensim_inworldident WHERE created < DATE_SUB(NOW(), INTERVAL %d MINUTE)",$identminutes);
+			$db->setQuery($query);
+			$db->execute();
+		}
+	}
+
 	public function opensimRelation($uuid) {
-		$db = JFactory::getDBO();
-		$query = sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$uuid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$uuid);
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
 		if(!$uuid) return FALSE;
 		else return $uuid;
+	}
+
+	public function opensimRelationReverse($uuid) {
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$uuid);
+		$db->setQuery($query);
+		$uuid = $db->loadResult();
+		if(!$uuid) return FALSE;
+		else return $uuid;
+	}
+
+	public function opensimCreated($uuid) { // returns TRUE or FALSE if $uuid exists in the OpenSim database
+		if(!$this->_osgrid_db) return FALSE;
+		$opensim = $this->opensim;
+		$query = $opensim->getUserDataQuery($uuid);
+		$this->_osgrid_db->setQuery($query['userdata']);
+		$this->_osgrid_db->execute();
+		$num_rows = $this->_osgrid_db->getNumRows();
+		if($num_rows == 1) return TRUE;
+		else return FALSE;
 	}
 
 	public function getUserData($userid) {
@@ -377,16 +467,16 @@ class opensimModelOpensim extends JModelItem {
 							$data['osid']);
 		$this->_osgrid_db->setQuery($query);
 		$debug[] = $query;
-		$result = $this->_osgrid_db->query();
+		$result = $this->_osgrid_db->execute();
 		if($data['field'] == "passwordHash") return $query;
 		else return $result;
 	}
 
 	public function getJuserData($uuid) { // Collect settings from Joomlas DB
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT im2email,visible,timezone FROM  #__opensim_usersettings WHERE `uuid` = '%s'",$uuid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT im2email,visible,timezone FROM  #__opensim_usersettings WHERE `uuid` = '%s'",$uuid);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if($db->getNumRows() == 1) {
 			$jUserData = $db->loadAssoc();
 		} else {
@@ -467,10 +557,10 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getBalance($uuid) {
-		$query = sprintf("SELECT #__opensim_moneybalances.balance FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
-		$db		=& JFactory::getDBO();
+		$query	= sprintf("SELECT #__opensim_moneybalances.balance FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows = $db->getNumRows();
 		if($num_rows == 1) {
 			return $db->loadResult();
@@ -514,8 +604,8 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getTransactions($uuid = null,$days = 0) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		if($uuid) $query->select('IF(#__opensim_moneytransactions.receiver = '.$db->quote($uuid).',"in","out") AS direction');
 		else $query->select('"none" AS direction');
 		$query->select('#__opensim_moneytransactions.*');
@@ -599,8 +689,8 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getGroupName($uuid) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('#__opensim_group.Name');
 		$query->from('#__opensim_group');
 		$query->where('#__opensim_group.GroupID = '.$db->quote($uuid));
@@ -635,8 +725,8 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getClientInfo($uuid) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('#__opensim_clientinfo.*');
 		$query->from('#__opensim_clientinfo');
 		$query->where('#__opensim_clientinfo.PrincipalID = '.$db->quote($uuid));
@@ -702,8 +792,33 @@ class opensimModelOpensim extends JModelItem {
 			$fh = fopen($regionimage,"w");
 			fwrite($fh,$mapdata['file_content']);
 			fclose($fh);
-			return TRUE;
 		}
+		if($this->_settingsData['jopensim_maps_varregions'] == 1 && ($regiondata['sizeX'] > 256 || $regiondata['sizeY'] > 256)) { // we got a varregion here, lets get V2 maptiles
+			$cachefolder = $this->checkCacheFolder("varregions");
+			$varregionsfolder = $cachefolder['path'];
+			if($chachefolder['existing'] == FALSE || $chachefolder['writeable'] == FALSE) return FALSE;
+			$mapstartX	= $regiondata['locX'] / 256;
+			$mapstartY	= $regiondata['locY'] / 256;
+			$mapendX	= $mapstartX + ($regiondata['sizeX'] / 256);
+			$mapendY	= $mapstartY + ($regiondata['sizeY'] / 256);
+			for($x = $mapstartX; $x < $mapendX; $x++) {
+				for($y = $mapstartY; $y < $mapendY; $y++) {
+					$mapname = "map-1-".$x."-".$y."-objects.jpg";
+					$regionimage = $varregionsfolder.DIRECTORY_SEPARATOR.$mapname;
+					$source = $this->_settingsData['opensim_host'].":".$this->_settingsData['robust_port']."/".$mapname;
+					$mapdata = $this->getMapContent($source);
+					if(array_key_exists("error",$mapdata)) { // some error occurred, lets copy an error image for it
+						$this->maperrorimage($regionimage,$mapdata['error']);
+						return FALSE;
+					} elseif(array_key_exists("file_content",$mapdata) && $mapdata['file_content']) {
+						$fh = fopen($regionimage,"w");
+						fwrite($fh,$mapdata['file_content']);
+						fclose($fh);
+					}
+				}
+			}
+		}
+		return TRUE;
 	}
 
 	public function getMapContent($source) { // gets image data from external server
@@ -847,7 +962,7 @@ class opensimModelOpensim extends JModelItem {
 	public function getData() {
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_settingsData )) $this->getSettingsData();
-		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db) {
 			return FALSE;
 		}
 
@@ -924,7 +1039,7 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getLocationRange() {
-		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db) {
 			return FALSE;
 		}
 		$opensim = $this->opensim;
@@ -936,11 +1051,11 @@ class opensimModelOpensim extends JModelItem {
 	}
 
 	public function getMapInfo($regionUUID) {
-		$retval = array();
-		$query = sprintf("SELECT * FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$regionUUID);
-		$db =& JFactory::getDBO();
+		$retval	= array();
+		$query	= sprintf("SELECT * FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$regionUUID);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if($db->getNumRows() == 1) {
 			$retval = $db->loadAssoc();
 		} else {

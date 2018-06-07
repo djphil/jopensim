@@ -68,12 +68,21 @@ class opensimViewmaps extends JViewLegacy {
 			$this->jmapXoffset	= $this->settingsdata['jopensim_maps_offsetx'];
 			$this->jmapYoffset	= $this->settingsdata['jopensim_maps_offsety'];
 		}
+		$this->usev2maptiles	= $this->settingsdata['jopensim_maps_varregions'];
 
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet($asseturl.'opensim.css');
 		$doc->addScript("https://maps.google.com/maps/api/js?v=3&key=AIzaSyBACCLjQjfliUdoyI90ZS5HNf7M22TYORI");
-		$doc->addScript($asseturl."infobubble-min.js");
-//		$doc->addScript("https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js");
+
+		$doc->addScriptDeclaration('InfoBubble.prototype.CLOSE_SRC_ = "'.JUri::base(true).'/components/com_opensim/assets/images/exit_small.png";');
+		$doc->addScript($asseturl."infobubble.js");
+
+//		tried to get exit_small.png to work with infobubble-min.js but without luck :(
+
+//		$doc->addScriptDeclaration('h.prototype.F = "'.JUri::base(true).'/components/com_opensim/assets/images/exit_small.png";');
+//		$doc->addScriptDeclaration('var jBubbleCloseButton = "'.JUri::base(true).'/components/com_opensim/assets/images/exit_small.png";');
+//		$doc->addScript($asseturl."infobubble-min.js");
+
 		$doc->addScript($asseturl."opensimmaps.js");
 		$doc->addScript($asseturl."copyright.js");
 

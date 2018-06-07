@@ -52,6 +52,17 @@
 				<option value="0">JNO</option>
 			</field>
 			<field
+				name="jopensim_showcase_matureclassified"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				showon="jopensim_showcase_classified:1"
+				label="JOPENSIM_SHOWCASE_CLASSIFIED_MATURE"
+				description="JOPENSIM_SHOWCASE_CLASSIFIED_MATURE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
 				name="jopensim_showcase_classifiedhideunavailable"
 				type="radio"
 				class="btn-group btn-group-yesno"

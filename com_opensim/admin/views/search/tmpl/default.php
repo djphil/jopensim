@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -59,34 +59,38 @@ function cloneOption(opt) {
 <h3><?php echo JText::_('JOPENSIM_SEARCH_SETTINGS_SORT_DESC'); ?>:</h3>
 
 <form action="index.php" method="post" id="adminForm" name="adminForm" onSubmit='selectAll(document.adminForm.sortsearchoptions)'>
-    <input type="hidden" name="option" value="com_opensim" />
-    <input type="hidden" name="view" value="search" />
-    <input type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_opensim" />
+	<input type="hidden" name="view" value="search" />
+	<input type="hidden" name="task" value="" />
 
-    <table>
-    <tr>
-        <td>
-            <table>
-            <tr>
-                <td>
-                    <select name='sortsearchoptions[]' id='sortsearchoptions' size='<?php echo count($this->searchsort); ?>' multiple='multiple'>
-                        <?php foreach($this->searchsort AS $key => $option): ?>
-                        <option value='<?php echo $key; ?>'<?php echo ($option['enabled'] === FALSE) ? " class='jopensim_disabledoption' title='".JText::_('JOPENSIM_DISABLED_OPTION')."'":" class='jopensim_enabledoption'"; ?>><?php echo $option['name']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </td>
-                <td>
-                    <!-- Bootstrap Test -->
-                    <div class="btn-group-vertical" role="group" aria-label="...">
-                        <a type="button" class="btn btn-default hasTooltip" onClick="moveTopUp(document.getElementById('sortsearchoptions'));return false;" title='move up' alt='move up'><span class="icon-arrow-up" aria-hidden="true" ></span></a>
-                        <a type="button" class="btn btn-default hasTooltip" onClick="moveTopDown(document.getElementById('sortsearchoptions'));return false;" title='move down' alt='move down'><span class="icon-arrow-down" aria-hidden="true"></span></a>
-                    </div>
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
+	<table>
+	<tr>
+		<td>
+			<table>
+			<tr>
+				<td>
+					<select name='sortsearchoptions[]' id='sortsearchoptions' size='<?php echo count($this->searchsort); ?>' multiple='multiple'>
+						<?php foreach($this->searchsort AS $key => $option): ?>
+						<option value='<?php echo $key; ?>'<?php echo ($option['enabled'] === FALSE) ? " class='jopensim_disabledoption' title='".JText::_('JOPENSIM_DISABLED_OPTION')."'":" class='jopensim_enabledoption'"; ?>><?php echo $option['name']; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td>
+				<?php if($this->canDo->get('core.edit')): ?>
+					<!-- Bootstrap Test -->
+					<div class="btn-group-vertical" role="group" aria-label="...">
+						<a type="button" class="btn btn-default hasTooltip" onClick="moveTopUp(document.getElementById('sortsearchoptions'));return false;" title='move up' alt='move up'><span class="icon-arrow-up" aria-hidden="true" ></span></a>
+						<a type="button" class="btn btn-default hasTooltip" onClick="moveTopDown(document.getElementById('sortsearchoptions'));return false;" title='move down' alt='move down'><span class="icon-arrow-down" aria-hidden="true"></span></a>
+					</div>
+				<?php else: ?>
+				&nbsp;
+				<?php endif; ?>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
 </form>
 
 <h3><?php echo JText::_('JOPENSIM_SEARCH_OVERVIEW'); ?>:</h3>
@@ -118,7 +122,7 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
-	<?php if($this->searchcount['objects'] > 0): ?>
+	<?php if($this->searchcount['objects'] > 0 && $this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=objects' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA'); ?>"></a>
 	<?php else: ?>
 	&nbsp;
@@ -139,7 +143,7 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
-	<?php if($this->searchcount['parcels'] > 0): ?>
+	<?php if($this->searchcount['parcels'] > 0 && $this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=parcels' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA'); ?>"></a>
 	<?php else: ?>
 	&nbsp;
@@ -160,7 +164,7 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
-	<?php if($this->searchcount['parcelsales'] > 0): ?>
+	<?php if($this->searchcount['parcelsales'] > 0 && $this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=parcelsales' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA'); ?>"></a>
 	<?php else: ?>
 	&nbsp;
@@ -181,7 +185,11 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
+	<?php if($this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-warning hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=oldclassified' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_OLDCLASSIFIED'); ?>"></a>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
 	</td>
 	<td width='99%'>&nbsp;</td>
 </tr>
@@ -198,8 +206,12 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
+	<?php if($this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-warning hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=oldevents' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_OLDEVENTS'); ?>"></a>
 	</td>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
 	<td width='99%'>&nbsp;</td>
 </tr>
 <tr>
@@ -215,7 +227,7 @@ function cloneOption(opt) {
 	<?php endif; ?>
 	</td>
 	<td>
-	<?php if($this->searchcount['regions'] > 0): ?>
+	<?php if($this->searchcount['regions'] > 0 && $this->canDo->get('core.delete')): ?>
 	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=purgedata&searchdata=regions' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA_SURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_PURGEDATA'); ?>"></a>
 	<?php else: ?>
 	&nbsp;
@@ -226,9 +238,13 @@ function cloneOption(opt) {
 <tr>
 	<td colspan='3'>&nbsp;</td>
 	<td>
-	    <a class="btn btn-default btn-success icon-loop hasTooltip" href='index.php?option=com_opensim&view=search&task=rebuildallhosts' title="<?php echo JText::_('JOPENSIM_SEARCH_REBUILDALLHOSTS'); ?>">
-	        <i class="hasTooltip" title="<?php echo JText::_('JOPENSIM_SEARCH_REBUILDALLHOSTS'); ?>"></i>
-		</a>
+	<?php if($this->canDo->get('core.edit')): ?>
+	<a class="btn btn-default btn-success icon-loop hasTooltip" href='index.php?option=com_opensim&view=search&task=rebuildallhosts' title="<?php echo JText::_('JOPENSIM_SEARCH_REBUILDALLHOSTS'); ?>">
+		<i class="hasTooltip" title="<?php echo JText::_('JOPENSIM_SEARCH_REBUILDALLHOSTS'); ?>"></i>
+	</a>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
 	</td>
 	<td width='99%'>&nbsp;</td>
 </tr>

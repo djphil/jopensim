@@ -1,6 +1,6 @@
 /**
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -290,6 +290,13 @@ a#registeredhostswindow.modal {
 .icon-48-oslogin {background: url('images/icon-48-os-login.png') no-repeat left;}
 .icon-48-osmisc {background: url('images/icon-48-os-misc.png') no-repeat left;}
 .icon-48-osmoney {background: url('images/icon-48-money.png') no-repeat left;}
+.button-jopensimulators {background:#46a546 !important; min-width:148px !important;color:#ffffff !important;};
+.icon-jopensimulators:before {
+	width:16px;
+	font-family: 'IcoMoon';
+	content: "\2b";
+	color:#ffffff;
+}
 
 /* jOpenSim 32x32 icons set */
 .icon-32-opensim, .icon-32-jopensim, .icon-32-gridmap, .icon-32-user, .icon-32-groups, .icon-32-search,
@@ -396,4 +403,10 @@ span.jopensimcontributors {
 .jopensimmoduleunpublished {
 	font-style:italic;
 	color:#666;
+}
+
+/*##### preparing for Joomla4 #####*/
+
+#jopensim-admin #j-main-container {
+	padding-left:30px;
 }

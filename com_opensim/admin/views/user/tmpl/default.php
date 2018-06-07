@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // No direct access
@@ -115,9 +115,9 @@ if(is_array($this->users)) {
 	<td><label onDblClick="alert('<?php echo $user['userid']; ?>');"><span class="hasTooltip" title='<?php echo $user['userid']; ?>'><?php echo $user['lastname']; ?></span></label></td>
 	<td align='center' class='jgrid'>
 	<?php if($user['online'] == "true"): ?>
-	<a data-original-title="<?php JText::_('JOPENSIM_USER_ONLINE'); ?>" class="btn btn-micro active hasTooltip" href="index.php?option=com_opensim&view=user&task=setUserOffline&userid=<?php echo $user['userid']; ?>" title='<?php echo JText::_('JOPENSIM_SETUSEROFFLINE'); ?>'><i class="icon-publish"></i></a>
+	<a data-original-title="<?php echo JText::_('JOPENSIM_USER_ONLINE'); ?>" class="btn btn-micro active hasTooltip" href="index.php?option=com_opensim&view=user&task=setUserOffline&userid=<?php echo $user['userid']; ?>" title='<?php echo JText::_('JOPENSIM_SETUSEROFFLINE'); ?>'><i class="icon-publish"></i></a>
 	<?php else: ?>
-	<a data-original-title="<?php JText::_('JOPENSIM_USER_OFFLINE'); ?>" class="btn btn-micro disabled hasTooltip" href="#" title="<?php JText::_('JOPENSIM_USER_OFFLINE'); ?>"><i class="icon-unpublish" title="<?php JText::_('JOPENSIM_USER_OFFLINE'); ?>"></i></a>
+	<a data-original-title="<?php echo JText::_('JOPENSIM_USER_OFFLINE'); ?>" class="btn btn-micro disabled hasTooltip" href="#" title="<?php echo JText::_('JOPENSIM_USER_OFFLINE'); ?>"><i class="icon-unpublish" title="<?php echo JText::_('JOPENSIM_USER_OFFLINE'); ?>"></i></a>
 	<?php endif; ?>
 	</td>
 	<td><?php echo $user['email']; ?></td>

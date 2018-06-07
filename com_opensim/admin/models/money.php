@@ -132,7 +132,7 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 		$query					= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
 		$db						= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$userbalance			= $db->loadAssoc();
 		$balance				= $userbalance['balance'];
 		return $balance;
@@ -143,19 +143,19 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 		$query	= sprintf("UPDATE #__opensim_moneybalances SET balance = balance + %d WHERE `user`= '%s'",$amount,$uuid);
 		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function balanceExists($uuid,$amount = 0) { // if this $uuid does not exist yet, it will create a Balance with $amount for it
 		$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
 		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows = $db->getNumRows();
 		if($num_rows == 0) {
 			$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`balance`) VALUES ('%s','0')",$uuid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			$parameter['senderID']		= $this->_moneySettingsData['bankerUID'];
 			$parameter['receiverID']	= $uuid;
@@ -188,7 +188,7 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 		$query = sprintf("DELETE FROM #__opensim_moneybalances WHERE #__opensim_moneybalances.user = '%s'",$uuid);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function balanceCorrection() {
@@ -199,7 +199,7 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 		$query	= sprintf("UPDATE #__opensim_moneybalances SET #__opensim_moneybalances.balance = #__opensim_moneybalances.balance + '%d' WHERE #__opensim_moneybalances.user = '%s'",$balance,$banker);
 		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function setBankerBalance() {
@@ -210,7 +210,7 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 		$query	= sprintf("UPDATE #__opensim_moneybalances SET #__opensim_moneybalances.balance = '%d' WHERE #__opensim_moneybalances.user = '%s'",$balance,$banker);
 		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getCustomfee($uuid) {
@@ -229,15 +229,15 @@ class OpenSimModelMoney extends OpenSimModelOpenSim {
 			$groupfee);
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return $db->getAffectedRows();
 	}
 
 	public function removeCustomFee($uuid) {
-		$query = sprintf("DELETE FROM #__opensim_money_customfees WHERE #__opensim_money_customfees.PrincipalID = '%s'",$uuid);
-		$db =& JFactory::getDBO();
+		$query	= sprintf("DELETE FROM #__opensim_money_customfees WHERE #__opensim_money_customfees.PrincipalID = '%s'",$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		return $db->getAffectedRows();
 	}
 

@@ -1,13 +1,14 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
 
 class opensimViewgroups extends JViewLegacy {
 	public function display($tpl = null) {
@@ -17,6 +18,7 @@ class opensimViewgroups extends JViewLegacy {
 
 		$model			= $this->getModel('groups');
 		$settingsdata	= $model->getSettingsData();
+		$this->canDo	= jOpenSimHelper::getActions();
 
 		$this->pagination		= $model->getPagination();
 		$this->state			= $this->get('State');
@@ -72,7 +74,9 @@ class opensimViewgroups extends JViewLegacy {
 		JToolBarHelper::title(JText::_('JOPENSIM_NAME')." ".JText::_('JOPENSIM_ADDONS_GROUPS'),'32-groups');
 		switch($tpl) {
 			default:
-				JToolBarHelper::deleteList(JText::_('JOPENSIM_DELETEGROUPSSURE'),"deleteGroups",JText::_('JOPENSIM_DELETEGROUPS'),true,false);
+				if($this->canDo->get('core.delete')) {
+					JToolBarHelper::deleteList(JText::_('JOPENSIM_DELETEGROUPSSURE'),"deleteGroups",JText::_('JOPENSIM_DELETEGROUPS'),true,false);
+				}
 				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
 					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 				}

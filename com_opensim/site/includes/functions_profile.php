@@ -49,12 +49,12 @@ function user_preferences_request($parameter) {
 	$query = sprintf("SELECT im2email, visible FROM #__opensim_usersettings WHERE uuid = '%s'",$uuid);
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 	$num_rows = $db->getNumRows();
 	if($num_rows == 0) {
 		$query = sprintf("INSERT INTO #__opensim_usersettings (uuid,im2email,visible) VALUES ('%s',0,0)",$uuid);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	} else {
 		$usersettings = $db->loadAssoc();
 	}
@@ -81,9 +81,9 @@ function user_preferences_update($parameter) {
 	$im2email = (strtolower($parameter['imViaEmail']) == "true") ? "1":"0";
 	$visible = (strtolower($parameter['visible']) == "true") ? "1":"0";
 	$query = sprintf("UPDATE #__opensim_usersettings SET im2email = '%d', visible = '%d' WHERE uuid = '%s'",$im2email,$visible,$uuid);
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 	$retval['success'] = TRUE;
 	$retval['errorMessage']	= "";
 	return $retval;
@@ -113,7 +113,7 @@ function avatar_properties_request($parameter) {
 					WHERE
 						avatar_id = '%s'",
 				mysqlsafestring($avatar_id));
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
 	$profile = $db->loadAssocList();
 	$retval['success'] = TRUE;
@@ -169,9 +169,9 @@ function avatar_properties_update($parameter) {
 				mysqlsafestring($parameter['Image']),
 				mysqlsafestring(utf8_encode($parameter['ProfileUrl'])),
 				mysqlsafestring(utf8_encode($parameter['FirstLifeAboutText'])));
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -185,7 +185,7 @@ function avatar_properties_update($parameter) {
 function avatar_interests_update($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$query = sprintf("INSERT INTO #__opensim_userprofile
 								(avatar_id,skillstext,languages,wantmask,skillsmask,wanttext)
 							VALUES
@@ -203,7 +203,7 @@ function avatar_interests_update($parameter) {
 					mysqlsafestring($parameter['skillsmask']),
 					mysqlsafestring(utf8_encode($parameter['wanttext'])));
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -222,7 +222,7 @@ function avatarnotesrequest($parameter) {
 	$query = sprintf("SELECT * FROM #__opensim_usernotes WHERE avatar_id = '%s' AND target_id = '%s'",
 						mysqlsafestring($avatar_id),
 						mysqlsafestring($target_uid));
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
 	$notes = $db->loadAssocList();
 	if(count($notes) == 0) {
@@ -240,17 +240,17 @@ function avatarnotesrequest($parameter) {
 function avatar_notes_update($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
-	$avatar_id = $parameter['avatar_id'];
-	$target_uid = $parameter['target_id'];
-	$notes = utf8_encode($parameter['notes']);
-	$db =& JFactory::getDBO();
-	$query = sprintf("INSERT INTO #__opensim_usernotes (avatar_id,target_id,notes) VALUES ('%1\$s','%2\$s','%3\$s')
+	$avatar_id	= $parameter['avatar_id'];
+	$target_uid	= $parameter['target_id'];
+	$notes	= utf8_encode($parameter['notes']);
+	$db		= JFactory::getDBO();
+	$query	= sprintf("INSERT INTO #__opensim_usernotes (avatar_id,target_id,notes) VALUES ('%1\$s','%2\$s','%3\$s')
 								ON DUPLICATE KEY UPDATE notes = '%3\$s'",
 						mysqlsafestring($avatar_id),
 						mysqlsafestring($target_uid),
 						mysqlsafestring($notes));
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -266,11 +266,11 @@ function avatarpicksrequest($parameter) {
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") {
 		simpledebugzeile(__FUNCTION__.": ".varexport($parameter,TRUE));
 	}
-	$db =& JFactory::getDBO();
-	$query = sprintf("SELECT * FROM #__opensim_userpicks WHERE creatoruuid = '%s'",mysqlsafestring($parameter['uuid']));
+	$db		= JFactory::getDBO();
+	$query	= sprintf("SELECT * FROM #__opensim_userpicks WHERE creatoruuid = '%s'",mysqlsafestring($parameter['uuid']));
 	$db->setQuery($query);
-	$picks = $db->loadAssocList();
-	$data = array();
+	$picks	= $db->loadAssocList();
+	$data	= array();
 	foreach($picks AS $pick) {
 		$name = $pick['name'];
 		$data[] = array('pickid' => $pick['pickuuid'],
@@ -285,8 +285,8 @@ function avatarpicksrequest($parameter) {
 function pickinforequest($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
-	$db =& JFactory::getDBO();
-	$query = sprintf("SELECT * FROM #__opensim_userpicks WHERE creatoruuid = '%s' AND pickuuid = '%s'",
+	$db		= JFactory::getDBO();
+	$query	= sprintf("SELECT * FROM #__opensim_userpicks WHERE creatoruuid = '%s' AND pickuuid = '%s'",
 							mysqlsafestring($parameter['avatar_id']),
 							mysqlsafestring($parameter['pick_id']));
 	$db->setQuery($query);
@@ -366,9 +366,9 @@ function picks_update($parameter) {
 							mysqlsafestring($posglobal),
 							mysqlsafestring($sortorder),
 							mysqlsafestring($enabled));
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -382,11 +382,11 @@ function picks_update($parameter) {
 function picks_delete($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
-	$pickUid = $parameter['pick_id'];
-	$query = sprintf("DELETE FROM #__opensim_userpicks WHERE pickuuid = '%s'",mysqlsafestring($pickUid));
-	$db =& JFactory::getDBO();
+	$pickUid	= $parameter['pick_id'];
+	$query		= sprintf("DELETE FROM #__opensim_userpicks WHERE pickuuid = '%s'",mysqlsafestring($pickUid));
+	$db			= JFactory::getDBO();
 	$db->setQuery($query);
-	$result = $db->query();
+	$result		= $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -401,9 +401,9 @@ function avatarclassifiedsrequest($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
 	$classifieds = array();
-	$data = array();
-	$db =& JFactory::getDBO();
-	$query = sprintf("SELECT * FROM #__opensim_userclassifieds WHERE creatoruuid = '%s'",mysqlsafestring($parameter['uuid']));
+	$data	= array();
+	$db		= JFactory::getDBO();
+	$query	= sprintf("SELECT * FROM #__opensim_userclassifieds WHERE creatoruuid = '%s'",mysqlsafestring($parameter['uuid']));
 	$db->setQuery($query);
 	$classifieds = $db->loadAssocList();
 	foreach($classifieds AS $classified) {
@@ -420,12 +420,12 @@ function avatarclassifiedsrequest($parameter) {
 function classifiedinforequest($parameter) {
 	global $debug;
 	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
-	$db =& JFactory::getDBO();
-	$query = sprintf("SELECT * FROM #__opensim_userclassifieds WHERE creatoruuid = '%s' AND classifieduuid = '%s'",
+	$db		= JFactory::getDBO();
+	$query	= sprintf("SELECT * FROM #__opensim_userclassifieds WHERE creatoruuid = '%s' AND classifieduuid = '%s'",
 							mysqlsafestring($parameter['avatar_id']),
 							mysqlsafestring($parameter['classified_id']));
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 	if($db->getNumRows() > 0) {
 		$classified = $db->loadAssocList();
 		$returnclassified = $classified[0];
@@ -438,7 +438,7 @@ function classifiedinforequest($parameter) {
 				'expirationdate' 	=> $returnclassified['expirationdate'],
 				'category' 			=> $returnclassified['category'],
 				'name' 				=> $returnclassified['name'],
-				'description' 		=> $returnclassified['description'],
+				'description' 		=> utf8_decode($returnclassified['description']),
 				'parceluuid' 		=> $returnclassified['parceluuid'],
 				'parentestate' 		=> $returnclassified['parentestate'],
 				'snapshotuuid' 		=> $returnclassified['snapshotuuid'],
@@ -460,12 +460,16 @@ function classifiedinforequest($parameter) {
 
 function classified_update($parameter) {
 	global $debug;
-	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") debugzeile($parameter,"\$parameter for ".__FUNCTION__);
+	if(is_array($debug) && array_key_exists("profile",$debug) && $debug['profile'] == "1") {
+		$parameter['testdescription1']	= utf8_encode($parameter['description']);
+		$parameter['testdescription2']	= utf8_decode($parameter['testdescription1']);
+		debugzeile($parameter,"\$parameter for ".__FUNCTION__);
+	}
 	$classifieduuid = $parameter['classifiedUUID'];
 	$creator		= $parameter['creatorUUID'];
 	$category		= $parameter['category'];
 	$name			= $parameter['name'];
-	$description	= $parameter['description'];
+	$description	= utf8_encode($parameter['description']);
 	$parceluuid		= (array_key_exists("parcelUUID",$parameter)) ? $parameter['parcelUUID']:null;
 	$parentestate	= $parameter['parentestate'];
 	$snapshotuuid	= $parameter['snapshotUUID'];
@@ -482,7 +486,12 @@ function classified_update($parameter) {
 	$creationdate   = time();
 	$settings = jOpenSimSettings();
 
-	$expirationdate = time() + $settings['classified_hide'];
+	if($settings['classified_hide'] == -1) { //hide never
+		$expirationdate = 4294967295; // this is the max positive integer value that DB field can take
+//		$expirationdate = 2147483647; // this is the max positive integer value that DB field can take
+	} else {
+		$expirationdate = time() + $settings['classified_hide'];
+	}
 
 	$query = sprintf("INSERT INTO #__opensim_userclassifieds
 											(classifieduuid,creatoruuid,creationdate,expirationdate,category,name,description,parceluuid,parentestate,snapshotuuid,simname,posglobal,parcelname,classifiedflags,priceforlisting)
@@ -508,8 +517,8 @@ function classified_update($parameter) {
 							mysqlsafestring($creationdate),
 							mysqlsafestring($expirationdate),
 							mysqlsafestring($category),
-							mysqlsafestring(utf8_encode($name)),
-							mysqlsafestring(utf8_encode($description)),
+							mysqlsafestring($name),
+							mysqlsafestring($description),
 							mysqlsafestring($parceluuid),
 							mysqlsafestring($parentestate),
 							mysqlsafestring($snapshotuuid),
@@ -520,7 +529,7 @@ function classified_update($parameter) {
 							mysqlsafestring($priceforlist));
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -538,7 +547,7 @@ function classified_delete($parameter) {
 	$query = sprintf("DELETE FROM #__opensim_userclassifieds WHERE classifieduuid = '%s'",mysqlsafestring($classifiedID));
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$result = $db->query();
+	$result = $db->execute();
 	if($result) {
 		$retval['success']		= TRUE;
 		$retval['errorMessage']	= "";
@@ -589,6 +598,6 @@ function clientInfo($parameter) {
 		$userip);
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 }
 ?>

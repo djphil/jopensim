@@ -1,12 +1,10 @@
-/* jOpenSim CSS v0.0.0.1 */
+/* jOpenSim CSS v0.3.1.3 by djphil (CC-BY-NC-SA 4.0) */
 
 /* jOpenSim Reset */
 * {margin: 0px; padding: 0px;}
 image {border: 0px;}
 table {width: 100%;}
 .clearfix {clear: both;}
-
-
 
 /* jOpenSim Menu */
 div.contentsubheading {
@@ -74,7 +72,7 @@ img.jopensim_partner  {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	z-index: 20;
+	z-index: 10;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center center;
@@ -88,6 +86,7 @@ img.jopensim_partner  {
 	right: 20px;
 	top: 40px;
 	width: 300px;
+    z-index: 100;
 }
 
 .welcomebox_regions {
@@ -96,6 +95,7 @@ img.jopensim_partner  {
 	top: 40px;
 	width: 300px;
     text-align: left;
+    z-index: 100;
 }
 
 .welcomebox_messages {
@@ -103,6 +103,7 @@ img.jopensim_partner  {
 	bottom: 30px;
 	left: 20px;
 	width: 300px;
+    z-index: 100;
 }
 
 .welcomebox_gridstatus_title,
@@ -137,14 +138,16 @@ img.jopensim_partner  {
     padding: 0px;
 }
 
-
 /* jOpenSim Map */
+/* Fix Google Map Bubbles on Helix Framework */
+#content div {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
 /* .jopensim_articlelink */
 /* #copyright-control {;} */
-img[src="http://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif"] {
-    content: url("images/exit.png");
-	margin: 5px;
-}
 
 .regioninfo {
     text-align: center;
@@ -172,19 +175,29 @@ input[type="radio"] {text-align: left;}
 .text-left {text-align: left;}
 .text-right {text-align: right !important;}
 .text-bold {font-weight: bold;}
+.text-danger {color: #b94a48;}
 
-.text-danger {
-	color: #b94a48;
-}
 a.text-danger:hover,
 a.text-danger:focus {
 	color: #953b39;
 }
+
+/* Fix for old Bootstrap v2.x templates */
+span.label-default {
+    background-color: #999999;
+    color: #FFFFFF;
+    background-image: -webkit-linear-gradient(top, #999999, #9A9A9A);
+    background-image: linear-gradient(to bottom, #999999, #9A9A9A);
+    border-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.4);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
 span.label-danger  {
     background-color: #D32C46;
     color: #FFFFFF;
-    background-image: -webkit-linear-gradient(top, #ee465a, #c11a39);
-    background-image: linear-gradient(to bottom, #ee465a, #c11a39);
+    background-image: -webkit-linear-gradient(top, #EE465A, #C11A39);
+    background-image: linear-gradient(to bottom, #EE465A, #C11A39);
     border-color: rgba(0, 0, 0, 0.2);
     border-bottom-color: rgba(0, 0, 0, 0.4);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
@@ -216,6 +229,9 @@ table a.btn-link {;}
 /* .jOpenSim_gridstatuscell {;} */
 /* .jopensimregister_clear */
 /* @import url("bootstrap.css"); */
+/* .jopensim-searchfield{;} */
+/* FIX some Warp templates */
+/* a.modal {width: 20px; left: 0px;} */
 
 .jopensim_profile_state {
 	display: inline-block;
@@ -239,7 +255,8 @@ table a.btn-link {;}
 .jopensim_showcase .tphgv3,
 .jopensim_showcase .tphop,
 .jopensim_showcase .tpdummy {
-	display: inline-block;  margin-bottom: 4px;
+	display: inline-block;
+    margin-bottom: 4px;
 }
 
 .tpbtn {
@@ -249,11 +266,11 @@ table a.btn-link {;}
 }
 
 a.tpbtn:hover {
-	color:#fff !important;
+	color:#FFFFFF !important;
 }
 
 .btn-local {
-	color: #fff;
+	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 	background-color: #49afcd;
 	background-image: -moz-linear-gradient(top,#5bc0de,#2f96b4);
@@ -276,7 +293,7 @@ a.tpbtn:hover {
 }
 
 .btn-hg {
-	color: #fff;
+	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 	background-color: #004b8d;
 	background-image: -moz-linear-gradient(top,#005e8d,#002f8d);
@@ -299,7 +316,7 @@ a.tpbtn:hover {
 }
 
 .btn-hgv3 {
-	color: #fff;
+	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 	background-color: #faa732;
 	background-image: -moz-linear-gradient(top,#fbb450,#f89406);
@@ -322,9 +339,9 @@ a.tpbtn:hover {
 }
 
 .btn-tphop {
-	color: #fff;
+	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-	background-color: #da4f49;
+	background-color: #DA4F49;
 	background-image: -moz-linear-gradient(top,#ee5f5b,#bd362f);
 	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ee5f5b),to(#bd362f));
 	background-image: -webkit-linear-gradient(top,#ee5f5b,#bd362f);
@@ -341,26 +358,26 @@ a.tpbtn:hover {
 .btn-tphop:focus,
 .btn-tphop:active {
 	background-image: none;
-	background-color: #a9302a;
+	background-color: #A9302A;
 }
 
 .btn-tpdummy {
-	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-	background-color: #999;
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #999999;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 
 .tpdummy .btn-tpdummy {
-	padding: 0px 3px;
+    padding: 0px 3px;
 }
 
 .jopensimshowcase .btn,
 .jopensimshowcase .btn-default {
-	cursor:default !important;
+    cursor:default !important;
 }
 
 .jopensimshowcase .btn {
-	border-color: #e6e6e6 #e6e6e6 #bfbfbf !important;
-	margin-bottom:3px;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf !important;
+    margin-bottom:3px;
 }

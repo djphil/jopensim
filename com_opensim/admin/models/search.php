@@ -353,7 +353,7 @@ class OpenSimModelSearch extends OpenSimModelOpenSim {
 			break;
 			case "classifieds":
 				$table	= "#__opensim_userclassifieds";
-				$order	= "#__opensim_userclassifieds.expirationdate DESC";
+				$order	= "#__opensim_userclassifieds.creationdate DESC";
 			break;
 			case "events":
 				$table	= "#__opensim_search_events";
@@ -429,8 +429,11 @@ class OpenSimModelSearch extends OpenSimModelOpenSim {
 
 	public function completeClassifieds($classifieds) {
 		if(is_array($classifieds) && count($classifieds) > 0) {
+			$nowUTC = date("U");
 			foreach($classifieds AS $key => $val) {
 				$classifieds[$key]['creatorName'] = $this->opensim->getUserName($val['creatoruuid'],"fullname");
+				if($classifieds[$key]['expirationdate'] < $nowUTC) $classifieds[$key]['isexpired'] = TRUE;
+				else $classifieds[$key]['isexpired'] = FALSE;
 				$posglobal = str_replace("<","",$val['posglobal']);
 				$posglobal = str_replace(">","",$posglobal);
 				$locationglobal = explode(", ",$posglobal);
@@ -630,6 +633,51 @@ class OpenSimModelSearch extends OpenSimModelOpenSim {
 			$db->execute();
 		}
 		return TRUE;
+	}
+
+	public function eventdelete($id) {
+		$db		= JFactory::getDbo();
+		$conditions = array(
+			$db->quoteName('eventid').' = '.$db->quote($id)
+		);
+		$query	= $db->getQuery(true);
+		$query->delete($db->quoteName('#__opensim_search_events'));
+		$query->where($conditions);
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	public function renewclassified($id) {
+		$db			= JFactory::getDbo();
+
+		if($this->_settingsData['classified_hide'] == -1) { //hide never
+			$expirationdate = 4294967295; // this is the max positive integer value that DB field can take
+		} else {
+			$expirationdate = time() + $this->_settingsData['classified_hide'];
+		}
+		$fields	= array(
+				$db->quoteName('expirationdate').' = '.$db->quote($expirationdate)
+		);
+
+		$conditions = array(
+			$db->quoteName('classifieduuid').' = '.$db->quote($id)
+		);
+		$query	= $db->getQuery(true);
+		$query->update($db->quoteName('#__opensim_userclassifieds'))->set($fields)->where($conditions);
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	public function deleteclassified($id) {
+		$db		= JFactory::getDbo();
+		$conditions = array(
+			$db->quoteName('classifieduuid').' = '.$db->quote($id)
+		);
+		$query	= $db->getQuery(true);
+		$query->delete($db->quoteName('#__opensim_userclassifieds'));
+		$query->where($conditions);
+		$db->setQuery($query);
+		$db->execute();
 	}
 }
 ?>

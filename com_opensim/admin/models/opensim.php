@@ -68,6 +68,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['remotehost']				= $params->get('remotehost');
 			$settings['remoteport']				= $params->get('remoteport');
 			$settings['remotepasswd']			= $params->get('remotepasswd');
+			$settings['remoteadminsystem']		= $params->get('remoteadminsystem','single');
 
 			$settings['addons_messages']		= $params->get('addons_messages');
 			$settings['addons_profile']			= $params->get('addons_profile');
@@ -77,7 +78,12 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['addons_terminalchannel']	= $params->get('addons_terminalchannel');
 			$settings['addons_identminutes']	= $params->get('addons_identminutes');
 			$settings['addons_currency']		= $params->get('addons_currency');
-			$settings['addons']					= $settings['addons_messages'] + ($settings['addons_profile']*2) + ($settings['addons_groups']*4) + ($settings['addons_inworldauth']*8) + ($settings['addons_search']*16) + ($settings['addons_currency']*32);
+			$settings['addons_authorize']		= $params->get('addons_authorize');
+			$settings['addons_authorizehg']		= $params->get('addons_authorizehg');
+			$settings['addons']					= $settings['addons_messages'] + ($settings['addons_profile']*2) + ($settings['addons_groups']*4) + ($settings['addons_inworldauth']*8) + ($settings['addons_search']*16) + ($settings['addons_currency']*32) + ($settings['addons_authorize']*64);
+
+			$settings['auth_minage']			= $params->get('auth_minage');
+			$settings['auth_link']				= $params->get('auth_link');
 
 			$settings['jopensim_userhome_region']		= $params->get('jopensim_userhome_region');
 			$settings['jopensim_userhome_x']			= $params->get('jopensim_userhome_x');
@@ -87,17 +93,13 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['jopensim_usersetting_flag3']		= $params->get('jopensim_usersetting_flag3');
 			$settings['jopensim_usersetting_flag4']		= $params->get('jopensim_usersetting_flag4');
 			$settings['jopensim_usersetting_flag5']		= $params->get('jopensim_usersetting_flag5');
-			$settings['jopensim_usersetting_flag9']		= $params->get('jopensim_usersetting_flag9');
-			$settings['jopensim_usersetting_flag10']	= $params->get('jopensim_usersetting_flag10');
-			$settings['jopensim_usersetting_flag11']	= $params->get('jopensim_usersetting_flag11');
-			$settings['jopensim_usersetting_flag12']	= $params->get('jopensim_usersetting_flag12');
+			$settings['jopensim_usersetting_flag6']		= $params->get('jopensim_usersetting_flag6');
+			$settings['jopensim_defaultusertype']		= $params->get('jopensim_defaultusertype');
 			$settings['jopensim_usersetting_flags']		= $settings['jopensim_usersetting_flag3'] +
 														  $settings['jopensim_usersetting_flag4'] +
 														  $settings['jopensim_usersetting_flag5'] +
-														  $settings['jopensim_usersetting_flag9'] +
-														  $settings['jopensim_usersetting_flag10'] +
-														  $settings['jopensim_usersetting_flag11'] +
-														  $settings['jopensim_usersetting_flag12'];
+														  $settings['jopensim_usersetting_flag6'] +
+														  $settings['jopensim_defaultusertype'];
 			$settings['jopensim_usersetting_title']		= $params->get('jopensim_usersetting_title');
 
 			$settings['jopensim_maps_cacheage']			= $params->get('jopensim_maps_cacheage',0);
@@ -131,6 +133,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 				$settings['jopensim_maps_displaytype']	= $params->get('jopensim_maps_displaytype');
 				$settings['jopensim_maps_displayrepeat']= $params->get('jopensim_maps_displayrepeat');
 			}
+			$settings['jopensim_maps_varregions']		= $params->get('jopensim_maps_varregions');
+			$settings['jopensim_maps_visibility']		= $params->get('jopensim_maps_visibility',1);
 
 			$settings['profile_display']				= $params->get('profile_display');
 			$settings['profile_images']					= $params->get('profile_images');
@@ -355,7 +359,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$db = JFactory::getDBO();
 			$query = sprintf("DELETE FROM #__opensim_inworldident WHERE created < DATE_SUB(NOW(), INTERVAL %d MINUTE)",$identminutes);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
@@ -383,13 +387,13 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function opensimIsCreated() { // returns the opensim UUID if exists already for the user or FALSE if not
-		$user =& JFactory::getUser();
+		$user	= JFactory::getUser();
 		return $this->opensimRelation($user->id);
 	}
 
 	public function opensimRelation($uuid) {
-		$db = JFactory::getDBO();
-		$query = sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$uuid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$uuid);
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
 		if(!$uuid) return FALSE;
@@ -397,8 +401,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function opensimRelationReverse($uuid) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$uuid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$uuid);
 		$db->setQuery($query);
 		$uuid = $db->loadResult();
 		if(!$uuid) return FALSE;
@@ -410,7 +414,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		$opensim = $this->opensim;
 		$query = $opensim->getUserDataQuery($uuid);
 		$this->_osgrid_db->setQuery($query['userdata']);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$num_rows = $this->_osgrid_db->getNumRows();
 		if($num_rows == 1) return TRUE;
 		else return FALSE;
@@ -485,7 +489,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		try {
 			$this->os_user = $this->_osgrid_db->loadAssocList();
 		} catch(Exception $e) {
-			$errormsg = $this->_osgrid_db->getErrorNum().": ".stristr($this->_osgrid_db->getErrorMsg(),"sql=",TRUE)." in ".__FILE__." at line ".__LINE__;
+			$errormsg = $e->getMessage();
 			JFactory::getApplication()->enqueueMessage($errormsg." (".$this->userquery.")","error");
 			return array();
 		}
@@ -542,16 +546,16 @@ class OpenSimModelOpenSim extends JModelAdmin {
 							$data['osid']);
 		$this->_osgrid_db->setQuery($query);
 		$debug[] = $query;
-		$result = $this->_osgrid_db->query();
+		$result = $this->_osgrid_db->execute();
 		if($data['field'] == "passwordHash") return $query;
 		else return $result;
 	}
 
 	public function getJuserData($uuid) { // Collect settings from Joomlas DB
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = sprintf("SELECT im2email,visible,timezone FROM  #__opensim_usersettings WHERE `uuid` = '%s'",$uuid);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if($db->getNumRows() == 1) {
 			$jUserData = $db->loadAssoc();
 		} else {
@@ -608,7 +612,7 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		}
 	}
 
-	public function getRegionDetails($uuid) {
+	public function getRegionDetails_old($uuid) {
 		if(empty($this->_regiondata)) $this->getData();
 		if(is_array($this->_regiondata)) {
 			foreach($this->_regiondata AS $region) {
@@ -618,6 +622,54 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		} else {
 			return FALSE;
 		}
+	}
+
+	public function getRegionDetails($uuid) {
+		$regiondata = $this->opensim->getRegionData($uuid);
+		if(is_array($regiondata)) {
+			$regiondata['posX']		= intval($regiondata['posX']);
+			$regiondata['posY']		= intval($regiondata['posY']);
+			$regiondata['maplink']	= str_replace("-","",$uuid);
+			$ownerdata = $this->opensim->getUserData($regiondata['owner_uuid']);
+			if(array_key_exists("firstname",$ownerdata) && array_key_exists("lastname",$ownerdata)) {
+				$regiondata['ownername'] = $ownerdata['firstname']." ".$ownerdata['lastname'];
+			} else {
+				$regiondata['ownername'] = "n/a";
+			}
+			$mapinfo = $this->getMapInfo($uuid);
+			$regiondata['articleId']	= $mapinfo['articleId'];
+			$regiondata['articleTitle']	= $this->getContentTitleFromId($mapinfo['articleId']);
+			$regiondata['hidemap']		= $mapinfo['hidemap'];
+			return $regiondata;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function getMapInfo($regionUUID) {
+		if(is_array($regionUUID)) {
+			$region = $regionUUID[0];
+		} else {
+			$region = $regionUUID;
+		}
+		$retval	= array();
+		$query	= sprintf("SELECT #__opensim_mapinfo.* FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$region);
+		$db		= JFactory::getDBO();
+		$db->setQuery($query);
+		$db->execute();
+		if($db->getNumRows() == 1) {
+			$retval = $db->loadAssoc();
+			if($retval['articleId'] && $retval['articleId'] > 0) $retval['articleTitle'] = $this->getContentTitleFromId($retval['articleId']);
+			else $retval['articleTitle'] = "";
+		} else {
+			$retval['regionUUID']	= $region;
+			$retval['articleId']	= null;
+			$retval['articleTitle'] = "";
+			$retval['hidemap']		= 0;
+			$retval['public']		= 0;
+			$retval['guide']		= 0;
+		}
+		return $retval;
 	}
 
 	public function createImageFolder() {
@@ -630,8 +682,9 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		return TRUE;
 	}
 
-	public function checkCacheFolder() {
-		$cachefolder = JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'regions';
+	public function checkCacheFolder($dest = "regions") {
+		if($dest == "regions") $cachefolder = JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'regions';
+		else $cachefolder = JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'regions'.DIRECTORY_SEPARATOR.'varregions';
 		$retval['path'] = $cachefolder;
 		if(is_dir($cachefolder)) {
 			$retval['existing'] = TRUE;
@@ -670,6 +723,10 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		$chachefolder = $this->checkCacheFolder();
 		if($chachefolder['existing'] == FALSE || $chachefolder['writeable'] == FALSE) return FALSE;
 		$regiondata = $this->getRegionDetails($regionUID);
+
+//			$debug = var_export($regiondata,TRUE);
+
+
 		$regionimage = $chachefolder['path'].DIRECTORY_SEPARATOR.$regiondata['uuid'].".jpg";
 		$os_regionimage = str_replace("-","",$regiondata['uuid']);
 		$source = $regiondata['serverURI']."index.php?method=regionImage".$os_regionimage;
@@ -682,8 +739,33 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$fh = fopen($regionimage,"w");
 			fwrite($fh,$mapdata['file_content']);
 			fclose($fh);
-			return TRUE;
 		}
+		if($this->_settingsData['jopensim_maps_varregions'] == 1 && ($regiondata['sizeX'] > 256 || $regiondata['sizeY'] > 256)) { // we got a varregion here, lets get V2 maptiles
+			$cachefolder = $this->checkCacheFolder("varregions");
+			$varregionsfolder = $cachefolder['path'];
+			if($chachefolder['existing'] == FALSE || $chachefolder['writeable'] == FALSE) return FALSE;
+			$mapstartX	= $regiondata['locX'] / 256;
+			$mapstartY	= $regiondata['locY'] / 256;
+			$mapendX	= $mapstartX + ($regiondata['sizeX'] / 256);
+			$mapendY	= $mapstartY + ($regiondata['sizeY'] / 256);
+			for($x = $mapstartX; $x < $mapendX; $x++) {
+				for($y = $mapstartY; $y < $mapendY; $y++) {
+					$mapname = "map-1-".$x."-".$y."-objects.jpg";
+					$regionimage = $varregionsfolder.DIRECTORY_SEPARATOR.$mapname;
+					$source = $this->_settingsData['opensim_host'].":".$this->_settingsData['robust_port']."/".$mapname;
+					$mapdata = $this->getMapContent($source);
+					if(array_key_exists("error",$mapdata)) { // some error occurred, lets copy an error image for it
+						$this->maperrorimage($regionimage,$mapdata['error']);
+						return FALSE;
+					} elseif(array_key_exists("file_content",$mapdata) && $mapdata['file_content']) {
+						$fh = fopen($regionimage,"w");
+						fwrite($fh,$mapdata['file_content']);
+						fclose($fh);
+					}
+				}
+			}
+		}
+		return TRUE;
 	}
 
 	public function getMapContent($source) { // gets image data from external server
@@ -884,10 +966,10 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function checkClient($uuid) {
-		$query = sprintf("SELECT * FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
-		$db		=& JFactory::getDBO();
+		$query	= sprintf("SELECT * FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows = $db->getNumRows();
 		if($num_rows == 1) {
 			return TRUE;
@@ -922,17 +1004,17 @@ class OpenSimModelOpenSim extends JModelAdmin {
 
 	public function setBalance($uuid,$amount) {
 		$this->balanceExists($uuid); // $uuid could be a group, see if it exists and if not, create a balance line for it
-		$query = sprintf("UPDATE #__opensim_moneybalances SET balance = balance + %d WHERE `user`= '%s'",$amount,$uuid);
-		$db		=& JFactory::getDBO();
+		$query	= sprintf("UPDATE #__opensim_moneybalances SET balance = balance + %d WHERE `user`= '%s'",$amount,$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getBalance($uuid) {
-		$query = sprintf("SELECT #__opensim_moneybalances.balance FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
-		$db		=& JFactory::getDBO();
+		$query	= sprintf("SELECT #__opensim_moneybalances.balance FROM #__opensim_moneybalances WHERE `user`= '%s'",$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows = $db->getNumRows();
 		if($num_rows == 1) {
 			return $db->loadResult();
@@ -947,14 +1029,14 @@ class OpenSimModelOpenSim extends JModelAdmin {
 
 	public function balanceExists($uuid) { // if this $uuid does not exist yet, it will create a 0 Balance for it
 		$query	= sprintf("SELECT balance FROM #__opensim_moneybalances WHERE `user` = '%s'",$uuid);
-		$db		=& JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$num_rows = $db->getNumRows();
 		if($num_rows == 0) {
 			$query = sprintf("INSERT INTO #__opensim_moneybalances (`user`,`balance`) VALUES ('%s',0)",$uuid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
@@ -1013,9 +1095,9 @@ class OpenSimModelOpenSim extends JModelAdmin {
 									$status,
 									$description);
 
-		$db		=& JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public function transactionlist($uuid,$days = 0) {
@@ -1049,8 +1131,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function getTransactions($uuid = null,$days = 0) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		if($uuid) $query->select('IF(#__opensim_moneytransactions.receiver = '.$db->quote($uuid).',"in","out") AS direction');
 		else $query->select('"none" AS direction');
 		$query->select('#__opensim_moneytransactions.*');
@@ -1134,8 +1216,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function getGroupName($uuid) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('#__opensim_group.Name');
 		$query->from('#__opensim_group');
 		$query->where('#__opensim_group.GroupID = '.$db->quote($uuid));
@@ -1153,8 +1235,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 	}
 
 	public function getClientInfo($uuid) {
-		$db		=& JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('#__opensim_clientinfo.*');
 		$query->from('#__opensim_clientinfo');
 		$query->where('#__opensim_clientinfo.PrincipalID = '.$db->quote($uuid));
@@ -1295,6 +1377,26 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			}
 		}
 		return $positions;
+	}
+
+	public function checkPluginStatus($element,$folder) {
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select('#__extensions.*');
+		$query->select($db->quoteName('#__viewlevels.title')." AS leveltitle");
+		$query->from($db->quoteName('#__extensions'));
+		$query->join('LEFT', '#__viewlevels ON #__viewlevels.id = #__extensions.access');
+		$query->where($db->quoteName('#__extensions.element').' = '.$db->quote($element));
+		$query->where($db->quoteName('#__extensions.folder').' = '.$db->quote($folder));
+		$db->setQuery($query);
+		$db->execute();
+		$foundplugin = $db->getNumRows();
+		if($foundplugin == 1) {
+			return $db->loadAssoc();
+		} else {
+			return FALSE;
+		}
 	}
 
 	public function __destruct() {

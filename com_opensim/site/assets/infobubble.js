@@ -94,6 +94,8 @@ function InfoBubble(opt_options) {
     options['closeSrc'] = this.CLOSE_SRC_;
   }
 
+//	this.prototype.CLOSE_SRC_ = bubbleCloseImage;
+
   this.buildDom_();
   this.setValues(options);
 }
@@ -184,7 +186,8 @@ InfoBubble.prototype.BACKGROUND_COLOR_ = '#fff';
  * @const
  * @private
  */
-InfoBubble.prototype.CLOSE_SRC_ = 'https://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif';
+// InfoBubble.prototype.CLOSE_SRC_ = 'https://maps.gstatic.com/intl/en_us/mapfiles/iw_close.gif';
+// InfoBubble.prototype.CLOSE_SRC_ = 'components/com_opensim/assets/images/exit_small.png';
 
 /**
  * Extends a objects prototype by anothers.

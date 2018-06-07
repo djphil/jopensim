@@ -1,21 +1,20 @@
 //********************************
 //* TerminalScript for jOpenSim  *
 //*                              *
-//* created 2016-01-19 by FoTo50 *
-//* http://www.jopensim.com      *
+//* created 2018-03-17 by FoTo50 *
+//* https://www.jopensim.com     *
 //********************************
 
 // if you find a bug or even a security issue,
-//I would be happy for a report at the support forum at http://www.jopensim.com
+//I would be happy for a report at the support forum at https://www.jopensim.com
 
 
 string targetUrl			= "http://path-to-your-joomla/components/com_opensim/interface.php"; // this is the target script, handling the requests
 string inworldUrl			= "http://path-to-your-joomla/inworld-account.html"; // Add here the url for the inworld account to provide an easy link to go
 integer listenchannel		= 555; // Channel for the Tracker to listen to
-string terminalDescription	= "jOpenSim Terminal"; // This will appear as a brief description at the "Terminal Link List" of jOpenSim
 
 // some values for easier translation:
-string llD_explain = "\nI am a jOpenSim terminal!\nWant to get a notecard to see what I can do for you?";
+string llD_explain	= "\nI am a jOpenSim terminal!\nWant to get a notecard to see what I can do for you?";
 string llD_yes		= "Yes";
 string llD_no		= "No";
 string llD_cancel	= "Cancel";
@@ -33,18 +32,18 @@ string	myurl;
 string	querystring;
 key		owner;
 integer	dialogchannel;
+string	terminalDescription;
 
 default {
     state_entry() {
     	if(targetUrl == "http://path-to-your-joomla/components/com_opensim/interface.php") {
     		llOwnerSay("Please enter the correct path for 'targetUrl' first");
     	} else {
+            terminalDescription = llGetObjectDesc();
 	        dialogchannel = (integer)(llFrand(99999.0) * -1);
 	        owner = llGetOwner();
 	        urlRequestId = llRequestURL();
 	        llOwnerSay("Terminal running");
-	        string registerUrl = targetUrl+"?action=register&terminalDescription="+llEscapeURL(terminalDescription)+"&myurl="+myurl;
-	        registerId = llHTTPRequest(registerUrl,[HTTP_METHOD,"GET"],"");
 	        llListen(listenchannel, "", NULL_KEY, "");
 	        llListen(dialogchannel,"", NULL_KEY,"");
 	    }
@@ -123,14 +122,6 @@ default {
             string messagestring = llGetSubString(body,i,i+llStringLength(resident)+36);
             string seentrigger = llGetSubString(messagestring,0,4);
             if(response_key != NULL_KEY) llInstantMessage(response_key,body);
-        }
-        if(request_id == registerId) {
-            integer i = 0;
-            integer end = llGetListLength(metadata);
-            for (i=0; i<end; i++) {
-                llOwnerSay("string=" + llList2String(metadata,i));
-            }
-            llOwnerSay(body);
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -37,7 +37,7 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 	public function getData() {
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_settingsData )) $this->getSettingsData();
-		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db) {
 			return FALSE;
 		}
 
@@ -113,7 +113,7 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 	}
 
 	public function getLocationRange() {
-		if (!$this->_osgrid_db || $this->_osgrid_db->getErrorNum() > 0) {
+		if (!$this->_osgrid_db) {
 			return FALSE;
 		}
 		$opensim = $this->opensim;
@@ -125,17 +125,19 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 	}
 
 	public function getMapInfo($regionUUID) {
-		$retval = array();
-		$query = sprintf("SELECT * FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$regionUUID);
-		$db =& JFactory::getDBO();
+		$retval	= array();
+		$query	= sprintf("SELECT * FROM #__opensim_mapinfo WHERE regionUUID = '%s'",$regionUUID);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if($db->getNumRows() == 1) {
 			$retval = $db->loadAssoc();
 		} else {
-			$retval['regionUUID'] = $regionUUID;
-			$retval['articleId'] = null;
-			$retval['hidemap'] = 0;
+			$retval['regionUUID']	= $regionUUID;
+			$retval['articleId']	= null;
+			$retval['hidemap']		= 0;
+			$retval['public']		= 0;
+			$retval['guide']		= 0;
 		}
 		return $retval;
 	}

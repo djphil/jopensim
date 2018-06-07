@@ -2,14 +2,14 @@
 <extension type="component" version="3.4.8" method="upgrade">
 	<name>COM_OPENSIM</name>
 	<alias>jOpenSim</alias>
-    <creationDate>2018-02-04</creationDate>
+    <creationDate>2018-06-03</creationDate>
 	<bornDate>2010-10-24</bornDate>
 	<author>FoTo50</author>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
 	<copyright>All rights reserved by FoTo50 2018</copyright>
 	<license>GPL 2.0</license>
-	<version>0.3.1.2</version>
+	<version>0.3.1.4</version>
 	<description>Webinterface for OpenSim Servers (developed and tested with version 0.9.0.0 in Grid Mode)</description>
 	<!-- Install Database Section -->
 	<install>
@@ -22,18 +22,14 @@
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>currency.php</filename>
-		<filename>currency.log</filename>
 		<filename>currency.phplandtool.php</filename>
 		<filename>index.html</filename>
-		<filename>interface.log</filename>
 		<filename>interface.php</filename>
 		<filename>landtool.php</filename>
 		<filename>map.php</filename>
 		<filename>opensim.php</filename>
 		<filename>registersearch.php</filename>
 		<filename>router.php</filename>
-		<filename>terminal.log</filename>
-		<filename>xmlrpc.log</filename>
 		<folder>assets</folder>
 		<folder>controllers</folder>
 		<folder>includes</folder>
@@ -53,6 +49,7 @@
 		<menu link="option=com_opensim">JOPENSIM_MENU_NAME</menu>
 		<submenu>
 			<menu view="opensim" link="option=com_opensim">JOPENSIM_OVERVIEW</menu>
+			<menu view="maps" link="option=option=com_opensim&amp;view=loginscreen">JOPENSIM_LOGINSCREEN</menu>
 			<menu view="maps" link="option=com_opensim&amp;view=maps">JOPENSIM_MAPS</menu>
 			<menu view="user" link="option=com_opensim&amp;view=user">JOPENSIM_USER</menu>
 			<menu view="groups" link="option=com_opensim&amp;view=groups">JOPENSIM_GROUPS</menu>
@@ -66,13 +63,13 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>debug.log</filename>
 			<filename>index.html</filename>
 			<filename>licence.php</filename>
 			<filename>opensim.php</filename>
 			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>help</folder>
+			<folder>helpers</folder>
 			<folder>lsl-scripts</folder>
 			<folder>models</folder>
 			<folder>opensim_modules</folder>

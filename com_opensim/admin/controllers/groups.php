@@ -12,7 +12,7 @@ class OpenSimControllergroups extends OpenSimController {
 		parent::__construct();
 	}
 
-	public function cancel() {
+	public function cancel($key = NULL) {
 		$this->setRedirect('index.php?option=com_opensim&view=opensim');
 	}
 

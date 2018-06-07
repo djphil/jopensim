@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die('Restricted access'); // No direct access
@@ -47,6 +47,8 @@ div#map-canvas {
 </div>
 
 <script>
+var bubbleCloseImage = "<?php echo JUri::base(true); ?>/components/com_opensim/assets/images/exit_small.png";
+var usev2maptiles = "<?php echo ($this->usev2maptiles == 1) ? "true":"false"; ?>";
 var showCoords = "<?php echo ($this->settingsdata['jopensim_maps_showcoords'] == 1) ? "true":"false"; ?>";
 var mapCentreNames = ["<?php echo $this->settingsdata['jopensim_maps_homename']; ?>"];
 var jCopyright = "<div class='label label-default'><?php echo $this->settingsdata['jopensim_maps_copyright']; ?></div>";

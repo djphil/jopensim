@@ -459,8 +459,8 @@ function parseMapResponse(request,map){
               if (filenames == "uuid" || filenames == "uuid-no-dashes") { // Use UUID format for jpg names
                 //layer[layerCount] = new google.maps.GroundOverlay('data/regions/' + xmluuid + '.jpg', boundaries, groundOverlayOptions);
                 if(sizeX > 256) {
-                	groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
-//                	groundoverlay = jUrlBase+'/images/jopensim/regions/varregions/map-1-' + xmllocXx + '-' + xmllocYy + '-objects'+ '.jpg';
+                	if(usev2maptiles == "true") groundoverlay = jUrlBase+'/images/jopensim/regions/varregions/map-1-' + xmllocXx + '-' + xmllocYy + '-objects'+ '.jpg';
+                	else groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
                 } else {
                 	groundoverlay = jUrlBase+'/images/jopensim/regions/' + xmluuid + '.jpg';
                 }
@@ -556,7 +556,7 @@ function getRegionInfos(x, y)
                 if (jTeleportLink == 1)
                 {
 					response += "<tr><td>";
-					response += "<a class=\"btn btn-default btn-primary\" href=\"secondlife://" + xmlregionname + "/" + xjump + "/" + yjump + "/\">";
+					response += "<a class=\"btn btn-primary\" href=\"secondlife://" + xmlregionname + "/" + xjump + "/" + yjump + "/\">";
 					response += "<i class='icon-ok'></i> Teleport";
 					response += "</a>";
 					response += "</td></tr>";

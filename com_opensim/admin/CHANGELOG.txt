@@ -1,0 +1,22 @@
+========== 0.3.1.4 ==========
+
+* facelifting (many thanks djPhil) in maps, loginscreen, inworld account
+* added: support for jOpenRegister new option to use Joomla's activation process for inworld accounts
+* fixed: map details in admin did not show up proper on pages > 1
+* fixed: terminal ping
+* new: added plugin status of jOpenRegister and QuickIcon in overview
+* new: showing region rating in backend
+* new: simulator management to be able to send radmin commands to multiple simulators
+* added: possibility to delete single events in backend search page
+* added: possibility to delete/renew single classifieds in backend search page
+* added: possibility to hide mature classifieds in frontend showcase
+* fixed: utf8 chars in classifieds description did not display proper
+* new: default region visibility for new created regions via remote admin
+* added: offline group notices show group name in email subject
+* facelifting: misc now has nicer buttons
+
+========== 0.3.1.3 ==========
+* maps display varregions
+* authorization service
+* fix many notices/depricated/warnings
+

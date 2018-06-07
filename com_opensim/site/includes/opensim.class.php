@@ -6,7 +6,7 @@ Class for OpenSimulator Joomla-Component
 started 2010-08-30 by FoTo50 (Powerdesign) foto50@jopensim.com
 
  * @component jOpenSim Component
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
 
 
@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.1.2 RC1"; // current version
+	public static $version	= "0.3.1.4"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -114,10 +114,12 @@ class opensim {
 	public $regiontable						= "regions";
 	public $regiontable_field_id			= "uuid";
 	public $regiontable_regionname			= "regionName";
+	public $regiontable_serverURI			= "serverURI";
 	public $regiontable_serverIP			= "serverIP";
 	public $regiontable_serverPort			= "serverPort";
 	public $regiontable_locationX			= "locX";
 	public $regiontable_locationY			= "locY";
+	public $regiontable_access				= "access";
 	// presence table
 	public $presencetable					= "Presence";
 	public $presencetable_field_id			= "UserID";
@@ -220,11 +222,9 @@ class opensim {
 		$UserFlag3		= $params->get('jopensim_usersetting_flag3',0);
 		$UserFlag4		= $params->get('jopensim_usersetting_flag4',0);
 		$UserFlag5		= $params->get('jopensim_usersetting_flag5',0);
-		$UserFlag9		= $params->get('jopensim_usersetting_flag9',0);
-		$UserFlag10		= $params->get('jopensim_usersetting_flag10',0);
-		$UserFlag11		= $params->get('jopensim_usersetting_flag11',0);
-		$UserFlag12		= $params->get('jopensim_usersetting_flag12',0);
-		$UserFlags		= $UserFlag3 + $UserFlag4 + $UserFlag5 + $UserFlag9 + $UserFlag10 + $UserFlag11 + $UserFlag12;
+		$UserFlag6		= $params->get('jopensim_usersetting_flag6',0);
+		$UserType		= $params->get('jopensim_defaultusertype',0);
+		$UserFlags		= $UserFlag3 + $UserFlag4 + $UserFlag5 + $UserFlag6 + $UserType;
 		$UserTitle		= $params->get('jopensim_usersetting_title','');
 
 		// default values for usertable (needed for new user)
@@ -413,7 +413,7 @@ class opensim {
 			$this->presencetable_regionid,
 			$this->zerouid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		if($this->_osgrid_db->getNumRows() > 0) return 1;
 		else return 0;
 	}
@@ -425,14 +425,14 @@ class opensim {
 			$this->presencetable_field_id,
 			$userid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$query = sprintf("UPDATE %s SET %s = 'False' WHERE %s = '%s'",
 			$this->gridtable,
 			$this->gridtable_field_id,
 			$this->gridtable_field_online,
 			$userid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 	}
 
 	public function repairUserStatus() {
@@ -442,7 +442,7 @@ class opensim {
 			$this->presencetable_regionid,
 			$this->zerouid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$query = sprintf("UPDATE
 								%1\$s LEFT JOIN %4\$s ON (BINARY %1\$s.%2\$s = BINARY %4\$s.%5\$s AND %4\$s.%6\$s != '%7\$s')
 							SET
@@ -457,7 +457,25 @@ class opensim {
 			$this->presencetable_regionid,
 			$this->zerouid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
+	}
+
+	public function isCreated($userid) {
+		if(!is_object($this->_osgrid_db)) return FALSE; // No database, we wont find out
+		$db		= $this->_osgrid_db;
+		$query	= $db->getQuery(TRUE);
+		$query->select($db->quoteName($this->usertable.".".$this->usertable_field_id));
+		$query->from($db->quoteName($this->usertable));
+		$query->where($db->quoteName($this->usertable.".".$this->usertable_field_id)." = ".$db->quote($userid));
+		
+		$db->setQuery($query);
+		$db->execute();
+		$founduser = $db->getNumRows();
+		if($founduser == 1) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	public function getUserData($userid) {
@@ -528,16 +546,16 @@ class opensim {
 	}
 
 	public function getUserSettings($userid) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT im2email,visible,timezone FROM #__opensim_usersettings WHERE uuid = '%s'",$userid);
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT im2email,visible,timezone FROM #__opensim_usersettings WHERE uuid = '%s'",$userid);
 		$db->setQuery($query);
 		$settings = $db->loadAssoc();
 		return $settings;
 	}
 
 	public function ownerLand($userid) {
-		$db =& JFactory::getDBO();
-		$query = $db->getQuery(TRUE);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(TRUE);
 		$query
 			->select($db->quoteName('#__opensim_search_allparcels.parcelname'))
 			->select($db->quoteName('#__opensim_search_allparcels.parcelUUID'))
@@ -555,9 +573,9 @@ class opensim {
 	}
 
 	public function groupLand4user($userid,$groupflags) {
-		$db =& JFactory::getDBO();
-		$groupflags = intval($groupflags);
-		$query = $db->getQuery(TRUE);
+		$db			= JFactory::getDBO();
+		$groupflags	= intval($groupflags);
+		$query		= $db->getQuery(TRUE);
 		$query
 			->select("DISTINCT(".$db->quoteName('#__opensim_grouprole.GroupID').") AS GroupID")
 			->from($db->quoteName('#__opensim_groupmembership'))
@@ -670,7 +688,7 @@ class opensim {
 								$this->landtable_GroupUUID,
 								$landID);
 		$this->_os_db->setQuery($query);
-		$this->_os_db->query();
+		$this->_os_db->execute();
 		if($this->_os_db->getNumRows() == 1) {
 			$retval = $this->_os_db->loadAssoc();
 			return $retval;
@@ -694,7 +712,7 @@ class opensim {
 						$locY,
 						$locX);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get the info
 			$region	= $this->_osgrid_db->loadAssoc();
 		} else {
@@ -718,7 +736,7 @@ class opensim {
 		if($landinfo === FALSE) return FALSE;
 		$query = $this->getAllRegionsQuery($landinfo['regionid']);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get up2date data from there
 			$region					= $this->_osgrid_db->loadAssoc();
 			$retval['globalX']		= $region['locX'] + $ParcelX;
@@ -726,10 +744,10 @@ class opensim {
 			$retval['globalZ']		= $ParcelZ;
 			$retval['regionname']	= $region['regionName'];
 		} else { // Region probably currently not online, lets try to get data from the search datasnapshot
-			$db =& JFactory::getDBO();
-			$query = sprintf("SELECT * FROM #__opensim_search_regions WHERE regionuuid = '%s'",$landinfo['regionid']);
+			$db		= JFactory::getDBO();
+			$query	= sprintf("SELECT * FROM #__opensim_search_regions WHERE regionuuid = '%s'",$landinfo['regionid']);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if($db->getNumRows() == 1) { // We found at least something in the datasnapshot
 				$region					= $db->loadAssoc();
 				$retval['globalX']		= $region['locX'] + $ParcelX;
@@ -750,7 +768,7 @@ class opensim {
 					$this->usertable_field_id,
 					$this->usertable_field_UserLevel);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		if($this->_osgrid_db->getNumRows() == 1) { // The region seems to be registered, lets get up2date data from there
 			$count	= $this->_osgrid_db->loadAssoc();
 			return $count['anzahl'];
@@ -927,8 +945,49 @@ class opensim {
 		return $query;
 	}
 
+	public function setAgeVerified($uuid) {
+		$query = sprintf("UPDATE %1\$s SET %1\$s.%2\$s = %1\$s.%2\$s | 32 WHERE %1\$s.%3\$s = '%4\$s'",
+				$this->usertable,
+				$this->usertable_field_UserFlags,
+				$this->usertable_field_id,
+				$uuid);
+//		error_log($query);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+	}
+
+	public function setUserLevel($uuid,$level) {
+		$query = sprintf("UPDATE %1\$s SET %1\$s.%2\$s = '%5\$d' WHERE %1\$s.%3\$s = '%4\$s'",
+				$this->usertable,
+				$this->usertable_field_UserLevel,
+				$this->usertable_field_id,
+				$uuid,
+				$level);
+//		error_log($query);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+	}
+
+	public function getAgeVerified($uuid) {
+		$query = sprintf("SELECT %1\$s.%2\$s FROM %1\$s WHERE %1\$s.%3\$s = '%4\$s'",
+				$this->usertable,
+				$this->usertable_field_UserFlags,
+				$this->usertable_field_id,
+				$uuid);
+//		error_log($query);
+		$this->_osgrid_db->setQuery($query);
+		$this->_osgrid_db->execute();
+		$userflag = $this->_osgrid_db->loadResult();
+		if(($userflag & 32) == 32) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function getInsertUserQuery($data) {
 		if(!$data['uuid']) $data['uuid'] = $this->make_random_guid();
+		$userlevel = (array_key_exists("UserLevel",$data)) ? $data['UserLevel']:$this->defaultval['usertable']['UserLevel'];
 		$created = time();
 		$query['user'] = sprintf("INSERT INTO %1\$s (%2\$s,%3\$s,%4\$s,%5\$s,%6\$s,%7\$s,%8\$s,%9\$s,%10\$s,%11\$s) VALUES ('%12\$s','%13\$s','%14\$s','%15\$s','%16\$s','%17\$s','%18\$s','%19\$s','%20\$s','%21\$s')",
 				$this->usertable,
@@ -949,7 +1008,7 @@ class opensim {
 				$data['email'],
 				$this->defaultval['usertable']['ServiceURLs'],
 				$created,
-				$this->defaultval['usertable']['UserLevel'],
+				$userlevel,
 				$this->defaultval['usertable']['UserFlags'],
 				$this->defaultval['usertable']['UserTitle']);
 
@@ -1131,7 +1190,7 @@ class opensim {
 //		$query = sprintf("UPDATE Avatars SET Avatars.`Value` = '%1\$s' WHERE Avatars.PrincipalID = '%1\$s' AND Avatars.`Name` = 'UserID'",
 //							$toUser);
 //		$this->_osgrid_db->setQuery($query);
-//		$this->_osgrid_db->query();
+//		$this->_osgrid_db->execute();
 
 		$query = sprintf("SELECT Avatars.* FROM Avatars WHERE Avatars.PrincipalID = '%s' AND Avatars.Name LIKE '_ap%%'",$toUser);
 		$this->_osgrid_db->setQuery($query);
@@ -1192,12 +1251,51 @@ class opensim {
 		if(empty($this->_osgrid_db)) return FALSE;
 		$regionquery = $this->getAllRegionsQuery($regionUUID);
 		$this->_osgrid_db->setQuery($regionquery);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		if($this->_osgrid_db->getNumRows() == 1) {
 			$regiondata = $this->_osgrid_db->loadAssoc();
 			return $regiondata;
 		} else { // something went wrong :(
 			return FALSE;
+		}
+	}
+
+	public function getRegionName($locx,$locy,$globalpos = TRUE) {
+		if($globalpos === FALSE) {
+			$locx = $locx * 256;
+			$locy = $locy * 256;
+		}
+		if(empty($this->_osgrid_db)) return FALSE;
+		$reqionquery = sprintf("SELECT %1\$s.%2\$s FROM %1\$s WHERE %1\$s.%3\$s='%5\$d' AND %1\$s.%4\$s='%6\$d'",
+									$this->regiontable,
+									$this->regiontable_regionname,
+									$this->regiontable_locationX,
+									$this->regiontable_locationY,
+									$locx,
+									$locy);
+		$this->_osgrid_db->setQuery($regionquery);
+
+		$regionname = $this->_osgrid_db->loadResult();
+
+		return $regionname;
+	}
+
+	public function getRegionRating($regionUUID) {
+		$db		= $this->_osgrid_db;
+		$query = sprintf("SELECT %1\$s.%2\$s FROM %1\$s WHERE %1\$s.%3\$s = '%4\$s'",
+						$this->regiontable,
+						$this->regiontable_access,
+						$this->regiontable_field_id,
+						$regionUUID);
+		$db->setQuery($query);
+		$access = $db->loadResult();
+		// Strange rating calculation, but sticking to OpenSim.Framework.Util.ConvertAccessLevelToMaturity()
+		if($access <= 13) {
+			return "PG";
+		} elseif($access <= 21) {
+			return "mature";
+		} else {
+			return "adult";
 		}
 	}
 
@@ -1249,7 +1347,7 @@ class opensim {
 		if(empty($this->_osgrid_db)) return FALSE;
 		$query = $this->getAllRegionsQuery();
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		return $this->_osgrid_db->getNumRows();
 	}
 
@@ -1257,8 +1355,18 @@ class opensim {
 		if(empty($this->_osgrid_db)) return FALSE;
 		$query = sprintf("SELECT * FROM %s WHERE %s != '%s'",$this->presencetable,$this->presencetable_regionid,$this->zerouid);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		return $this->_osgrid_db->getNumRows();
+	}
+
+	public function opensimGetConnectedSimulators() {
+		$db		= $this->_osgrid_db;
+		$query = sprintf("SELECT DISTINCT(%1\$s.%2\$s) AS serverURI, GROUP_CONCAT(%1\$s.%3\$s) AS regions FROM %1\$s GROUP BY %1\$s.%2\$s",
+							$this->regiontable,
+							$this->regiontable_serverURI,
+							$this->regiontable_regionname);
+		$db->setQuery($query);
+		return $db->loadAssocList();
 	}
 
 	public function RemoteAdmin($sURL, $sPort, $pass) {
@@ -1375,7 +1483,7 @@ class opensim {
 					$this->regiontable_serverIP,
 					$this->regiontable);
 		$this->_osgrid_db->setQuery($query);
-		$this->_osgrid_db->query();
+		$this->_osgrid_db->execute();
 		$hosts = $this->_osgrid_db->loadAssocList();
 		$regionhosts = array();
 		foreach($hosts AS $host) {

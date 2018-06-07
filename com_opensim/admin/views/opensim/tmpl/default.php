@@ -37,6 +37,39 @@ jimport('joomla.html.html');
 				</div>
 
 				<div class="well well-small">
+					<div class="module-title nav-header "><?php echo JText::_('JOPENSIM_PLUGINSTATUS'); ?></div>
+					<table class='table table-striped'>
+					<tr>
+						<th>Plugin</th>
+						<th>Status</th>
+						<th>Access</th>
+					</tr>
+					<tr>
+						<td><?php echo (is_array($this->registerstatus)) ? "<a href='index.php?option=com_plugins&task=plugin.edit&extension_id=".$this->registerstatus['extension_id']."'>plg_user_jopensimregister</a>":"plg_user_jopensimregister"; ?></td>
+						<?php if(is_array($this->registerstatus)): ?>
+						<td><?php echo ($this->registerstatus['enabled'] == 1) ? "<span class=\"btn btn-micro active icon-publish\" aria-hidden=\"true\"></span>":"<span class=\"btn btn-micro icon-unpublish\" aria-hidden=\"true\"></span>"; ?></td>
+						<td>
+							<?php
+							echo $this->registerstatus['leveltitle'];
+							if($this->registerstatus['access'] != 1) echo " <span class='btn btn-default btn-danger'>".JText::_('JOPENSIM_PLUGINWRONGACCESSLEVEL')."</span>";
+							?>
+						</td>
+						<?php else: ?>
+						<td colspan='2'><?php echo JText::_('JOPENSIM_PLUGINSTATUS_NOTINSTALLED'); ?></td>
+						<?php endif; ?>
+					</tr>
+					<tr>
+						<td><?php echo (is_array($this->quickiconstatus)) ? "<a href='index.php?option=com_plugins&task=plugin.edit&extension_id=".$this->quickiconstatus['extension_id']."'>plg_quickicon_jopensim</a>":"plg_quickicon_jopensim"; ?></td>
+						<?php if(is_array($this->quickiconstatus)): ?>
+						<td><?php echo ($this->quickiconstatus['enabled'] == 1) ? "<span class=\"btn btn-micro active icon-publish\" aria-hidden=\"true\"></span>":"<span class=\"btn btn-micro icon-unpublish\" aria-hidden=\"true\"></span>"; ?></td>
+						<td><?php echo $this->quickiconstatus['leveltitle']; ?></td>
+						<?php else: ?>
+						<td colspan='2'><?php echo JText::_('JOPENSIM_PLUGINSTATUS_NOTINSTALLED'); ?></td>
+						<?php endif; ?>
+					</tr>
+					</table>
+				</div>
+				<div class="well well-small">
 				    <div class="module-title nav-header ">Getting Started</div>
 					<hr class="hr-condensed">
 					<ul class=" pull-left">
@@ -71,7 +104,7 @@ jimport('joomla.html.html');
 					<dt><?php echo JText::_('Copyright');?>:</dt>
 					<dd>
 					    &copy; 2010 - <?php echo date("Y"); ?>
-						<a href="http://www.jopensim.com" target="_blank">FoTo50</a>
+						<a href="https://www.jopensim.com" target="_blank">FoTo50</a>
 					</dd>
 					<hr class="hr-condensed">
 					
@@ -109,7 +142,7 @@ jimport('joomla.html.html');
 		</div>
 	</section>
 	
-	<?php if ($this->settings['jopensim_debug_settings'] == true): ?>
+	<?php if ($this->settings['jopensim_debug_settings'] == true && JFactory::getUser()->authorise('core.admin', 'com_opensim')): ?>
 	<a class="btn btn-default btn-primary icon-download" style="width:auto;" href='index.php?option=com_opensim&view=opensim&task=exportsettings' title='<?php echo JText::_('JOPENSIM_EXPORT_DESC'); ?>'>&nbsp;<?php echo JText::_('JOPENSIM_EXPORT'); ?></a>
 	<a class="btn btn-default btn-danger icon-upload" style="width:auto;" href='index.php?option=com_opensim&view=opensim&task=importsettings' title='<?php echo JText::_('JOPENSIM_IMPORT_DESC'); ?>'>&nbsp;<?php echo JText::_('JOPENSIM_IMPORT'); ?></a>
 	<table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>

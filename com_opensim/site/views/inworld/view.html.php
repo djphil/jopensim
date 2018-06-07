@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -23,7 +23,7 @@ class opensimViewinworld extends JViewLegacy {
 		$menu							= JFactory::getApplication()->getMenu();
 		$active							= $menu->getActive($this->Itemid);
 		if (is_object($active)) {
-			$params						= &JComponentHelper::getParams('com_opensim');
+			$params						= JComponentHelper::getParams('com_opensim');
 			$this->pageclass_sfx		= $params->get('pageclass_sfx');
 		} else {
 			$this->pageclass_sfx		= "";
@@ -256,8 +256,8 @@ class opensimViewinworld extends JViewLegacy {
 						// check if jOpenSimPaypal is installed
 						$jopensimpaypalfolder		= JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_jopensimpaypal";
 						if(is_dir($jopensimpaypalfolder)) {
-							$paypallink				= "<a href='".JRoute::_("&option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
-							$params					= &JComponentHelper::getParams('com_jopensimpaypal');
+							$paypallink				= "<a class='btn btn-primary' href='".JRoute::_("&option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
+							$params					= JComponentHelper::getParams('com_jopensimpaypal');
 							$payout					= $params->get('currencyratesell');
 							$minbuy					= $params->get('minbuy');
 							if($minbuy > 0) $minbalance = $payout * $minbuy;
@@ -270,7 +270,7 @@ class opensimViewinworld extends JViewLegacy {
 							$jopensimpaypal			= FALSE;
 						}
 						if($jopensimpaypal === TRUE && $payout > 0 && $balance >= $minbalance) {
-							$payoutlink				= "<a href='".JRoute::_("&option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
+							$payoutlink				= "<a class='btn btn-primary' href='".JRoute::_("&option=com_jopensimpaypal&view=payout&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_PAYOUTREQUEST')."</a>";
 						} else {
 							$payoutlink				= "";
 						}

@@ -52,6 +52,14 @@ defined('_JEXEC') or die('Restricted access');
 	</li>
 	<li>
 	    <span class="icon-info"></span>
+		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=mapinfo' title='<?php echo JText::_('JOPENSIM_ADDONS_MAP_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_MAP_INFO'); ?>'><?php echo JText::_('JOPENSIM_ADDONS_MAP'); ?></a>
+	</li>
+	<li>
+	    <span class="icon-info"></span>
+		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=ainfo' title='<?php echo JText::_('JOPENSIM_ADDONS_AUTHORIZE_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_AUTHORIZE_INFO'); ?>'><?php echo JText::_('JOPENSIM_ADDONS_AUTHORIZE'); ?></a>
+	</li>
+	<li>
+	    <span class="icon-info"></span>
 		<a class="hasTooltip" href='index.php?option=com_opensim&view=addons&task=minfo' title='<?php echo JText::_('JOPENSIM_ADDONS_MONEY_INFO'); ?>' alt='<?php echo JText::_('JOPENSIM_ADDONS_MONEY_INFO'); ?>'><?php echo JText::_('JOPENSIM_MONEY'); ?></a>
 	</li>
 	<li>

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim (Communication Interface with the OpenSim Server)
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 /* Initialize Joomla framework */
@@ -29,13 +29,13 @@ if(version_compare("3.7.5",$version)) {
 	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
 }
 /* Create the Application */
-$mainframe =& JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 /* Load the language file from the component opensim */
 
-$lang =& JFactory::getLanguage();
-$extension = 'com_opensim';
-$base_dir = JPATH_SITE;
+$lang		= JFactory::getLanguage();
+$extension	= 'com_opensim';
+$base_dir	= JPATH_SITE;
 
 // $language_tag = 'en-GB';
 // $lang->load($extension, $base_dir, $language_tag, true);
@@ -186,7 +186,26 @@ function roundoff($v, $d) {
 	}
 }
 
-$params = &JComponentHelper::getParams('com_opensim');
+function getGroupName($groupid) {
+	$db		= JFactory::getDbo();
+	$query	= $db->getQuery(true);
+
+	$query->select($db->quoteName('#__opensim_group.Name'));
+	$query->from($db->quoteName('#__opensim_group'));
+	$query->where($db->quoteName('#__opensim_group.GroupID').' = '.$db->quote($groupid));
+
+	$db->setQuery($query);
+	$db->execute();
+	$foundgroup = $db->getNumRows();
+	if($foundgroup == 1) {
+		$groupdata = $db->loadAssoc();
+		return $groupdata['Name'];
+	} else {
+		return JText::_('JOPENSIM_UNKNOWNGROUP');
+	}
+}
+
+$params = JComponentHelper::getParams('com_opensim');
 
 $osgriddbhost	= $params->get('opensimgrid_dbhost');
 $osgriddbuser	= $params->get('opensimgrid_dbuser');
@@ -317,20 +336,20 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			} else {
 				if($debug['terminal'] == "1") simpledebugzeile("Terminal identify fired from ".$remoteip." at line ".__LINE__." in ".__FILE__);
 			}
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			// first clean up old ident requests
 			$settings = jOpenSimSettings();
 			if($settings['addons_identminutes'] > 0) {
 				$query = sprintf("DELETE FROM #__opensim_inworldident WHERE created < DATE_SUB(NOW(), INTERVAL %d MINUTE)",$settings['addons_identminutes']);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 			$identString	= mysqlsafestring(JFactory::getApplication()->input->get('identString'));
 			$identKey		= mysqlsafestring(JFactory::getApplication()->input->get('identKey'));
 			// first check if uuid has already a joomla relation
 			$query = sprintf("SELECT joomlaID FROM #__opensim_userrelation WHERE opensimID = '%s'",$identKey);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$num_rows = $db->getNumRows();
 			if($num_rows > 0) {
 				echo JText::_('INWORLDALREADYIDENTIFIED');
@@ -338,14 +357,14 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 				// no relation existing, check if some inworld ident is prepared
 				$query = sprintf("SELECT joomlaID FROM #__opensim_inworldident WHERE inworldIdent = '%s'",$identString);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$num_rows = $db->getNumRows();
 				if($num_rows > 0) {
 					$joomlaId = $db->loadResult();
 					// this should actually never happen, but better check this as well:
 					$query = sprintf("SELECT opensimID FROM #__opensim_userrelation WHERE joomlaID = '%d'",$joomlaId);
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					$num_rows = $db->getNumRows();
 					if($num_rows > 0) { // something went completely wrong here, hope this causes ppl to report a bug
 						echo "Error while double check joomlaID ".$joomlaId." (could be a bug)! Please contact the Gridmanager and/or FoTo50 at the support forum at http://www.jopensim.com";
@@ -353,11 +372,11 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 						// Update the relation table
 						$query = sprintf("INSERT INTO #__opensim_userrelation (joomlaID,opensimID) VALUES ('%1\$d','%2\$s')",$joomlaId,$identKey);
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 						// and delete from the ident table
 						$query = sprintf("DELETE FROM #__opensim_inworldident WHERE inworldIdent = '%s'",$identString);
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 						echo JText::_('IDENTIFYINWORLDSUCCESS');
 					}
 				} else { // no inworld ident found, give a proper message
@@ -375,24 +394,24 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			} else {
 				if($debug['terminal'] == "1") simpledebugzeile("Terminal register fired from ".$remoteip." at line ".__LINE__." in ".__FILE__);
 			}
-			$terminalDescription = mysqlsafestring(JFactory::getApplication()->input->get('terminalDescription'));
-			$terminalUrl = mysqlsafestring(JFactory::getApplication()->input->get('myurl'));
-			$regionString = $_SERVER['HTTP_X_SECONDLIFE_REGION'];
-			$locationString = $_SERVER['HTTP_X_SECONDLIFE_LOCAL_POSITION'];
-			$terminalKey = mysqlsafestring($_SERVER['HTTP_X_SECONDLIFE_OBJECT_KEY']);
-			$terminalName = $_SERVER['HTTP_X_SECONDLIFE_OBJECT_NAME'];
-			$region_suchmuster = "/([^\(])*/";
+			$terminalDescription	= JFactory::getApplication()->input->get('terminalDescription','','string');
+			$terminalUrl			= mysqlsafestring(JFactory::getApplication()->input->get('myurl','','raw'));
+			$regionString			= $_SERVER['HTTP_X_SECONDLIFE_REGION'];
+			$locationString			= $_SERVER['HTTP_X_SECONDLIFE_LOCAL_POSITION'];
+			$terminalKey			= mysqlsafestring($_SERVER['HTTP_X_SECONDLIFE_OBJECT_KEY']);
+			$terminalName			= $_SERVER['HTTP_X_SECONDLIFE_OBJECT_NAME'];
+			$region_suchmuster		= "/([^\(])*/";
 			preg_match($region_suchmuster,$regionString,$treffer);
 			$region = trim($treffer[0]);
-			$location_suchmuster = "/[^\d]*([\d\.]*)[^\d]*([\d\.]*)[^\d]*([\d\.]*)/";
+			$location_suchmuster	= "/[^\d]*([\d\.]*)[^\d]*([\d\.]*)[^\d]*([\d\.]*)/";
 			preg_match_all($location_suchmuster,$locationString,$treffer,PREG_SET_ORDER);
 			$location_x = roundoff($treffer[0][1],0);
 			$location_y = roundoff($treffer[0][2],0);
 			$location_z = roundoff($treffer[0][3],0);
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("SELECT staticLocation FROM #__opensim_terminals WHERE terminalKey = '%s'",$terminalKey);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$num_rows = $db->getNumRows();
 			if($num_rows > 0) {
 				$terminalstatic = $db->loadResult();
@@ -418,7 +437,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 						$location_z,
 						$terminalKey);
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					echo "Terminal found and sucessfully updated!";
 				}
 			} else {
@@ -435,7 +454,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 						$location_y,
 						$location_z);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				echo "Terminal sucessfully registered!";
 			}
 			exit; // we have done already everything, dont check if there could be more
@@ -446,9 +465,9 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			$terminalState = mysqlsafestring(JFactory::getApplication()->input->get('state'));
 			$terminalKey = mysqlsafestring($_SERVER['HTTP_X_SECONDLIFE_OBJECT_KEY']);
 			$query = sprintf("UPDATE #__opensim_terminals SET active = '%d' WHERE terminalKey = '%s'",$terminalState,$terminalKey);
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if($terminalState == 1) echo JText::_('TERMINALSETVISIBLE');
 			else echo JText::_('TERMINALSETINVISIBLE');
 			exit; // we have done already everything, dont check if there could be more
@@ -473,8 +492,9 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 				$start+=2;
 				$msg = substr($input, $start);
 				if($debug['messages'] == "1") simpledebugzeile("Offline Messages:\nmsg:\n".$msg);
-				$db =& JFactory::getDBO();
-				$query = sprintf("INSERT INTO #__opensim_offlinemessages (imSessionID,fromAgentID,fromAgentName,toAgentID,fromGroup,message,remoteip,sent) VALUES ('%s','%s','%s','%s','%s','%s','%s',NOW())",
+				try {
+					$db = JFactory::getDBO();
+					$query = sprintf("INSERT INTO #__opensim_offlinemessages (imSessionID,fromAgentID,fromAgentName,toAgentID,fromGroup,message,remoteip,sent) VALUES ('%s','%s','%s','%s','%s','%s','%s',NOW())",
 							$message['imSessionID'],
 							$message['fromAgentID'],
 							$message['fromAgentName'],
@@ -482,32 +502,41 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 							$message['fromGroup'],
 							addslashes($msg),
 							$remoteip);
-				$db->setQuery($query);
-				$db->execute();
-				if($db->getErrorNum() == 0) {
-					if($debug['messages'] == "1") simpledebugzeile("Offline Messages:\n\$db->getErrorNum():\n".$db->getErrorNum());
+					$db->setQuery($query);
+					$db->execute();
 					echo "<?x"."ml version=\"1.0\" encoding=\"utf-8\"?><boolean>true</boolean>";
 
 					// no need to check in components settings for offline messages since we would not be here if disabled
 					$usersettings = $opensim->getUserSettings($message['toAgentID']);
 					if($usersettings['im2email'] == 1) { // Send Email to "toAgentID" only if set in user settings
+						$config		= JFactory::getConfig();
+						if($message['fromGroup'] == "true") {
+							$groupname	= getGroupName($message['fromAgentID']);
+							$subject	= JText::sprintf(JOPENSIM_GROUPIM2MAILSUBJECT,$groupname,$config->get('fromname'))." (".$message['fromAgentName'].")";
+							$dash		= strpos($message['message'],"|");
+							if($dash) {
+								$message['message'] = JText::_('JOPENSIM_GROUPNOTICE_SUBJECT').str_replace("|","\n\n",substr($message['message'],0,($dash+1))).substr($message['message'],($dash+1));
+							}
+						} else {
+							$subject	= JText::_('IM2MAILSUBJECT')." ".$config->get('fromname')." (".$message['fromAgentName'].")";
+						}
 						$userdata	= $opensim->getUserData($message['toAgentID']);
 						$mailer		= JFactory::getMailer();
-						$config		= JFactory::getConfig();
 						$sender		= array($config->get('mailfrom'),$config->get('fromname'));
 						$body		= JText::_('IMFROM').": ".$message['fromAgentName']."\n\n".$message['message'];
-						$subject	= JText::_('IM2MAILSUBJECT')." ".$config->get('fromname')." (".$message['fromAgentName'].")";
 						$mailer->setSender($sender);
 						$mailer->addRecipient($userdata['email']);
 						$mailer->setSubject($subject);
 						$mailer->setBody($body);
 						$mailer->Send();
 					}
-				} else {
-					if($debug['messages'] == "1") simpledebugzeile("Offline Messages:\n\$db->getErrorNum():\n".$db->getErrorNum());
+				} catch (Exception $e) {
+					$errormsg = $e->getMessage();
+					if($debug['messages'] == "1") simpledebugzeile("Offline Messages error: ".$errormsg);
 					echo "<?x"."ml version=\"1.0\" encoding=\"utf-8\"?><boolean>false</boolean>";
 				}
 			} else {
+				if($debug['messages'] == "1") simpledebugzeile("Offline Messages:\nno message found in request");
 				echo "<?x"."ml version=\"1.0\" encoding=\"utf-8\"?><boolean>false</boolean>";
 			}
 			$method = "SaveMessage";
@@ -517,7 +546,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			$responsefunction = "messages";
 			$message = $opensim->parseOSxml($input);
 			$guid = $message['Guid'];
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = sprintf("SELECT message FROM #__opensim_offlinemessages WHERE toAgentID = '%s' ORDER BY sent",
 					$guid);
 			$db->setQuery($query);
@@ -530,7 +559,7 @@ if($opensim->checkRegionIP($remoteip) === TRUE) { // only registered regions (or
 			echo $output;
 			$query = sprintf("DELETE FROM #__opensim_offlinemessages WHERE toAgentID = '%s'",$guid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$method = "RetrieveMessages";
 		break;
 		default: // This must be some xml-rpc request from "Profile", "Search" or "Groups"

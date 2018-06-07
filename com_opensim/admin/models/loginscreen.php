@@ -11,7 +11,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'models'.DIRECTOR
 class OpenSimModelLoginscreen extends OpenSimModelOpenSim {
 	var $_settingsData;
 	var $filename = "loginscreen.php";
-	var $view = "misc";
+	var $view = "loginscreen";
 	var $_os_db;
 
 	public function __construct() {

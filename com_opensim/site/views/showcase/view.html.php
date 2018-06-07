@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -28,6 +28,7 @@ class opensimViewShowcase extends JViewLegacy {
 		$this->showregions		= $active->params->get('jopensim_showcase_regions');
 		$this->regionintro		= $active->params->get('jopensim_showcase_regionintro');
 		$this->showclassified	= $active->params->get('jopensim_showcase_classified');
+		$this->matureclassified	= $active->params->get('jopensim_showcase_matureclassified',0);
 		$this->hideunavailable	= $active->params->get('jopensim_showcase_classifiedhideunavailable',0);
 		$this->classifiedintro	= $active->params->get('jopensim_showcase_classifiedintro');
 		$this->imagesize		= $active->params->get('jopensim_showcase_imagesize',150);
@@ -60,7 +61,7 @@ class opensimViewShowcase extends JViewLegacy {
 		switch($task) {
 			case "detailinfo":
 				$this->classifieduuid		= JFactory::getApplication()->input->get('id');
-				$classified					= $model->getClassifieds($this->classifieduuid);
+				$classified					= $model->getClassifieds($this->classifieduuid,$this->matureclassified);
 				$this->classified			= $classified[0];
 				$this->classified['creator']= $model->opensim->getUserName($this->classified['creatoruuid'],"full");
 //				$assetimage					= "<img class='img-thumbnail' src='%1\$s' width='%3\$d' height='%3\$d' alt='%2\$s' title='%2\$s' />";
@@ -83,7 +84,7 @@ class opensimViewShowcase extends JViewLegacy {
 
 					foreach($allregions AS $region) {
 						$regioninfo = $mapmodel->getMapInfo($region['uuid']);
-						if($regioninfo['guide'] == 1) {
+						if(array_key_exists("guide",$regioninfo) && $regioninfo['guide'] == 1) {
 							$mapcounter	= count($this->regions);
 							$this->regions[$mapcounter] = $region;
 							if(is_file($cachepath.$region['uuid'].".jpg")) {
@@ -124,7 +125,7 @@ class opensimViewShowcase extends JViewLegacy {
 				}
 
 				if($this->showclassified) {
-					$this->classifieds	= $model->getClassifieds();
+					$this->classifieds	= $model->getClassifieds(null,$this->matureclassified);
 					if(is_array($this->classifieds) && count($this->classifieds) > 0) {
 						$assetimage	= "<img class='img-thumbnail' src='%1\$s' width='%3\$d' height='%3\$d' alt='%2\$s' title='%2\$s' />";
 						foreach($this->classifieds AS $key => $classified) {

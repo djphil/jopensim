@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -10,22 +10,14 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once ('css.php');
 
-// Added by djphil
+// Classic view only
 if ($this->settingsdata['jopensim_loginscreen_stylebold']) $stylebold = "text-bold";
 if ($this->settingsdata['jopensim_loginscreen_styleicon']) $styleicon = TRUE;
-
-/*
-jopensim_loginscreen_stylebold
-jopensim_loginscreen_styleicon
-jopensim_loginscreen_color_links 
-jopensim_loginscreen_boxborder_title
-*/
-
 ?>
 
-<!--
-    https://docs.joomla.org/J3.x:Joomla_Standard_Icomoon_Fonts/
--->
+<?php if ($this->settingsdata['jopensim_loginscreen_matrix_fx']): ?>
+    <div id="matrix"></div>
+<?php endif; ?>
 
 <div class='jopensim_loginscreen'>
 <?php if ($this->settingsdata['loginscreen_box_gridstatus'] == 1 && (

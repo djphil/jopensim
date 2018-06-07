@@ -20,8 +20,8 @@ class opensimModelinworldsearch extends OpenSimModelOpenSim {
 		parent::__construct();
 		$this->getSettingsData();
 		$this->getOpenSimDB();
-		$this->_os_db =& $this->getOpenSimDB();
-		$this->_osgrid_db =& $this->getOpenSimGridDB();
+		$this->_os_db		= $this->getOpenSimDB();
+		$this->_osgrid_db	= $this->getOpenSimGridDB();
 	}
 
 	public function searchAll($searchterm) {
@@ -38,9 +38,9 @@ class opensimModelinworldsearch extends OpenSimModelOpenSim {
 	}
 
 	public function searchobjects($searchterm) {
-		$db =& JFactory::getDBO();
-		$unknown = JText::_('JOPENSIM_SEARCH_UNKNOWN');
-		$query = sprintf("SELECT
+		$db			= JFactory::getDBO();
+		$unknown	= JText::_('JOPENSIM_SEARCH_UNKNOWN');
+		$query		= sprintf("SELECT
 							#__opensim_search_objects.*,
 							IFNULL(#__opensim_search_regions.regionname,'%2\$s') AS region
 						FROM
@@ -66,9 +66,9 @@ class opensimModelinworldsearch extends OpenSimModelOpenSim {
 	}
 
 	public function searchparcels($searchterm) {
-		$db =& JFactory::getDBO();
-		$unknown = JText::_('JOPENSIM_SEARCH_UNKNOWN');
-		$query = sprintf("SELECT
+		$db			= JFactory::getDBO();
+		$unknown	= JText::_('JOPENSIM_SEARCH_UNKNOWN');
+		$query		= sprintf("SELECT
 							#__opensim_search_parcels.*,
 							#__opensim_search_parcels.parcelname AS name,
 							IFNULL(#__opensim_search_regions.regionname,'%2\$s') AS region
@@ -95,9 +95,9 @@ class opensimModelinworldsearch extends OpenSimModelOpenSim {
 	}
 
 	public function searchparcelsale($searchterm) {
-		$db =& JFactory::getDBO();
-		$unknown = JText::_('JOPENSIM_SEARCH_UNKNOWN');
-		$query = sprintf("SELECT
+		$db			= JFactory::getDBO();
+		$unknown	= JText::_('JOPENSIM_SEARCH_UNKNOWN');
+		$query		= sprintf("SELECT
 							#__opensim_search_parcelsales.*,
 							#__opensim_search_parcelsales.parcelname AS name,
 							IFNULL(#__opensim_search_regions.regionname,'%2\$s') AS region
@@ -132,8 +132,8 @@ class opensimModelinworldsearch extends OpenSimModelOpenSim {
 	}
 
 	public function searchregions($searchterm) {
-		$db =& JFactory::getDBO();
-		$query = sprintf("SELECT
+		$db		= JFactory::getDBO();
+		$query	= sprintf("SELECT
 							#__opensim_search_regions.*,
 							#__opensim_search_regions.regionname AS name,
 							CONCAT(#__opensim_search_regions.regionname,'/') AS surl

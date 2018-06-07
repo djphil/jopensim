@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // No direct access
@@ -24,6 +24,18 @@ class OpenSimController extends JControllerLegacy {
 
 	public function display($cachable = false, $urlparams = false) {
 		$view	= JFactory::getApplication()->input->get('view');
+//		if($view == "auth") {
+//			$format = JFactory::getApplication()->input->get('format');
+//			$tmpl	= JFactory::getApplication()->input->get('tmpl');
+//			if($format != "xml" || $tmpl != "component") {
+//				$this->setRedirect('index.php?option=com_opensim&view=auth&format=xml&tmpl=component');
+//				return false;
+//			} else {
+//				parent::display($view);
+//			}
+//		} else {
+//			parent::display($view);
+//		}
 		parent::display($view);
 	}
 

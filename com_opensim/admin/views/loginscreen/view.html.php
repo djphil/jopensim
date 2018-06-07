@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -9,18 +9,21 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
 
 if(!defined('LOGINSCREEN_HELP_LINK')) define("LOGINSCREEN_HELP_LINK","http://wiki.jopensim.com/index.php/jOpenSim_HowTo_LoginscreenAttachModule");
 
  
 class opensimViewLoginscreen extends JViewLegacy {
 	public function display($tpl = null) {
-		error_log("loginscreen view ".__LINE__.": REQUEST = ".var_export($_REQUEST,true));
+//		error_log("loginscreen view ".__LINE__.": REQUEST = ".var_export($_REQUEST,true));
 		JHTML::_('behavior.modal');
 		$this->sidebar	= null;
 		$jinput			= JFactory::getApplication()->input;
 		$task			= $jinput->get( 'task','','method','string');
 		$model			= $this->getModel('loginscreen');
+
+		$this->canDo	= jOpenSimHelper::getActions();
 
 		$this->form	= $this->get('Form');
 		$this->item	= $this->get('Item');
@@ -90,9 +93,15 @@ class opensimViewLoginscreen extends JViewLegacy {
 		JToolBarHelper::title(JText::_('JOPENSIM_NAME')." ".JText::_('JOPENSIM_LOGINSCREEN'),'32-jopensim');
 		switch($tpl) {
 			default:
-				JToolBarHelper::addNew("newposition",JText::_('JOPENSIM_LOGINSCREEN_ADDNEWPOS'));
-				JToolBarHelper::editList("editposition",JText::_('JTOOLBAR_EDIT'));
-				JToolBarHelper::deleteList(JText::_('JOPENSIM_LOGINSCREEN_DELETEPOSSURE'),"deleteposition",JText::_('JTOOLBAR_DELETE'));
+				if($this->canDo->get('core.create')) {
+					JToolBarHelper::addNew("newposition",JText::_('JOPENSIM_LOGINSCREEN_ADDNEWPOS'));
+				}
+				if($this->canDo->get('core.edit')) {
+					JToolBarHelper::editList("editposition",JText::_('JTOOLBAR_EDIT'));
+				}
+				if($this->canDo->get('core.delete')) {
+					JToolBarHelper::deleteList(JText::_('JOPENSIM_LOGINSCREEN_DELETEPOSSURE'),"deleteposition",JText::_('JTOOLBAR_DELETE'));
+				}
 				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
 					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
 				}

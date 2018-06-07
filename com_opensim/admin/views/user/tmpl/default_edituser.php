@@ -1,13 +1,13 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::_('behavior.tooltip');
+
 ?>
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -77,23 +77,22 @@ if(is_array($this->userlevellist) && count($this->userlevellist) > 0) {
 	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag5' id='jopensim_usersetting_flag5' value='16'<?php echo (($this->userdata['userflags'] & 16) == 16) ? " checked='checked'":""; ?> /></div>
 </div>
 <div class='jopensim_useredittable_tr'>
-	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_flag9'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_TRIAL'); ?></label></div>
-	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag9' id='jopensim_usersetting_flag9' value='256'<?php echo (($this->userdata['userflags'] & 256) == 256) ? " checked='checked'":""; ?> /></div>
+	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_flag6'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_AV'); ?></label></div>
+	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag6' id='jopensim_usersetting_flag6' value='32'<?php echo (($this->userdata['userflags'] & 32) == 32) ? " checked='checked'":""; ?> /></div>
 </div>
 <div class='jopensim_useredittable_tr'>
-	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_flag10'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_CHARTERMEMBER'); ?></label></div>
-	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag10' id='jopensim_usersetting_flag10' value='512'<?php echo (($this->userdata['userflags'] & 512) == 512) ? " checked='checked'":""; ?> /></div>
+	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_accounttype'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_ACCOUNTTYPE'); ?></label></div>
+	<div class='jopensim_useredittable_td2'>
+	<select name='jopensim_usersetting_accounttype'>
+		<option value='0'<?php echo (($this->userdata['userflags'] & 768) == 0) ? " selected='selected'":""; ?>><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_RESIDENT'); ?></option>
+		<option value='256'<?php echo (($this->userdata['userflags'] & 768) == 256) ? " selected='selected'":""; ?>><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_TRIAL'); ?></option>
+		<option value='512'<?php echo (($this->userdata['userflags'] & 768) == 512) ? " selected='selected'":""; ?>><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_CHARTERMEMBER'); ?></option>
+		<option value='768'<?php echo (($this->userdata['userflags'] & 768) == 768) ? " selected='selected'":""; ?>><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_EMPLOYEE'); ?></option>
+	</select>
+	</div>
 </div>
 <div class='jopensim_useredittable_tr'>
-	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_flag11'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_EMPLOYEE1'); ?></label></div>
-	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag11' id='jopensim_usersetting_flag11' value='1024'<?php echo (($this->userdata['userflags'] & 1024) == 1024) ? " checked='checked'":""; ?> /></div>
-</div>
-<div class='jopensim_useredittable_tr'>
-	<div class='jopensim_useredittable_td1'><label for='jopensim_usersetting_flag12'><?php echo JText::_('JOPENSIM_USERSETTING_FLAG_EMPLOYEE2'); ?></label></div>
-	<div class='jopensim_useredittable_td2'><input type='checkbox' name='jopensim_usersetting_flag12' id='jopensim_usersetting_flag12' value='2048'<?php echo (($this->userdata['userflags'] & 2048) == 2048) ? " checked='checked'":""; ?> /></div>
-</div>
-<div class='jopensim_useredittable_tr'>
-	<div class='jopensim_useredittable_td1'><label for='usertitle' class='tooltip'><?php echo $this->usertitle; ?></label></div>
+	<div class='jopensim_useredittable_td1'><label for='usertitle'><?php echo $this->usertitle; ?></label></div>
 	<div class='jopensim_useredittable_td2'><input type='text' name='usertitle' id='usertitle' value='<?php echo $this->userdata['usertitle']; ?>' /></div>
 </div>
 </div>

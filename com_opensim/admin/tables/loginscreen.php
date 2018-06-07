@@ -1,7 +1,7 @@
 <?php
 /*
- * @component gsp-vorteilspartner
- * @copyright Copyright © 2017 FoTo50 https://www.jopensim.com/
+ * @component com_opensim
+ * @copyright Copyright © 2018 FoTo50 https://www.jopensim.com/
  */
 
 // no direct access

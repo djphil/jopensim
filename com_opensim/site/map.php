@@ -28,11 +28,11 @@ if(version_compare("3.7.5",$version)) {
 	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
 }
 /* Create the Application */
-$mainframe =& JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 /* Load the language file from the component opensim */
 
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $extension = 'com_opensim';
 $base_dir = JPATH_SITE;
 $lang->load($extension, $base_dir, null, true);
@@ -74,16 +74,11 @@ function debugzeile($zeile,$function = "") {
 function mysqlsafestring($string) {
 	$db = JFactory::getDBO();
 	return $db->escape($string);
-//	return mysql_real_escape_string(stripslashes($string));
 }
 
 function jOpenSimSettings() {
 	global $opensim_model;
 	$settings = $opensim_model->getSettingsData();
-//	$db =& JFactory::getDBO();
-//	$query = "SELECT * FROM #__opensim_settings";
-//	$db->setQuery($query);
-//	$settings = $db->loadAssoc();
 	return $settings;
 }
 

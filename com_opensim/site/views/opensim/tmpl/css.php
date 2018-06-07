@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -70,8 +70,6 @@ html, body {
     <?php echo $this->settingsdata['loginscreen_boxborder_inline']; ?>
 }
 
-
-
 .welcomebox_gridstatus_title, 
 .welcomebox_messages_title, 
 .welcomebox_regions_title {
@@ -79,5 +77,15 @@ html, body {
     color: <?php echo $this->settingsdata['loginscreen_msgbox_title_text']; ?>;
     <?php echo $this->settingsdata['jopensim_loginscreen_boxborder_title']; ?>
 }
-</style>
 
+<?php if ($this->settingsdata['jopensim_loginscreen_matrix_fx']): ?>
+#matrix {
+    background: url("<?php echo JUri::base(true); ?>/components/com_opensim/assets/images/matrix.png");
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 21;
+}
+<?php endif; ?>
+</style>

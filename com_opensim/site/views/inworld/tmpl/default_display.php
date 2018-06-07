@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -75,7 +75,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr class='<?php echo $this->pageclass_sfx; ?>'>
 		<td colspan='2' class='<?php echo $this->pageclass_sfx; ?>'>
 		    <!-- <span class="icon-save"></span> -->
-    		<button type='submit' class="btn btn-default btn-primary"/><?php echo JText::_('JOPENSIM_SAVECHANGES'); ?></button>
+    		<button type='submit' class="btn btn-primary"/><?php echo JText::_('JOPENSIM_SAVECHANGES'); ?></button>
 		</td>
 	</tr>
 	<?php endif; ?>

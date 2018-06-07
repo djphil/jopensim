@@ -72,6 +72,20 @@ class opensimViewaddons extends JViewLegacy {
 				$infotext .= "<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[DataSnapshot]\n\n\tindex_sims = true\n\tdata_services=\"\${Const|jOpensimURL}/components/com_opensim/registersearch.php\"\n\n\t; Optional (if you want to provide events, this is required to collect ALL parcel data):\n\tdata_exposure = all";
 				$infotext .="\n\n[Search]\n\n\tSearchURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\n\t; Optional:\n\tsearchPeople = false ; in case your people search returns double results\n\tDebugMode = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Search.dll\nto your opensim/bin folder";
 			break;
+			case "ainfo":
+				if($settings['addons_authorize'] != 1) {
+					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=ainfo"));
+					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_AUTHORIZE')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
+				}
+				$infotext = $warningtext."<span class='jopensim_infotitle'>config-include/GridCommon.ini</span> (Grid Mode)\nor\n<span class='jopensim_infotitle'>config-include/StandaloneCommon.ini</span> (Standalone Mode)\n\n[Modules]\n\n\tAuthorizationServices = \"RemoteAuthorizationServicesConnector\"\n\n[AuthorizationService]\n\tAuthorizationServerURI = \"\${Const|jOpensimURL}/index.php?option=com_opensim&view=auth&format=xml&tmpl=component\"";
+			break;
+			case "mapinfo":
+				if($settings['jopensim_maps_varregions'] != 1) {
+					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=mapinfo"));
+					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_MAPS_VARREGIONS')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
+				}
+				$infotext = "<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[LoginService]\n\n\tMapTileURL = \"\${Const|BaseURL}:\${Const|PublicPort}/\";";
+			break;
 			case "dinfo":
 				$infotext = "<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[LoginService]\n\n\tDestinationGuide = \"\${Const|jOpensimURL}/index.php?option=com_opensim&view=guide&tmpl=component\"";
 			break;

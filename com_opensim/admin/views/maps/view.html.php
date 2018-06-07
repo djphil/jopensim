@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -12,6 +12,7 @@ require_once JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'co
 jimport('joomla.application.categories');
 
 jimport( 'joomla.application.component.view');
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
 
 class opensimViewmaps extends JViewLegacy {
 
@@ -22,30 +23,39 @@ class opensimViewmaps extends JViewLegacy {
 		$queueMessage 		= array();
 		$this->ismapcache	= null;
 		$this->sidebar		= JHtmlSidebar::render();
+		$this->canDo		= jOpenSimHelper::getActions();
 
 		$curl = extension_loaded('curl');
 		if(!$curl) JFactory::getApplication()->enqueueMessage(JText::_('JOPENSIM_MAP_CURLREQUIRED'),"warning");
 
-		$model				    	= $this->getModel('map');
+		$regionmodel			= $this->getModel('regions');
+		$this->pagination		= $regionmodel->getPagination();
+		$this->limit			= $regionmodel->getRegionState('limit');
+		$this->limitstart		= $regionmodel->getRegionState('regions_limitstart');
+		$model				    = $this->getModel('map');
+		$model->regionstart		= $this->limitstart;
+		$model->regionlimit		= $this->limit;
+		$this->regionrating		= array('13' => '<span class="label label-default" title="'.JText::_('JOPENSIM_GENERAL').'">G</span>',
+										'21' => '<span class="label label-info" title="'.JText::_('JOPENSIM_MATURE').'">M</span>',
+										'42' => '<span class="label label-danger" style="background:#D32C46;" title="'.JText::_('JOPENSIM_ADULT').'">A</span>');
+
 		if(!$model->_osgrid_db) {
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('ERROR_NOSIMDB',JText::_('OPENSIMGRIDDB')),"error");
 			$errormsg		= "<br />\n".JText::_('ERROR_NOREGION')."<br />\n".JText::_('ERRORQUESTION1')."<br />\n".JText::_('ERRORQUESTION2')."<br />\n";
 			$this->errormsg	= $errormsg;
 			$tpl			= "nodb";
 		} else {
-			$regionmodel			= $this->getModel('regions');
 			$this->regionmodel		= $regionmodel;
 			$this->filterForm		= $this->get('FilterForm','regions');
 			$this->activeFilters	= $this->get('ActiveFilters','regions');
 	
 			$this->state			= $this->get('State','regions');
-			$this->pagination		= $regionmodel->getPagination();
 			$this->items			= $this->get('Items');
 	
 			$this->sortDirection	= $regionmodel->getRegionState('regions_filter_order_Dir');
 			$this->sortColumn		= $regionmodel->getRegionState('regions_filter_order');
-			$this->limit			= $regionmodel->getRegionState('limit');
-			$this->limitstart		= $regionmodel->getRegionState('regions_limitstart');
+//			error_log("limit: ".$this->limit);
+//			error_log("limitstart: ".$this->limitstart);
 	
 			$this->cacheimages		= $model->getCacheImages();
 	
@@ -103,7 +113,11 @@ class opensimViewmaps extends JViewLegacy {
 			}
 	
 			$regionimage	= "<img class='img-thumbnail' src='%1\$s%2\$s' width='%4\$d' height='%4\$d' alt='%3\$s' title='%3\$s' />";
-			$regionlink		= "<a href='index.php?option=com_opensim&view=maps&task=selectdefault&region=%1\$s'>%2\$s</a>";
+			if($this->canDo->get('core.edit')) {
+				$regionlink		= "<a href='index.php?option=com_opensim&view=maps&task=selectdefault&region=%1\$s'>%2\$s</a>";
+			} else {
+				$regionlink		= "%2\$s";
+			}
 	
 			switch($task) {
 				case "selectdefault":
@@ -233,10 +247,12 @@ class opensimViewmaps extends JViewLegacy {
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_MAPS_EDIT'));
 			break;
 			default:
-				JToolBarHelper::makeDefault('setDefaultRegion');
-				JToolBarHelper::editList('editinfo');
-				if($this->ismapcache) {
-					JToolBarHelper::custom("maprefresh","maprefresh","maprefresh2",JText::_('JOPENSIM_REFRESHMAP'),true,false);
+				if($this->canDo->get('core.edit')) {
+					JToolBarHelper::makeDefault('setDefaultRegion');
+					JToolBarHelper::editList('editinfo');
+					if($this->ismapcache) {
+						JToolBarHelper::custom("maprefresh","maprefresh","maprefresh2",JText::_('JOPENSIM_REFRESHMAP'),true,false);
+					}
 				}
 				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
 					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));

@@ -14,7 +14,7 @@ class OpenSimControllersearch extends OpenSimController {
 		$model = $this->getModel('settings');
 	}
 
-	public function cancel() {
+	public function cancel($key = NULL) {
 		$this->setRedirect('index.php?option=com_opensim&view=opensim');
 	}
 
@@ -68,6 +68,27 @@ class OpenSimControllersearch extends OpenSimController {
 		} else {
 			$this->setRedirect('index.php?option=com_opensim&view=search',JText::_('JOPENSIM_SEARCH_DATAPURGE_ERROR'),"error");
 		}
+	}
+
+	public function eventdelete() {
+		$eventid = JFactory::getApplication()->input->get('eventid');
+		$model = $this->getModel('search');
+		$model->eventdelete($eventid);
+		$this->setRedirect('index.php?option=com_opensim&view=search&task=viewsearchdata&searchdata=events&tmpl=component');
+	}
+
+	public function renewclassified() {
+		$classifieduuid = JFactory::getApplication()->input->get('classifieduuid');
+		$model = $this->getModel('search');
+		$model->renewclassified($classifieduuid);
+		$this->setRedirect('index.php?option=com_opensim&view=search&task=viewsearchdata&searchdata=classifieds&tmpl=component');
+	}
+
+	public function deleteclassified() {
+		$classifieduuid = JFactory::getApplication()->input->get('classifieduuid');
+		$model = $this->getModel('search');
+		$model->deleteclassified($classifieduuid);
+		$this->setRedirect('index.php?option=com_opensim&view=search&task=viewsearchdata&searchdata=classifieds&tmpl=component');
 	}
 }
 ?>

@@ -273,7 +273,7 @@ class opensimModelEvents extends OpenSimModelOpenSim {
 		$query	= sprintf("DELETE FROM #__opensim_search_events WHERE eventid = '%1\$d' AND (owneruuid = '%2\$s' OR creatoruuid = '%2\$s')",$eventid,$osuid);
 		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$retval['ok'] = 1;
 		return $retval;
 	}

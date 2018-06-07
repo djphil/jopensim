@@ -21,6 +21,21 @@ defined('_JEXEC') or die('Restricted access');
             <input type="hidden" name="option" value="com_opensim" />
             <input type="hidden" name="view" value="misc" />
             <input type="hidden" name="task" value="createregionsend" />
+            <?php if($this->settings['remoteadminsystem'] == "multiple"): ?>
+            <input type="hidden" name="radminsystem" value="multiple" />
+            <?php if(is_array($this->simulators) && count($this->simulators) > 0): ?>
+            <?php echo JText::_('JOPENSIM_REMOTEADMINSYSTEM_MULTIPLE_SENDTO'); ?>:&nbsp;<select name='simulator'>
+            <?php foreach($this->simulators AS $simulator): ?>
+            	<option value='<?php echo $simulator['simulator']; ?>' title='<?php echo $simulator['regions']; ?>'><?php echo ($simulator['alias']) ? $simulator['alias']:$simulator['simulator']; ?></option>
+            <?php endforeach; ?>
+	        </select>
+            <?php else: ?>
+            <input type="hidden" name="simulator" value="" />
+            <?php echo JText::_('JOPENSIM_REMOTEADMINSYSTEM_MULTIPLE_ERROR_NOSIMULATORS'); ?>
+            <?php endif; ?>
+            <?php else: ?>
+            <input type="hidden" name="radminsystem" value="single" />
+            <?php endif; ?>
             <table class="table table-condensed table-striped table-hover">
                 <colgroup>
                     <col width='150' /><col>
@@ -38,10 +53,6 @@ defined('_JEXEC') or die('Restricted access');
                     <tr>
                         <td>Listen Port:</td>
                         <td><input type='text' maxlength='25' name="listen_port" placeHolder="9000" /></td>
-                    </tr>
-                    <tr>
-                        <td>External Adress:</td>
-                        <td><input type='text' maxlength='25' name="external_address" placeHolder="<?php echo $this->remotehost; ?>" /></td>
                     </tr>
                     <tr>
                         <td>Region X:</td>
@@ -77,7 +88,7 @@ defined('_JEXEC') or die('Restricted access');
             </table>
             
             <button type='submit' class='btn btn-default btn-success' />
-                <span class='icon-checkmark'></span> <?php echo JText::_('JOPENSIM_ADDREGION'); ?>
+            <span class='icon-checkmark'></span> <?php echo JText::_('JOPENSIM_ADDREGION'); ?>
             </button>
 	    </fieldset>
     </form>

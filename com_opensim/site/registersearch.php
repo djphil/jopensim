@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim (Communication Interface with the OpenSim Server)
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 /* Initialize Joomla framework */
@@ -26,13 +26,13 @@ if(version_compare("3.7.5",$version)) {
 	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
 }
 /* Create the Application */
-$mainframe =& JFactory::getApplication('site');
+$mainframe = JFactory::getApplication('site');
 
 /* Load the language file from the component opensim */
 
-$lang =& JFactory::getLanguage();
-$extension = 'com_opensim';
-$base_dir = JPATH_SITE;
+$lang		= JFactory::getLanguage();
+$extension	= 'com_opensim';
+$base_dir	= JPATH_SITE;
 // $language_tag = 'en-GB';
 // $lang->load($extension, $base_dir, $language_tag, true);
 $lang->load($extension, $base_dir, null, true);
@@ -98,9 +98,9 @@ if ($host != "" && $port != "" && $service == "online") {
 				$port,
 				$timestamp);
 
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 
 	$objDOM = new DOMDocument();
 	$objDOM->resolveExternals = false;
@@ -111,9 +111,9 @@ if ($host != "" && $port != "" && $service == "online") {
 		debugzeile($zeile,"search register host offline");
 	}
 	$query = sprintf("DELETE FROM #__opensim_search_hostsregister WHERE host = '%s' AND port = '%s'",$host,$port);
-	$db =& JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 }
 
 $output = ob_get_contents();

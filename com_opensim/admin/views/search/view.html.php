@@ -9,7 +9,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
- 
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
+
 class opensimViewsearch extends JViewLegacy {
 	public function display($tpl = null) {
 		JHTML::_('behavior.modal');
@@ -25,6 +26,8 @@ class opensimViewsearch extends JViewLegacy {
 		if(!$this->settings['addons_search']) {
 			JFactory::getApplication()->enqueueMessage(JText::_('JOPENSIM_SEARCHADDONDISABLED'),'warning');
 		}
+
+		$this->canDo		= jOpenSimHelper::getActions();
 
 		$assetinfo = pathinfo(JPATH_COMPONENT_ADMINISTRATOR);
 		$assetpath = "components".DIRECTORY_SEPARATOR.$assetinfo['basename'].DIRECTORY_SEPARATOR."assets".DS;
@@ -102,8 +105,10 @@ class opensimViewsearch extends JViewLegacy {
 
 		switch($tpl) {
 			default:
-				JToolBarHelper::apply('applysearch');	
-				JToolBarHelper::save('savesearch');
+				if($this->canDo->get('core.edit')) {
+					JToolBarHelper::apply('applysearch');	
+					JToolBarHelper::save('savesearch');
+				}
 				JToolBarHelper::cancel('cancel','JCANCEL');
 			break;
 		}

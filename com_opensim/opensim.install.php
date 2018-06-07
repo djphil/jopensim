@@ -1,15 +1,13 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  *
  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-if(!defined("DS")) define("DS",DIRECTORY_SEPARATOR);
 
 class com_opensimInstallerScript {
 	public $deletewarning = FALSE;
@@ -132,6 +130,17 @@ class com_opensimInstallerScript {
 		  `AgentID`  varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' ,
 		  PRIMARY KEY (`GroupID`, `RoleID`, `AgentID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.0.0';";
+
+		$createquery[] = "
+		CREATE TABLE IF NOT EXISTS `#__opensim_hguser` (
+		  `PrincipalID` char(36) NOT NULL,
+		  `userName` varchar(255) DEFAULT NULL,
+		  `grid` varchar(255) NOT NULL DEFAULT '',
+		  `remoteip` varchar(50) DEFAULT NULL,
+		  `confirmdate` datetime DEFAULT NULL,
+		  `ageverified` tinyint(1) unsigned NOT NULL,
+		  PRIMARY KEY (`PrincipalID`,`grid`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.1.3';";
 
 		$createquery[] = "
 		CREATE TABLE IF NOT EXISTS `#__opensim_inworldident` (
@@ -338,6 +347,15 @@ class com_opensimInstallerScript {
 		  PRIMARY KEY (`regionuuid`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.0.0';";
 
+		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_simulators` (
+		  `simulator` varchar(255) NOT NULL,
+		  `alias` varchar(255) DEFAULT NULL,
+		  `radminport` int(7) unsigned DEFAULT NULL,
+		  `radminpwd` varchar(255) DEFAULT NULL,
+		  `ordering` int(4) unsigned DEFAULT NULL,
+		  PRIMARY KEY (`simulator`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='jOpenSim Rev. 0.3.1.4';";
+
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_terminals` (
 		  `id` int(3) unsigned NOT NULL AUTO_INCREMENT,
 		  `terminalName` varchar(50) DEFAULT NULL,
@@ -363,8 +381,8 @@ class com_opensimInstallerScript {
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_userclassifieds` (
 		  `classifieduuid` char(36) NOT NULL,
 		  `creatoruuid` char(36) NOT NULL,
-		  `creationdate` int(20) NOT NULL,
-		  `expirationdate` int(20) NOT NULL,
+		  `creationdate` int(20) unsigned NOT NULL,
+		  `expirationdate` int(20) unsigned NOT NULL,
 		  `category` varchar(20) NOT NULL,
 		  `name` varchar(255) NOT NULL,
 		  `description` text NOT NULL,
@@ -377,7 +395,7 @@ class com_opensimInstallerScript {
 		  `classifiedflags` int(8) NOT NULL,
 		  `priceforlisting` int(5) NOT NULL,
 		  PRIMARY KEY (`classifieduuid`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.0.0';";
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='jOpenSim Rev. 0.3.1.4';";
 
 		$createquery[] = "CREATE TABLE IF NOT EXISTS `#__opensim_userlevel` (
 		  `userlevel` smallint(3) NOT NULL,
@@ -615,6 +633,9 @@ class com_opensimInstallerScript {
 		$changefields['opensim_search_events'][]	= array('name' => 'eventid',		'args' => '`eventid`  int(11) NOT NULL AUTO_INCREMENT FIRST');
 		$changefields['opensim_search_events'][]	= array('name' => 'globalPos',		'args' => '`globalPos`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `simname`');
 
+		$changefields['opensim_userclassifieds'][]	= array('name' => 'creationdate',	'args' => '`creationdate`  int(20) UNSIGNED NOT NULL AFTER `creatoruuid`');
+		$changefields['opensim_userclassifieds'][]	= array('name' => 'expirationdate',	'args' => '`expirationdate`  int(20) UNSIGNED NOT NULL AFTER `creationdate`');
+
 		foreach($changefields AS $table => $changefield) {
 			$query = "DESCRIBE #__".$table;
 			$db->setQuery($query);
@@ -765,6 +786,7 @@ class com_opensimInstallerScript {
 		$this->createFolder("classifieds");
 		$this->createFolder("profiles");
 		$this->createFolder("regions");
+		$this->createFolder("regions".DIRECTORY_SEPARATOR."varregions");
 	}
 
 	public function createFolder($folder) {
@@ -783,6 +805,7 @@ class com_opensimInstallerScript {
 		$this->removeFolder("avatars");
 		$this->removeFolder("classifieds");
 		$this->removeFolder("profiles");
+		$this->removeFolder("regions".DIRECTORY_SEPARATOR."varregions");
 		$this->removeFolder("regions");
 	}
 
@@ -856,6 +879,7 @@ class com_opensimInstallerScript {
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_groupnotice`;";
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprole`;";
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprolemembership`;";
+		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_hguser`;";
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_inworldident`;";
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_mapinfo`;";
 		$droptable[] = "DROP TABLE IF EXISTS `#__opensim_money_customfees`;";

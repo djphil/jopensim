@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // No direct access
@@ -35,7 +35,13 @@ defined('_JEXEC') or die('Restricted access');
 	<td><?php echo $event['simname']; ?></td>
 	<td><?php echo $event['surl']; ?></td>
 	<td><?php echo $event['eventflags']; ?></td>
-	<td>&nbsp;</td>
+	<td>
+	<?php if($this->canDo->get('core.delete')): ?>
+	<a class="btn btn-default icon-purge btn-danger hasTooltip" href='index.php?option=com_opensim&view=search&task=eventdelete&eventid=<?php echo $event['eventid']; ?>' onClick='return confirm("<?php echo JText::_('JOPENSIM_SEARCH_EVENT_DELETESURE'); ?>");' title="<?php echo JText::_('JOPENSIM_SEARCH_EVENT_DELETE'); ?>"></a>
+	<?php else: ?>
+	&nbsp;
+	<?php endif; ?>
+	</td>
 </tr>
 <?php endforeach; ?>
 <?php else: ?>

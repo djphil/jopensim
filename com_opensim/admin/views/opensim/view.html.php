@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -9,7 +9,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
- 
+JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php');
+
 class opensimViewopensim extends JViewLegacy {
 	public function display($tpl = null) {
 		JHTML::_('behavior.modal');
@@ -19,6 +20,8 @@ class opensimViewopensim extends JViewLegacy {
 		$model			= $this->getModel('opensim');
 
 		$this->settings	= $model->getSettingsData();
+
+		$this->canDo	= jOpenSimHelper::getActions();
 
 		// Ensure that the current banker has a balance row
 		if($this->settings['addons_currency'] == 1 && $this->settings['jopensimmoneybanker']) $model->balanceExists($this->settings['jopensimmoneybanker']);
@@ -84,6 +87,8 @@ class opensimViewopensim extends JViewLegacy {
 				$this->version				= $version;
 				$this->message				= $message;
 				$this->recentversion		= $recentversion;
+				$this->registerstatus		= $model->checkPluginStatus('jopensimregister','user');
+				$this->quickiconstatus		= $model->checkPluginStatus('jopensim','quickicon');
 				$button['quickicon']		= $this->renderPlainButton('quickicon_jopensim.php',JText::_('JOPENSIM_GRIDSTATUS'));
 				$button['maps']				= $this->renderButton('index.php?option=com_opensim&view=maps','icon-48-os-maps.png',JText::_('JOPENSIM_MAPS'));
 				$button['user']				= $this->renderButton('index.php?option=com_opensim&view=user','icon-48-os-user.png',JText::_('JOPENSIM_USER'));
@@ -93,7 +98,7 @@ class opensimViewopensim extends JViewLegacy {
 				if(($settings['addons'] &  16) == 16) {
 					$button['search']		= $this->renderButton('index.php?option=com_opensim&view=search','icon-48-os-search.png',JText::_('JOPENSIM_SEARCH'));
 				}
-				if(($settings['addons'] &  32) == 32) {
+				if(($settings['addons'] &  32) == 32 && $this->canDo->get('core.jmoney')) {
 					$button['money']		= $this->renderButton('index.php?option=com_opensim&view=money','icon-48-money.png',JText::_('JOPENSIM_MONEY'));
 				}
 				$button['misc']				= $this->renderButton('index.php?option=com_opensim&view=misc','icon-48-os-misc.png',JText::_('JOPENSIM_MISC'));
@@ -111,8 +116,10 @@ class opensimViewopensim extends JViewLegacy {
 		JToolBarHelper::title(JText::_('JOPENSIM_CONTROL_PANEL'),'32-jopensim');
 		switch($tpl) {
 			case "editcss":
-				JToolBarHelper::apply('applycss');
-				JToolBarHelper::save('savecss');
+				if($this->canDo->get('core.edit')) {
+					JToolBarHelper::apply('applycss');
+					JToolBarHelper::save('savecss');
+				}
 				JToolBarHelper::cancel();
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP_EDITCSS'));
 			break;
@@ -123,6 +130,8 @@ class opensimViewopensim extends JViewLegacy {
 			default:
 				if (JFactory::getUser()->authorise('core.admin', 'com_opensim')) {
 					JToolBarHelper::preferences('com_opensim','700','950',JText::_('JOPENSIM_GLOBAL_SETTINGS'));
+				}
+				if($this->canDo->get('core.edit')) {
 					JToolBarHelper::editList('editcss','JOPENSIM_EDITCSS');
 				}
 				JToolBarHelper::help("", false, JText::_('JOPENSIM_HELP'));
@@ -140,6 +149,7 @@ class opensimViewopensim extends JViewLegacy {
 		$button .= "</div></div>\n";
 		return $button;
 	}
+
 	public function renderPlainButton($image,$text) {
 		$params = array('title'=>$text, 'border'=>'0');
 		$button  = "<div class='icon-wrapper'>";

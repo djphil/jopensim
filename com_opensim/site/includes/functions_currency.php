@@ -652,8 +652,8 @@ function getCurrencyQuote($parameter) {
 }
 
 function checkCustomFee($uuid) {
-		$query = sprintf("SELECT #__opensim_money_customfees.uploadfee, #__opensim_money_customfees.groupfee FROM #__opensim_money_customfees WHERE #__opensim_money_customfees.PrincipalID = '%s'",$uuid);
-		$db =& JFactory::getDBO();
+		$query	= sprintf("SELECT #__opensim_money_customfees.uploadfee, #__opensim_money_customfees.groupfee FROM #__opensim_money_customfees WHERE #__opensim_money_customfees.PrincipalID = '%s'",$uuid);
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
 		$customfees = $db->loadAssoc();
 		return $customfees;
@@ -666,13 +666,13 @@ function checkGridBalance($functionname = "n/a") {
 		$debug['args'] = varexport(func_get_args(),TRUE);
 		debugzeile($debug,"checkGridBalance");
 	}
-	$query = "SELECT
+	$query	= "SELECT
 					SUM(#__opensim_moneybalances.balance) AS gridbalance
 				FROM
 					#__opensim_moneybalances";
-	$db =& JFactory::getDBO();
+	$db		= JFactory::getDBO();
 	$db->setQuery($query);
-	$row = $db->loadAssoc();
+	$row	= $db->loadAssoc();
 
 	if($row['gridbalance'] != 0) {
 		$query = "SELECT #__opensim_moneygridbalance.* FROM #__opensim_moneygridbalance ORDER BY #__opensim_moneygridbalance.timestamp DESC LIMIT 0,1";
@@ -740,7 +740,7 @@ function clientInfo($parameter) {
 		$userip);
 	$db = JFactory::getDBO();
 	$db->setQuery($query);
-	$db->query();
+	$db->execute();
 }
 
 

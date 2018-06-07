@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -22,7 +22,7 @@ class opensimViewinworldsearch extends JViewLegacy {
 		$result					= array();
 
 		$this->settingsdata		= $model->getSettingsData();
-		$this->itemid			= JFactory::getApplication()->input->get('Itemid');
+		$this->Itemid			= JFactory::getApplication()->input->get('Itemid');
 
 		$menu							= JFactory::getApplication()->getMenu();
 		$active							= $menu->getActive($this->Itemid);
@@ -40,7 +40,7 @@ class opensimViewinworldsearch extends JViewLegacy {
 			$result				= $model->searchAll($this->searchquery);
 		}
 		$this->result			= $result;
-		$this->jopensimversion	= $model->opensim->getversion();
+		$this->jopensimversion	= $model->getVersion();
 		$task					= JFactory::getApplication()->input->get('task','','method','string');
 		$results				= $model->getResultlines($result);
 		$this->results			= $results;

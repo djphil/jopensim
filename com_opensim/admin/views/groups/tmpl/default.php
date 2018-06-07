@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -72,7 +72,8 @@ Joomla.orderTable = function()
 </div>
 <div class="clearfix"></div>
 
-<p class="text-info">
+<p class="alert alert-info">
+    <a class="close" data-dismiss="alert" href="#">&times;</a>
 	<?php echo JText::_('JOPENSIM_GROUPLISTEXPLAIN'); ?>
 </p>
 

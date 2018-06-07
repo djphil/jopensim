@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if (is_array($this->landoption) && count($this->landoption) > 0) { ?>
 
-<form name='eventform' action='index.php' method='post'>
+<form class="form" name='eventform' action='index.php' method='post'>
 <input type='hidden' name='option' value='com_opensim' />
 <input type='hidden' name='view' value='events' />
 <input type='hidden' name='task' value='<?php echo $this->formaction; ?>' />
@@ -127,13 +127,19 @@ if (is_array($this->landoption) && count($this->landoption) > 0) {
 <tr>
     <td><label for='eventflags'><?php echo JText::_('JOPENSIM_EVENTTYPE'); ?>:</label></td>
     <td>
-        <select name='eventflags' id='eventflags'>
-            <option value='0'><?php echo JText::_('JOPENSIM_EVENTTYPE_PG'); ?></option>
+        <div id="eventflags" class="form-inline">
+            <label class="radio-inline" title="<?php echo JText::_('JOPENSIM_EVENTTYPE_PG_DESC'); ?>">
+                <input type="radio" name="eventflags" value='0'> <span class="label label-default"><?php echo JText::_('JOPENSIM_EVENTTYPE_PG'); ?></span>
+            </label> 
             <?php if($this->listmatureevents > 0): ?>
-            <option value='1'<?php if($this->eventdata['eventflags'] == 1) echo " selected='selected'"; ?>><?php echo JText::_('JOPENSIM_EVENTTYPE_MATURE'); ?></option>
-            <option value='2'<?php if($this->eventdata['eventflags'] == 2) echo " selected='selected'"; ?>><?php echo JText::_('JOPENSIM_EVENTTYPE_ADULT'); ?></option>
+            <label class="radio-inline" title="<?php echo JText::_('JOPENSIM_EVENTTYPE_MATURE_DESC'); ?>">
+                <input type="radio" name="eventflags" value='1'> <span class="label label-info"><?php echo JText::_('JOPENSIM_EVENTTYPE_MATURE'); ?></span>
+            </label>
+            <label class="radio-inline" title="<?php echo JText::_('JOPENSIM_EVENTTYPE_ADULT_DESC'); ?>">
+                <input type="radio" name="eventflags" value='2'> <span class="label label-danger"><?php echo JText::_('JOPENSIM_EVENTTYPE_ADULT'); ?></span>
+            </label>
             <?php endif; ?>
-        </select>
+        </div>     
     </td>
 </tr>
 <tr>
