@@ -1,7 +1,7 @@
 <?php
 /**
  * @module      OpenSim Gridstatus (mod_opensim_regions)
- * @copyright   Copyright (C) 2017 FoTo50 http://www.jopensim.com
+ * @copyright   Copyright (C) 2018 FoTo50 http://www.jopensim.com
  * @license     GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
 **/
 
@@ -14,7 +14,8 @@ class ModOpenSimRegionsHelper {
 	public $showhiddenregions;
 
 	public function __construct($params) {
-		$this->showhiddenregions		= $params->get('showhiddenregions');
+		$this->showhiddenregions	= $params->get('showhiddenregions');
+		$this->namemaxlength		= $params->get('maxnamelength',0);
 		$this->getComponentParameter();
 		$this->initOpenSim();                       // generate the opensim object
 		$this->_osgrid_db = $this->getOsGridDB();   // load the external DB in an object
@@ -47,6 +48,17 @@ class ModOpenSimRegionsHelper {
 			$regionarray	= $this->model->removehidden($regions['regions']);
 		} else {
 			$regionarray	= $regions['regions'];
+		}
+		if($this->namemaxlength > 0) {
+			foreach($regionarray AS $key => $region) {
+				if(strlen($region['regionName']) > $this->namemaxlength) {
+					$regionarray[$key]['displayName'] = substr($region['regionName'],0,$this->namemaxlength)."&#x2026;";
+				} else {
+					$regionarray[$key]['displayName'] = $region['regionName'];
+				}
+			}
+		} else {
+			foreach($regionarray AS $key => $region) $regionarray[$key]['displayName'] = $region['regionName'];
 		}
 		return $regionarray;
 	}

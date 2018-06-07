@@ -1,0 +1,3 @@
+========== 0.3.1.4 ==========
+
+* new: possibility to cut region name after X characters
