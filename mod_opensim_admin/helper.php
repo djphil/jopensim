@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2016 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -27,6 +27,7 @@ class modOpenSimAdminHelper {
 			($cparams->get('addons_inworldauth')*8) +
 			($cparams->get('addons_search')*16) +
 			($cparams->get('addons_currency')*32);
+		$this->canDo	= $this->getActions();
 	}
 
 	public function getButtons() {
@@ -41,7 +42,7 @@ class modOpenSimAdminHelper {
 		if(($this->addons &  16) == 16) {
 			$button['search']		= $this->renderButton('index.php?option=com_opensim&view=search','icon-48-os-search.png',JText::_('JOPENSIM_SEARCH'));
 		}
-		if(($this->addons &  32) == 32) {
+		if(($this->addons &  32) == 32 && $this->canDo->get('core.jmoney')) {
 			$button['money']		= $this->renderButton('index.php?option=com_opensim&view=money','icon-48-money.png',JText::_('JOPENSIM_MONEY'));
 		}
 		$button['misc']			= $this->renderButton('index.php?option=com_opensim&view=misc','icon-48-os-misc.png',JText::_('JOPENSIM_MISC'));
@@ -98,5 +99,26 @@ class modOpenSimAdminHelper {
 		$button .= sprintf("<span>%s</span></a>",$text);
 		$button .= "</div></div>\n";
 		return $button;
+	}
+
+	public static function getActions($categoryId = 0) {
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($categoryId)) {
+			$assetName = 'com_opensim';
+			$level = 'component';
+		} else {
+			$assetName = 'com_opensim.category.' . (int)$categoryId;
+			$level = 'category';
+		}
+
+		$actions = JAccess::getActions('com_opensim', $level);
+
+		foreach ($actions as $action) {
+			$result -> set($action -> name, $user -> authorise($action -> name, $assetName));
+		}
+
+		return $result;
 	}
 }

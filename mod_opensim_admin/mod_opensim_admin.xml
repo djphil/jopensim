@@ -2,12 +2,12 @@
 <extension type="module" client="administrator" version="3.1" method="upgrade" position="cpanel">
 	<name>jOpenSim admin module</name>
 	<author>FoTo50</author>
-	<creationDate>2016-12-26</creationDate>
-	<copyright>All rights reserved by FoTo50 2016</copyright>
+	<creationDate>2018-06-03</creationDate>
+	<copyright>All rights reserved by FoTo50 2018</copyright>
 	<license>GPL 2.0</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com</authorUrl>
-	<version>0.3.0.14</version>
+	<version>0.3.1.4</version>
 	<description>MOD_JOPENSIM_ADMIN_DESC</description>
 	<files>
 		<filename module="mod_opensim_admin">mod_opensim_admin.php</filename>
@@ -20,6 +20,10 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_opensim_admin.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.mod_opensim_admin.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.mod_opensim_admin.sys.ini</language>
+		<language tag="it-IT">language/it-IT/it-IT.mod_opensim_admin.ini</language>
+		<language tag="it-IT">language/it-IT/it-IT.mod_opensim_admin.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -114,6 +118,6 @@
 		</fields>
 	</config>
     <updateservers>
-		<server type="collection" priority="1" name="jOpenSim Update Site">http://update.jopensim.com/jopensim_list.xml</server>
+		<server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
     </updateservers>
 </extension>
