@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension 
+    type="module" 
+    version="3.1" 
+    client="site" 
+    method="upgrade">
+    <name>jOpenSim Panorama Module</name>
+    <author>djphil</author>
+    <creationDate>Août 2018</creationDate>
+    <copyright>Copyright (C) djphil 2018 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later.</license>
+    <authorEmail>mail@mail.com</authorEmail>
+    <authorUrl>www.domain.com</authorUrl>
+    <version>0.3.0.0</version>
+    <description>MOD_OPENSIM_PANORAMA_XML_DESCRIPTION</description>
+
+    <files>
+        <filename module="mod_opensim_panorama">mod_opensim_panorama.php</filename>
+        <folder>assets</folder>
+		<folder></folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>mod_opensim_installerscript.php</filename>
+    </files>
+
+	<media folder="images" destination="../images/jopensim/">
+		<folder>panoramas</folder>
+	</media>
+
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_opensim_panorama.ini</language>
+        <language tag="en-GB">language/en-GB.mod_opensim_panorama.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_panorama.ini</language>
+        <language tag="fr-FR">language/fr-FR.mod_opensim_panorama.sys.ini</language>
+    </languages>
+
+    <help url="MOD_OPENSIM_PANORAMA_HELP_URL" key="unknow" />
+
+    <config>
+        <!--<fields name="params">-->
+		<fields name="params" addfieldpath="/modules/mod_opensim_panorama/elements/">
+            <fieldset name="basic">			
+				<field 
+					name="panoramaimg" 
+					type="media" 
+					default="opensim_panorama_01.jpg" 
+					directory="jopensim/panoramas/" 
+					label="MOD_OPENSIM_PANORAMA_FIELD_IMAGE_TEXT_LABEL" 
+					description="MOD_OPENSIM_PANORAMA_FIELD_IMAGE_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramalon"
+                    type="number"
+                    value="0"
+                    default="0"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_LONGITUDE_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_LONGITUDE_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramalat"
+                    type="number"
+                    value="0"
+                    default="0"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_LATITUDE_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_LATITUDE_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramafov"
+                    type="number"
+                    value="75"
+                    default="75"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_FOV_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_FOV_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramaanim"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_ANIMATION_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_ANIMATION_TEXT_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+				<field
+                    name="panoramaspeed"
+                    type="number"
+                    value="0.125"
+                    default="0.125"
+					showon="panoramaanim:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_ANIMATION_SPEED_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_ANIMATION_SPEED_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramadisto"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_DISTORTION_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_DISTORTION_TEXT_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+				<field
+                    name="panoramagrabbing"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_GRABBING_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_GRABBING_TEXT_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="panoramagrabstyle"
+                    type="list"
+                    default="grab"
+                    showon="panoramagrabbing:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_GRABSTYLE_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_GRABSTYLE_TEXT_LABEL_DESC">
+                    <option value="default">default</option>
+                    <option value="grab">grab</option>
+                    <option value="grabbing">grabbing</option>
+                    <option value="move">move</option>
+                </field>
+
+                <!--this is the custom admin css loader-->
+                <field name="cssloader" type="loadcss" />
+			</fieldset>
+			
+			<fieldset name="OPENSIM_PANORAMA_CUSTOMIZED">
+                <field
+                    name="panoramastyle"
+                    type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_STYLE_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_STYLE_TEXT_LABEL_DESC">
+					<option value="1">MOD_OPENSIM_PANORAMA_FIELD_STYLE_FLUID_TEXT_LABEL</option>
+					<option value="0">MOD_OPENSIM_PANORAMA_FIELD_STYLE_STATIC_TEXT_LABEL</option>
+				</field>
+				
+				<field
+                    name="panoramaheight"
+                    type="number"
+                    value="300"
+                    default="300"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_HEIGHT_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_HEIGHT_TEXT_LABEL_DESC" />
+
+				<field
+                    name="panoramawidth"
+                    type="number"
+                    value="600"
+                    default="600"
+                    showon="panoramastyle:0"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_WIDTH_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_WIDTH_TEXT_LABEL_DESC" />
+
+                <field
+                    name="panoramaborder"
+                    type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_BORDER_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_BORDER_TEXT_LABEL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+					name="panoramacolor" 
+					type="color" 
+					default="#000000"
+					showon="panoramaborder:1"
+					label="MOD_OPENSIM_PANORAMA_FIELD_BORDER_COLOR_TEXT_LABEL"
+					description="MOD_OPENSIM_PANORAMA_FIELD_BORDER_COLOR_TEXT_LABEL_DESC" />
+
+                <field
+                    name="panoramarounded"
+                    type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_ROUNDED_CORNERS_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_ROUNDED_CORNERS_TEXT_LABEL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+                    name="panoramaradius"
+                    type="number"
+                    value="5"
+                    default="5"
+					showon="panoramarounded:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_BORDER_RADIUS_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_BORDER_RADIUS_TEXT_LABEL_DESC" />
+			</fieldset>
+
+            <fieldset
+                name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea" rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+                <field
+                    name="cache"
+                    type="list"
+                    default="0"
+                    label="COM_MODULES_FIELD_CACHING_LABEL"
+                    description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <scriptfile>mod_opensim_installerscript.php</scriptfile>
+    <updateservers>
+        <server type="collection" priority="1" name="jOpenSim Modules Update Site">
+            https://raw.githubusercontent.com/djphil/osmodules/master/updates/mod_opensim_panorama.xml
+        </server>
+    </updateservers>
+</extension>
