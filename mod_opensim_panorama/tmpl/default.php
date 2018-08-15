@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 	<?php if ($panoramaborder == 1): ?>
 	border: 1px solid <?php echo $panoramacolor; ?>;
 	<?php endif; ?>
-	
+
 	<?php if ($panoramarounded == 1): ?>
 	border-radius: <?php echo $panoramaradius; ?>px;
 	<?php endif; ?>
@@ -82,16 +82,16 @@ function init() {
 	renderer.domElement.addEventListener('touchmove', onPointerMove, false);
 	renderer.domElement.addEventListener('touchend', onPointerUp, false);
 	<?php endif; ?>
-	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener('resize', onWindowResize, false);
 }
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function onPointerStart( event ) {
+function onPointerStart(event) {
 	isUserInteracting = true;
 	var clientX = event.clientX || event.touches[0].clientX;
 	var clientY = event.clientY || event.touches[0].clientY;
@@ -101,8 +101,8 @@ function onPointerStart( event ) {
 	onMouseDownLat = lat;
 }
 
-function onPointerMove( event ) {
-	if ( isUserInteracting === true ) {
+function onPointerMove(event) {
+	if (isUserInteracting === true) {
 		var clientX = event.clientX || event.touches[0].clientX;
 		var clientY = event.clientY || event.touches[0].clientY;
 		lon = ( onMouseDownMouseX - clientX ) * 0.1 + onMouseDownLon;
@@ -141,7 +141,7 @@ function update()
 
 	//  Distortion
 	<?php if ($panoramadisto == 1): ?>
-		camera.position.copy(camera.target).negate();
+	camera.position.copy(camera.target).negate();
 	<?php endif; ?>
 
 	renderer.render(scene, camera);
