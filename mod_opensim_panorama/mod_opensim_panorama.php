@@ -17,7 +17,8 @@ $doc->addScript($assetpath.'three.min.js');
 require_once __DIR__ . '/helper.php';
 
 // Load variables
-$panoramaimg = $params->get('panoramaimg');
+// $panoramaimg = $params->get('panoramaimg');
+$panoramaimg = JUri::base(true)."/".$params->get('panoramaimg');
 $panoramalon = $params->get('panoramalon', 0);
 $panoramalat = $params->get('panoramalat', 0);
 $panoramafov = $params->get('panoramafov', 75);
