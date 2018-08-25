@@ -129,10 +129,43 @@
                     <option value="move">move</option>
                 </field>
 
+                <field
+                    name="panoramastats"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_STATISTICS_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_STATISTICS_TEXT_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="panoramastatspos"
+                    type="list"
+                    default="bottomleft"
+                    showon="panoramastats:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_STATSPOS_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_STATSPOS_TEXT_LABEL_DESC">
+                    <option value="topleft">Top left</option>
+                    <option value="topright">Top right</option>
+                    <option value="bottomleft">Bottom left</option>
+                    <option value="bottomright">Bottom right</option>
+                </field>
+
+                <field
+                    name="panoramaspacing"
+                    type="number"
+                    value="10"
+                    default="10"
+                    showon="panoramastats:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_STATSSPACING_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_STATSSPACING_TEXT_LABEL_DESC" />
+
                 <!--this is the custom admin css loader-->
                 <field name="cssloader" type="loadcss" />
             </fieldset>
-			
+
             <fieldset name="OPENSIM_PANORAMA_CUSTOMIZED">
                 <field
                     name="panoramastyle"
@@ -144,7 +177,7 @@
                     <option value="1">MOD_OPENSIM_PANORAMA_FIELD_STYLE_FLUID_TEXT_LABEL</option>
                     <option value="0">MOD_OPENSIM_PANORAMA_FIELD_STYLE_STATIC_TEXT_LABEL</option>
                 </field>
-				
+
                 <field
                     name="panoramaheight"
                     type="number"
@@ -173,6 +206,15 @@
                     <option value="0">JNO</option>
                 </field>
 
+                <field
+                    name="panoramasize"
+                    type="number"
+                    value="1"
+                    default="1"
+                    showon="panoramaborder:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_BORDERSIZE_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_BORDERSIZE_TEXT_LABEL_DESC" />
+
                 <field 
                     name="panoramacolor" 
                     type="color" 
@@ -200,6 +242,15 @@
                     showon="panoramarounded:1"
                     label="MOD_OPENSIM_PANORAMA_FIELD_BORDER_RADIUS_TEXT_LABEL"
                     description="MOD_OPENSIM_PANORAMA_FIELD_BORDER_RADIUS_TEXT_LABEL_DESC" />
+
+                <field
+                    name="panoramastatsradius"
+                    type="number"
+                    value="5"
+                    default="5"
+                    showon="panoramastats:1[AND]panoramarounded:1"
+                    label="MOD_OPENSIM_PANORAMA_FIELD_STATS_RADIUS_TEXT_LABEL"
+                    description="MOD_OPENSIM_PANORAMA_FIELD_STATS_RADIUS_TEXT_LABEL_DESC" />
             </fieldset>
 
             <fieldset name="advanced">

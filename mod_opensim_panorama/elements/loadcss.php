@@ -31,12 +31,12 @@ class JFormFieldloadcss extends JFormField
     }
 
     /**
-	 * Method to get the field title.
-	 *
-	 * @return  string  The field title.
-	 *
-	 * @since   11.1
-	 */
+     * Method to get the field title.
+     *
+     * @return  string  The field title.
+     *
+     * @since   11.1
+     */
     protected function getTitle()
     {
         // return $this->getLabel();

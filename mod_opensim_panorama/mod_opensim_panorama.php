@@ -13,6 +13,7 @@ $doc = JFactory::getDocument();
 $assetpath = JUri::base(true)."/modules/mod_opensim_panorama/assets/";
 $doc->addStyleSheet($assetpath.'mod_opensim_panorama.css');
 $doc->addScript($assetpath.'three.min.js');
+$doc->addScript($assetpath.'stats.min.js');
 
 require_once __DIR__ . '/helper.php';
 
@@ -26,12 +27,17 @@ $panoramaanim = $params->get('panoramaanim', 1);
 $panoramaspeed = $params->get('panoramaspeed', 0.125);
 $panoramadisto = $params->get('panoramadisto', 0);
 $panoramastyle = $params->get('panoramastyle', 1);
+$panoramastats = $params->get('panoramastats', 1);
+$panoramastatspos = $params->get('panoramastatspos', 'bottomleft');
+$panoramaspacing = $params->get('panoramaspacing', 10.0);
 $panoramaheight = $params->get('panoramaheight', 300);
 $panoramawidth = $params->get('panoramawidth', 600);
 $panoramaborder = $params->get('panoramaborder', 1);
+$panoramasize = $params->get('panoramasize', 1);
 $panoramacolor = $params->get('panoramacolor', '#000000');
 $panoramarounded = $params->get('panoramarounded', 1);
 $panoramaradius = $params->get('panoramaradius', 5);
+$panoramastatsradius = $params->get('panoramastatsradius', 5);
 $panoramagrabbing = $params->get('panoramagrabbing', 1);
 $panoramagrabstyle = $params->get('panoramagrabstyle', 'grab');
 
@@ -42,8 +48,12 @@ if ($panoramalat > 180.0) $panoramalat = 180.0;
 if ($panoramalat < -180.0) $panoramalat = -180.0;
 if ($panoramafov > 150.0) $panoramafov = 150.0;
 if ($panoramafov < -150.0) $panoramafov = -150.0;
+if ($panoramafov == 0.0) $panoramafov = 75.0;
 if ($panoramaspeed > 1.0) $panoramaspeed = 1.0;
 if ($panoramaspeed < -1.0) $panoramaspeed = -1.0;
+if ($panoramaspacing < 0.0) $panoramaspacing = 0.0;
+if ($panoramasize < 0.0) $panoramasize = 0.0;
+if ($panoramasize > 25.0) $panoramasize = 25.0;
 
 // Get module params
 $moduleclass_sfx = $params->get('moduleclass_sfx');
