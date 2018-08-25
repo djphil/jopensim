@@ -37,7 +37,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
     <?php endif; ?>
 }
 
-#jOpenSim_panorama_<?php echo $module->id; ?> {margin-bottom: -40px;}
+#jOpenSim_panorama_<?php echo $module->id; ?> {margin-bottom: -50px !important;}
 #panostats_<?php echo $module->id + 1; ?> {width: 80px;}
 
 #panostats_<?php echo $module->id + 1; ?> canvas {
