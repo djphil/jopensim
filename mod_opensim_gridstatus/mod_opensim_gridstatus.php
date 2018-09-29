@@ -62,6 +62,7 @@ if (is_file(_OPENSIMCLASS_GS)) {
 	$showonlinehg = (array_key_exists("showonlinehg",$component)) ? $component['showonlinehg']:0;
     $parameter['showonlinehg']      = $params->get('showonlinehg', $showonlinehg);
 	$parameter['hiddenregions']		= $params->get('hiddenregions',$component['hiddenregions']);
+	$parameter['hgregions']			= $params->get('hgregions',0);
     $parameter['striped']     		= $params->get('striped',1);
 
 	// $assetpath = JUri::base(true)."/components/com_opensim/assets/";

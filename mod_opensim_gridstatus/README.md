@@ -1,2 +1,2 @@
 # jopensim
-mod_opensim_gridstatus v0.3.1.2
+mod_opensim_gridstatus v0.3.1.5

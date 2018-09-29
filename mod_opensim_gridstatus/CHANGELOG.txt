@@ -1,0 +1,4 @@
+========== 0.3.1.5 ==========
+
+* new: param not to count HG linked regions
+* fixed: collation problem with older OpenSim DB

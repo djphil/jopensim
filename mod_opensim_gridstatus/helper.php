@@ -1,7 +1,7 @@
 <?php
 /**
  * @module      OpenSim Gridstatus (mod_opensim_gridstatus)
- * @copyright   Copyright (C) 2017 FoTo50 http://www.jopensim.com
+ * @copyright   Copyright (C) 2018 FoTo50 http://www.jopensim.com
  * @license     GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
 **/
 
@@ -50,6 +50,7 @@ class ModOpenSimHelper {
 		$this->parameter['onlinecolor']		= $parameter['onlinecolor'];
 		$this->parameter['gridstatus']		= $parameter['gridstatus'];
 		$this->parameter['hiddenregions']	= $parameter['hiddenregions'];
+		$this->parameter['hgregions']		= $parameter['hgregions'];
 		
         $gridlines = 0;
 
@@ -77,7 +78,11 @@ class ModOpenSimHelper {
 			$onlinecolor	= $this->onlinecolor;
 			$returnvalue    = array();
 
-			$this->_osgrid_db->setQuery("SELECT uuid FROM regions");
+			if($this->parameter['hgregions'] == 0) {
+				$this->_osgrid_db->setQuery('SELECT uuid FROM regions WHERE regions.regionName NOT LIKE "http%"');
+			} else {
+				$this->_osgrid_db->setQuery("SELECT uuid FROM regions");
+			}
 			$this->regions = $regions = $this->_osgrid_db->loadColumn();
 			
             if ($this->parameter['hiddenregions'] == 0) {
@@ -114,7 +119,7 @@ class ModOpenSimHelper {
 			$returnvalue['online'] = $this->_osgrid_db->loadResult();
 
             // Hypergrid users
-            $query = sprintf("SELECT COUNT(*) FROM Presence LEFT JOIN UserAccounts ON UserAccounts.PrincipalID COLLATE utf8_general_ci = Presence.UserID COLLATE utf8_general_ci WHERE Presence.RegionID COLLATE utf8_general_ci != '%s' AND UserAccounts.PrincipalID IS NULL", $zeroUID);
+            $query = sprintf("SELECT COUNT(*) FROM Presence LEFT JOIN UserAccounts ON CONVERT(UserAccounts.PrincipalID USING utf8) COLLATE utf8_general_ci = CONVERT(Presence.UserID USING utf8) COLLATE utf8_general_ci WHERE CONVERT(Presence.RegionID USING utf8) COLLATE utf8_general_ci != '%s' AND UserAccounts.PrincipalID IS NULL", $zeroUID);
 			$this->_osgrid_db->setQuery($query);
 			$returnvalue['hgonline'] = $this->_osgrid_db->loadResult();
 
