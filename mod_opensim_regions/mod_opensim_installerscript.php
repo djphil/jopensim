@@ -15,7 +15,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
 	 */
-	public function __constructor(JAdapterInstance $adapter) {
+	public function __constructor(JInstallerAdapter $adapter) {
 	}
  
 	/**
@@ -26,7 +26,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function preflight($route, JAdapterInstance $adapter) {
+	public function preflight($route, JInstallerAdapter $adapter) {
 		$jopensim = JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_opensim";
 		if(!is_dir($jopensim)) { // is jOpenSim installed?
 			Jerror::raiseWarning(null, "This module requires jOpenSim! Please download and install the latest version at <a href='https:/"."/jopensim.com' target='_blank'>jopensim.com</a>!");
@@ -44,7 +44,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function postflight($route, JAdapterInstance $adapter) {
+	public function postflight($route, JInstallerAdapter $adapter) {
         $this->description();
 		return TRUE;
 	}
@@ -56,7 +56,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function install(JAdapterInstance $adapter) {
+	public function install(JInstallerAdapter $adapter) {
 		$this->description();
 		return TRUE;
 	}
@@ -68,7 +68,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function update(JAdapterInstance $adapter) {
+	public function update(JInstallerAdapter $adapter) {
 //		$this->description();
 		return TRUE;
 	}
@@ -78,7 +78,7 @@ class mod_opensim_regionsInstallerScript {
 	 *
 	 * @param   JAdapterInstance  $adapter  The object responsible for running this script
 	 */
-	public function uninstall(JAdapterInstance $adapter) {
+	public function uninstall(JInstallerAdapter $adapter) {
 		return TRUE;
 	}
 

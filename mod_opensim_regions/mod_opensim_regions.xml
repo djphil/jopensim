@@ -7,12 +7,12 @@
     <name>MOD_OPENSIM_REGIONS</name>
     <title>MOD_OPENSIM_REGIONS</title>
     <author>FoTo50</author>
-    <creationDate>2018-06-03</creationDate>
+    <creationDate>2018-08-23</creationDate>
     <copyright>All rights reserved by FoTo50 2018</copyright>
     <license>GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html</license>
     <authorEmail>foto50@jopensim.com</authorEmail>
     <authorUrl>http://www.jopensim.com</authorUrl>
-    <version>0.3.1.4</version>
+    <version>0.3.1.5</version>
     <description>MOD_OPENSIM_REGIONS_DESC</description>
 
     <files>
@@ -46,6 +46,17 @@
                     default="0"
                     label="MOD_OPENSIM_REGIONS_SHOWHIDDEN"
                     description="MOD_OPENSIM_REGIONS_SHOWHIDDEN_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                    name="showhgregions"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="MOD_OPENSIM_REGIONS_SHOWHG"
+                    description="MOD_OPENSIM_REGIONS_SHOWHG_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>

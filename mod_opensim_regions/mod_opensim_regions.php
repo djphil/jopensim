@@ -28,6 +28,7 @@ $tableclass = "table";
 if ($params->get('tableclasscondensed')) $tableclass .= " table-condensed";
 if ($params->get('tableclassstriped')) $tableclass .= " table-striped";
 if ($params->get('tableclasshover')) $tableclass .= " table-hover";
+$showhg	= $params->get('showhgregions',0);
 
 // include the template for display
 require(JModuleHelper::getLayoutPath('mod_opensim_regions'));

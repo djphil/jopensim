@@ -33,6 +33,9 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
     <tbody>
     <?php foreach($regions AS $key => $region): ?>
+    <?php
+    if($showhg == 0 && substr($region['regionName'],0,4) == "http") continue;
+    ?>
     <tr>
         <td>
             <a href="secondlife://<?php echo rawurlencode($region['regionName']); ?>" title="<?php echo $region['regionName']; ?>">
