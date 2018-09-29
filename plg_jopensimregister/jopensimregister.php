@@ -55,7 +55,9 @@ class plgUserjOpensimRegister extends JPlugin {
 		$this->redirectafter	= $this->params->get('plgJopensimRedirectAfter');
 		$this->handleauthorize	= $this->params->get('plgJopensimRegisterAgeverification');
 		$this->useactivation	= $this->params->get('plgJopensimRegisterActivation',0);
+		$this->blocksync		= $this->params->get('plgJopensimRegisterBlocksync',0);
 		$this->activationlevel	= $this->params->get('plgJopensimRegisterActivationLevel',0);
+		$this->pwdsync			= $this->params->get('plgJopensimRegisterPwdsync',0);
 	}
 
 	public function onContentPrepareForm($form, $data) {
@@ -160,8 +162,17 @@ class plgUserjOpensimRegister extends JPlugin {
 			return TRUE; // Existing users are not needed here
 		}
 
+
 		$firstname	= JArrayHelper::getValue($new['jopensimregister'], 'firstname', null, 'string');
 		$lastname	= JArrayHelper::getValue($new['jopensimregister'], 'lastname', null, 'string');
+
+		$allowsamename = $this->params->get('plgJopensimAllowSameName',0);
+		if(!$allowsamename) {
+			if($firstname == $lastname) {
+				JFactory::getApplication()->enqueueMessage(JTEXT::_('PLG_JOPENSIMREGISTER_ERROR_SAMENAME'),"error");
+				return FALSE;
+			}
+		}
 
 		JPlugin::loadLanguage( 'plg_user_jOpenSimRegister', JPATH_ADMINISTRATOR );
 
@@ -284,10 +295,30 @@ class plgUserjOpensimRegister extends JPlugin {
 		}
 
 		// maybe need to activate user?
-		$task			= JFactory::getApplication()->input->get('task','','method','string');
+		$task		= JFactory::getApplication()->input->get('task','','method','string');
+
+		$userblock	= JArrayHelper::getValue($user, 'block', 1, 'int');
+
+		if($this->blocksync == 1) {
+			if($task == "block") {
+				$this->opensim->setUserLevel($opensimUID,-1);
+			} elseif ($task == "unblock") {
+				$this->opensim->setUserLevel($opensimUID,$this->activationlevel);
+			}
+		}
 		if($this->useactivation == 1 && $task == "activate" && $result === TRUE) {
-			$userlevel = $this->activationlevel;
-			$this->opensim->setUserLevel($opensimUID,$userlevel);
+			if($userblock == 0) {
+				// Todo: (maybe) here to check if user IS FINALLY activated
+				$this->opensim->setUserLevel($opensimUID,$this->activationlevel);
+			}
+		}
+
+		// maybe need to sync userpwd?
+		if($this->pwdsync == 1 && ($task == "save" || $task == "apply" || $task == "save2new")) {
+			$newpwd	= JArrayHelper::getValue($user, 'password_clear', '', 'string');
+			if($newpwd && $opensimUID) {
+				$this->admin_model->updateOsPwd($newpwd,$opensimUID);
+			}
 		}
 		return TRUE;
 	}

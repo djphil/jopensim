@@ -1,3 +1,10 @@
+========== 0.3.1.5 ==========
+
+* fixed: when account activation was set to admin, plugin enabled account already after user just verified the email address
+* new: possibility to deny same firstname and lastname (mostly these are spammers)
+* new: possibility to sync user status when admin blocks/unblocks Joomla account
+* new: possibility to sync inworld password when users Joomla password is changed
+
 ========== 0.3.1.4 ==========
 
 * new: use Joomla activation system

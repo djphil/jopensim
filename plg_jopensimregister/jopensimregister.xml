@@ -2,12 +2,12 @@
 <extension method="upgrade" version="3.1" type="plugin" group="user">
 	<name>User - jOpenSimRegister</name>
 	<author>FoTo50</author>
-    <creationDate>2018-06-03</creationDate>
+    <creationDate>2018-08-23</creationDate>
 	<copyright>(C) 2018 - FoTo50</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>foto50@jopensim.com</authorEmail>
 	<authorUrl>http://www.jopensim.com/</authorUrl>
-	<version>0.3.1.4</version>
+	<version>0.3.1.5</version>
 	<description>Plugin to enable instant OpenSim account creation during Joomla registration process</description>
 	<scriptfile>script.jopensimregister.php</scriptfile>
 	<languages folder="language">
@@ -17,8 +17,6 @@
 	</languages>
 	<files>
 		<filename plugin="jopensimregister">jopensimregister.php</filename>
-		<filename>CHANGELOG.txt</filename>
-		<filename>script.jopensimregister.php</filename>
 		<folder>fields</folder>
 		<folder>language</folder>
 		<folder>layout</folder>
@@ -73,6 +71,18 @@
 					type="menuitem" 
 					label="PLG_JOPENSIMREGISTER_REDIRECT" 
 					description="PLG_JOPENSIMREGISTER_REDIRECT_DESC" />
+
+				<field
+					name="plgJopensimAllowSameName"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_ALLOWSAMENAME"
+					description="PLG_JOPENSIMREGISTER_ALLOWSAMENAME_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 			</fieldset>
 			<fieldset name="JOPENSIM_REGISTER_AVATAR" addfieldpath="/plugins/user/jopensimregister/fields">
 				<field
@@ -157,14 +167,34 @@
 					<option value="0">JNO</option>
 				</field>
 				<field
+					name="plgJopensimRegisterBlocksync"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_BLOCKSYNC"
+					description="PLG_JOPENSIMREGISTER_BLOCKSYNC_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
 					name="plgJopensimRegisterActivationLevel"
 					type="list"
 					default="0"
 					label="PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL"
 					description="PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_DESC"
-					showon="plgJopensimRegisterActivation:1">
+					showon="plgJopensimRegisterActivation:1[OR]plgJopensimRegisterBlocksync:1">
 						<option value="0">PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_REGULAR</option>
 						<option value="100">PLG_JOPENSIMREGISTER_ACTIVATION_LEVEL_MAINTENANCE</option>
+				</field>
+				<field
+					name="plgJopensimRegisterPwdsync"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMREGISTER_PWDSYNC"
+					description="PLG_JOPENSIMREGISTER_PWDSYNC_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="plgjOpenSimRegisterNote1"
