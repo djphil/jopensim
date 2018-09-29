@@ -1,0 +1,21 @@
+.leaflet-popup-content {
+	text-align:center;
+}
+
+.jmapregionname {
+	font-size:150%;
+	font-weight:bold;
+}
+
+.jopensim_map_tplink {
+	margin:2px 0px;
+	color:#fff !important;
+}
+
+.jopensim_map_coords {
+}
+
+.jsubgroup {
+	margin-left:25px;
+	color:#999;
+}

@@ -23,13 +23,19 @@ require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'f
 $jversion	= new JVersion();
 $version	= $jversion->getShortVersion();
 /* To use Joomla's Database Class */
-if(version_compare("3.7.5",$version)) {
-	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+if(version_compare($version,"3.99.99", '>')) {
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'DatabaseFactory.php' );
+	/* Create the Application */
+	$mainframe = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
+} elseif(version_compare($version,"3.7.5", '>=')) {
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe = JFactory::getApplication('site');
 } else {
-	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe = JFactory::getApplication('site');
 }
-/* Create the Application */
-$mainframe = JFactory::getApplication('site');
 
 /* Load the language file from the component opensim */
 
@@ -44,7 +50,7 @@ $lang->load($extension, $base_dir, null, true);
 /**************************************************/
 // My code starts here...
 /**************************************************/
-require_once('includes/opensim.class.php');
+require_once('includes'.DIRECTORY_SEPARATOR.'opensim.class.php');
 require_once(JPATH_BASE.DIRECTORY_SEPARATOR.'administrator'.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.'opensim.php');
 $opensim_model = new OpenSimModelOpenSim();
 

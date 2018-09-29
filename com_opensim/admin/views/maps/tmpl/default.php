@@ -30,7 +30,9 @@ Joomla.orderTable = function()
 }
 </script>
 
-<div id="j-sidebar-container" class="span2">
+<div class="jopensim-adminpanel">
+
+<div id="j-sidebar-container" class="jopensimsidebar">
 	<?php echo $this->sidebar; ?>
 </div>
 <div id="j-main-container" class="span10">
@@ -80,7 +82,7 @@ Joomla.orderTable = function()
     <thead>
         <tr>
             <th width="5"><?php echo JText::_('Num'); ?></th>
-            <th><!--<?php echo JHtml::_('grid.checkall'); ?>--></th>
+            <th><?php echo JHtml::_('grid.checkall'); ?></th>
             <th><?php echo JHtml::_('grid.sort', 'JOPENSIM_REGION_NAME', 'regions.regionName', $listDirn, $listOrder); ?></th>
             <th class='title'><?php echo JText::_('JOPENSIM_REGION_OWNER'); ?></th>
             <th class='title'><?php echo JText::_('REGION_DEFAULT'); ?></th>
@@ -114,7 +116,7 @@ Joomla.orderTable = function()
         <tr class="row<?php echo $i % 2; ?>">
             <td><?php echo $num; ?></td>
             <td>
-                <input type='checkbox' name='selectedRegion[]' id='selectedRegion_<?php echo $key; ?>' value='<?php echo $region['uuid']; ?>' onClick='Joomla.isChecked(this.checked);' style='margin-top:0px;margin-right:5px;' />
+                <input type='checkbox' name='selectedRegion[]' id='cb<?php echo $i; ?>' value='<?php echo $region['uuid']; ?>' onClick='Joomla.isChecked(this.checked);' style='margin-top:0px;margin-right:5px;' />
             </td>
             <td>
             	<?php if($this->canDo->get('core.edit')): ?>
@@ -209,7 +211,6 @@ if(!$filtersearch) {
     <a class="close" data-dismiss="alert" href="#">&times;</a>
 	<?php echo JText::_('JOPENSIM_UNUSEDREGIONIMAGES_DESC'); ?>
 </div>
-
 <?php foreach($this->unusedImages AS $unused): ?>
 <div class="inline text-center">
 <table>
@@ -231,4 +232,5 @@ if(!$filtersearch) {
 </div>
 <?php endforeach; ?>
 <?php endif; ?>
+</div>
 </div>

@@ -14,7 +14,6 @@ class opensimViewgroups extends JViewLegacy {
 	public function display($tpl = null) {
 		JHTML::_('behavior.modal');
 		$document		= JFactory::getDocument();
-		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 
 		$model			= $this->getModel('groups');
 		$settingsdata	= $model->getSettingsData();

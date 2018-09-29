@@ -167,12 +167,16 @@ class opensimViewinworld extends JViewLegacy {
 						$friendlist					= $model->getUserFriends($this->osdata['uuid']);
 						if(is_array($friendlist) && count($friendlist) > 0) {
 							$friends = array();
+							$localuuid = '/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/';
 							foreach($friendlist AS $key => $friend) {
-								$count						= count($friends);
-								$friends[$count]['name']	= $model->getOpenSimName($friend['friendid']);
-								$friends[$count]['uuid']	= $friend['friendid'];
-								$friends[$count]['profile']	= $model->getprofile($friend['friendid']);
-								$friends[$count]['ignore']	= $model->getIgnoreStatus($friend['friendid']);
+								preg_match($localuuid,$friend['friendid'],$islocal); // partnering only with local friends, not HG
+								if(is_array($islocal) && count($islocal) == 1) { // we found a local friend
+									$count						= count($friends);
+									$friends[$count]['name']	= $model->getOpenSimName($friend['friendid']);
+									$friends[$count]['uuid']	= $friend['friendid'];
+									$friends[$count]['profile']	= $model->getprofile($friend['friendid']);
+									$friends[$count]['ignore']	= $model->getIgnoreStatus($friend['friendid']);
+								}
 							}
 							sort($friends);
 						}
@@ -255,7 +259,7 @@ class opensimViewinworld extends JViewLegacy {
 						$this->transactions			= $transactions;
 						// check if jOpenSimPaypal is installed
 						$jopensimpaypalfolder		= JPATH_SITE.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_jopensimpaypal";
-						if(is_dir($jopensimpaypalfolder)) {
+						if(is_dir($jopensimpaypalfolder) && $this->settings['jopensimmoney_buycurrency']) {
 							$paypallink				= "<a class='btn btn-primary' href='".JRoute::_("&option=com_jopensimpaypal&view=paypal&Itemid=".$this->Itemid."&returnto=jopensim")."'>".JText::_('JOPENSIM_MONEY_BUYPAYPAL')."</a>";
 							$params					= JComponentHelper::getParams('com_jopensimpaypal');
 							$payout					= $params->get('currencyratesell');

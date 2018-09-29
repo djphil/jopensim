@@ -32,7 +32,7 @@ class opensimModelRegions extends JModelLegacy {
 
 	public function __construct($config = array()) {
 		parent::__construct($config);
-		$params			= &JComponentHelper::getParams('com_opensim');
+		$params					= JComponentHelper::getParams('com_opensim');
 
 		$this->osdbhost			= $params->get('opensim_dbhost');
 		$this->osdbuser			= $params->get('opensim_dbuser');
@@ -72,6 +72,7 @@ class opensimModelRegions extends JModelLegacy {
 			$query->select("regions.*");
 			$query->from("regions");
 			$query->order("regions.regionName ASC");
+			$query->where('regions.regionName NOT LIKE "http%"');
 			$db->setQuery((string)$query);
 			$this->regions = $db->loadAssocList();
 		}

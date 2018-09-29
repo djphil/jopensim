@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<option value='0'<?php echo ($this->range == 0) ? " selected='selected'":""; ?>><?php echo JText::_('JOPENSIM_MONEY_VIEWTRANSACTIONS_ALL'); ?></option>
 			</select>
 			<!-- <span class="icon-search"></span> -->
-			<button type='submit' class="btn btn-default btn-primary btn-sm"/><?php echo JText::_('JOPENSIM_MONEY_SHOWTRANSACTIONBUTTON'); ?></button>
+			<button type='submit' class="btn btn-primary"/><?php echo JText::_('JOPENSIM_MONEY_SHOWTRANSACTIONBUTTON'); ?></button>
 		</form>
 
 		<hr class="hr-condensed">

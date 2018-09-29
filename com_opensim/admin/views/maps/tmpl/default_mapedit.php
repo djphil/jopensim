@@ -16,6 +16,7 @@ function jOpenSimSelectArticle(buttonval,buttonText,unknownVal) {
     document.adminForm.submit();
 }
 </script>
+<div class="jopensim-adminpanel">
 
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -36,20 +37,26 @@ function jOpenSimSelectArticle(buttonval,buttonText,unknownVal) {
 	<input type="hidden" name="regionUUID" value="<?php echo $this->mapinfo['regionUUID']; ?>" />
 	<input type="hidden" name="regionArticle" id="regionArticle" value="<?php echo $this->mapinfo['articleId']; ?>" />
 
-	<label for='mappublic'>
-	<input type='checkbox' name='mappublic' id='mappublic' value='1'<?php echo ($this->mapinfo['public'] == 1) ? " checked='checked'":""; ?> />
-	<?php echo JText::_('JOPENSIM_PUBLICMAP'); ?>
-	</label>
+	<div>
+		<label for='mappublic'>
+		<input type='checkbox' name='mappublic' id='mappublic' value='1'<?php echo ($this->mapinfo['public'] == 1) ? " checked='checked'":""; ?> />
+		<?php echo JText::_('JOPENSIM_PUBLICMAP'); ?>
+		</label>
+	</div>
 
-	<label for='mapguide'>
-	<input type='checkbox' name='mapguide' id='mapguide' value='1'<?php echo ($this->mapinfo['guide'] == 1) ? " checked='checked'":""; ?> />
-	<?php echo JText::_('JOPENSIM_REGION_DESTINATIONGUIDE'); ?>
-	</label>
+	<div>
+		<label for='mapguide'>
+		<input type='checkbox' name='mapguide' id='mapguide' value='1'<?php echo ($this->mapinfo['guide'] == 1) ? " checked='checked'":""; ?> />
+		<?php echo JText::_('JOPENSIM_REGION_DESTINATIONGUIDE'); ?>
+		</label>
+	</div>
 
-	<label for='mapinvisible'>
-	<input type='checkbox' name='mapinvisible' id='mapinvisible' value='1'<?php echo ($this->mapinfo['hidemap'] == 1) ? " checked='checked'":""; ?> />
-	<?php echo JText::_('JOPENSIM_HIDEMAP'); ?>
-	</label>
+	<div>
+		<label for='mapinvisible'>
+		<input type='checkbox' name='mapinvisible' id='mapinvisible' value='1'<?php echo ($this->mapinfo['hidemap'] == 1) ? " checked='checked'":""; ?> />
+		<?php echo JText::_('JOPENSIM_HIDEMAP'); ?>
+		</label>
+	</div>
 
 	<hr class="hr-condensed">
 
@@ -65,4 +72,5 @@ function jOpenSimSelectArticle(buttonval,buttonText,unknownVal) {
 		<?php endif; ?>
 	</div>
 </form>
+</div>
 </div>

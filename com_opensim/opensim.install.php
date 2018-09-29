@@ -784,6 +784,7 @@ class com_opensimInstallerScript {
 		}
 		$this->createFolder("avatars");
 		$this->createFolder("classifieds");
+		$this->createFolder("marker");
 		$this->createFolder("profiles");
 		$this->createFolder("regions");
 		$this->createFolder("regions".DIRECTORY_SEPARATOR."varregions");
@@ -804,6 +805,7 @@ class com_opensimInstallerScript {
 	public function removeFolders() {
 		$this->removeFolder("avatars");
 		$this->removeFolder("classifieds");
+		$this->removeFolder("marker");
 		$this->removeFolder("profiles");
 		$this->removeFolder("regions".DIRECTORY_SEPARATOR."varregions");
 		$this->removeFolder("regions");

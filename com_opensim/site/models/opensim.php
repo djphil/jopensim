@@ -201,7 +201,7 @@ class opensimModelOpensim extends JModelItem {
 		$settings['jopensim_maps_bubble_alpha']		= $params->get('jopensim_maps_bubble_alpha','50');
 		$settings['jopensim_maps_bubble_textcolor']	= $params->get('jopensim_maps_bubble_textcolor','#ffffff');
 		$settings['jopensim_maps_bubble_linkcolor']	= $params->get('jopensim_maps_bubble_linkcolor','#ffffff');
-		$settings['jopensim_maps_bubble_color']		= $this->convert2rgba($settings['jopensim_maps_bubble_bgcolor'],($settings['jopensim_maps_bubble_alpha']/100));
+		$settings['jopensim_maps_bubble_color']		= $settings['jopensim_maps_bubble_bgcolor'];
 		$settings['jopensim_maps_showteleport']		= $params->get('jopensim_maps_showteleport',1);
 		$settings['jopensim_maps_showcoords']		= $params->get('jopensim_maps_showcoords',0);
 		$settings['jopensim_maps_link2article']		= $params->get('jopensim_maps_link2article',1);

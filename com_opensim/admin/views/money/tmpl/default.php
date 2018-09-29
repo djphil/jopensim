@@ -52,6 +52,7 @@ Joomla.tableMoneyOrdering = function(order, dir, task, form) {
 }
 </script>
 
+<div class="jopensim-adminpanel">
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
@@ -127,4 +128,5 @@ Joomla.tableMoneyOrdering = function(order, dir, task, form) {
 <?php else: ?>
 <p class="alert"><?php echo JText::_('JOPENSIM_MONEY_NOTRANSACTIONS'); ?></p>
 <?php endif; ?>
+</div>
 </div>

@@ -37,6 +37,7 @@ $filtersearch	= $this->escape($this->state->get('users_filter_search'));
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
+<div class="jopensim-adminpanel">
 
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -139,4 +140,6 @@ if(is_array($this->users)) {
 </tfoot>
 </table>
 </form>
+</div>
+
 </div>

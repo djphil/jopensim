@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="LeafletMap">
+		<message>Display a map of the entire grid with Leaflet</message>
+	</layout>
+	<fields name="params" addfieldpath="/administrator/components/com_opensim/models/fields">
+		<fieldset name="JOPENSIM_MAPSETTINGS">
+			<field
+				name="jopensim_usecustomsetting"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_CUSTOMMAPSETTINGS"
+				description="JOPENSIM_CUSTOMMAPSETTINGS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				type="number"
+				name="jopensim_maps_homex"
+				value=""
+				default="1000"
+				label="JOPENSIM_MAPS_HOMEX"
+				description="JOPENSIM_MAPS_HOMEX_DESC"
+				showon="jopensim_usecustomsetting:1" />
+			<field
+				type="number"
+				name="jopensim_maps_homey"
+				value=""
+				default="1000"
+				label="JOPENSIM_MAPS_HOMEY"
+				description="JOPENSIM_MAPS_HOMEY_DESC"
+				showon="jopensim_usecustomsetting:1" />
+			<field
+				name="jopensim_maps_offsetx"
+				type="JopensimSlider"
+				default="0"
+				label="JOPENSIM_MAPS_OFFSETX"
+				description="JOPENSIM_MAPS_OFFSETX_DESC"
+				min="-1"
+				max="1"
+				step="0.1"
+				showon="jopensim_usecustomsetting:1" />
+			<field
+				name="jopensim_maps_offsety"
+				type="JopensimSlider"
+				default="0"
+				label="JOPENSIM_MAPS_OFFSETY"
+				description="JOPENSIM_MAPS_OFFSETY_DESC"
+				min="-1"
+				max="1"
+				step="0.1"
+				showon="jopensim_usecustomsetting:1" />
+			<field
+				name="jopensim_maps_zoomstart"
+				type="JopensimSlider"
+				default="8"
+				label="JOPENSIM_MAPS_ZOOMSTART"
+				description="JOPENSIM_MAPS_ZOOMSTART_DESC"
+				min="5"
+				max="9"
+				step="0.1"
+				showon="jopensim_usecustomsetting:1" />
+
+			<field
+				name="jopensim_mousezoom"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="JOPENSIM_MAPS_MOUSEZOOM"
+				description="JOPENSIM_MAPS_MOUSEZOOM_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+		<fieldset name="JOPENSIM_MAPMARKER">
+			<field
+				name="jopensim_marker_classifieds"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_marker_classifieds_icon"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_DEFAULT"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_DEFAULT_DESC"
+				showon="jopensim_marker_classifieds:1" />
+
+			<field
+				name="jopensim_marker_classifieds_icon_shopping"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_SHOPPING"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_SHOPPING_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_landrental"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_LANDRENTAL"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_LANDRENTAL_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_propertyrental"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_PROPERTYRENTAL"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_PROPERTYRENTAL_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_attraction"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_ATTRACTION"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_ATTRACTION_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_newproducts"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_NEWPRODUCTS"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_NEWPRODUCTS_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_employment"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_EMPLOYMENT"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_EMPLOYMENT_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_wanted"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_WANTED"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_WANTED_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_service"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_SERVICE"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_SERVICE_DESC"
+				showon="jopensim_marker_classifieds:1" />
+			<field
+				name="jopensim_marker_classifieds_icon_personal"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_PERSONAL"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_ICON_PERSONAL_DESC"
+				showon="jopensim_marker_classifieds:1" />
+
+			<field
+				name="jopensim_marker_classifieds_mature"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_MAPMARKER_CLASSIFIEDS_MATURE"
+				description="JOPENSIM_MAPMARKER_CLASSIFIEDS_MATURE_DESC"
+				showon="jopensim_marker_classifieds:1">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_marker_events"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JOPENSIM_MAPMARKER_EVENTS"
+				description="JOPENSIM_MAPMARKER_EVENTS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="jopensim_marker_events_icon"
+				type="media"
+				directory="jopensim/marker"
+				label="JOPENSIM_MAPMARKER_EVENTS_ICON"
+				description="JOPENSIM_MAPMARKER_EVENTS_ICON_DESC"
+				showon="jopensim_marker_events:1" />
+		</fieldset>
+	</fields>
+</metadata>

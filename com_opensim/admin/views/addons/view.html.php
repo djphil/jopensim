@@ -13,7 +13,7 @@ class opensimViewaddons extends JViewLegacy {
 	public function display($tpl = null) {
 
 		$document		= JFactory::getDocument();
-		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
+//		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css', array('version' => '0.3.1.4'));
 //		JHTML::stylesheet( 'opensim.css', 'administrator/components/com_opensim/assets/' );
 
 		$this->sidebar	= JHtmlSidebar::render();
@@ -54,7 +54,7 @@ class opensimViewaddons extends JViewLegacy {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=pinfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_PROFILE')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[ServiceList]\n\n\t;this one MUST be commented out:\n\t; UserProfilesServiceConnector = \"\${Const|PublicPort}/OpenSim.Server.Handlers.dll:UserProfilesConnector\"\n\n[UserProfilesService]\n\n\tEnabled = false\n\n\n<span class='jopensim_infotitle'>config-include/GridCommon.ini</span> (Grid Mode)\nor\n<span class='jopensim_infotitle'>config-include/StandaloneCommon.ini</span> (Standalone Mode)\n\n[Profile]\n\n\tProfileURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\tModule = \"jOpenSimProfile\"\n\n\t; Optional:\n\tDebug = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Profile.dll\nto your opensim/bin folder";
+				$infotext = $warningtext."<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[ServiceList]\n\n\t;this one MUST be commented out:\n\t; UserProfilesServiceConnector = \"\${Const|PublicPort}/OpenSim.Server.Handlers.dll:UserProfilesConnector\"\n\n[UserProfilesService]\n\n\tEnabled = false\n\n\n<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[UserProfiles]\n\n\t;this one MUST be commented out:\n\t; ProfileServiceURL = \${Const|BaseURL}:\${Const|PublicPort}\n\n\n<span class='jopensim_infotitle'>config-include/GridCommon.ini</span> (Grid Mode)\nor\n<span class='jopensim_infotitle'>config-include/StandaloneCommon.ini</span> (Standalone Mode)\n\n[Profile]\n\n\tProfileURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\tModule = \"jOpenSimProfile\"\n\n\t; Optional:\n\tDebug = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Profile.dll\nto your opensim/bin folder";
 			break; 
 			case "ginfo":
 				if($settings['addons_groups'] != 1) {

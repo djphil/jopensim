@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
 	<td class='<?php echo $this->pageclass_sfx; ?>'>
 	    <?php if($this->power['power_eject'] && !$member['isowner']): ?>
 		<!-- <span class="icon-exit btn-large pull-right" alt='<?php // echo JText::_('EJECTFROMGROUP'); ?>' title='<?php // echo JText::_('EJECTFROMGROUP'); ?>'></span> -->
-        <a class="btn btn-default btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=ejectgroup&groupid=<?php echo $this->grouplist['groupid']; ?>&ejectid=<?php echo $member['AgentID']; ?>' target='_parent' onClick='return confirm("<?php echo addslashes(JText::_('EJECTGROUPSURE')); ?>");' alt='<?php echo JText::_('EJECTFROMGROUP'); ?>' title='<?php echo JText::_('EJECTFROMGROUP'); ?>'><strong>X</strong></a>
+        <a class="btn btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=ejectgroup&groupid=<?php echo $this->grouplist['groupid']; ?>&ejectid=<?php echo $member['AgentID']; ?>' target='_parent' onClick='return confirm("<?php echo addslashes(JText::_('EJECTGROUPSURE')); ?>");' alt='<?php echo JText::_('EJECTFROMGROUP'); ?>' title='<?php echo JText::_('EJECTFROMGROUP'); ?>'><strong>X</strong></a>
 		<?php else: ?>
 		    <span class="pull-right" alt='' title=''></span>
 		<?php endif; ?>

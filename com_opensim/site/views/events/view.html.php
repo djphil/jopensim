@@ -185,8 +185,8 @@ class opensimViewevents extends JViewLegacy {
 		
 			break;
 			case "eventlist":
-				$param['uuid'] = $created;
-				$eventlist = $model->getEventList($param);
+				$param['uuid']		= $created;
+				$eventlist			= $model->getEventList($param);
 				$this->ossettings	= $setting;
 				$this->eventlist	= $eventlist;
 				$this->usertimezone	= $osdata['timezone'];

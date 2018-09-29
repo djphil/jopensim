@@ -82,7 +82,7 @@ function jOpenSimSettings() {
 	return $settings;
 }
 
-$params = &JComponentHelper::getParams('com_opensim');
+$params = JComponentHelper::getParams('com_opensim');
 
 $osdbhost		= $params->get('opensim_dbhost');
 $grp_readkey	= $params->get('grp_readkey');

@@ -410,3 +410,27 @@ span.jopensimcontributors {
 #jopensim-admin #j-main-container {
 	padding-left:30px;
 }
+
+.jopensimsidebar {
+	display:inline;
+	float:left;
+	/*background:#f0fff0;*/
+	height:100%;
+}
+
+#j-main-container {
+	display:inline-block;
+	float:right;
+	/*background:#ff0;*/
+}
+
+.jopensim-cpanel {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: 7fr 5fr;
+    /*background:#ff0;*/
+    /*grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));*/
+    grid-template-rows: 1fr;
+    /*grid-auto-flow: column;*/
+}
+

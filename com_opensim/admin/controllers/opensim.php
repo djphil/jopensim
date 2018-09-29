@@ -49,7 +49,7 @@ class OpenSimControllerOpenSim extends OpenSimController {
 		$this->setRedirect($redirect);
 	}
 
-	public function cancel() {
+	public function cancel($key = NULL) {
 		$redirect	= "index.php?option=com_opensim&view=opensim";
 		$this->setRedirect($redirect);
 	}

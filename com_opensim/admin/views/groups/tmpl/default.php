@@ -31,6 +31,7 @@ Joomla.orderTable = function()
 }
 </script>
 
+<div class="jopensim-adminpanel">
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
@@ -138,4 +139,5 @@ Joomla.orderTable = function()
 </tbody>
 </table>
 </form>
+</div>
 </div>

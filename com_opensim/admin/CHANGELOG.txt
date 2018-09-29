@@ -1,3 +1,26 @@
+========== 0.3.1.5 ==========
+
+com_opensim:
+* new: maps working with leaflet
+** added: leaflet map can show markers for events & classifieds
+** added: leaflet maps work with custom marker icons per classified category
+** added: possibility to hide classifieds per category and events
+** added: search for region names and if enabled for events and classifieds
+** added: leaflet map parameter to disable mouse wheel zoom
+*** added: search results with icons
+* fixed: refreshing multiple maps always returned 0 maps refreshed
+* fixed: maps displayed TP links for a HG linked region, is now hidden
+* added: toggle all checkbox to refresh all maps
+* fixed: partnering showed all HG friends as "unknown" ... they are now not visible for partnering
+* fixed: get rid of some deprecated notices in php7
+* fixed: buy inworld currency button in inworld accound should not get displayed when option is set off in global config
+
+plg_user_jopensimregister:
+* fixed: when account activation was set to admin, plugin enabled account already after user just verified the email address
+* new: possibility to deny same firstname and lastname (mostly these are spammers)
+* new: possibility to sync user status when admin blocks/unblocks Joomla account
+* new: possibility to sync inworld password when users Joomla password is changed
+
 ========== 0.3.1.4 ==========
 
 * facelifting (many thanks djPhil) in maps, loginscreen, inworld account

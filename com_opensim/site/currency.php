@@ -8,6 +8,7 @@
 if(!defined('_JEXEC')) define( '_JEXEC', 1 );
 if(!defined('JPATH_BASE')) define('JPATH_BASE', realpath(dirname("../../index.php")));
 if(!defined('DS')) define( 'DS', DIRECTORY_SEPARATOR );
+
 // For JED
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
@@ -22,13 +23,19 @@ require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'f
 $jversion	= new JVersion();
 $version	= $jversion->getShortVersion();
 /* To use Joomla's Database Class */
-if(version_compare("3.7.5",$version)) {
+if(version_compare($version,"3.99.99", '>')) {
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'DatabaseFactory.php' );
+	/* Create the Application */
+	$mainframe = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
+} elseif(version_compare($version,"3.7.5", '>=')) {
 	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe = JFactory::getApplication('site');
 } else {
 	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe = JFactory::getApplication('site');
 }
-/* Create the Application */
-$mainframe = JFactory::getApplication('site');
 
 /* Load the language file from the component opensim */
 
@@ -139,7 +146,7 @@ function roundoff($v, $d) {
 	}
 }
 
-$params = &JComponentHelper::getParams('com_opensim');
+$params = JComponentHelper::getParams('com_opensim');
 
 $osgriddbhost	= $params->get('opensimgrid_dbhost');
 $osgriddbuser	= $params->get('opensimgrid_dbuser');

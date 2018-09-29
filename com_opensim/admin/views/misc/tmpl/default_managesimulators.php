@@ -24,6 +24,7 @@ $saveOrder	= $listOrder == '#__opensim_simulators.ordering';
 $saveOrderingUrl = 'index.php?option=com_opensim&task=saveSimulatorOrderAjax&tmpl=component';
 ?>
 
+<div class="jopensim-adminpanel">
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
@@ -99,5 +100,6 @@ $saveOrderingUrl = 'index.php?option=com_opensim&task=saveSimulatorOrderAjax&tmp
 	</tbody>
 	</table>
 	</form>
+</div>
 </div>
 </div>

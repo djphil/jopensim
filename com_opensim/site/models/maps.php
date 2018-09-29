@@ -28,7 +28,7 @@ class opensimModelMaps extends OpenSimModelOpenSim {
 		$this->getData();
 	}
 
-	public function _buildQueryRegions() {
+	public function _buildQueryRegions($filter = NULL, $sort = NULL, $order = 'ASC') {
 		$opensim = $this->opensim;
 		$query = $opensim->getAllRegionsQuery();
 		return $query;

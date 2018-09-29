@@ -9,6 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.html');
 ?>
+<div class="jopensim-adminpanel">
 
     <div class="form-group" role="dialog">
         <form action="index.php" method="post" id="adminForm" name="adminForm">
@@ -51,4 +52,5 @@ jimport('joomla.html.html');
             </fieldset>
         </form>
     </div>
+</div>
 </div>

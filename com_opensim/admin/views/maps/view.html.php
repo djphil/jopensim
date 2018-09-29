@@ -18,7 +18,6 @@ class opensimViewmaps extends JViewLegacy {
 
 	public function display($tpl = null) {
 		$document			= JFactory::getDocument();
-		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/font-awesome.css');
 		$queueMessage 		= array();
 		$this->ismapcache	= null;

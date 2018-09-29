@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <?php if($this->settings['addons_groups'] == 1): ?>
-<h2><a class="btn btn-default btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component'><?php echo $this->grouplist['groupname']." ".JText::_('GROUPNOTICES'); ?></a></h2>
+<h2><a class="btn btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=groupdetail&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component'><?php echo $this->grouplist['groupname']." ".JText::_('GROUPNOTICES'); ?></a></h2>
 <?php if($this->grouplist['acceptnotices'] == 1 && $this->grouplist['power']['power_receivenotice'] == 1 && $this->grouplist['hasnotices'] > 0): ?>
 <?php if(count($this->noticelist) > 0): ?>
 <table class='noticetable<?php echo $this->pageclass_sfx; ?>'>

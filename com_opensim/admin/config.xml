@@ -563,8 +563,7 @@
 			<field name="jopensim_maps_offsetx" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETX" description="JOPENSIM_MAPS_OFFSETX_DESC" min="-1" max="1" step="0.1" />
 			<field name="jopensim_maps_offsety" type="JopensimSlider" default="0" label="JOPENSIM_MAPS_OFFSETY" description="JOPENSIM_MAPS_OFFSETY_DESC" min="-1" max="1"  step="0.1" />
 			<field name="jopensim_maps_zoomstart" type="JopensimSlider" default="8" label="JOPENSIM_MAPS_ZOOMSTART" description="JOPENSIM_MAPS_ZOOMSTART_DESC" min="5" max="9"  step="0.1" />
-			<field name="jopensim_maps_bubble_bgcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_BGCOLOR" description="JOPENSIM_MAPS_BUBBLE_BGCOLOR_DESC" />
-			<field name="jopensim_maps_bubble_alpha" type="JopensimSlider" default="50" label="JOPENSIM_MAPS_BUBBLE_ALPHA" description="JOPENSIM_MAPS_BUBBLE_ALPHA_DESC" first="0" last="100" />
+			<field name="jopensim_maps_bubble_bgcolor" type="color" format="rgba" label="JOPENSIM_MAPS_BUBBLE_BGCOLOR" description="JOPENSIM_MAPS_BUBBLE_BGCOLOR_DESC" />
 			<field name="jopensim_maps_bubble_textcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_TEXTCOLOR" description="JOPENSIM_MAPS_BUBBLE_TEXTCOLOR_DESC" />
 			<field name="jopensim_maps_bubble_linkcolor" type="color" label="JOPENSIM_MAPS_BUBBLE_LINKCOLOR" description="JOPENSIM_MAPS_BUBBLE_LINKCOLOR_DESC" />
 			<field

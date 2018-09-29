@@ -34,20 +34,20 @@ defined('_JEXEC') or die('Restricted access');
 	<?php if($this->grouplist['acceptnotices'] == 1 && $this->grouplist['power']['power_receivenotice'] == 1 && $this->grouplist['hasnotices'] > 0): ?>	
 	<td>
 	    <!-- <span class="icon-eye btn-large pull-right" alt='<?php // echo JText::_('VIEWNOTICES'); ?>' title='<?php // echo JText::_('VIEWNOTICES'); ?>' /></span> -->
-		<a class="btn btn-default btn-primary pull-right" href='index.php?option=com_opensim&view=inworld&task=groupnotices&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component' alt='<?php echo JText::_('VIEWNOTICES'); ?>' title='<?php echo JText::_('VIEWNOTICES'); ?>'>Show</a>
+		<a class="btn btn-primary pull-right" href='index.php?option=com_opensim&view=inworld&task=groupnotices&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component' alt='<?php echo JText::_('VIEWNOTICES'); ?>' title='<?php echo JText::_('VIEWNOTICES'); ?>'>Show</a>
 	</td>
 	<?php endif; ?>
 	
 	<?php if($this->grouplist['power']['power_rolemembersvisible'] == 1 || $this->grouplist['power']['isowner'] == 1): ?>
 	<td>
 	    <!-- <span class="icon-eye btn-large pull-right" alt='<?php // echo JText::_('VIEWMEMBERS'); ?>' title='<?php // echo JText::_('VIEWMEMBERS'); ?>' /></span> -->
-	    <a class="btn btn-default btn-primary pull-right" href='index.php?option=com_opensim&view=inworld&task=groupmembers&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component' alt='<?php echo JText::_('VIEWMEMBERS'); ?>' title='<?php echo JText::_('VIEWMEMBERS'); ?>'>Show</a>		
+	    <a class="btn btn-primary pull-right" href='index.php?option=com_opensim&view=inworld&task=groupmembers&groupid=<?php echo $this->grouplist['groupid']; ?>&tmpl=component' alt='<?php echo JText::_('VIEWMEMBERS'); ?>' title='<?php echo JText::_('VIEWMEMBERS'); ?>'>Show</a>		
 	</td>
 	<?php endif; ?>
 
 	<td>
 	    <!-- <span class="btn btn-default btn-primary pull-right" alt='<?php // echo JText::_('LEAVEGROUP'); ?>' title='<?php // echo JText::_('LEAVEGROUP'); ?>'></span> -->
-	    <a class="btn btn-default btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=leavegroup&groupid=<?php echo $this->grouplist['groupid']; ?>' target='_parent' onClick='return confirm("<?php echo addslashes(JText::_('LEAVEGROUPSURE')); ?>");' alt='<?php echo JText::_('LEAVEGROUP'); ?>' title='<?php echo JText::_('LEAVEGROUP'); ?>'><strong>X</strong></a>
+	    <a class="btn btn-danger pull-right" href='index.php?option=com_opensim&view=inworld&task=leavegroup&groupid=<?php echo $this->grouplist['groupid']; ?>' target='_parent' onClick='return confirm("<?php echo addslashes(JText::_('LEAVEGROUPSURE')); ?>");' alt='<?php echo JText::_('LEAVEGROUP'); ?>' title='<?php echo JText::_('LEAVEGROUP'); ?>'><strong>X</strong></a>
 
 	</td>
 </tr>

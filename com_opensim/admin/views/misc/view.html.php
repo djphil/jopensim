@@ -17,7 +17,6 @@ class opensimViewmisc extends JViewLegacy {
 		JHTML::_('behavior.modal');
 //		$this->state		= $this->get('State');
 		$document			= JFactory::getDocument();
-		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 		$this->model		= $this->getModel('misc');
 		$this->settings			= $this->model->getSettingsData();
 		if($this->settings['remoteadminsystem'] == "multiple") {

@@ -9,6 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.html');
 ?>
+<div class="jopensim-adminpanel">
 
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -93,4 +94,5 @@ jimport('joomla.html.html');
             <?php echo JText::sprintf('LOGINSCREEN_HELP_HINT',LOGINSCREEN_HELP_LINK); ?>
         <?php endif; ?>
     </form>
+</div>
 </div>

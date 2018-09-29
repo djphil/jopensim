@@ -13,7 +13,6 @@ JLoader::register('jOpenSimHelper', JPATH_COMPONENT.'/helpers/jopensimhelper.php
 class opensimViewuser extends JViewLegacy {
 	public function display($tpl = null) {
 		$document				= JFactory::getDocument();
-		$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/opensim.css');
 
 		$model = $this->getModel('user');
 		$this->sidebar			= JHtmlSidebar::render();

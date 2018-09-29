@@ -7,7 +7,8 @@
  */
 
 define( '_JEXEC', 1 );
-define('JPATH_BASE', dirname("../../../../index.php") );
+// define('JPATH_BASE', dirname("../../../../index.php") );
+if(!defined('JPATH_BASE')) define('JPATH_BASE', realpath(dirname("../../../../index.php")));
 define( 'DS', DIRECTORY_SEPARATOR );
 
 // For JED
@@ -23,19 +24,27 @@ $version	= $jversion->getShortVersion();
 //error_log("versioncompare1: ".$test);
 /* To use Joomla's Database Class */
 if(version_compare($version,"3.99.99", '>')) {
-	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'DatabaseFactory.php' );
+	error_log("blah! Zeile ".__LINE__);
+	if(!defined('_JDEFINES')) define('_JDEFINES',FALSE);
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'DatabaseFactory.php' );
+	/* Create the Application */
+	$mainframe = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
 } elseif(version_compare($version,"3.7.5", '>=')) {
-	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+	error_log("blah! Zeile ".__LINE__);
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe	= JFactory::getApplication('site');
 } else {
-	require_once ( JPATH_ROOT .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+	error_log("blah! Zeile ".__LINE__);
+	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
+	/* Create the Application */
+	$mainframe	= JFactory::getApplication('site');
 }
-/* Create the Application */
-$mainframe	= JFactory::getApplication('site');
+/* Load the language file from the component opensim */
 $lang		= JFactory::getLanguage();
 $extension	= 'com_opensim';
 $base_dir	= JPATH_SITE;
-// $language_tag = 'en-GB';
-// $lang->load($extension, $base_dir, $language_tag, true);
+
 $lang->load($extension, $base_dir, null, true);
 
 if (!is_dir(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR."components".DIRECTORY_SEPARATOR."com_opensim")) {

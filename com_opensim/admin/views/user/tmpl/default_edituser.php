@@ -9,6 +9,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 ?>
+<div class="jopensim-adminpanel">
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
@@ -98,4 +99,5 @@ if(is_array($this->userlevellist) && count($this->userlevellist) > 0) {
 </div>
 <br /><br />
 </form>
+</div>
 </div>

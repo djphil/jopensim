@@ -128,7 +128,7 @@ class OpenSimControllerMaps extends OpenSimController {
 				$this->model->refreshMap($selectedRegion);
 			}
 			if(count($selectedRegions) == 1) $message = JText::_('JOPENSIM_MAPREFRESH1_OK');
-			else $message = JText::sprintf('JOPENSIM_MAPREFRESH_OK',count($data['selectedRegion']));
+			else $message = JText::sprintf('JOPENSIM_MAPREFRESH_OK',count($selectedRegions));
 		} else {
 			$type		= "warning";
 			$message	= JText::_('JOPENSIM_MAPREFRESH_ERROR');

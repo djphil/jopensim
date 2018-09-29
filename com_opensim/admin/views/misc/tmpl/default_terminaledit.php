@@ -8,6 +8,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
+<div class="jopensim-adminpanel">
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
 </div>
@@ -59,4 +60,5 @@ defined('_JEXEC') or die('Restricted access');
         </table>
     </fieldset>
 </form>
+</div>
 </div>

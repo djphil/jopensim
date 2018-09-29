@@ -10,15 +10,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.html');
 ?>
 
-<div id="j-sidebar-container" class="span2">
+<div id="j-sidebar-container" class="jopensimsidebar">
 	<?php echo $this->sidebar; ?>
 </div>
 <div id="j-main-container" class="span10">
 <div id="jopensim" class="jopensim-cpanel">
-    <section class="content-block" role="main">
-        <div class="row-fluid">
-            <div class="span7">
-                <div class="well well-small">
+            <div>
+                <div class="well well-small jopensim-cpanel-section">
                     <div class="module-title nav-header">
                         <?php echo JText::_('JOPENSIM_WELCOME'); ?>
                     </div>
@@ -36,7 +34,7 @@ jimport('joomla.html.html');
 					<div class="clearfix"></div>
 				</div>
 
-				<div class="well well-small">
+				<div class="well well-small jopensim-cpanel-section">
 					<div class="module-title nav-header "><?php echo JText::_('JOPENSIM_PLUGINSTATUS'); ?></div>
 					<table class='table table-striped'>
 					<tr>
@@ -69,7 +67,7 @@ jimport('joomla.html.html');
 					</tr>
 					</table>
 				</div>
-				<div class="well well-small">
+				<div class="well well-small jopensim-cpanel-section">
 				    <div class="module-title nav-header ">Getting Started</div>
 					<hr class="hr-condensed">
 					<ul class=" pull-left">
@@ -82,41 +80,41 @@ jimport('joomla.html.html');
 				</div>
 			</div>
 
-			<div class="span5">
-			    <div class="well well-small">
-			        <div class="center"> 
+			<div>
+			    <div class="well well-small jopensim-cpanel-section">
+			        <div class="center jopensim-cpanel-logo"> 
 					    <img src="components/com_opensim/assets/images/jOpenSim.png"/>
 					</div>
 					
 					<dl class="dl-horizontal">
 					<hr class="hr-condensed">
-					<dt><?php echo JText::_('JVERSION');?>:</dt>
-					<dd><?php echo $this->version ;?></dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('JVERSION');?>:</dt>
+					<dd class="jopensim-cpanel-dd"><?php echo $this->version ;?></dd>
 					<hr class="hr-condensed">
 					
-					<dt><?php echo JText::_('JOPENSIM_OSINFO');?>:</dt>
-					<dd>Running on <?php if(PHP_INT_SIZE == 4) echo "32Bit"; elseif(PHP_INT_SIZE == 8) echo "64Bit"; else echo "unknown (".PHP_INT_SIZE.")"; ?> System</dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('JOPENSIM_OSINFO');?>:</dt>
+					<dd class="jopensim-cpanel-dd">Running on <?php if(PHP_INT_SIZE == 4) echo "32Bit"; elseif(PHP_INT_SIZE == 8) echo "64Bit"; else echo "unknown (".PHP_INT_SIZE.")"; ?> System</dd>
 					<hr class="hr-condensed">
 					
-					<dt><?php echo JText::_('JOPENSIM_UPDATE');?>:</dt>
-					<dd><?php echo $this->recentversion; ?></dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('JOPENSIM_UPDATE');?>:</dt>
+					<dd class="jopensim-cpanel-dd"><?php echo $this->recentversion; ?></dd>
 					<hr class="hr-condensed">
-					<dt><?php echo JText::_('Copyright');?>:</dt>
-					<dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('Copyright');?>:</dt>
+					<dd class="jopensim-cpanel-dd">
 					    &copy; 2010 - <?php echo date("Y"); ?>
 						<a href="https://www.jopensim.com" target="_blank">FoTo50</a>
 					</dd>
 					<hr class="hr-condensed">
 					
-					<dt><?php echo JText::_('JOPENSIM_LICENSE');?>:</dt>
-					<dd>General Public License <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPLv2</a></dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('JOPENSIM_LICENSE');?>:</dt>
+					<dd class="jopensim-cpanel-dd">General Public License <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPLv2</a></dd>
 					<hr class="hr-condensed">
 					
-					<dt><?php echo JText::_('JOPENSIM_MOREINFO');?>:</dt>
-					<dd><a href="https://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
+					<dt class="jopensim-cpanel-dt"><?php echo JText::_('JOPENSIM_MOREINFO');?>:</dt>
+					<dd class="jopensim-cpanel-dd"><a href="https://www.jopensim.com" target="_blank">www.jopensim.com</a></dd>
 					</dl>
 			    </div>
-			    <div class="well well-small">
+			    <div class="well well-small jopensim-cpanel-section">
 
 					<dt><?php echo JText::_('JOPENSIM_CREDITS');?>:</dt>
 					<hr class="hr-condensed">
@@ -139,13 +137,11 @@ jimport('joomla.html.html');
 			</div>
 			
 			
-		</div>
-	</section>
 	
 	<?php if ($this->settings['jopensim_debug_settings'] == true && JFactory::getUser()->authorise('core.admin', 'com_opensim')): ?>
 	<a class="btn btn-default btn-primary icon-download" style="width:auto;" href='index.php?option=com_opensim&view=opensim&task=exportsettings' title='<?php echo JText::_('JOPENSIM_EXPORT_DESC'); ?>'>&nbsp;<?php echo JText::_('JOPENSIM_EXPORT'); ?></a>
 	<a class="btn btn-default btn-danger icon-upload" style="width:auto;" href='index.php?option=com_opensim&view=opensim&task=importsettings' title='<?php echo JText::_('JOPENSIM_IMPORT_DESC'); ?>'>&nbsp;<?php echo JText::_('JOPENSIM_IMPORT'); ?></a>
-	<table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>
+	<table class='table table-striped group'>
 		<thead>
 			<tr>
 				<th>Variable:</th>

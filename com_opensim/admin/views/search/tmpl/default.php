@@ -47,6 +47,7 @@ function cloneOption(opt) {
     return newOpt;
 }
 </script>
+<div class="jopensim-adminpanel">
 
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>
@@ -254,4 +255,5 @@ function cloneOption(opt) {
 	echo JText::_('JOPENSIM_SEARCH_OPTIONERROR');
 }
 ?>
+</div>
 </div>

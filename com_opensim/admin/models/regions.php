@@ -133,6 +133,7 @@ class opensimModelRegions extends JModelLegacy {
 		$query->select("regions.*");
 		$query->from("regions");
 		$query->order($this->getState('regions_filter_order')." ".$this->getState('regions_filter_order_Dir'));
+		$query->where('regions.regionName NOT LIKE "http%"');
 		$query = $this->searchRegions($query);
 		$query->setLimit($this->getState('limit'),$this->getState('regions_limitstart'));
 		$db->setQuery((string)$query);

@@ -78,9 +78,9 @@ var jgridmapwidth = "<?php echo $this->settingsdata['jopensim_maps_width'].$this
 var jgridmapheight = "<?php echo $this->settingsdata['jopensim_maps_height'].$this->settingsdata['jopensim_maps_height_style']; ?>";
 
 // initial zoom level (make sure 5 <= zoomStart <= 9): for small grids, try 8; for large grids, try 6
-var zoomStart = <?php echo $this->settingsdata['jopensim_maps_zoomstart']; ?>;
+var zoomStart = <?php echo $this->zoomStart; ?>;
 var zoomStarts = {
-  "world1": <?php echo $this->settingsdata['jopensim_maps_zoomstart']; ?>, // primary zoom start level
+  "world1": <?php echo $this->zoomStart; ?>, // primary zoom start level
 };
 
 var jUrlBase		= "<?php echo JUri::base(true); ?>";
