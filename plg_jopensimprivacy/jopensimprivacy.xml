@@ -12,6 +12,8 @@
 	<languages folder="language">
 		<language tag="en-GB" >en-GB.plg_privacy_jopensimprivacy.ini</language>
 		<language tag="en-GB" >en-GB.plg_privacy_jopensimprivacy.sys.ini</language>
+		<language tag="fr-FR" >fr-FR.plg_privacy_jopensimprivacy.ini</language>
+		<language tag="fr-FR" >fr-FR.plg_privacy_jopensimprivacy.sys.ini</language>
 	</languages>
 	<files>
 		<filename plugin="jopensimprivacy">jopensimprivacy.php</filename>
