@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" version="3.1" type="plugin" group="privacy">
+	<name>jopensimprivacy</name>
+	<author>FoTo50</author>
+    <creationDate>2018-11-01</creationDate>
+	<copyright>(C) 2018 - FoTo50</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>foto50@jopensim.com</authorEmail>
+	<authorUrl>http://www.jopensim.com/</authorUrl>
+	<version>0.3.1.5</version>
+	<description>PLG_JOPENSIMPRIVACY_DESC</description>
+	<languages folder="language">
+		<language tag="en-GB" >en-GB.plg_privacy_jopensimprivacy.ini</language>
+		<language tag="en-GB" >en-GB.plg_privacy_jopensimprivacy.sys.ini</language>
+	</languages>
+	<files>
+		<filename plugin="jopensimprivacy">jopensimprivacy.php</filename>
+		<folder>language</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="JOPENSIM_JOPENSIMPRIVACY_EXPORT">
+				<field
+					name="plgJopensimPrivExportOpenSimEmail"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="PLG_JOPENSIMPRIVACY_EXPORTOPENSIMEMAIL"
+					description="PLG_JOPENSIMPRIVACY_EXPORTOPENSIMEMAIL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="plgJopensimPrivExportProfiledata"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="PLG_JOPENSIMPRIVACY_EXPORTPROFILEDATA"
+					description="PLG_JOPENSIMPRIVACY_EXPORTPROFILEDATA_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="JOPENSIM_JOPENSIMPRIVACY_REMOVE">
+				<field
+					name="plgJopensimPrivRemoveOpenSimEmail"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMEMAIL"
+					description="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMEMAIL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="plgJopensimPrivRemoveOpenSimNames"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMNAMES"
+					description="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMNAMES_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="plgJopensimPrivRemoveOpenSimLogin"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMLOGIN"
+					description="PLG_JOPENSIMPRIVACY_REMOVEOPENSIMLOGIN_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="collection" priority="1" name="jOpenSim Update Site">https://update.jopensim.com/jopensim_list.xml</server>
+	</updateservers>
+</extension>
