@@ -78,7 +78,9 @@ function getSimulatorPhysicsEngine($params, $custom)
 function getSimulatorScriptsEngine($params, $custom)
 {
     if ($params == 0) return "<span class='label label-info'>XEngine</span>";
-    else if ($params == 1) return "<span class='label label-info'>".$custom."</span>";
+    else if ($params == 1) return "<span class='label label-info'>YEngine</span>";
+    else if ($params == 2) return "<span class='label label-info'>Phlox</span>";
+    else if ($params == 3) return "<span class='label label-info'>".$custom."</span>";
     return "<span class='label label-warning'>".JText::_('MOD_OPENSIM_GRIDINFOS_FIELD_UNKNOW')."</span>";
 }
 ?>

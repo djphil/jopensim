@@ -284,7 +284,9 @@
                     label="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_LABEL"
                     description="MOD_OPENSIM_GRIDINFOS_FIELD_SCRIPTS_TEXT_DESC">
                     <option value="0">XEngine</option>
-                    <option value="1">MOD_OPENSIM_GRIDINFOS_FIELD_CUSTOM</option>
+                    <option value="1">YEngine</option>
+                    <option value="2">Phlox</option>
+                    <option value="3">MOD_OPENSIM_GRIDINFOS_FIELD_CUSTOM</option>
                 </field>
 
                 <field
