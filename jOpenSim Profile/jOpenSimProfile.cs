@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) FoTo50
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Security;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using OpenMetaverse;
 using log4net;
@@ -44,7 +46,7 @@ using Mono.Addins;
 
 //[assembly: Addin("jOpenSimProfile", "0.1")]
 //[assembly: AddinDependency("OpenSim", "0.5")]
-[assembly: Addin("jOpenSim.Profile", "0.4.0.1")]
+[assembly: Addin("jOpenSim.Profile", "0.4.0.2")]
 [assembly: AddinDependency("OpenSim.Region.Framework", OpenSim.VersionInfo.VersionNumber)]
 [assembly: AddinDescription("Profile module working with jOpenSim component")]
 [assembly: AddinAuthor("FoTo50")]
@@ -70,13 +72,15 @@ namespace jOpenSim.Profile.jOpenProfile
         private Scene m_parentScene;
         private Scene m_scene;
         private bool m_Enabled = false;
+        private bool m_isSecure = false;
         public string m_moduleName = "jOpenSimProfile";
-        public string m_moduleVersion = "0.4.0.1";
+        public string m_moduleVersion = "0.4.0.2";
         public bool m_Debug = false;
         public string compileVersion = OpenSim.VersionInfo.VersionNumber;
 
         public void Initialise(IConfigSource config)
         {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
             if (m_Debug)
             {
                 m_log.DebugFormat("[{0}] Initialise", m_moduleName);
@@ -92,7 +96,7 @@ namespace jOpenSim.Profile.jOpenProfile
                     return;
                 }
                 m_ProfileServer = profileConfig.GetString("ProfileURL", "");
-                m_ProfileModul  = profileConfig.GetString("Module", "");
+                m_ProfileModul = profileConfig.GetString("Module", "");
                 m_Debug = profileConfig.GetBoolean("Debug", false);
 
                 if (m_ProfileModul != "jOpenSimProfile")
@@ -110,7 +114,11 @@ namespace jOpenSim.Profile.jOpenProfile
                 }
                 else
                 {
-                    m_log.InfoFormat("[{0}] activated, communicating with {1}", m_moduleName,m_ProfileServer);
+                    if (m_ProfileServer.Substring(0, 5).ToLower() == "https")
+                    {
+                        m_isSecure = true;
+                    }
+                    m_log.InfoFormat("[{0}] activated, communicating with {1}", m_moduleName, m_ProfileServer);
                     m_Enabled = true;
                 }
             }
@@ -141,7 +149,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
         public string Name
         {
-            get { return m_moduleName+" "+m_moduleVersion; }
+            get { return m_moduleName + " " + m_moduleVersion; }
         }
 
         public void RegionLoaded(Scene scene)
@@ -149,12 +157,12 @@ namespace jOpenSim.Profile.jOpenProfile
             InstallInterfaces();
             scene.RegisterModuleInterface<IProfileModule>(this);
         }
- 
+
         public void RemoveRegion(Scene scene)
         {
             // do nothing
         }
-        
+
         public Type ReplaceableInterface
         {
             get { return null; }
@@ -226,6 +234,7 @@ namespace jOpenSim.Profile.jOpenProfile
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.Commands.AddCommand(m_moduleName, false, "profile version", "profile version", "Displaying the version of jOpenSimProfile", displayversion);
+                MainConsole.Instance.Commands.AddCommand(m_moduleName, false, "profile settings", "profile settings", "Displaying the setting values of jOpenSimProfile", displaysettings);
 
             }
 
@@ -235,6 +244,15 @@ namespace jOpenSim.Profile.jOpenProfile
             //			m_parentScene.RegisterModuleCommander(m_commander);
         }
 
+        public void displaysettings(string module, string[] cmd)
+        {
+            m_log.Info("");
+            m_log.InfoFormat("[{0}] version: {1}", m_moduleName, m_moduleVersion);
+            m_log.InfoFormat("[{0}] status: {1}", m_moduleName, m_Enabled);
+            m_log.InfoFormat("[{0}] profileserver: {1}", m_moduleName, m_ProfileServer);
+            m_log.InfoFormat("[{0}] sslEnabled: {1}", m_moduleName, m_isSecure);
+            m_log.Info("");
+        }
 
         public void displayversion(string module, string[] cmd)
         {
@@ -243,16 +261,53 @@ namespace jOpenSim.Profile.jOpenProfile
             m_log.Info("");
         }
 
+
+        public bool MyRemoteCertificateValidationCallback(System.Object sender,
+    X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            m_log.DebugFormat("[{0}] MyRemoteCertificateValidationCallback triggered", m_moduleName);
+            bool isOk = true;
+            // If there are errors in the certificate chain,
+            // look at each error to determine the cause.
+            if (sslPolicyErrors != SslPolicyErrors.None)
+            {
+                for (int i = 0; i < chain.ChainStatus.Length; i++)
+                {
+                    if (chain.ChainStatus[i].Status == X509ChainStatusFlags.RevocationStatusUnknown)
+                    {
+                        continue;
+                    }
+                    chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+                    chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                    chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
+                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+                    bool chainIsValid = chain.Build((X509Certificate2)certificate);
+                    if (!chainIsValid)
+                    {
+                        isOk = false;
+                        break;
+                    }
+                }
+            }
+            m_log.DebugFormat("[{0}] MyRemoteCertificateValidationCallback returns {1}", m_moduleName, isOk);
+            return isOk;
+        }
+
         //
         // Make external XMLRPC request
         //
         private Hashtable GenericXMLRPCRequest(Hashtable ReqParams, string method)
         {
+            if (m_isSecure == true)
+            {
+                m_log.DebugFormat("[{0}] Secure?? GenericXMLRPCRequest for method {1} = {2}", m_moduleName, method, ServicePointManager.ServerCertificateValidationCallback);
+                //                ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
+            }
             if (m_Debug)
             {
                 m_log.DebugFormat("[{0}] GenericXMLRPCRequest for method {1}", m_moduleName, method);
             }
-            
+
             ArrayList SendParams = new ArrayList();
             SendParams.Add(ReqParams);
 
@@ -322,10 +377,10 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!(sender is IClientAPI))
             {
-	            if (m_Debug)
-	            {
-	                m_log.DebugFormat("[{0}] HandleAvatarClassifiedsRequest (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
-	            }
+                if (m_Debug)
+                {
+                    m_log.DebugFormat("[{0}] HandleAvatarClassifiedsRequest (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
+                }
                 return;
             }
 
@@ -365,9 +420,9 @@ namespace jOpenSim.Profile.jOpenProfile
             }
             Hashtable ReqHash = new Hashtable();
 
-            ReqHash["avatar_id"]      = remoteClient.AgentId.ToString();
+            ReqHash["avatar_id"] = remoteClient.AgentId.ToString();
             ReqHash["classified_id"] = classifiedID.ToString();
-            
+
             Hashtable result = GenericXMLRPCRequest(ReqHash, "classifiedinforequest");
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -395,7 +450,7 @@ namespace jOpenSim.Profile.jOpenProfile
             Vector3 globalPos = new Vector3();
             Vector3.TryParse(d["posglobal"].ToString(), out globalPos);
 
-            if (d["description"]==null) d["description"] = String.Empty;
+            if (d["description"] == null) d["description"] = String.Empty;
 
             string name = d["name"].ToString();
             string desc = d["description"].ToString();
@@ -468,7 +523,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
         // Classifieds Delete
 
-        public void ClassifiedDelete (UUID queryClassifiedID, IClientAPI remoteClient)
+        public void ClassifiedDelete(UUID queryClassifiedID, IClientAPI remoteClient)
         {
             if (m_Debug)
             {
@@ -500,17 +555,17 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!(sender is IClientAPI))
             {
-	            if (m_Debug)
-	            {
-	                m_log.DebugFormat("[{0}] HandleAvatarPicksRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
-	            }
+                if (m_Debug)
+                {
+                    m_log.DebugFormat("[{0}] HandleAvatarPicksRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
+                }
                 return;
             }
 
             Hashtable ReqHash = new Hashtable();
             ReqHash["uuid"] = args[0];
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,method);
+            Hashtable result = GenericXMLRPCRequest(ReqHash, method);
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -547,10 +602,10 @@ namespace jOpenSim.Profile.jOpenProfile
 
             if (!(sender is IClientAPI))
             {
-	            if (m_Debug)
-	            {
-	                m_log.DebugFormat("[{0}] HandlePickInfoRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
-	            }
+                if (m_Debug)
+                {
+                    m_log.DebugFormat("[{0}] HandlePickInfoRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
+                }
                 return;
             }
 
@@ -559,7 +614,7 @@ namespace jOpenSim.Profile.jOpenProfile
             ReqHash["avatar_id"] = args[0];
             ReqHash["pick_id"] = args[1];
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,method);
+            Hashtable result = GenericXMLRPCRequest(ReqHash, method);
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -624,8 +679,8 @@ namespace jOpenSim.Profile.jOpenProfile
 
             // Getting the global position for the Avatar
 
-            Vector3 posGlobal = new Vector3(remoteClient.Scene.RegionInfo.RegionLocX*Constants.RegionSize + avaPos.X,
-                                            remoteClient.Scene.RegionInfo.RegionLocY*Constants.RegionSize + avaPos.Y,
+            Vector3 posGlobal = new Vector3(remoteClient.Scene.RegionInfo.RegionLocX * Constants.RegionSize + avaPos.X,
+                                            remoteClient.Scene.RegionInfo.RegionLocY * Constants.RegionSize + avaPos.Y,
                                             avaPos.Z);
 
             ReqHash["pos_global"] = posGlobal.ToString();
@@ -656,7 +711,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
             ReqHash["pick_id"] = queryPickID.ToString();
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,"picks_delete");
+            Hashtable result = GenericXMLRPCRequest(ReqHash, "picks_delete");
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -671,17 +726,17 @@ namespace jOpenSim.Profile.jOpenProfile
             IClientAPI remoteClient = (IClientAPI)sender;
             if (m_Debug)
             {
-                m_log.DebugFormat("[{0}] HandleAvatarNotesRequest for {1} with method {2}", m_moduleName, remoteClient.AgentId.ToString(),method);
+                m_log.DebugFormat("[{0}] HandleAvatarNotesRequest for {1} with method {2}", m_moduleName, remoteClient.AgentId.ToString(), method);
             }
             string targetid;
             string notes = "";
 
             if (!(sender is IClientAPI))
             {
-	            if (m_Debug)
-	            {
-	                m_log.DebugFormat("[{0}] HandleAvatarNotesRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
-	            }
+                if (m_Debug)
+                {
+                    m_log.DebugFormat("[{0}] HandleAvatarNotesRequest for (!(sender {1} is IClientAPI {2}))", m_moduleName, sender.ToString(), remoteClient.AgentId.ToString());
+                }
                 return;
             }
 
@@ -691,7 +746,7 @@ namespace jOpenSim.Profile.jOpenProfile
             ReqHash["avatar_id"] = remoteClient.AgentId.ToString();
             ReqHash["uuid"] = args[0];
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,method);
+            Hashtable result = GenericXMLRPCRequest(ReqHash, method);
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -726,7 +781,7 @@ namespace jOpenSim.Profile.jOpenProfile
             ReqHash["target_id"] = queryTargetID.ToString();
             ReqHash["notes"] = queryNotes;
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,"avatar_notes_update");
+            Hashtable result = GenericXMLRPCRequest(ReqHash, "avatar_notes_update");
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -768,7 +823,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
             ReqHash["avatar_id"] = remoteClient.AgentId.ToString();
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,"user_preferences_request");
+            Hashtable result = GenericXMLRPCRequest(ReqHash, "user_preferences_request");
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -804,7 +859,7 @@ namespace jOpenSim.Profile.jOpenProfile
             ReqHash["imViaEmail"] = imViaEmail.ToString();
             ReqHash["visible"] = visible.ToString();
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,"user_preferences_update");
+            Hashtable result = GenericXMLRPCRequest(ReqHash, "user_preferences_update");
 
             if (!Convert.ToBoolean(result["success"]))
             {
@@ -823,7 +878,7 @@ namespace jOpenSim.Profile.jOpenProfile
 
             ReqHash["avatar_id"] = userID.ToString();
 
-            Hashtable result = GenericXMLRPCRequest(ReqHash,"avatar_properties_request");
+            Hashtable result = GenericXMLRPCRequest(ReqHash, "avatar_properties_request");
 
             ArrayList dataArray = (ArrayList)result["data"];
 
@@ -839,7 +894,7 @@ namespace jOpenSim.Profile.jOpenProfile
         {
             if (m_Debug)
             {
-                m_log.DebugFormat("[{0}] RequestAvatarProperties for {1}",m_moduleName,avatarID.ToString());
+                m_log.DebugFormat("[{0}] RequestAvatarProperties for {1}", m_moduleName, avatarID.ToString());
             }
 
             IScene s = remoteClient.Scene;
@@ -868,9 +923,9 @@ namespace jOpenSim.Profile.jOpenProfile
                 UUID image = UUID.Zero;
                 UUID firstLifeImage = UUID.Zero;
                 UUID partner = UUID.Zero;
-                uint   wantMask = 0;
+                uint wantMask = 0;
                 string wantText = String.Empty;
-                uint   skillsMask = 0;
+                uint skillsMask = 0;
                 string skillsText = String.Empty;
                 string languages = String.Empty;
 
@@ -887,12 +942,12 @@ namespace jOpenSim.Profile.jOpenProfile
                 if (profileData["Partner"] != null)
                     partner = new UUID(profileData["Partner"].ToString());
 
-                if(m_Debug)
+                if (m_Debug)
                 {
                     m_log.DebugFormat("[{0}] received Data:", m_moduleName);
-                    m_log.DebugFormat("[{0}] [avatarID]: {1}", m_moduleName,avatarID);
-                    m_log.DebugFormat("[{0}] profileData[AboutText]: {1}", m_moduleName,aboutText);
-                    m_log.DebugFormat("[{0}] [Created]: {1}", m_moduleName,Util.ToDateTime(account.Created).ToString("M/d/yyyy"), CultureInfo.InvariantCulture);
+                    m_log.DebugFormat("[{0}] [avatarID]: {1}", m_moduleName, avatarID);
+                    m_log.DebugFormat("[{0}] profileData[AboutText]: {1}", m_moduleName, aboutText);
+                    m_log.DebugFormat("[{0}] [Created]: {1}", m_moduleName, Util.ToDateTime(account.Created).ToString("M/d/yyyy"), CultureInfo.InvariantCulture);
                     m_log.DebugFormat("[{0}] [charterMember]: {1}", m_moduleName, charterMember);
                     m_log.DebugFormat("[{0}] profileData[firstLifeAboutText]: {1}", m_moduleName, firstLifeAboutText);
                     m_log.DebugFormat("[{0}] [UserFlags]: {1}", m_moduleName, (uint)(account.UserFlags & 0xff));
@@ -955,7 +1010,7 @@ namespace jOpenSim.Profile.jOpenProfile
                 ReqHash["FirstLifeAboutText"] = newProfile.FirstLifeAboutText;
                 ReqHash["userFlags"] = newProfile.UserFlags.ToString();
 
-                Hashtable result = GenericXMLRPCRequest(ReqHash,"avatar_properties_update");
+                Hashtable result = GenericXMLRPCRequest(ReqHash, "avatar_properties_update");
 
                 if (!Convert.ToBoolean(result["success"]))
                 {

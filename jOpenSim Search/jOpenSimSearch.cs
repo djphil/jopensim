@@ -67,7 +67,7 @@ using Mono.Addins;
 
 //[assembly: Addin("jOpenSimSearch", "0.2")]
 //[assembly: AddinDependency("OpenSim", "0.5")]
-[assembly: Addin("jOpenSim.Search", "0.4.0.1")]
+[assembly: Addin("jOpenSim.Search", "0.4.0.2")]
 [assembly: AddinDependency("OpenSim.Region.Framework", OpenSim.VersionInfo.VersionNumber)]
 [assembly: AddinDescription("search module working with jOpenSim component")]
 [assembly: AddinAuthor("FoTo50")]
@@ -91,17 +91,25 @@ namespace jOpenSim.Search
 		private Scene m_scene;
 		private string m_SearchServer = "";
 		private int m_DataUpdate = -1;
+		private bool m_indexSims = false;
 		private string m_DataUpdateString = "";
 		private bool m_Enabled = true;
         private bool m_debug = false;
         private bool m_searchPeople = true;
         public	string m_moduleName = "jOpenSimSearch";
-        public string m_moduleVersion = "0.4.0.1";
+        public string m_moduleVersion = "0.4.0.2";
 		private readonly Commander m_commander = new Commander("jopensim");
 		public  string customTimeZone = "";
 		private bool forceUpdate = false;
 		private Dictionary<ulong, Scene> m_sceneList = new Dictionary<ulong, Scene>();
         public string compileVersion = OpenSim.VersionInfo.VersionNumber;
+		public string m_listener_port = ConfigSettings.DefaultRegionHttpPort.ToString();
+		public string m_hostname = "127.0.0.1";
+		private UUID m_Secret = UUID.Random();
+		private bool m_servicesNotified = false;
+		private string m_dataServices = "noservices";
+
+
 
 		#region ICommandableModule Members
 
@@ -112,7 +120,36 @@ namespace jOpenSim.Search
 
 		#endregion
 
-	   public void Initialise(IConfigSource source)
+		#region External data services
+		private void NotifyDataServices(string serviceName)
+		{
+			string delimStr = ";";
+			char[] delimiter = delimStr.ToCharArray();
+
+			Hashtable ReqHash = new Hashtable();
+			ReqHash["registerSearch"] = "jOpenSim";
+			ReqHash["service"] = serviceName;
+			ReqHash["host"] = m_hostname;
+			ReqHash["port"] = m_listener_port;
+			ReqHash["secret"] = m_Secret.ToString();
+
+			try
+			{
+				Hashtable result = GenericXMLRPCRequest(ReqHash,
+					"registerSearch");
+			}
+			catch (Exception ex)
+			{
+				m_log.ErrorFormat("[{0}]: Failed to notify jOpenSim about {1}:{2} going {3}! (Exception: {4}", m_moduleName, m_hostname, m_listener_port, serviceName, ex);
+			}
+			m_log.InfoFormat("[{0}]: Notified jOpenSim about {1}:{2} going {3}. Secret: {4}", m_moduleName,m_hostname,m_listener_port,serviceName, m_Secret);
+			}
+
+  		#endregion
+
+
+
+		public void Initialise(IConfigSource source)
 		{
             // Handle the parameters errors.
             if (source == null) return;
@@ -129,7 +166,8 @@ namespace jOpenSim.Search
                 }
                 
                 m_SearchServer = searchConfig.GetString("SearchURL", "");
-                m_debug = searchConfig.GetBoolean("DebugMode", false);
+				m_dataServices = searchConfig.GetString("SearchService", m_dataServices);
+				m_debug = searchConfig.GetBoolean("DebugMode", false);
                 m_searchPeople = searchConfig.GetBoolean("searchPeople", true);
                 if (m_SearchServer == "")
 				{
@@ -154,8 +192,15 @@ namespace jOpenSim.Search
 
                 m_DataUpdate = dataConfig.GetInt("default_snapshot_period", -1);
                 m_DataUpdateString = dataConfig.GetString("default_snapshot_period", "");
+				m_indexSims	= dataConfig.GetBoolean("index_sims", false); 
 
-                if (m_DataUpdateString == "")
+				if (m_indexSims == false)
+				{
+					m_log.InfoFormat("[{0}] index_sims not set to true, disabling", m_moduleName);
+					m_Enabled = false;
+					return;
+				}
+				if (m_DataUpdateString == "")
                 {
                     m_log.ErrorFormat("[{0}] DataUpdate disabled - Search will mostly be outdated", m_moduleName);
                 }
@@ -184,9 +229,14 @@ namespace jOpenSim.Search
 
 		public void Close()
 		{
+			if (!m_Enabled)
+				return;
+
+			if (m_Enabled && m_dataServices != "" && m_dataServices != "noservices")
+				NotifyDataServices("offline");
 		}
 
-        public void AddRegion(Scene scene)
+		public void AddRegion(Scene scene)
         {
             if (m_debug)
             {
@@ -195,8 +245,9 @@ namespace jOpenSim.Search
 //            scene.RegisterModuleInterface<ISearchModule>(this);
             m_scene = scene;
             m_parentScene = scene;
+			m_hostname = scene.RegionInfo.ExternalHostName;
 
-            lock (m_sceneList)
+			lock (m_sceneList)
             {
                 if (m_sceneList.Count == 0)
                 {
@@ -277,30 +328,41 @@ namespace jOpenSim.Search
 		{
 			//Do this here to give file loaders time to initialize and
 			//register their supported file extensions and file formats.
+			m_listener_port = scene.RegionInfo.HttpPort.ToString();
 			InstallInterfaces();
             scene.RegisterModuleInterface<ISearchModule>(this);
+			if (!m_servicesNotified)
+			{
+				//Hand it the first scene, assuming that all scenes have the same BaseHTTPServer
+//				new OpenSim.Region.DataSnapshot.DataRequestHandler(scene, OpenSim.Region.DataSnapshot.DataSnapshotManager);
+
+				if (m_Enabled == true)
+					NotifyDataServices("online");
+
+				m_servicesNotified = true;
+			}
 		}
 
-/*
- private void EventManager_OnPluginConsole(string[] args)
-        {
-            if (args[0] == "jopensim")
-            {
-                if (args.Length == 1)
-                {
-                    m_commander.ProcessConsoleCommand("help", new string[0]);
-                    return;
-                }
+		/*
+		 private void EventManager_OnPluginConsole(string[] args)
+				{
+					if (args[0] == "jopensim")
+					{
+						if (args.Length == 1)
+						{
+							m_commander.ProcessConsoleCommand("help", new string[0]);
+							return;
+						}
 
-                string[] tmpArgs = new string[args.Length - 2];
-                int i;
-                for (i = 2; i < args.Length; i++)
-                    tmpArgs[i - 2] = args[i];
+						string[] tmpArgs = new string[args.Length - 2];
+						int i;
+						for (i = 2; i < args.Length; i++)
+							tmpArgs[i - 2] = args[i];
 
-                m_commander.ProcessConsoleCommand(args[1], tmpArgs);
-            }
-        }
-*/
+						m_commander.ProcessConsoleCommand(args[1], tmpArgs);
+					}
+				}
+		*/
 		private void InstallInterfaces()
 		{
 			if (MainConsole.Instance != null)
@@ -381,7 +443,7 @@ namespace jOpenSim.Search
 
 				Hashtable ErrorHash = new Hashtable();
 				ErrorHash["success"] = false;
-				ErrorHash["errorMessage"] = "Unable to search at this time. ";
+				ErrorHash["errorMessage"] = "Unable to search at this time. (WebException)";
 				ErrorHash["errorURI"] = "";
 
 				return ErrorHash;
@@ -392,7 +454,7 @@ namespace jOpenSim.Search
 
 				Hashtable ErrorHash = new Hashtable();
 				ErrorHash["success"] = false;
-				ErrorHash["errorMessage"] = "Unable to search at this time. ";
+				ErrorHash["errorMessage"] = "Unable to search at this time. (SocketException)";
 				ErrorHash["errorURI"] = "";
 
 				return ErrorHash;
@@ -412,7 +474,7 @@ namespace jOpenSim.Search
                 m_log.ErrorFormat("[{0}]: (3ToString) Unable to connect to Search Server {1}. Exception {2}", m_moduleName, m_SearchServer, ex.ToString());
                 Hashtable ErrorHash = new Hashtable();
 				ErrorHash["success"] = false;
-				ErrorHash["errorMessage"] = "Unable to search at this time. ";
+				ErrorHash["errorMessage"] = "Unable to search at this time. (XmlException)";
 				ErrorHash["errorURI"] = "";
 
 				return ErrorHash;
@@ -748,7 +810,6 @@ namespace jOpenSim.Search
 						false);
 				return;
 			}
-
 			Hashtable d = (Hashtable)dataArray[0];
 			EventData data = new EventData();
 			data.eventID = Convert.ToUInt32(d["event_id"]);
