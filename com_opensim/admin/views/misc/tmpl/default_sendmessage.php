@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="form-inline">
     <form action="index.php" method="post" id="adminForm" name="adminForm">
         <fieldset>
-		    <legend><?php echo JText::_('SENDGLOBALMESSAGE'); ?></legend>
+		    <legend><?php echo JText::_('JOPENSIM_SENDMESSAGE'); ?></legend>
             <input type="hidden" name="option" value="com_opensim" />
             <input type="hidden" name="view" value="misc" />
             <input type="hidden" name="task" value="sendoutmessage" />

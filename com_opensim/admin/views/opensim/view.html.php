@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -76,9 +76,10 @@ class opensimViewopensim extends JViewLegacy {
 			default:
 				$this->sidebar				= JHtmlSidebar::render();
 				$document					= JFactory::getDocument();
-				$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/quickiconstyle.css?v=2.6.8');
 				$version					= $model->getVersion();
-				$recentversion				= $model->checkversion();
+				$document->addStyleSheet(JURI::base(true).'/components/com_opensim/assets/quickiconstyle.css?v='.$version);
+//				$recentversion				= $model->checkversion();
+				$recentversion				= $model->checkupdate();
 				$settings					= $model->_settingsData;
 				$this->addons				= $settings['addons'];
 				$document->addStyleSheet(JURI::root(true).'/media/jui/css/icomoon.css');
@@ -89,7 +90,7 @@ class opensimViewopensim extends JViewLegacy {
 				$this->recentversion		= $recentversion;
 				$this->registerstatus		= $model->checkPluginStatus('jopensimregister','user');
 				$this->quickiconstatus		= $model->checkPluginStatus('jopensim','quickicon');
-				$button['quickicon']		= $this->renderPlainButton('quickicon_jopensim.php',JText::_('JOPENSIM_GRIDSTATUS'));
+				$button['quickicon']		= $this->renderPlainButton('./index.php?option=com_opensim&view=jopensimimage',JText::_('JOPENSIM_GRIDSTATUS'),TRUE);
 				$button['maps']				= $this->renderButton('index.php?option=com_opensim&view=maps','icon-48-os-maps.png',JText::_('JOPENSIM_MAPS'));
 				$button['user']				= $this->renderButton('index.php?option=com_opensim&view=user','icon-48-os-user.png',JText::_('JOPENSIM_USER'));
 				if(($settings['addons'] &  4) == 4) {
@@ -150,11 +151,16 @@ class opensimViewopensim extends JViewLegacy {
 		return $button;
 	}
 
-	public function renderPlainButton($image,$text) {
+	public function renderPlainButton($image,$text,$dynamic = FALSE) {
 		$params = array('title'=>$text, 'border'=>'0');
 		$button  = "<div class='icon-wrapper'>";
 		$button .= "<div class='icon'><a>";
-		$button .= JHTML::_('image', 'administrator/components/com_opensim/assets/'.$image,$text,$params);
+		if($dynamic === FALSE) {
+			$button .= JHTML::_('image', 'administrator/components/com_opensim/assets/'.$image,$text,$params);
+		} else {
+			$button .= "<img src='".$image."' alt='".$text."' title='".$text."' border = '0' />";
+//			$button .= JHTML::_('image', $image,$text,$params);
+		}
 		$button .= sprintf("<span>%s</span></a>",$text);
 		$button .= "</div></div>\n";
 		return $button;

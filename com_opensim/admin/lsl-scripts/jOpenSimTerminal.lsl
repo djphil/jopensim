@@ -8,8 +8,7 @@
 // if you find a bug or even a security issue,
 //I would be happy for a report at the support forum at https://www.jopensim.com
 
-
-string targetUrl			= "http://path-to-your-joomla/components/com_opensim/interface.php"; // this is the target script, handling the requests
+string targetUrl			= "http://path-to-your-joomla/index.php?option=com_opensim&view=interface"; // this is the target script, handling the requests
 string inworldUrl			= "http://path-to-your-joomla/inworld-account.html"; // Add here the url for the inworld account to provide an easy link to go
 integer listenchannel		= 555; // Channel for the Tracker to listen to
 
@@ -36,7 +35,7 @@ string	terminalDescription;
 
 default {
     state_entry() {
-    	if(targetUrl == "http://path-to-your-joomla/components/com_opensim/interface.php") {
+    	if(targetUrl == "http://path-to-your-joomla/index.php?option=com_opensim&view=interface") {
     		llOwnerSay("Please enter the correct path for 'targetUrl' first");
     	} else {
             terminalDescription = llGetObjectDesc();
@@ -57,11 +56,11 @@ default {
         if(channel == dialogchannel) {
             if(id == owner) {
                 if(message == llD_yes) {
-                    string registerUrl = targetUrl+"?action=setState&state=1";
+                    string registerUrl = targetUrl+"&action=setState&state=1";
                     registerId = llHTTPRequest(registerUrl,[HTTP_METHOD,"GET"],"");
                 }
                 if(message == llD_no) {
-                    string registerUrl = targetUrl+"?action=setState&state=0";
+                    string registerUrl = targetUrl+"&action=setState&state=0";
                     registerId = llHTTPRequest(registerUrl,[HTTP_METHOD,"GET"],"");
                 }
                 if(message == llD_site) {
@@ -81,7 +80,7 @@ default {
             string identString = llGetSubString(message,9,-1);
             if( action == "identify" ) {
                 response_key = id;
-                string requestUrl = targetUrl+"?action=identify&identString="+llEscapeURL(identString)+"&identKey="+(string)id;
+                string requestUrl = targetUrl+"&action=identify&identString="+llEscapeURL(identString)+"&identKey="+(string)id;
                 requestId = llHTTPRequest(requestUrl,[HTTP_METHOD,"GET"],"");
             }
         }
@@ -95,7 +94,7 @@ default {
     http_request(key id, string method, string body){    
         if (id == urlRequestId) {
             myurl=body;
-            string registerUrl = targetUrl+"?action=register&terminalDescription="+llEscapeURL(terminalDescription)+"&myurl="+myurl;
+            string registerUrl = targetUrl+"&action=register&terminalDescription="+llEscapeURL(terminalDescription)+"&myurl="+myurl;
             registerId = llHTTPRequest(registerUrl,[HTTP_METHOD,"GET"],"");
         } else if(method=="GET" || method=="POST") {
             querystring = llGetHTTPHeader(id,"x-query-string");

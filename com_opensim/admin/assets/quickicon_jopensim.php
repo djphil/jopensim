@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  *
  */
@@ -19,23 +19,17 @@ require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'d
 require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'framework.php' );
 $jversion	= new JVersion();
 $version	= $jversion->getShortVersion();
-//error_log("joomla version: ".$version);
-//$test = var_export(version_compare($version,"4.0.0", '>='),TRUE);
-//error_log("versioncompare1: ".$test);
-/* To use Joomla's Database Class */
+
 if(version_compare($version,"3.99.99", '>')) {
-	error_log("blah! Zeile ".__LINE__);
 	if(!defined('_JDEFINES')) define('_JDEFINES',FALSE);
 	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'DatabaseFactory.php' );
 	/* Create the Application */
 	$mainframe = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
 } elseif(version_compare($version,"3.7.5", '>=')) {
-	error_log("blah! Zeile ".__LINE__);
 	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'factory.php' );
 	/* Create the Application */
 	$mainframe	= JFactory::getApplication('site');
 } else {
-	error_log("blah! Zeile ".__LINE__);
 	require_once ( JPATH_BASE .DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'factory.php' );
 	/* Create the Application */
 	$mainframe	= JFactory::getApplication('site');

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -50,7 +50,6 @@ class OpenSimControllerLoginscreen extends OpenSimController {
 	public function editposition() {
 		$jinput			= JFactory::getApplication()->input;
 		$boxchecked	= $jinput->get('boxchecked');
-//		error_log("loginscreen controller ".__LINE__.": boxchecked = ".$boxchecked);
 		if($boxchecked != 1) {
 			$application = JFactory::getApplication();
 			$application->enqueueMessage(JText::_('JOPENSIM_LOGINSCREEN_EDITPOS_ONLY1'), 'error');
@@ -67,8 +66,8 @@ class OpenSimControllerLoginscreen extends OpenSimController {
 		$this->model	= $this->getModel('loginscreen');
 		$result			= $this->model->updatePosition();
 		if(is_array($result) && array_key_exists("error",$result)) {
-			$jrequest	= JFactory::getApplication()->input->request;
-			$data		= $jrequest->getArray(array('jform' => array('id' => 'integer')));
+			$lsrequest	= JFactory::getApplication()->input->request;
+			$data		= $lsrequest->getArray(array('jform' => array('id' => 'integer')));
 			$id			= $data['jform']['id'];
 			$type = "error";
 			$message = $result['error'];

@@ -990,6 +990,13 @@
 				description="JOPENSIM_MONEY_STARTBALANCE_DESC" />
 			<field
 				type="text"
+				name="jopensimmoney_startbalanceHG"
+				size="8"
+				default="0"
+				label="JOPENSIM_MONEY_STARTBALANCEHG"
+				description="JOPENSIM_MONEY_STARTBALANCEHG_DESC" />
+			<field
+				type="text"
 				name="jopensimmoney_upload"
 				size="8"
 				default="0"
@@ -1119,6 +1126,13 @@
 
 		<fieldset name="jopensimdebug" label="JOPENSIM_DEBUGGING" description="">
 			<field name="jopensimdebugnote1" type="jopensimdebugnote1" class="alert alert-info" close="true" />
+			<field
+				type="text"
+				name="jopensim_debug_path"
+				size="30"
+				label="JOPENSIM_DEBUG_PATH"
+				description="JOPENSIM_DEBUG_PATH_DESC"
+			/>
 			<field
 				name="jopensim_debug_reminder"
 				type="radio"

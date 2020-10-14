@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -186,6 +186,8 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['userchange_email']				= $params->get('userchange_email');
 			$settings['userchange_password']			= $params->get('userchange_password');
 
+			$settings['jopensim_debug_path']			= $params->get('jopensim_debug_path',JPATH_SITE."/components/com_opensim/");
+			if(substr($settings['jopensim_debug_path'],-1) != "/") $settings['jopensim_debug_path'] = $settings['jopensim_debug_path']."/"; // ensure it ends with a slash
 			$settings['jopensim_debug_reminder']		= $params->get('jopensim_debug_reminder');
 			$settings['jopensim_debug_access']			= $params->get('jopensim_debug_access');
 			$settings['jopensim_debug_input']			= $params->get('jopensim_debug_input');
@@ -196,6 +198,10 @@ class OpenSimModelOpenSim extends JModelAdmin {
 			$settings['jopensim_debug_currency']		= $params->get('jopensim_debug_currency');
 			$settings['jopensim_debug_other']			= $params->get('jopensim_debug_other');
 			$settings['jopensim_debug_settings']		= $params->get('jopensim_debug_settings');
+
+			$settings['grp_readkey']					= $params->get('grp_readkey');
+			$settings['grp_writekey']					= $params->get('grp_writekey');
+
 
 			$this->_settingsData = $settings;
 		}
@@ -258,6 +264,35 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		}
 //		elseif(trim($recentversion) == self::$version) return JText::_('UP2DATE');
 //		else return JText::sprintf('UPDATEVERSION',$recentversion);
+	}
+
+	public function checkupdate() {
+		$jopensimxml		= @simplexml_load_file("https://update.jopensim.com/components/com_opensim.xml");
+		if(!is_object($jopensimxml)) return JText::_('UPDATEINFONOTAVAILABLE');
+		$jversion			= new JVersion();
+		$joomlaversion		= $jversion->getShortVersion();
+		$targetversion		= substr($joomlaversion,0,2);
+		$jopensimversion	= "";
+		$jopensimchangelog	= "";
+		foreach($jopensimxml->update AS $update) {
+			if($update->targetplatform['version'] == $targetversion) {
+				$jopensimversion	= $update->version;
+				$jopensimchangelog	= $update->changelog;
+			}
+		}
+		if(!$jopensimversion) {
+			return JText::_('UPDATEINFONOTAVAILABLE');
+		} else {
+			$versioncheck	= version_compare($this->getVersion(),trim($jopensimversion));
+			if($versioncheck < 0) {
+				return JText::sprintf('UPDATEVERSION',$jopensimversion)."<br />".JText::sprintf('UPDATECHANGELOG',$jopensimchangelog);
+			} elseif($versioncheck > 0) {
+				return "<i class='icon-warning-circle' style='color:orange;'></i>PreRelease?";
+			} else {
+				return JText::_('UP2DATE');
+			}
+		}
+//		return $jopensimlist;
 	}
 
 	public function importsettingsfile() {
@@ -723,9 +758,6 @@ class OpenSimModelOpenSim extends JModelAdmin {
 		$chachefolder = $this->checkCacheFolder();
 		if($chachefolder['existing'] == FALSE || $chachefolder['writeable'] == FALSE) return FALSE;
 		$regiondata = $this->getRegionDetails($regionUID);
-
-//			$debug = var_export($regiondata,TRUE);
-
 
 		$regionimage = $chachefolder['path'].DIRECTORY_SEPARATOR.$regiondata['uuid'].".jpg";
 		$os_regionimage = str_replace("-","",$regiondata['uuid']);

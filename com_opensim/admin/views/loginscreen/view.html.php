@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -16,7 +16,6 @@ if(!defined('LOGINSCREEN_HELP_LINK')) define("LOGINSCREEN_HELP_LINK","http://wik
  
 class opensimViewLoginscreen extends JViewLegacy {
 	public function display($tpl = null) {
-//		error_log("loginscreen view ".__LINE__.": REQUEST = ".var_export($_REQUEST,true));
 		JHTML::_('behavior.modal');
 		$this->sidebar	= null;
 		$jinput			= JFactory::getApplication()->input;
@@ -37,7 +36,6 @@ class opensimViewLoginscreen extends JViewLegacy {
 		if($this->settings['loginscreen_layout'] == "classic") {
 			$task	= "disabled";
 		}
-//		error_log("loginscreen view ".__LINE__.": this->sidebar = ".$this->sidebar);
 		switch($task) {
 			default:
 				$this->positionlist	= $model->getPositions();

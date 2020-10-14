@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -71,8 +71,8 @@ class OpenSimModelLoginscreen extends OpenSimModelOpenSim {
 	}
 
 	public function insertPosition() {
-		$jrequest	= JFactory::getApplication()->input->request;
-		$data		= $jrequest->getArray(array('jform' => array(
+		$lsrequest	= JFactory::getApplication()->input->request;
+		$data		= $lsrequest->getArray(array('jform' => array(
 						'positionname'	=> 'string',
 						'alignH'		=> 'string',
 						'posX'			=> 'integer',
@@ -102,8 +102,8 @@ class OpenSimModelLoginscreen extends OpenSimModelOpenSim {
 	}
 
 	public function updatePosition() {
-		$jrequest	= JFactory::getApplication()->input->request;
-		$data		= $jrequest->getArray(array('jform' => array(
+		$lsrequest	= JFactory::getApplication()->input->request;
+		$data		= $lsrequest->getArray(array('jform' => array(
 						'id'			=> 'integer',
 						'positionname'	=> 'string',
 						'alignH'		=> 'string',
@@ -181,13 +181,10 @@ class OpenSimModelLoginscreen extends OpenSimModelOpenSim {
 			$data	= JFactory::getApplication()->input->request->getArray(array('jform' => array('alignV' => 'string', 'distance' => 'int')));
 			$align	= $data['jform']['alignV'];
 		}
-//		error_log(var_export($data,TRUE));
 		$this->savePos($id,$postype,$align,$data['jform']['distance']);
 	}
 
 	public function savePos($id,$type,$align,$distance) {
-		$debug = func_get_args();
-//		error_log(var_export($debug,TRUE));
 		$db					= JFactory::getDbo();
 		$updatePos			= new stdClass();
 		$updatePos->id		= $id;

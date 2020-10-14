@@ -13,6 +13,27 @@ class com_opensimInstallerScript {
 	public $deletewarning = FALSE;
 	public $redirect2opensim = "index.php?option=com_config&view=component&component=com_opensim&path=&return=aW5kZXgucGhwP29wdGlvbj1jb21fb3BlbnNpbQ==";
 
+	public function preflight( $type, $parent ) {
+		if($type == "update") {
+			// Extension manifest file version
+			$this->extension = $parent->getName();
+			$this->release   = $parent->get('manifest')->version;
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
+			$oldRelease = $manifest['version'];
+			if (version_compare($oldRelease,'0.3.1.6' ,'<')) { // old Versions prior to 0.3.1.6 need to be updated manually due to changes in OpenSim.ini
+				JFactory::getApplication()->enqueueMessage("<b>VERY IMPORTANT!</b> I hope you did read the special <a href='http:/"."/wiki.jopensim.com/index.php/jOpenSim_HowTo_Update_To_Version_0.3.2.0' target='_blank'>jOpenSimWiki page</a>.<br />
+				It is now time to make these changes! If you use jOpenSim.Search.dll, please copy the new version from your admin folder to the bin folder of your simulator(s).<br />
+				... and dont forget to restart them ...<br />
+				Sorry for this inconvenience, future updates will work as usual and same reliable again :)",'Notice');
+				return TRUE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
+		}
+	}
+
 	public function install($parent) {
 		$db			= JFactory::getDBO();
 		$version	= $db->getVersion();
@@ -921,6 +942,36 @@ class com_opensimInstallerScript {
 			$db->setQuery($query);
 			$db->execute();
 		}
+	}
+
+	/**
+	 * Builds a standard select query to produce better DRY code in this script.
+	 * This should produce a single unique cell which is json encoded - it will then
+	 * return an associated array with this data in.
+	 *
+	 * @param   string  $element     The element to get from the query
+	 * @param   string  $table       The table to search for the data in
+	 * @param   string  $column      The column of the database to search from
+	 * @param   mixed   $identifier  The integer id or the already quoted string
+	 *
+	 * @return  array  Associated array containing data from the cell
+	 *
+	 * @since   3.6
+	 */
+	public function getItemArray($element, $table, $column, $identifier)
+	{
+		// Get the DB and query objects
+		$db = \JFactory::getDbo();
+
+		// Build the query
+		$query = $db->getQuery(true)
+			->select($db->quoteName($element))
+			->from($db->quoteName($table))
+			->where($db->quoteName($column) . ' = ' . $identifier);
+		$db->setQuery($query);
+
+		// Load the single cell and json_decode data
+		return json_decode($db->loadResult(), true);
 	}
 }
 ?>

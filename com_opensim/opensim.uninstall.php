@@ -22,6 +22,7 @@ $droptable[] = "DROP TABLE IF EXISTS `#__opensim_groupnotice`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprole`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_grouprolemembership`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_inworldident`;";
+$droptable[] = "DROP TABLE IF EXISTS `#__opensim_loginscreen`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_mapinfo`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_money_customfees`;";
 $droptable[] = "DROP TABLE IF EXISTS `#__opensim_moneybalances`;";

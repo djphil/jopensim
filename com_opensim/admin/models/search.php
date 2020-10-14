@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -110,7 +110,11 @@ class OpenSimModelSearch extends OpenSimModelOpenSim {
 		$xmldata	= $this->getDataFromHost($host, $port, "?method=collector");
 		if(!$xmldata) {
 			return FALSE;
+		} elseif($xmldata == "Please try your request again later") {
+			JFactory::getApplication()->enqueueMessage($xmldata,"error");
+			return FALSE;
 		}
+
 		$objDOM->loadXML($xmldata);
 
 		//

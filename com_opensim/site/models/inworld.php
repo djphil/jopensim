@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -113,14 +113,6 @@ class opensimModelinworld extends OpenSimModelOpenSim {
 			$db->setQuery($query);
 			$db->execute();
 		}
-	}
-
-	public function getUUID() {
-		$db = JFactory::getDBO();
-		$query = "SELECT UUID()";
-		$db->setQuery($query);
-		$uuid = $db->loadResult();
-		return $uuid;
 	}
 
 	public function updateuser($data) {

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // Check to ensure this file is included in Joomla!
@@ -105,8 +105,6 @@ class OpenSimControllermisc extends OpenSimController {
 							'region_file' => 'jOpenSim.ini',
 							'estate_name' => $estate_name);
 		$returnvalue	= $opensim->SendCommand($command,$params);
-		$debug			= var_export($returnvalue,TRUE);
-		error_log("Zeile ".__LINE__.": ".$debug);
 		if(!is_array($returnvalue)) {
 			JFactory::getApplication()->enqueueMessage(JText::_('REMOTEADMIN_NORESPONSE'),"error");
 		} elseif(array_key_exists("error",$returnvalue) && $returnvalue['error']) {

@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -10,15 +10,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $user       = JFactory::getUser();
 $userId     = $user->get('id');
-//$listOrder	= 'asc';
-//$listOrder	= str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
-// error_log("listOrder: ".$listOrder);
-//$listOrder2  = $this->escape($this->state->get('list.ordering'));
-//$listDirn   = $this->escape($this->state->get('list.direction'));
 $listOrder	= '#__opensim_simulators.ordering';
 $listDirn	= 'asc';
-// error_log("listOrder2: ".$listOrder2);
-// error_log("listDirn: ".$listDirn);
 $saveOrder	= $listOrder == '#__opensim_simulators.ordering';
 
 $saveOrderingUrl = 'index.php?option=com_opensim&task=saveSimulatorOrderAjax&tmpl=component';

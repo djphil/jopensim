@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim Component
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 
@@ -224,7 +224,6 @@ function outputJupdate'.$this->id.'(vol) {
 
 	protected function getMaxVal() {
 		$homeregion				= JComponentHelper::getParams('com_opensim')->get('jopensim_userhome_region');
-//		error_log("homeregion: ".$homeregion);
 		if(!$homeregion) return 255;
 
 		$opensimgrid_dbhost		= JComponentHelper::getParams('com_opensim')->get('opensimgrid_dbhost');

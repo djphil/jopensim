@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -116,8 +116,6 @@ class opensimModelMap extends OpenSimModelOpenSim {
 
 		if(is_array($regiondata['regions'])) {
 			foreach($regiondata['regions'] AS $key => $val) {
-//				$debug = var_export($val,TRUE);
-//				error_log($debug);
 				$regiondata['regions'][$key]['posX'] = intval($regiondata['regions'][$key]['posX']);
 				$regiondata['regions'][$key]['posY'] = intval($regiondata['regions'][$key]['posY']);
 				$regiondata['regions'][$key]['maplink'] = str_replace("-","",$val['uuid']);

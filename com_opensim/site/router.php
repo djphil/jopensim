@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -45,19 +45,6 @@ class OpensimRouter extends JComponentRouterView {
 							$segments[] = $query['eventid'];
 							unset($query['eventid']);
 						}
-//						if($query['task'] == "inserterror") {
-//							$segments[] = $query['eventname'];
-//							$segments[] = $query['eventdate'];
-//							$segments[] = $query['eventtime'];
-//							$segments[] = $query['eventtimezone'];
-//							$segments[] = $query['eventduration'];
-//							$segments[] = $query['eventlocation'];
-//							$segments[] = $query['eventcategory'];
-//							$segments[] = $query['covercharge'];
-//							$segments[] = urlencode($query['description']);
-//							$segments[] = $query['eventflags'];
-//							unset($query['eventname'],$query['eventdate'],$query['eventtime'],$query['eventtimezone'],$query['eventduration'],$query['eventlocation'],$query['eventcategory'],$query['covercharge'],$query['description'],$query['eventflags']);
-//						}
 						unset($query['task']);
 					}
 				break;
@@ -85,19 +72,6 @@ class OpensimRouter extends JComponentRouterView {
 					if($segments[1] == "deleteevent") {
 						$vars['eventid']	= $segments[2];
 					}
-//					if($segments[1] == "inserterror") {
-//						$vars['eventname']		= $segments[2];
-//						$vars['eventdate']		= $segments[3];
-//						$vars['eventtime']		= $segments[4];
-//						$vars['eventtimezone']	= $segments[5];
-//						$vars['eventduration']	= $segments[6];
-//						$vars['eventlocation']	= $segments[7];
-//						$vars['eventcategory']	= $segments[8];
-//						$vars['covercharge']	= $segments[9];
-//						$vars['description']	= urldecode($segments[10]);
-//						$vars['eventflags']		= $segments[11];
-//						error_log("description: ".$vars['description']);
-//					}
 				}
 			break;
 		}

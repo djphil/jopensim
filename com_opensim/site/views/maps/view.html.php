@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -102,8 +102,9 @@ class opensimViewmaps extends JViewLegacy {
 						$this->regioncoords[] = ($region['locX'] / 256)."-".($region['locY'] / 256);
 					}
 				}
+				$jopensim_default_marker		= "components/com_opensim/assets/images/marker_default_jopensim.png";
 				$this->markerClassified			= $active->params->get('jopensim_marker_classifieds',0);
-				$this->iconClassifiedDefault	= $active->params->get('jopensim_marker_classifieds_icon',$asseturl."images/marker_default_jopensim.png");
+				$this->iconClassifiedDefault	= $active->params->get('jopensim_marker_classifieds_icon',$jopensim_default_marker);
 				$this->iconClassifiedShopping	= JUri::base(true).'/'.$active->params->get('jopensim_marker_classifieds_icon_shopping',$this->iconClassifiedDefault);
 				$this->iconClassifiedLandrental	= JUri::base(true).'/'.$active->params->get('jopensim_marker_classifieds_icon_landrental',$this->iconClassifiedDefault);
 				$this->iconClassifiedPropRental	= JUri::base(true).'/'.$active->params->get('jopensim_marker_classifieds_icon_propertyrental',$this->iconClassifiedDefault);
@@ -122,14 +123,18 @@ class opensimViewmaps extends JViewLegacy {
 					if(is_array($this->classifieds) && count($this->classifieds) > 0) {
 						// add region coords for map to array to see if marker should be set
 						foreach($this->classifieds AS $key => $classified) {
-							$markerX = $classified['globalpos']['posX'] / 256;
-							$markerY = $classified['globalpos']['posY'] / 256;
-							$regioncoordX = intval($markerX);
-							$regioncoordY = intval($markerY);
-							if (in_array($regioncoordX."-".$regioncoordY, $this->regioncoords)) {
-								$this->classifieds[$key]['regioncoords']	= $regioncoordX."-".$regioncoordY;
-								$this->classifieds[$key]['markerX']			= $markerX;
-								$this->classifieds[$key]['markerY']			= $markerY;
+							if(array_key_exists("globalpos",$classified)) {
+								$markerX = $classified['globalpos']['posX'] / 256;
+								$markerY = $classified['globalpos']['posY'] / 256;
+								$regioncoordX = intval($markerX);
+								$regioncoordY = intval($markerY);
+								if (in_array($regioncoordX."-".$regioncoordY, $this->regioncoords)) {
+									$this->classifieds[$key]['regioncoords']	= $regioncoordX."-".$regioncoordY;
+									$this->classifieds[$key]['markerX']			= $markerX;
+									$this->classifieds[$key]['markerY']			= $markerY;
+								} else {
+									unset($this->classifieds[$key]); // the region for this classified is (at the moment?) not present
+								}
 							} else {
 								unset($this->classifieds[$key]); // the region for this classified is (at the moment?) not present
 							}

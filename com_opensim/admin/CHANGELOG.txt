@@ -1,3 +1,18 @@
+========== 0.3.2.0 ==========
+
+com_opensim:
+* changed: updateinfo now with link to changelog
+* fixed: website profile update in special cases not working
+* fixed: get rid of deprecated messages in AuthorizationService procedure
+* added: possibility to move log files outside of webserver root
+* added: additional parameter for HD users starting balance
+* removed: seperate xmlrpc(s) classes from Edd Dumbill
+* removed standalone scripts for J4:
+** opensim_quickicon for overview changed from standalone to view
+** land purchase script passes xmlrpc to view
+** changed standalone interface.php to interface view
+** changed standalone currency.php to interface view
+
 ========== 0.3.1.5 ==========
 
 com_opensim:

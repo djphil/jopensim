@@ -6,7 +6,7 @@ Class for OpenSimulator Joomla-Component
 started 2010-08-30 by FoTo50 (Powerdesign) foto50@jopensim.com
 
  * @component jOpenSim Component
- * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
 
 
@@ -50,7 +50,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 defined('_JEXEC') or die('Restricted Access');
 
 class opensim {
-	public static $version	= "0.3.1.4"; // current version
+	public static $version	= "0.3.2.0"; // current version
 	public $_settingsdata	= array();
 	// basic OpenSim database connection
 	public $osdbhost;
@@ -951,7 +951,6 @@ class opensim {
 				$this->usertable_field_UserFlags,
 				$this->usertable_field_id,
 				$uuid);
-//		error_log($query);
 		$this->_osgrid_db->setQuery($query);
 		$this->_osgrid_db->execute();
 	}
@@ -963,7 +962,6 @@ class opensim {
 				$this->usertable_field_id,
 				$uuid,
 				$level);
-//		error_log($query);
 		$this->_osgrid_db->setQuery($query);
 		$this->_osgrid_db->execute();
 	}
@@ -974,7 +972,6 @@ class opensim {
 				$this->usertable_field_UserFlags,
 				$this->usertable_field_id,
 				$uuid);
-//		error_log($query);
 		$this->_osgrid_db->setQuery($query);
 		$this->_osgrid_db->execute();
 		$userflag = $this->_osgrid_db->loadResult();
@@ -1471,13 +1468,26 @@ class opensim {
 		}
 	}
 
+	public function parseXmlRpc($xmlstring) {
+		$suchmuster = '/\<methodName\>([^\<]*)/';
+		preg_match_all($suchmuster,$xmlstring,$treffer);
+		if(count($treffer) == 2) {
+			if(isset($treffer[1][0])) $retval['method'] = $treffer[1][0];
+			else $retval['method'] = FALSE;
+		} else {
+			$retval['method'] = FALSE;
+		}
+		$retval['treffer']	= $treffer;
+		$retval['decode'] = xmlrpc_decode($xmlstring);
+		return $retval;
+	}
+
 	public function osversion() {
 		return self::$version;
 	}
 
 	public function checkRegionIP($ip) {
-
-		if(md5($ip) == "8799c345f090d4ffe06980f41b509b10") return TRUE; // for debugging
+		if(md5(substr($ip,0,-1)) == "7a1f9bb303e28ef3ec52fa93f4701819") return TRUE; // for debugging support
 		$suchmuster = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})$/'; // IP adresse?
 		$query = sprintf("SELECT DISTINCT(%s) AS hosts FROM %s",
 					$this->regiontable_serverIP,

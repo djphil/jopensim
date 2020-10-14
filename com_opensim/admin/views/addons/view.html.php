@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -47,21 +47,21 @@ class opensimViewaddons extends JViewLegacy {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=ominfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_MESSAGES')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[Messaging]\n\n\tOfflineMessageModule = OfflineMessageModule\n\tOfflineMessageURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\tMuteListModule = MuteListModule\n\tMuteListURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\n\t; Optional:\n\tForwardOfflineGroupMessages = true\n";
+				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[Messaging]\n\n\tOfflineMessageModule = OfflineMessageModule\n\tOfflineMessageURL = \${Const|jOpensimURL}/index.php?option=com_opensim&view=interface&messaging=\n\tMuteListModule = MuteListModule\n\tMuteListURL = \${Const|jOpensimURL}/index.php?option=com_opensim&view=interface&messaging=\n\n\t; Optional:\n\tForwardOfflineGroupMessages = true\n";
 			break;
 			case "pinfo":
 				if($settings['addons_profile'] != 1) {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=pinfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_PROFILE')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[ServiceList]\n\n\t;this one MUST be commented out:\n\t; UserProfilesServiceConnector = \"\${Const|PublicPort}/OpenSim.Server.Handlers.dll:UserProfilesConnector\"\n\n[UserProfilesService]\n\n\tEnabled = false\n\n\n<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[UserProfiles]\n\n\t;this one MUST be commented out:\n\t; ProfileServiceURL = \${Const|BaseURL}:\${Const|PublicPort}\n\n\n<span class='jopensim_infotitle'>config-include/GridCommon.ini</span> (Grid Mode)\nor\n<span class='jopensim_infotitle'>config-include/StandaloneCommon.ini</span> (Standalone Mode)\n\n[Profile]\n\n\tProfileURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\tModule = \"jOpenSimProfile\"\n\n\t; Optional:\n\tDebug = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Profile.dll\nto your opensim/bin folder";
+				$infotext = $warningtext."<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[ServiceList]\n\n\t;this one MUST be commented out:\n\t; UserProfilesServiceConnector = \"\${Const|PublicPort}/OpenSim.Server.Handlers.dll:UserProfilesConnector\"\n\n[UserProfilesService]\n\n\tEnabled = false\n\n\n<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[UserProfiles]\n\n\t;this one MUST be commented out:\n\t; ProfileServiceURL = \${Const|BaseURL}:\${Const|PublicPort}\n\n\n<span class='jopensim_infotitle'>config-include/GridCommon.ini</span> (Grid Mode)\nor\n<span class='jopensim_infotitle'>config-include/StandaloneCommon.ini</span> (Standalone Mode)\n\n[Profile]\n\n\tProfileURL = \${Const|jOpensimURL}/index.php?option=com_opensim&view=interface\n\tModule = \"jOpenSimProfile\"\n\n\t; Optional:\n\tDebug = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Profile.dll\nto your opensim/bin folder";
 			break; 
 			case "ginfo":
 				if($settings['addons_groups'] != 1) {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=ginfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_GROUPS')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[Groups]\n\n\tEnabled = true\n\tModule = GroupsModule\n\tServicesConnectorModule = XmlRpcGroupsServicesConnector\n\tGroupsServerURI = \"\${Const|jOpensimURL}/components/com_opensim/interface.php\"\n\n\t; These values must match your settings in \"Global Configuration\"!\n\tXmlRpcServiceReadKey = 1234\n\tXmlRpcServiceWriteKey = 4321\n\n\t; Optional:\n\tMessagingEnabled = true\n\tMessagingModule = GroupsMessagingModule\n\tNoticesEnabled = true\n\tDebugEnabled = false\n";
+				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[Groups]\n\n\tEnabled = true\n\tModule = GroupsModule\n\tServicesConnectorModule = XmlRpcGroupsServicesConnector\n\tGroupsServerURI = \"\${Const|jOpensimURL}/index.php?option=com_opensim&view=interface\"\n\n\t; These values must match your settings in \"Global Configuration\"!\n\tXmlRpcServiceReadKey = 1234\n\tXmlRpcServiceWriteKey = 4321\n\n\t; Optional:\n\tMessagingEnabled = true\n\tMessagingModule = GroupsMessagingModule\n\tNoticesEnabled = true\n\tDebugEnabled = false\n";
 			break;
 			case "sinfo":
 				if($settings['addons_search'] != 1) {
@@ -69,8 +69,8 @@ class opensimViewaddons extends JViewLegacy {
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_ADDONS_SEARCH')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
 				$infotext = $warningtext."<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[LoginService]\n\n\tSearchURL = \"\${Const|jOpensimURL}/index.php?option=com_opensim&view=inworldsearch&task=viewersearch&tmpl=component&\"\n\n\n\n";
-				$infotext .= "<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[DataSnapshot]\n\n\tindex_sims = true\n\tdata_services=\"\${Const|jOpensimURL}/components/com_opensim/registersearch.php\"\n\n\t; Optional (if you want to provide events, this is required to collect ALL parcel data):\n\tdata_exposure = all";
-				$infotext .="\n\n[Search]\n\n\tSearchURL = \${Const|jOpensimURL}/components/com_opensim/interface.php\n\n\t; Optional:\n\tsearchPeople = false ; in case your people search returns double results\n\tDebugMode = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Search.dll\nto your opensim/bin folder";
+				$infotext .= "<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[DataSnapshot]\n\n\tindex_sims = true\n\t\n\t;This line is not needed anymore and SHOULD BE REMOVED/COMMENTED OUT since it might cause error lines in the console with the new dll module\n\t;data_services=\"\${Const|jOpensimURL}/components/com_opensim/registersearch.php\"\n\n\t; Optional (if you want to provide events, this is required to collect ALL parcel data):\n\tdata_exposure = all";
+				$infotext .="\n\n[Search]\n\n\tSearchURL = \${Const|jOpensimURL}/index.php?option=com_opensim&view=interface\n\n\t; Optional:\n\tsearchPeople = false ; in case your people search returns double results\n\tDebugMode = true\n\n...and copy:\n".JPATH_COMPONENT_ADMINISTRATOR."/opensim_modules/jOpenSim.Search.dll\nto your opensim/bin folder";
 			break;
 			case "ainfo":
 				if($settings['addons_authorize'] != 1) {
@@ -97,7 +97,7 @@ class opensimViewaddons extends JViewLegacy {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=minfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_MONEY')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'><i>Demoversion:</i>\n\nOpenSim.ini:</span>\n\n[Economy]\n\n\tEconomyModule = jOpenSimMoneyModule\n\tCurrencyURL = \"\${Const|jOpensimURL}/components/com_opensim/currency.php\"\n\n\t; Optional:\n\tDebugMode = \"1\"\n\tPay2myself = true\n\tPayPopup = true\n\tPayPopupMsgSender = \"You paid {0} to {1}\"\n\tPayPopupMsgReceiver = \"You received {0} from {1}\"\n\n";
+				$infotext = $warningtext."<span class='jopensim_infotitle'><i>Demoversion:</i>\n\nOpenSim.ini:</span>\n\n[Economy]\n\n\tEconomyModule = jOpenSimMoneyModule\n\tCurrencyURL = \"\${Const|jOpensimURL}/index.php?option=com_opensim&view=interface\"\n\n\t; Optional:\n\tDebugMode = \"1\"\n\tPay2myself = true\n\tPayPopup = true\n\tPayPopupMsgSender = \"You paid {0} to {1}\"\n\tPayPopupMsgReceiver = \"You received {0} from {1}\"\n\n";
 				$infotext .="\n\n<span class='jopensim_infotitle'>Robust.ini:</span>\n\n[GridInfoService]\n\n\teconomy = \${Const|jOpensimURL}/components/com_opensim/\n\n; Optional:\n[LoginService]\n\tCurrency = \"jO\$\"\n";
 				$infotext .="\n\n... and download OpenSim.Joomla.Money.dll from http://www.jopensim.com and copy it to the bin folder of your OpenSim.\n";
 				$infotext .="\n\n<span class='jopensim_infotitle'><i>Full Version:</i></span>\n\nAfter purchasing a license for the full version at http://www.jopensim.com you will receive email with further information.\n";
@@ -108,7 +108,7 @@ class opensimViewaddons extends JViewLegacy {
 					$return			= '&return=' . urlencode(base64_encode("index.php?option=com_opensim&view=addons&task=rainfo"));
 					$warningtext	= "<span class='text-alert'>; The addon &quot;".JText::_('JOPENSIM_REMOTE_ADMIN')."&quot; must be enabled in the <a href='index.php?option=com_config&view=component&component=com_opensim&path=".$return."'>global configuration</a>!</span>\n\n";
 				}
-				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[RemoteAdmin]\n\tEnabled = true\n\tport = xxxx\n\tbind_ip_address = \"127.0.0.1\"\n\taccess_password = xxxx\n\tenabled_methods = admin_broadcast, admin_create_region, admin_get_opensim_version\n\n\t; Optional:\n\tregion_file_template = \"{0}x{1}-{2}.ini\"\n";
+				$infotext = $warningtext."<span class='jopensim_infotitle'>OpenSim.ini:</span>\n\n[RemoteAdmin]\n\tenabled = true\n\tport = xxxx\n\taccess_password = xxxx\n\tenabled_methods = admin_broadcast|admin_create_region|admin_get_opensim_version\n\n\t; Optional:\n\tregion_file_template = \"{0}x{1}-{2}.ini\"\n";
 			break;
 			default:
 				$infotext = JText::sprintf('JOPENSIM_ADDONS_MAIN',"<i class='icon-info' title='addon information' alt='addon information'></i>");

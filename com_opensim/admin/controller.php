@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // No direct access
@@ -25,9 +25,13 @@ class OpenSimController extends JControllerForm {
 		parent::__construct();
 
 		$jopensim_debug_reminder	= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_reminder');
+		$jopensim_debug_path		= JComponentHelper::getParams('com_opensim')->get('jopensim_debug_path',JPATH_SITE."/components/com_opensim/");
 
 		if($jopensim_debug_reminder && $this->debugreminded === FALSE) {
 			$this->debugreminder();
+			if(!is_writable($jopensim_debug_path)) {
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('JOPENSIM_DEBUGPATH_UNWRITABLE',$jopensim_debug_path), 'warning');
+			}
 			$this->debugreminded = TRUE; // Avoids double reminders
 		}
 

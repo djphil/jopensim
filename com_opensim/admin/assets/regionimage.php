@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -35,7 +35,6 @@ if(isset($_REQUEST['uuid'])) $uuid = str_replace("-","",$_REQUEST['uuid']);
 else $uuid = "";
 
 $source			= $serveruri."/index.php?method=regionImage".$uuid."";
-// error_log("regionimage: ".$source);
 $curl			= extension_loaded('curl');
 $file_content	= "";
 

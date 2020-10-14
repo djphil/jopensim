@@ -1,10 +1,13 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
+
+require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'opensim.class.php');
+
 
 class opensimModelOpensim extends JModelItem {
 
@@ -120,6 +123,9 @@ class opensimModelOpensim extends JModelItem {
 			$settings['loginscreen_msgbox_title_background']	= $params->get('jopensim_loginscreen_color_background_title');
 			$settings['loginscreen_msgbox_title_text']			= $params->get('jopensim_loginscreen_color_text_title');
 
+			$settings['grp_readkey']							= $params->get('grp_readkey');
+			$settings['grp_writekey']							= $params->get('grp_writekey');
+
 			$this->_settingsData = $settings;
 		}
 		return $this->_settingsData;
@@ -228,6 +234,7 @@ class opensimModelOpensim extends JModelItem {
 		$settings['jopensimmoneybanker']					= $params->get('jopensimmoneybanker');
 		$settings['jopensimmoney_bankername']				= $params->get('jopensimmoney_bankername');
 		$settings['jopensimmoney_startbalance']				= $params->get('jopensimmoney_startbalance',0);
+		$settings['jopensimmoney_startbalanceHG']			= $params->get('jopensimmoney_startbalanceHG',0);
 		$settings['jopensimmoney_upload']					= $params->get('jopensimmoney_upload',0);
 		$settings['jopensimmoney_groupcreation']			= $params->get('jopensimmoney_groupcreation',0);
 		$settings['jopensimmoney_groupdividend']			= $params->get('jopensimmoney_groupdividend',0);
@@ -269,6 +276,8 @@ class opensimModelOpensim extends JModelItem {
 		$settings['userchange_email']				= $params->get('userchange_email');
 		$settings['userchange_password']			= $params->get('userchange_password');
 
+		$settings['jopensim_debug_path']			= $params->get('jopensim_debug_path',JPATH_SITE."/components/com_opensim/");
+		if(substr($settings['jopensim_debug_path'],-1) != "/") $settings['jopensim_debug_path'] = $settings['jopensim_debug_path']."/"; // ensure it ends with a slash
 		$settings['jopensim_debug_reminder']		= $params->get('jopensim_debug_reminder');
 		$settings['jopensim_debug_access']			= $params->get('jopensim_debug_access');
 		$settings['jopensim_debug_input']			= $params->get('jopensim_debug_input');
@@ -277,6 +286,7 @@ class opensimModelOpensim extends JModelItem {
 		$settings['jopensim_debug_search']			= $params->get('jopensim_debug_search');
 		$settings['jopensim_debug_messages']		= $params->get('jopensim_debug_messages');
 		$settings['jopensim_debug_currency']		= $params->get('jopensim_debug_currency');
+		$settings['jopensim_debug_terminal']		= $params->get('jopensim_debug_terminal');
 		$settings['jopensim_debug_other']			= $params->get('jopensim_debug_other');
 		$settings['jopensim_debug_settings']		= $params->get('jopensim_debug_settings');
 
@@ -305,6 +315,14 @@ class opensimModelOpensim extends JModelItem {
 		} else {
 			return null;
 		}
+	}
+
+	public function getUUID() {
+		$db = JFactory::getDBO();
+		$query = "SELECT UUID()";
+		$db->setQuery($query);
+		$uuid = $db->loadResult();
+		return $uuid;
 	}
 
 	public function getTerminalList($inactive = 0) {
@@ -520,7 +538,7 @@ class opensimModelOpensim extends JModelItem {
 		$query		= sprintf("SELECT #__opensim_userprofile.* FROM #__opensim_userprofile WHERE #__opensim_userprofile.avatar_id = '%s'",$userid);
 		$db->setQuery($query);
 		$profile = $db->loadAssoc();
-		if(count($profile) == 0) { // in case no profile stored yet, fill it with empty values to avoid php notices
+		if(is_array($profile) && count($profile) == 0) { // in case no profile stored yet, fill it with empty values to avoid php notices
 			$profile['error']			= JText::_('JOPENSIM_PROFILE_ERROR_NOTFOUND');
 			$profile['aboutText']		= "";
 			$profile['maturePublish']	= 0;
@@ -541,6 +559,7 @@ class opensimModelOpensim extends JModelItem {
 			$partner = $this->_osgrid_db->loadAssoc();
 			$profile['partnername'] = $partner['firstname']." ".$partner['lastname'];
 		} else {
+			$profile['partner']		= null;
 			$profile['partnername'] = null;
 		}
 		return $profile;

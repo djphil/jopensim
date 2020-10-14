@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die('Restricted access'); // No direct access
@@ -126,16 +126,16 @@ function getTPlinks(regionname,posX,posY,posZ) {
 function getTPbutton(tplink,linktype) {
 	switch(linktype) {
 		case "hg":
-			return "<div class='tphg'><a class='tpbtn btn-hg' href='"+tplink+"'>HG</a></div>";
+			return "<div class='jtpbutton tphg'><a class='tpbtn btn-hg' href='"+tplink+"'>HG</a></div>";
 		break;
 		case "hgv3":
-			return "<div class='tphgv3'><a class='tpbtn btn-hgv3' href='"+tplink+"'>HGV3</a></div>";
+			return "<div class='jtpbutton tphgv3'><a class='tpbtn btn-hgv3' href='"+tplink+"'>HGV3</a></div>";
 		break;
 		case "hop":
-			return "<div class='tphop'><a class='tpbtn btn-tphop' href='"+tplink+"'>HOP</a></div>";
+			return "<div class='jtpbutton tphop'><a class='tpbtn btn-tphop' href='"+tplink+"'>HOP</a></div>";
 		break;
 		default:
-			return "<div class='tplocal'><a class='tpbtn btn-local' href='"+tplink+"'>Local</a></div>";
+			return "<div class='jtpbutton tplocal'><a class='tpbtn btn-local' href='"+tplink+"'>Local</a></div>";
 		break;
 	}
 }
@@ -239,6 +239,8 @@ var classifiedCatNames		= [
 								'<?php echo JText::_('JOPENSIM_MARKERS_CLASSIFIED_8'); ?>',
 								'<?php echo JText::_('JOPENSIM_MARKERS_CLASSIFIED_9'); ?>'
 								];
+
+// test
 var classifiedMarkerIcon1	= '<?php echo $this->iconClassifiedShopping; ?>';
 var classifiedMarkerIcon2	= '<?php echo $this->iconClassifiedLandrental; ?>';
 var classifiedMarkerIcon3	= '<?php echo $this->iconClassifiedPropRental; ?>';
@@ -394,14 +396,3 @@ else {window.attachEvent("onload", initmap());} // IE
 
 
 </script>
-<!--
-<pre>
-<?php
-//echo "maxnorth: ".$maxnorth."\n";
-//echo "maxsouth: ".$maxsouth."\n";
-//echo "maxwest: ".$maxwest."\n";
-//echo "maxeast: ".$maxeast."\n";
-//var_dump($this->events);
-?>
-</pre>
--->

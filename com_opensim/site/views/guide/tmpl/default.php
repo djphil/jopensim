@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php foreach($this->regions AS $region): ?>
 <div class="text-center btn btn-default">
 	<a href="secondlife://<?php echo $region['regionName']; ?>">
-	<div class='jopensim_showcase_image' style='min-height:<?php echo $this->imagesize; ?>px;'><?php echo $region['mapimage']; ?></div><?php echo $region['regionName']; ?>
+	<div class='jopensim_showcase_image'><?php echo $region['mapimage']; ?></div><?php echo $region['regionName']; ?>
 	</a>
 </div>
 <?php endforeach; ?>

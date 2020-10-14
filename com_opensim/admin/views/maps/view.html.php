@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -53,13 +53,11 @@ class opensimViewmaps extends JViewLegacy {
 	
 			$this->sortDirection	= $regionmodel->getRegionState('regions_filter_order_Dir');
 			$this->sortColumn		= $regionmodel->getRegionState('regions_filter_order');
-//			error_log("limit: ".$this->limit);
-//			error_log("limitstart: ".$this->limitstart);
 	
 			$this->cacheimages		= $model->getCacheImages();
 	
-			$mapfolder = $model->checkCacheFolder();
-			$this->mapfolder	= $mapfolder;
+			$mapfolder				= $model->checkCacheFolder();
+			$this->mapfolder		= $mapfolder;
 	
 			if($mapfolder['existing'] == FALSE) {
 				$foldercreated = $model->createImageFolder();

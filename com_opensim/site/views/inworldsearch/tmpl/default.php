@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -19,12 +19,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <input type='hidden' name='task' value='viewersearch' />
     <?php endif; ?>
     <input type='hidden' name='view' value='inworldsearch' />
-    <input type='hidden' name='Itemid' value='<?php echo $this->itemid; ?>' />
+    <input type='hidden' name='Itemid' value='<?php echo $this->Itemid; ?>' />
     <input class="span4 jopensim-searchfield" type='text' name='q' id='q' value='<?php echo $this->searchquery; ?>' />
 	<button type='submit' name='submit' class='btn btn-default btn-primary btn-sm'>
 	    <span class="icon-search" style="font-size:120%"></span>
-	    <!-- <span class="icon-partnering"></span></span>
-		<?php echo JText::_('JOPENSIM_SEARCH'); ?> -->
+		<?php echo JText::_('JOPENSIM_SEARCH'); ?>
 	</button>
 </form>
 </div>
@@ -32,7 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if(is_array($this->result)): ?>
 <h3><?php echo JText::_('JOPENSIM_SEARCHRESULTS'); ?>:</h3>
 
-<?php if(count($this->results) > 0): ?>
+<?php if(is_array($this->results) && count($this->results) > 0): ?>
 <?php foreach($this->results AS $type => $lines): ?>
 <h4><?php echo JText::_($type); ?>:</h4>
 <table class='table table-striped group<?php echo $this->pageclass_sfx; ?>'>

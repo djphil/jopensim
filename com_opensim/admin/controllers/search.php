@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2015 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
  
@@ -51,8 +51,12 @@ class OpenSimControllersearch extends OpenSimController {
 
 		if(array_key_exists("host",$data) && array_key_exists("port",$data)) {
 			$model = $this->getModel('search');
-			$model->rebuildHost($data['host'],$data['port']);
-			$this->setRedirect('index.php?option=com_opensim&view=search&task=viewregisteredhosts&tmpl=component',JText::_('JOPENSIM_SEARCH_HOSTREBUILD_OK'));
+			$response = $model->rebuildHost($data['host'],$data['port']);
+			if($response === FALSE) {
+				$this->setRedirect('index.php?option=com_opensim&view=search&task=viewregisteredhosts&tmpl=component',JText::_('JOPENSIM_SEARCH_HOSTREBUILD_ERROR'),'error');
+			} else {
+				$this->setRedirect('index.php?option=com_opensim&view=search&task=viewregisteredhosts&tmpl=component',JText::_('JOPENSIM_SEARCH_HOSTREBUILD_OK'));
+			}
 		} else {
 			$this->setRedirect('index.php?option=com_opensim&view=search&task=viewregisteredhosts&tmpl=component',JText::_('JOPENSIM_SEARCH_HOSTREBUILD_ERROR'),'error');
 		}

@@ -1,4 +1,4 @@
 # jopensim
-com_opensim v0.3.1.5
+com_opensim v0.3.2.0
 
-This version is compatible with Joomla v3.8.x
+This version is compatible with Joomla v3.9.x

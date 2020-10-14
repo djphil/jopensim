@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -70,7 +70,6 @@ class opensimModelAuth extends OpenSimModelOpenSim {
 	}
 
 	public function checkAgeHG($userid) {
-//		error_log("checkAgeHG zeile ".__LINE__.": ".$userid);
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->select($db->quoteName('#__opensim_hguser.ageverified'));

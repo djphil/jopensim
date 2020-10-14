@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -61,45 +61,47 @@ class opensimModelShowcase extends OpenSimModelOpenSim {
 
 			foreach($this->classifieds AS $key => $classified) {
 				preg_match($suchmuster,$classified['posglobal'],$treffer);
-				$this->classifieds[$key]['globalpos']['posX']	= $treffer[1];
-				$this->classifieds[$key]['globalpos']['posY']	= $treffer[2];
-				$this->classifieds[$key]['globalpos']['posZ']	= $treffer[3];
-				$this->classifieds[$key]['localpos']			= $this->opensim->globalPosition2regionPosition($this->classifieds[$key]['globalpos']);
-				if($classified['snapshotuuid'] != $this->opensim->zerouid) {
-					if(!is_file($cacheurl.$classified['snapshotuuid'].".".$this->textureFormat)) {
-						$getTexture = $texturehost.":".$this->port."/CAPS/GetTexture/?texture_id=".$classified['snapshotuuid']."&format=".$this->textureFormat;
-						$fileinfo	= @getimagesize($getTexture);
-						if($fileinfo !== FALSE) {
-							$classifiedimage= @file_get_contents($getTexture);
-							if($classifiedimage) {
-								$classifiedimagename	= $classified['snapshotuuid'].".".$this->textureFormat;
-								file_put_contents($cacheurl.$classifiedimagename,$classifiedimage);
-								$classifiedimageurl		= JURI::root()."images/jopensim/classifieds/".$classifiedimagename;
+				if(count($treffer) == 4) { // we found a position
+					$this->classifieds[$key]['globalpos']['posX']	= $treffer[1];
+					$this->classifieds[$key]['globalpos']['posY']	= $treffer[2];
+					$this->classifieds[$key]['globalpos']['posZ']	= $treffer[3];
+					$this->classifieds[$key]['localpos']			= $this->opensim->globalPosition2regionPosition($this->classifieds[$key]['globalpos']);
+					if($classified['snapshotuuid'] != $this->opensim->zerouid) {
+						if(!is_file($cacheurl.$classified['snapshotuuid'].".".$this->textureFormat)) {
+							$getTexture = $texturehost.":".$this->port."/CAPS/GetTexture/?texture_id=".$classified['snapshotuuid']."&format=".$this->textureFormat;
+							$fileinfo	= @getimagesize($getTexture);
+							if($fileinfo !== FALSE) {
+								$classifiedimage= @file_get_contents($getTexture);
+								if($classifiedimage) {
+									$classifiedimagename	= $classified['snapshotuuid'].".".$this->textureFormat;
+									file_put_contents($cacheurl.$classifiedimagename,$classifiedimage);
+									$classifiedimageurl		= JURI::root()."images/jopensim/classifieds/".$classifiedimagename;
+								}
+							} else { // add an error image
+								$classifiedimageurl = JURI::root().$assetpath."images/noregion.jpg";
 							}
-						} else { // add an error image
-							$classifiedimageurl = JURI::root().$assetpath."images/noregion.jpg";
+						} else {
+							$classifiedimageurl = JURI::root()."images/jopensim/classifieds/".$classified['snapshotuuid'].".".$this->textureFormat;
 						}
-					} else {
-						$classifiedimageurl = JURI::root()."images/jopensim/classifieds/".$classified['snapshotuuid'].".".$this->textureFormat;
+					} else { // add a dummy image
+						$classifiedimageurl = JURI::root().$assetpath."images/default_land_picture.jpg";
 					}
-				} else { // add a dummy image
-					$classifiedimageurl = JURI::root().$assetpath."images/default_land_picture.jpg";
-				}
-				$this->classifieds[$key]['imageurl'] = $classifiedimageurl;
-				if(!is_array($this->classifieds[$key]['localpos']) ||
-				   !array_key_exists('regionname',$this->classifieds[$key]['localpos']) ||
-				   !array_key_exists('posX',$this->classifieds[$key]['localpos']) ||
-				   !array_key_exists('posY',$this->classifieds[$key]['localpos']) ||
-				   !array_key_exists('posZ',$this->classifieds[$key]['localpos'])) {
-						$this->classifieds[$key]['linklocal']	= null;
-						$this->classifieds[$key]['linkhg']		= null;
-						$this->classifieds[$key]['linkhgv3']	= null;
-						$this->classifieds[$key]['linkhop']		= null;
-				} else {
-					$this->classifieds[$key]['linklocal']	= $this->tplink($this->classifieds[$key]['localpos'],"local",$this->host,$this->port);
-					$this->classifieds[$key]['linkhg']		= $this->tplink($this->classifieds[$key]['localpos'],"hg",$this->host,$this->port);
-					$this->classifieds[$key]['linkhgv3']	= $this->tplink($this->classifieds[$key]['localpos'],"hgv3",$this->host,$this->port);
-					$this->classifieds[$key]['linkhop']		= $this->tplink($this->classifieds[$key]['localpos'],"hop",$this->host,$this->port);
+					$this->classifieds[$key]['imageurl'] = $classifiedimageurl;
+					if(!is_array($this->classifieds[$key]['localpos']) ||
+					   !array_key_exists('regionname',$this->classifieds[$key]['localpos']) ||
+					   !array_key_exists('posX',$this->classifieds[$key]['localpos']) ||
+					   !array_key_exists('posY',$this->classifieds[$key]['localpos']) ||
+					   !array_key_exists('posZ',$this->classifieds[$key]['localpos'])) {
+							$this->classifieds[$key]['linklocal']	= null;
+							$this->classifieds[$key]['linkhg']		= null;
+							$this->classifieds[$key]['linkhgv3']	= null;
+							$this->classifieds[$key]['linkhop']		= null;
+					} else {
+						$this->classifieds[$key]['linklocal']	= $this->tplink($this->classifieds[$key]['localpos'],"local",$this->host,$this->port);
+						$this->classifieds[$key]['linkhg']		= $this->tplink($this->classifieds[$key]['localpos'],"hg",$this->host,$this->port);
+						$this->classifieds[$key]['linkhgv3']	= $this->tplink($this->classifieds[$key]['localpos'],"hgv3",$this->host,$this->port);
+						$this->classifieds[$key]['linkhop']		= $this->tplink($this->classifieds[$key]['localpos'],"hop",$this->host,$this->port);
+					}
 				}
 			}
 			return $this->classifieds;

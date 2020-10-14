@@ -381,3 +381,7 @@ a.tpbtn:hover {
     border-color: #e6e6e6 #e6e6e6 #bfbfbf !important;
     margin-bottom:3px;
 }
+
+div.tplocal, div.tphg, div.tphgv3, div.tphop {
+	margin: 0px 2px;
+}
