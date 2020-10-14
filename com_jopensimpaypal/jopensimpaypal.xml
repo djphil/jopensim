@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension method="upgrade" type="component" version="3.1">
     <name>COM_JOPENSIMPAYPAL</name>
-    <creationDate>2017-10-01</creationDate>
+    <creationDate>2020-10-04</creationDate>
     <author>FoTo50</author>
     <authorEmail>info@jopensim.com</authorEmail>
     <authorUrl>https://www.jopensim.com</authorUrl>
-    <copyright>All rights reserved by FoTo50 2017</copyright>
+    <copyright>All rights reserved by FoTo50</copyright>
     <license>GPL 2.0</license>
-    <version>0.3.0.16</version>
+    <version>0.3.2.0 RC1</version>
     <description>COM_JOPENSIMPAYPAL_DESC</description>
     <scriptfile>script.jopensimpaypal.php</scriptfile>
     <install>
@@ -38,8 +38,6 @@
     <files folder="site">
         <filename>controller.php</filename>
         <filename>index.html</filename>
-        <filename>jnotify.php</filename>
-        <filename>jopensimpaypal.log</filename>
         <filename>jopensimpaypal.php</filename>
         <folder>assets</folder>
         <folder>controllers</folder>

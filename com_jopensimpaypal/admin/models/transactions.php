@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die('Restricted access');
@@ -60,9 +60,6 @@ class jOpenSimPayPalModelTransactions extends jOpenSimPayPalModeljOpenSimPayPal 
 		}
 
 		$query->order('#__jopensimpaypal_transactions.transactiontime DESC');
-
-//		$test = var_export($query,TRUE);
-//		JError::raiseWarning(100,$test);
 
 		return $query;
 	}

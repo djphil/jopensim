@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -23,15 +23,15 @@ class jOpenSimPayPalController extends JControllerLegacy {
 			$this->model	= $this->getModel('jopensimpaypal');
 			$money			= $this->model->getMoneySettings();
 			$params			= $this->model->getParams();
-			$noadd			= JRequest::getInt('noadd');
+			$noadd			= JFactory::getApplication()->input->get('noadd');
 			if($params->get('sandboxmode') && $noadd == 0) {
-				JError::raiseNotice(100,JText::_('COM_JOPENSIMPAYPAL_SANDBOXMODE'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_SANDBOXMODE'),'notice');
 			}
 			if(array_key_exists("name",$money) && $money['name']) define('COM_JOPENSIMPAYPAL_INWORLD_CURRENCYNAME',$money['name']);
 		}
 	}
 
-	public function display() {
+	public function display($cachable = false, $urlparams = array()) {
 		$view	= JFactory::getApplication()->input->get('view');
 		$this->jopensimpaypalmenue($view);
 		parent::display();
@@ -51,7 +51,7 @@ class jOpenSimPayPalController extends JControllerLegacy {
 	}
 
 	public function jopensimmenue() {
-		$view	= JRequest::getVar( 'view', '', '', 'string', JREQUEST_ALLOWRAW );
+		$view	= JFactory::getApplication()->input->get('view');
 		
 		switch($view) {
 			case "transactions":

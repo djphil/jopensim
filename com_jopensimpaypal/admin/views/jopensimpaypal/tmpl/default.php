@@ -112,7 +112,7 @@ defined('_JEXEC') or die('Restricted access');
 					<hr class="hr-condensed">
 						
 					<dt><?php echo JText::_('OS');?>:</dt>
-					<dd>Running on <?php if(1 << 32 == 1) echo "32Bit"; elseif(1 << 64 == 1) echo "64Bit"; else echo "unknown"; ?> System</dd>
+					<dd>Running on <?php if(PHP_INT_SIZE == 4) echo "32Bit"; elseif(PHP_INT_SIZE == 8) echo "64Bit"; else echo "unknown (".PHP_INT_SIZE.")"; ?> System</dd>
 					<hr class="hr-condensed">
 						
 					<dt><?php echo JText::_('License');?>:</dt>

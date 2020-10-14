@@ -10,18 +10,20 @@ jimport( 'joomla.application.component.view');
 
 class jopensimpaypalViewtransactionlist extends JViewLegacy {
 	public function display($tpl = null) {
-		JHTML::stylesheet( 'jopensimpaypal.css', 'components/com_jopensimpaypal/assets/' );
-		JHTML::script('jopensimpaypal.js','components/com_jopensimpaypal/assets/');
+		$this->assetpath	= JUri::base(true)."/components/com_jopensimpaypal/assets/";
+		$doc				= JFactory::getDocument();
+		$doc->addStyleSheet($this->assetpath.'jopensimpaypal.css');
+		$doc->addScript($this->assetpath.'jopensimpaypal.js');
 
-		$model = $this->getModel('transactionlist');
-		$cparams = $model->getParam("all");
-		$this->currencyname = $cparams['currency'];
+		$model				= $this->getModel('transactionlist');
+		$cparams			= $model->getParam("all");
+		$this->currencyname	= $cparams['currency'];
 
-		$this->itemid = JRequest::getVar('Itemid');
+		$this->itemid		= JFactory::getApplication()->input->get('Itemid');
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if($user->guest) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'),'warning');
 			$tpl = "needlogin";
 		} else {
 			$opensimUID = $model->getUUID($user->id);

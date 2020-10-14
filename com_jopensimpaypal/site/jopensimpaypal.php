@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once( JPATH_COMPONENT.DIRECTORY_SEPARATOR.'controller.php' );
 
 // Require specific controller if requested
-if($controller = JRequest::getVar('view')) {
+if($controller = JFactory::getApplication()->input->get('view')) {
     $path = JPATH_COMPONENT.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
@@ -29,7 +29,7 @@ $classname    = 'jOpenSimPayPalController'.$controller;
 $controller   = new $classname();
 
 // Perform the Request task
-$controller->execute(JRequest::getVar('task'));
+$controller->execute(JFactory::getApplication()->input->get('task'));
 
 // Redirect if set by the controller
 $controller->redirect();

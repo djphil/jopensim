@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -16,39 +16,33 @@ class jopensimpaypalViewpaypal extends JViewLegacy {
 		$doc->addStyleSheet($this->assetpath.'jopensimpaypal.css');
 		$doc->addScript($this->assetpath.'jopensimpaypal.js');
 
-//		JHTML::stylesheet( 'jopensimpaypal.css', 'components/com_jopensimpaypal/assets/' );
-//		JHTML::script('jopensimpaypal.js','components/com_jopensimpaypal/assets/');
+		$model			= $this->getModel('paypal');
+		$cparams		= $model->getParam("all");
 
-		$model = $this->getModel('paypal');
-		$cparams = $model->getParam("all");
+		$this->itemid	= JFactory::getApplication()->input->get('Itemid');
+		$task 			= JFactory::getApplication()->input->get('task');
 
-		$itemid = JRequest::getVar('Itemid');
-		$this->assignRef('Itemid',$itemid);
-
-		$task = JRequest::getVar('task');
 		switch($task) {
 			case "cancel":
-				$this->assignRef('canceltext',$cparams['cancel_message']);
+				$this->canceltext	= $cparams['cancel_message'];
 				$tpl = "cancel";
 			break;
 			case "success":
-				$this->assignRef('successtext',$cparams['success_message']);
+				$this->successtext	= $cparams['success_message'];
 				$tpl = "success";
 			break;
 			default:
-				$inworldlink = "index.php?option=com_opensim&view=inworld&Itemid=".$itemid;
-				$createlink		= JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION_Q1',$inworldlink);
-				$this->assignRef('inworldlink',$inworldlink);
-				$this->assignRef('createlink',$createlink);
+				$this->inworldlink	= "index.php?option=com_opensim&view=inworld&Itemid=".$this->itemid;
+				$this->createlink	= JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION_Q1',$this->inworldlink);
 
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				if($user->guest) {
-					JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'));
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'),'warning');
 					$tpl = "needlogin";
 				} else {
 					$opensimUID = $model->getUUID($user->id);
 					if(!$opensimUID) {
-						JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION'));
+						JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION'),'warning');
 						$tpl = "needrelation";
 					} else {
 						$user->UUID = $opensimUID;
@@ -57,22 +51,18 @@ class jopensimpaypalViewpaypal extends JViewLegacy {
 				}
 
 
-				$this->assignRef('user',$user);
-				$this->assignRef('userUUID',$user->UUID);
+				$this->user				= $user;
+				$this->userUUID			= $user->UUID;
 
-				$transactionfee = intval($cparams['transactionfee']);
-				$this->assignRef('transactionfee',$transactionfee);
+				$transactionfee 		= intval($cparams['transactionfee']);
+				$this->cparams			= $cparams;
+				$this->pretext			= $cparams['pre_message'];
+				$this->posttext			= $cparams['post_message'];
 
-				$this->assignRef('cparams',$cparams);
-
-				$this->assignRef('pretext',$cparams['pre_message']);
-
-				$this->assignRef('posttext',$cparams['post_message']);
-
-				$defaultvalue = $model->getDefaultValue();
-				$this->assignRef('defaultvalueRL',$defaultvalue);
-				$iwcurrency		= $defaultvalue * $cparams['currencyratebuy'];
-				$this->assignRef('defaultvalueIW',$iwcurrency);
+				$defaultvalue			= $model->getDefaultValue();
+				$this->defaultvalueRL	= $defaultvalue;
+				$iwcurrency				= $defaultvalue * $cparams['currencyratebuy'];
+				$this->defaultvalueIW	= $iwcurrency;
 
 				if($cparams['hasfee']) {
 					if($cparams['transactionfeetype'] == "percent") {
@@ -85,9 +75,8 @@ class jopensimpaypalViewpaypal extends JViewLegacy {
 				} else {
 					$total = $defaultvalue;
 				}
-				$total = round($total,2);
-				$this->assignRef('transactionfee',$transactionfee);
-				$this->assignRef('total',$total);
+				$this->total			= round($total,2);
+				$this->transactionfee	= $transactionfee;
 
 				if(intval($cparams['userlimit_day']) > 0 && $user->limitDay >= $cparams['userlimit_day']) {
 					$tpl = "limit_day";
@@ -97,12 +86,9 @@ class jopensimpaypalViewpaypal extends JViewLegacy {
 					$tpl = "limit_month";
 				}
 
-				$notifyurl	= JURI::base()."components/com_jopensimpaypal/jnotify.php";
-				$this->assignRef('notifyurl',$notifyurl);
-				$successurl	= JURI::base()."index.php?option=com_jopensimpaypal&view=paypal&task=success&Itemid=".$itemid;
-				$this->assignRef('successurl',$successurl);
-				$cancelurl	= JURI::base()."index.php?option=com_jopensimpaypal&view=paypal&task=cancel&Itemid=".$itemid;
-				$this->assignRef('cancelurl',$cancelurl);
+				$this->notifyurl	= JURI::base()."index.php?option=com_jopensimpaypal&view=notify&tmpl=component";
+				$this->successurl	= JURI::base()."index.php?option=com_jopensimpaypal&view=paypal&task=success&Itemid=".$this->itemid;
+				$this->cancelurl	= JURI::base()."index.php?option=com_jopensimpaypal&view=paypal&task=cancel&Itemid=".$this->itemid;
 			break;
 		}
 

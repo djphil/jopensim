@@ -1,0 +1,7 @@
+========== 0.3.2.0 ==========
+get rid of standalone script jnotify.php
+compatibility with jOpenSim 0.3.2.0
+
+========== 0.3.1.5 ==========
+fixed: get rid of some deprecated messages in php7
+prepared for Joomla4

@@ -30,8 +30,8 @@ class jOpenSimPayPalModeltransactionlist extends jOpenSimPayPalModeljOpenSimPayP
 	}
 
 	public function payoutList($joomlaid) {
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('#__jopensimpaypal_payoutrequests.*');
 		$query->select('IFNULL(ELT(#__jopensimpaypal_payoutrequests.`status`+3,"COM_JOPENSIMPAYPAL_PAYOUTSTATUS_CANCELED","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_PENDING","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_NEW","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_APPROVED","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_FINISHED"),"COM_JOPENSIMPAYPAL_PAYOUTSTATUS_UNKNOWN") AS payoutstatus');
 		$query->select('IFNULL(ELT(#__jopensimpaypal_payoutrequests.`status`+3,"canceled.png","pending.png","new.png","approved.png","finished.png"),"unknown.png") AS payoutsymbol');
@@ -64,9 +64,9 @@ class jOpenSimPayPalModeltransactionlist extends jOpenSimPayPalModeljOpenSimPayP
 	}
 
 	public function revokePayOut() {
-		$payoutid = JRequest::getInt('id');
-		$user =& JFactory::getUser();
-		$this->deletePayout($payoutid,$user->id);
+		$payoutid	= JFactory::getApplication()->input->get('id');
+		$user		= JFactory::getUser();
+		return $this->deletePayout($payoutid,$user->id);
 	}
 
 	protected function deletePayout($payoutid,$userid) {
@@ -82,7 +82,7 @@ class jOpenSimPayPalModeltransactionlist extends jOpenSimPayPalModeljOpenSimPayP
 		try {
 			$result = $db->query();
 		} catch (Exception $e) {
-//			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_PAYOUT_REVOKE_ERROR'));
+//			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_PAYOUT_REVOKE_ERROR'),'error');
 		}
 		return $result;
 	}

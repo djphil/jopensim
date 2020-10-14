@@ -1,3 +1,13 @@
+<?php
+/*
+ * @component jOpenSim
+ * @copyright Copyright (C) 2018 FoTo50 http://www.jopensim.com/
+ * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ */
+
+defined('_JEXEC') or die('Restricted Access');
+?>
 GNU GENERAL PUBLIC LICENSE
 				Version 2, June 1991
 

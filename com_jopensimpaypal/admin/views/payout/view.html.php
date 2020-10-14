@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -19,18 +19,18 @@ class jOpenSimPayPalViewpayout extends JViewLegacy {
 		$model = $this->getModel('payout');
 
 		// Get data from the model
-		$items	= $this->get('Items');
-		$items	= $model->addTransactions($items);
-		$items	= $model->payoutSums($items);
-		$items	= $model->getOpenSimNames($items);
+		$items			= $this->get('Items');
+		$items			= $model->addTransactions($items);
+		$items			= $model->payoutSums($items);
+		$items			= $model->getOpenSimNames($items);
 
-		$this->state		= $this->get('State');
+		$this->state	= $this->get('State');
 
-		$task	= JRequest::getVar( 'task', '', 'method', 'string');
+		$task			= JFactory::getApplication()->input->get('task');
 
 		switch($task) {
 			case "changestatus":
-				$payoutid	= JRequest::getInt('payoutID');
+				$payoutid	= JFactory::getApplication()->input->get('payoutID');
 				$this->item	= $model->getItemFromID($items,$payoutid);
 				$tpl = "changestatus";
 			break;
@@ -39,7 +39,7 @@ class jOpenSimPayPalViewpayout extends JViewLegacy {
 		
 				// Check for errors.
 				if (count($errors = $this->get('Errors'))) {
-					JError::raiseError(500, implode('<br />', $errors));
+					JFactory::getApplication()->enqueueMessage(implode('<br />', $errors),'error');
 					return false;
 				}
 				// Assign data to the view

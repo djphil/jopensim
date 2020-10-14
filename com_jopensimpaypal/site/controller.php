@@ -28,35 +28,33 @@ class jOpenSimPayPalController extends JControllerLegacy {
 	public function __construct() {
 		parent::__construct();
 		if(!defined('COM_JOPENSIMPAYPAL_INWORLD_CURRENCYNAME')) {
-			$model = $this->getModel('jopensimpaypal');
-			$money = $model->getMoneySettings();
-			$sandboxmode = $model->getParam("sandboxmode");
-			$noadd	= JRequest::getInt('noadd');
+			$model			= $this->getModel('jopensimpaypal');
+			$money			= $model->getMoneySettings();
+			$sandboxmode	= $model->getParam("sandboxmode");
+			$noadd			= JFactory::getApplication()->input->get('noadd');
 			if($sandboxmode && $noadd == 0) {
-				JError::raiseNotice(100,JText::_('COM_JOPENSIMPAYPAL_SANDBOXMODE'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_SANDBOXMODE'),'warning');
 			}
 			if($money['name']) define('COM_JOPENSIMPAYPAL_INWORLD_CURRENCYNAME',$money['name']);
 		}
 	}
 
 	public function removerequest() {
-		$model = $this->getModel('transactionlist');
-		$result = $model->revokePayOut();
-		$type = "message";
-		$itemid	= JRequest::getVar('Itemid');
-//		$message = "<pre>".var_export($result,TRUE)."</pre>";
-		$redirect = "index.php?option=com_jopensimpaypal&view=transactionlist&noadd=1&Itemid=".$itemid;
+		$model		= $this->getModel('transactionlist');
+		$result		= $model->revokePayOut();
+		if($result) {
+			$message	= JText::_('COM_JOPENSIMPAYPAL_PAYOUT_REVOKE_OK');
+		} else {
+			$message	= JText::_('COM_JOPENSIMPAYPAL_PAYOUT_REVOKE_ERROR');
+		}
+		$type		= "message";
+		$itemid		= JFactory::getApplication()->input->get('Itemid');
+		$redirect	= "index.php?option=com_jopensimpaypal&view=transactionlist&noadd=1&Itemid=".$itemid;
 		$this->setRedirect($redirect,$message,$type);
-/*
-		echo "<pre>\n";
-		var_dump($_REQUEST);
-		echo "</pre>\n";
-		exit;
-*/
 	}
 
-	public function display() {
-		$view	= JRequest::getVar( 'view', '', '', 'string', JREQUEST_ALLOWRAW );
+	public function display($cachable = false, $urlparams = false) {
+		$view	= JFactory::getApplication()->input->get('view');
 		parent::display($view);
 	}
 }

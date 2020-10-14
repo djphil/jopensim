@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 // no direct access
@@ -19,9 +19,9 @@ class jopensimpaypalViewpayout extends JViewLegacy {
 		$model			= $this->getModel('payout');
 		$cparams		= $model->getParam("all");
 
-		$this->itemid	= JRequest::getVar('Itemid');
-		$task 			= JRequest::getVar('task');
-		$this->returnto	= JRequest::getString('returnto');
+		$this->itemid	= JFactory::getApplication()->input->get('Itemid');
+		$task 			= JFactory::getApplication()->input->get('task');
+		$this->returnto	= JFactory::getApplication()->input->get('returnto');
 		switch($task) {
 			default:
 				$inworldlink = "index.php?option=com_opensim&view=inworld&Itemid=".$this->itemid;
@@ -29,15 +29,15 @@ class jopensimpaypalViewpayout extends JViewLegacy {
 				$this->assignRef('inworldlink',$inworldlink);
 				$this->assignRef('createlink',$createlink);
 		
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				if($user->guest) {
-					JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'));
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_LOGINFIRST'),'warning');
 					$tpl		= "needlogin";
 					$balance	= 0;
 				} else {
 					$opensimUID = $model->getUUID($user->id);
 					if(!$opensimUID) {
-						JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION'));
+						JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_NEEDRELATION'),'warning');
 						$tpl		= "needrelation";
 						$balance	= 0;
 					} else {

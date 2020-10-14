@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die('Restricted access');
@@ -23,7 +23,7 @@ $payoutstatusOptions	= $payoutstatusselector->getOptions(); // works only if you
 </div>
 <div id="j-main-container" class="span12">
 	<h1><?php echo JText::_('COM_JOPENSIMPAYPAL_MENU_PAYOUT'); ?></h1>
-	<form action="<?php echo JRoute::_('index.php?option=com_jopensimpaypal'); ?>" method="post" name="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_jopensimpaypal'); ?>" method="post" name="adminForm" id="adminForm">
 	<input type='hidden' name='view' value='payout' />
 
 	<div id="filter-bar" class="btn-toolbar">

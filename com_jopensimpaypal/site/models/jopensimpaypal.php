@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2020 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -12,6 +12,7 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 	protected	$params			= array();
 	public		$filename		= "jopensimpaypal.php";
 	public		$view			= "jopensimpaypal";
+	public		$paypalhost;
 
 	public function __construct() {
 		parent::__construct();
@@ -20,16 +21,20 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 	}
 
 	public function getParams() {
-		$params = &JComponentHelper::getParams('com_jopensimpaypal');
+		$params = JComponentHelper::getParams('com_jopensimpaypal');
 
 		//paypal params
 		$this->params['sandboxmode']		= $params->get('sandboxmode');
 		if($this->params['sandboxmode']) {
 			$this->params['paypal_account']	= $params->get('paypal_sandbox');
 			$this->params['paypal_action']	= "https://www.sandbox.paypal.com/cgi-bin/webscr";
+			$this->paypalhost				= "Host: www.sandbox.paypal.com";
+			$this->paypalmode				= "sandbox";
 		} else {
 			$this->params['paypal_account']	= $params->get('paypal_account');
 			$this->params['paypal_action']	= "https://www.paypal.com/cgi-bin/webscr";
+			$this->paypalhost				= "Host: www.paypal.com";
+			$this->paypalmode				= "production";
 		}
 		$this->params['paypal_nossl']	= $params->get('paypal_nossl');
 
@@ -170,8 +175,8 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 	public function sendnotify($type,$handler,$msg) {
 		$notifyemail	= $this->getParam("notifyemail");
 		$failure2file	= $this->getParam("log2file");
-		$mailer			=& JFactory::getMailer();
-		$config			=& JFactory::getConfig();
+		$mailer			= JFactory::getMailer();
+		$config			= JFactory::getConfig();
 		$sender			= array( 
 	    	$config->get('config.mailfrom'),
 	    	$config->get('config.fromname'));
@@ -211,7 +216,7 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelLegacy {
 			break;
 		}
 		$mailer->setBody($body);
-		$send =& $mailer->Send();
+		$send = $mailer->Send();
 		if ($send !== TRUE) {
 		    if(($failure2file & 1) == 1) $this->simpledebugzeile('Error sending email: '.$send->get('message'));
 		}

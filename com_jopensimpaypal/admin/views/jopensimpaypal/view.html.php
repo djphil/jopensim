@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -10,6 +10,7 @@ jimport( 'joomla.application.component.view');
  
 class jOpenSimPayPalViewjOpenSimPayPal extends JViewLegacy {
 	public function display($tpl = null) {
+		$this->debug = null;
 		JHTML::_('behavior.modal');
 		$this->sidebar	= null;
 		$this->sidebar	= JHtmlSidebar::render();
@@ -23,18 +24,14 @@ class jOpenSimPayPalViewjOpenSimPayPal extends JViewLegacy {
 
 		$model = $this->getModel('jopensimpaypal');
 		$model->checkParams();
-		$params = $model->getParams();
-		$this->assignRef('params',$params);
-		$this->user =& JFactory::getUser();
-		$this->newtransactions = $model->newTransactions($this->user->lastvisitDate);
-		$this->newpayouts = $model->newPayouts($this->user->lastvisitDate);
-		$this->unsolvedpayouts = $model->unsolvedPayouts();
+		$this->params = $model->getParams();
+		$this->user = JFactory::getUser();
+		$this->newtransactions	= $model->newTransactions($this->user->lastvisitDate);
+		$this->newpayouts		= $model->newPayouts($this->user->lastvisitDate);
+		$this->unsolvedpayouts	= $model->unsolvedPayouts();
 
 		$this->adminbuttons['transactions']	= $this->renderButton('index.php?option=com_jopensimpaypal&view=transactions','transactions.png',JText::_('COM_JOPENSIMPAYPAL_MENU_TRANSACTIONS'));
 		$this->adminbuttons['payout']		= $this->renderButton('index.php?option=com_jopensimpaypal&view=payout','payout.png',JText::_('COM_JOPENSIMPAYPAL_MENU_PAYOUT'));
-
-//		if(is_array($this->unsolvedpayouts)
-//		$this->assignRef('user',$user);
 
 		$this->jopensimpaypalVersion = $this->getjOpenSimPayPalVersion();
 
@@ -58,11 +55,12 @@ class jOpenSimPayPalViewjOpenSimPayPal extends JViewLegacy {
 		jimport( 'joomla.filesystem.folder' );
 		jimport( 'joomla.filesystem.file' );
 		
-		$xmlitems = '';
+		$xmlitems = array();
 		
 		$file = JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_jopensimpaypal'.DIRECTORY_SEPARATOR.'jopensimpaypal.xml';
 		if (JFile::exists($file)) {
-			if ($data = JApplicationHelper::parseXMLInstallFile($file)) {
+			if ($data = JInstaller::parseXMLInstallFile($file)) {
+//				$this->debug = var_export($data,TRUE);
 				foreach($data as $key => $value) {
 					$xmlitems[$key] = $value;
 				}

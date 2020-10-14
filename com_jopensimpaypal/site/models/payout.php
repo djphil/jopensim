@@ -18,17 +18,17 @@ class jOpenSimPayPalModelpayout extends jOpenSimPayPalModeljOpenSimPayPal {
 	}
 
 	public function savePayoutRequest() {
-		$user = JFactory::getUser();
-		$opensimid = $this->getUUID($user->id);
+		$user				= JFactory::getUser();
+		$opensimid			= $this->getUUID($user->id);
 		if(!$opensimid) return $this->returnError(null,__LINE__);
-		$requestedPayout	= intval(trim(JRequest::getVar('jopensimpaypal_amount')));
-		$receiverPayPal		= trim(JRequest::getVar('paypaluser'));
-		$payoutrequest		= floatval(trim(JRequest::getVar('payoutvalue')));
-		$amount_iwc			= JRequest::getVar('jopensimpaypal_amount');
-		$currency_rlc		= JRequest::getVar('currency_code');
-		$xchangerate		= JRequest::getVar('jopensimpaypal_xchangerate');
-		$transactionfee		= JRequest::getVar('transactionfee');
-		$transactionfeetype	= JRequest::getVar('transactionfeetype');
+		$requestedPayout	= intval(trim(JFactory::getApplication()->input->get('jopensimpaypal_amount')));
+		$receiverPayPal		= trim(JFactory::getApplication()->input->get('paypaluser','','raw'));
+		$payoutrequest		= floatval(trim(JFactory::getApplication()->input->get('payoutvalue')));
+		$amount_iwc			= JFactory::getApplication()->input->get('jopensimpaypal_amount');
+		$currency_rlc		= JFactory::getApplication()->input->get('currency_code');
+		$xchangerate		= JFactory::getApplication()->input->get('jopensimpaypal_xchangerate');
+		$transactionfee		= JFactory::getApplication()->input->get('transactionfee');
+		$transactionfeetype	= JFactory::getApplication()->input->get('transactionfeetype');
 		$requestip			= $_SERVER['REMOTE_ADDR'];
 		$payoutValue = $this->getPayoutValue($requestedPayout);
 

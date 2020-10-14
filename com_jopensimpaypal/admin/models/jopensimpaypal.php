@@ -1,15 +1,15 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
 jimport('joomla.application.component.modellist');
 
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpc.inc'); // get the xmlrpc library from FlotSam
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpcs.inc');
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'functions_currency.php');
+//require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpc.inc'); // get the xmlrpc library from FlotSam
+//require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'xmlrpc'.DIRECTORY_SEPARATOR.'xmlrpcs.inc');
+//require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_opensim'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'functions_currency.php');
 
 class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	public $_moneySettingsData;
@@ -52,47 +52,47 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 		}
 
 		if($this->checkVar($paypalaccount,"email") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_PAYPALACCOUNT_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_PAYPALACCOUNT_INVALID'),'warning');
 		}
 
 		if(!$currencyratebuy) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGEBUY_MISSING'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGEBUY_MISSING'),'warning');
 		} elseif($this->checkVar($currencyratebuy,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGEBUY_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGEBUY_INVALID'),'warning');
 		}
 
 		if($currencyratesell && $this->checkVar($currencyratesell,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGESELL_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_XCHANGESELL_INVALID'),'warning');
 		}
 
 		if($transactionfee && $this->checkVar($transactionfee,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_TRANSACTIONFEE_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_TRANSACTIONFEE_INVALID'),'warning');
 		}
 
 		if($userlimit_day && $this->checkVar($userlimit_day,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITDAY_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITDAY_INVALID'),'warning');
 		}
 
 		if($userlimit_week && $this->checkVar($userlimit_week,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITWEEK_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITWEEK_INVALID'),'warning');
 		}
 
 		if($userlimit_month && $this->checkVar($userlimit_month,"number") === FALSE) {
-			JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITMONTH_INVALID'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_USERLIMITMONTH_INVALID'),'warning');
 		}
 
 		if($notifytransaction == 1 || $notifyerror == 1 || $notifywarning == 1) {
 			if($this->checkVar($notifyemail,"email") === FALSE) {
-				JError::raiseWarning(100,JText::_('COM_JOPENSIMPAYPAL_ERROR_NOTIFYEMAIL_INVALID'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_JOPENSIMPAYPAL_ERROR_NOTIFYEMAIL_INVALID'),'warning');
 			}
 		}
 		if($log2file > 0 && !$logpath) {
 			$recommendpath = dirname($_SERVER["DOCUMENT_ROOT"]."../")."/joslogs/";
-			JError::raiseWarning(100,JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NOLOGPATH',$recommendpath));
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NOLOGPATH'),$recommendpath,'warning');
 		} elseif($log2file > 0 && !is_dir($logpath)) {
-			JError::raiseWarning(100,JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_INVALIDLOGPATH',$logpath));
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_INVALIDLOGPATH',$logpath),'warning');
 		} elseif($log2file > 0 && !is_writable($logpath)) {
-			JError::raiseWarning(100,JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NOWRITELOGPATH',$logpath));
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JOPENSIMPAYPAL_ERROR_NOWRITELOGPATH',$logpath),'warning');
 		}
 	}
 
@@ -184,9 +184,9 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	}
 
 	public function newTransactions($sincedate) {
-		$date =& JFactory::getDate($sincedate);
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$date	= JFactory::getDate($sincedate);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
 		$query->from('#__jopensimpaypal_transactions');
 		$query->where('#__jopensimpaypal_transactions.transactiontime > '.$db->quote($date->toSQL(),FALSE));
@@ -196,9 +196,9 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	}
 
 	public function newPayouts($sincedate) {
-		$date =& JFactory::getDate($sincedate);
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$date	= JFactory::getDate($sincedate);
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
 		$query->from('#__jopensimpaypal_payoutrequests');
 		$query->where('#__jopensimpaypal_payoutrequests.requesttime > '.$db->quote($date->toSQL(),FALSE));
@@ -208,9 +208,9 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	}
 
 	public function unsolvedPayouts() {
-		$date =& JFactory::getDate();
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
+		$date	= JFactory::getDate();
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('COUNT(#__jopensimpaypal_payoutrequests.id) AS anzahl');
 		$query->select('#__jopensimpaypal_payoutrequests.`status` AS filter');
 		$query->select('ELT(#__jopensimpaypal_payoutrequests.`status`+2,"COM_JOPENSIMPAYPAL_PAYOUTSTATUS_PENDING","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_NEW","COM_JOPENSIMPAYPAL_PAYOUTSTATUS_APPROVED") AS payoutstatus');
@@ -223,9 +223,9 @@ class jOpenSimPayPalModeljOpenSimPayPal extends JModelList {
 	}
 
 	public function changePayout() {
-		$payoutid			= JRequest::getInt('payoutid');
-		$newstatus			= JRequest::getInt('newstatus');
-		$remarks			= JRequest::getString('remarks');
+		$payoutid			= JFactory::getApplication()->input->get('payoutid');
+		$newstatus			= JFactory::getApplication()->input->get('newstatus');
+		$remarks			= JFactory::getApplication()->input->get('remarks');
 		$transfer			= FALSE;
 
 		$object				= new stdClass();

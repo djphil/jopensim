@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSimPayPal
- * @copyright Copyright (C) 2017 FoTo50 https://www.jopensim.com/
+ * @copyright Copyright (C) 2018 FoTo50 https://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die();
@@ -18,29 +18,19 @@ class jOpenSimPayPalModelpaypal extends jOpenSimPayPalModeljOpenSimPayPal {
 	}
 
 	public function getDefaultValue() {
-		//Uses JInput if magic quotes is turned off. Falls back to use JRequest.
-		if(!get_magic_quotes_gpc()) {
-			$defaultvalue = JFactory::getApplication()->input->get('defaultvalue', 10, 'INT' );
-		} else {
-			$defaultvalue = JRequest::getInt('defaultvalue');
-		}
+		$defaultvalue = JFactory::getApplication()->input->get('defaultvalue', 10, 'INT' );
 		return $defaultvalue;
 	}
 
 	public function getFormText($type) {
 		if($type == "pre") $var = "pre_message";
 		else $var = "post_message";
-		if(!get_magic_quotes_gpc()) {
-			$formtext = JFactory::getApplication()->input->get($var,"","HTML");
-		} else {
-			$request = JRequest::get();
-			$formtext = $request[$var];
-		}
+		$formtext = JFactory::getApplication()->input->get($var,"","HTML");
 		return $formtext;
 	}
 
 	public function checkUserLimits() {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$user->limitDay		= $this->checkUserLimit($user->id,"day");
 		$user->limitWeek	= $this->checkUserLimit($user->id,"week");
 		$user->limitMonth	= $this->checkUserLimit($user->id,"month");
@@ -61,9 +51,9 @@ class jOpenSimPayPalModelpaypal extends jOpenSimPayPalModeljOpenSimPayPal {
 				return null;
 			break;
 		}
-		$db = JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$db->setQuery($query);
-		$limit = $db->loadResult();
+		$limit	= $db->loadResult();
 		return intval($limit);
 	}
 
