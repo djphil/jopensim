@@ -1,2 +1,2 @@
 # jopensim
-jOpenSim Money v0.4.0.6
+jOpenSim Money v0.4.0.7
