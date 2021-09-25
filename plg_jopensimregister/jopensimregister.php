@@ -9,7 +9,7 @@
 * Email: foto50@jopensim.com
 * Url: http://www.jopensim.com
 * ===================================================
-* @copyright (C) 2018 FoTo50, (www.jopensim.com). All rights reserved.
+* @copyright (C) 2019 FoTo50, (www.jopensim.com). All rights reserved.
 * @license see http://www.gnu.org/licenses/gpl-2.0.html  GNU/GPL.
 * You can use, redistribute this file and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ class plgUserjOpensimRegister extends JPlugin {
 			$view	= JFactory::getApplication()->input->get('view','','method','string');
 			$layout	= JFactory::getApplication()->input->get('layout','','method','string');
 			if($view == "registration" && $layout == "complete") {
-				$menu			= &JSite::getMenu();
+				$menu			= JFactory::getApplication()->getMenu();
 				$item			= $menu->getItem($this->redirectafter);
 				$link			= new JURI($item->link);
 				$link->setVar('Itemid', $this->redirectafter);
@@ -149,6 +149,10 @@ class plgUserjOpensimRegister extends JPlugin {
 				$form->setFieldAttribute('firstname', 'required', 'true', 'jopensimregister');
 				$form->setFieldAttribute('lastname', 'required', 'true', 'jopensimregister');
 				$form->setFieldAttribute('jopensimavatar', 'required', 'true', 'jopensimregister');
+			} else {
+				$form->setFieldAttribute('firstname', 'required', 'false', 'jopensimregister');
+				$form->setFieldAttribute('lastname', 'required', 'false', 'jopensimregister');
+				$form->setFieldAttribute('jopensimavatar', 'required', 'false', 'jopensimregister');
 			}
 		}
 		return true;
@@ -163,11 +167,15 @@ class plgUserjOpensimRegister extends JPlugin {
 		}
 
 
-		$firstname	= JArrayHelper::getValue($new['jopensimregister'], 'firstname', null, 'string');
-		$lastname	= JArrayHelper::getValue($new['jopensimregister'], 'lastname', null, 'string');
+		$firstname		= JArrayHelper::getValue($new['jopensimregister'], 'firstname', null, 'string');
+		$lastname		= JArrayHelper::getValue($new['jopensimregister'], 'lastname', null, 'string');
 
-		$allowsamename = $this->params->get('plgJopensimAllowSameName',0);
+		$usertype		= $this->params->get('plgJopensimRegisterUser');
+		$allowsamename	= $this->params->get('plgJopensimAllowSameName',0);
 		if(!$allowsamename) {
+			if($usertype == "optional" && !$firstname && !$lastname) {
+				return TRUE;
+			}
 			if($firstname == $lastname) {
 				JFactory::getApplication()->enqueueMessage(JTEXT::_('PLG_JOPENSIMREGISTER_ERROR_SAMENAME'),"error");
 				return FALSE;

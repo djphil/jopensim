@@ -1,3 +1,11 @@
+========== 0.3.1.5.3 ==========
+
+* fixed: (once again, grrr) error when plugin set to optional, avatar list was always required
+
+========== 0.3.1.5.2 ==========
+
+* fixed: error when creating regular user in backend and plugin is set to optional but allowSameName is set to yes
+
 ========== 0.3.1.5 ==========
 
 * fixed: when account activation was set to admin, plugin enabled account already after user just verified the email address
@@ -7,7 +15,7 @@
 
 ========== 0.3.1.4 ==========
 
-* new: use Joomla activation system
+* use Joomla activation system
 
 ========== 0.3.1.3 ==========
 

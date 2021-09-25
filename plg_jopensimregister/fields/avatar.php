@@ -1,7 +1,7 @@
 <?php
 /*
  * @component jOpenSim
- * @copyright Copyright (C) 2017 FoTo50 http://www.jopensim.com/
+ * @copyright Copyright (C) 2019 FoTo50 http://www.jopensim.com/
  * @license GNU/GPL v2 http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -90,10 +90,15 @@ class JFormFieldAvatar extends JFormFieldRadio {
 		// Initialize variables.
 		$options = array();
 		$avatars = array();
-
 		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
 		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
 		$avatarlist				= $this->params->get('plgJopensimRegisterAvatar');
+		$requiredField			= $this->params->get('plgJopensimRegisterUser');
+		if($requiredField == "required") {
+			$this->required = "required ";
+		} else {
+			$this->required = "";
+        }
 
 		if(is_array($avatarlist) && count($avatarlist) > 0) {
 			foreach($avatarlist AS $avatar) {
@@ -105,21 +110,21 @@ class JFormFieldAvatar extends JFormFieldRadio {
 					$attr['align'] = "absmiddle";
 					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".jpg",$temp[1],$attr);
 					$avatars[$zaehler]['text'] = $img;
-					$avatars[$zaehler]['class'] = "required jopensimavatar";
+					$avatars[$zaehler]['class'] = $this->required."jopensimavatar";
 					$avatars[$zaehler]['required'] = TRUE;
 				} elseif(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$temp[0].'.png')) {
 					$attr['title'] = $temp[1];
 					$attr['align'] = "absmiddle";
 					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".png",$temp[1],$attr);
 					$avatars[$zaehler]['text'] = $img;
-					$avatars[$zaehler]['class'] = "required jopensimavatar";
+					$avatars[$zaehler]['class'] = $this->required."jopensimavatar";
 					$avatars[$zaehler]['required'] = TRUE;
 				} elseif(is_file(JPATH_SITE.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'jopensim'.DIRECTORY_SEPARATOR.'avatars'.DIRECTORY_SEPARATOR.$temp[0].'.jpeg')) {
 					$attr['title'] = $temp[1];
 					$attr['align'] = "absmiddle";
 					$img = JHtml::image("images/jopensim/avatars/".$temp[0].".jpeg",$temp[1],$attr);
 					$avatars[$zaehler]['text'] = $img;
-					$avatars[$zaehler]['class'] = "required jopensimavatar";
+					$avatars[$zaehler]['class'] = $this->required."jopensimavatar";
 					$avatars[$zaehler]['required'] = TRUE;
 				} else {
 					$avatars[$zaehler]['text'] = $temp[1];
@@ -150,6 +155,17 @@ class JFormFieldAvatar extends JFormFieldRadio {
 	protected function getInput() {
 		$html = array();
 
+		$plgRegisterjOpenSim	= JPluginHelper::getPlugin('user', 'jopensimregister');
+		$this->params			= new JRegistry($plgRegisterjOpenSim->params);
+		$avatarlist				= $this->params->get('plgJopensimRegisterAvatar');
+		$requiredField			= $this->params->get('plgJopensimRegisterUser');
+		if($requiredField == "required") {
+			$this->required = true;
+		} else {
+			$this->required = false;
+		}
+
+		$debug = var_export($this->class,TRUE);
 		// Initialize some field attributes.
 		$class     = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
 		$required  = $this->required ? ' required aria-required="true"' : '';

@@ -78,7 +78,7 @@ class JFormFieldAvatarlist extends JFormFieldList {
 	}
 
 	public function initOpenSim() {
-		$params			= &JComponentHelper::getParams('com_opensim');
+		$params			= JComponentHelper::getParams('com_opensim');
 		$this->params	= $params;
 
 		$osdbhost		= ($params->get('opensimgrid_dbhost'))   ? $params->get('opensimgrid_dbhost'):$params->get('opensim_dbhost');
